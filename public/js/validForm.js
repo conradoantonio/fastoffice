@@ -13,9 +13,9 @@
 * email: El campo debe ser un correo
 */
 
-var re_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+var regEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 var regExprRfc = /^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/;
-var decimals = /^[0-9]+([.][0-9]{1,2})?$/
+var regDecimals = /^[0-9]+([.][0-9]{1,2})?$/
 
 /* ----- KEYPRESS SECTION ----- */
 $('.numeric').keypress(function(e) {
@@ -115,7 +115,7 @@ $('.value').blur(function(){
 })
 
 $(".email").blur(function() {
-	if(!$(this).val().match(re_email)) {
+	if(!$(this).val().match(regEmail)) {
 		if ( !$(this).parent().hasClass("has-error") ){
 			$(this).parent().addClass('has-error')
 		}
@@ -125,7 +125,7 @@ $(".email").blur(function() {
 });
 
 $('.decimals').blur(function() {
-	if(!decimals.test($(this).val())) {
+	if(!regDecimals.test($(this).val())) {
 		if ( !$(this).parent().hasClass("has-error") ){
 			$(this).parent().addClass('has-error')
 		}
@@ -269,7 +269,7 @@ $(".guardar").on('click',function(e){
 		}
 
 		if ( $(this).hasClass('email') ) {
-			if(!$(this).val().match(re_email)) {
+			if(!$(this).val().match(regEmail)) {
 				if ( !$(this).parent().hasClass("has-error") ){
 					$(this).parent().addClass('has-error')
 					errors_count += 1;
@@ -279,7 +279,7 @@ $(".guardar").on('click',function(e){
 		}
 
 		if ( $(this).hasClass('decimals') ){
-			if(!decimals.test($(this).val())) {
+			if(!regDecimals.test($(this).val())) {
 				if ( !$(this).parent().hasClass("has-error") ){
 					$(this).parent().addClass('has-error')
 					errors_count += 1;
@@ -369,16 +369,15 @@ $(".guardar").on('click',function(e){
 				},
 				error:function(response, status, text){
 					if ( response.status == 500 || response.status == 404 ){
-						swal(response.status+" "+text,"Contacte con administración para mayor información","error");
-						btn.prop('disabled',false).removeClass('disabled');
+						swal(response.status+" "+text, "Contacte con el administrador de sistema para mayor información", "error");
 					} else { // status 422
 						$("form#"+formId+" div").find('span.errors').remove();
 						swal.close()
-						$(".guardar").prop( "disabled", false ).removeClass('disabled');
 						$.each(JSON.parse(response.responseText), function(key, item) {
 							$("#"+key).parent().append("<span class='errors'>"+item+"</span>").fadeIn().addClass('has-error');
 						});
 					}
+					btn.prop('disabled',false).removeClass('disabled');
 				}
 			})
 		} else {

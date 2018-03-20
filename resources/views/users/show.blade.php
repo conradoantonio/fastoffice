@@ -266,18 +266,7 @@
 			buttons: ['Cancelar', 'Aceptar'],
 		}).then((accept) => {
 			if( accept ){
-				swal({
-					title: 'Guardando',
-					buttons: false,
-					closeOnEsc: false,
-					closeOnClickOutside: false,
-					content: {
-						element: "div",
-						attributes: {
-							innerHTML:"<i class='fa fa-circle-o-notch fa-spin fa-3x fa-fw'></i>"
-						},
-					}
-				}).catch(swal.noop);
+				loadAnimation('Guardando')
 				window.location = ele.data('url')
 			}
 		})

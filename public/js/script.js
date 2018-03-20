@@ -3,31 +3,31 @@ $(function(){
 	$('[data-toggle="tooltip"]').tooltip()
 	$("select.select2").select2();
 	$("#s2id_byUser").addClass('col-md-12').css('padding','0')
-	$( "#start_date" ).datepicker({
+	$("#start_date").datepicker({
 		language: 'es',
 		autoclose: true,
 		todayHighlight: true,
 		format: "dd M yyyy",
 		clearBtn: true
-	}).on( "changeDate", function(e) {
-		$( "#end_date" ).datepicker('setStartDate', e.date);
+	}).on("changeDate", function(e) {
+		$("#end_date").datepicker('setStartDate', e.date);
 	});
 
-	$( "#end_date" ).datepicker({
+	$("#end_date").datepicker({
 		language: 'es',
 		autoclose: true,
 		todayHighlight: true,
 		format: "dd M yyyy",
 		clearBtn: true
-	}).on( "changeDate", function(e) {
-		$( "#start_date" ).datepicker('setEndDate', e.date);
+	}).on("changeDate", function(e) {
+		$("#start_date").datepicker('setEndDate', e.date);
 	});
 
-	$('.clockpicker').clockpicker({
+	$(".clockpicker").clockpicker({
 		autoclose: true,
 	});
 
-	$(".input-date" ).datepicker({
+	$(".input-date").datepicker({
 		language: 'es',
 		autoclose: true,
 		todayHighlight: true,
@@ -35,11 +35,11 @@ $(function(){
 		clearBtn: true
 	})
 
-	$('.length').each(function(){
+	$(".length").each(function(){
 		$(this).siblings('span.display-counter').find('span').text( $(this).val().length )
 	})
 
-	$('.tagsinput').tagsinput();
+	$(".tagsinput").tagsinput();
 })
 
 $.ajaxSetup({
@@ -93,6 +93,7 @@ $(".logout").on('click',function(e){
 		dangerMode: true,
 	}).then((accept) => {
 		if (accept) {
+			loadAnimation('Cerrando sesión');
 			$(".logout-form").submit();
 		}
 	}).catch(swal.noop)
@@ -113,18 +114,7 @@ $(document).delegate('.delete_row','click',function(e){
 				method: "DELETE",
 				type: "DELETE",
 				beforeSend:function(){
-					swal({
-						title: 'Eliminando',
-						buttons: false,
-						closeOnEsc: false,
-						closeOnClickOutside: false,
-						content: {
-							element: "div",
-							attributes: {
-								innerHTML:"<i class='fa fa-circle-o-notch fa-spin fa-3x fa-fw'></i>"
-							},
-						}
-					}).catch(swal.noop);
+					loadAnimation('Eliminando')
 				},
 				success:function(response){
 					if (response.delete == "true"){
@@ -236,18 +226,7 @@ $('.multiple-delete-btn').on('click', function(e){
 					ids: ids
 				},
 				beforeSend:function(){
-					swal({
-						title: 'Eliminando',
-						buttons: false,
-						closeOnEsc: false,
-						closeOnClickOutside: false,
-						content: {
-							element: "div",
-							attributes: {
-								innerHTML:"<i class='fa fa-circle-o-notch fa-spin fa-3x fa-fw'></i>"
-							},
-						}
-					}).catch(swal.noop);
+					loadAnimation('Eliminando');
 				},
 				success:function(response){
 					if (response.delete == "true"){
@@ -285,7 +264,6 @@ $("#filtrar").on('click',function(){
 			url = "/0"
 	}
 
-
 	if ( $("#start_date").val() != "" ){
 		var date = $("#start_date").datepicker('getDate');
 		var start = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' +  ("0" + (date.getDate())).slice(-2);
@@ -315,7 +293,6 @@ $("#search").on('click', function(){
 			} else {
 				url = url+'/'+$(this)[0].id+':'+$(this).data('operator')+':'+$(this).val();
 			}
-
 		}
 	})
 	refreshTable(url)
@@ -332,7 +309,6 @@ $("#export").on('click',function(){
 			} else {
 				url = url+'/'+$(this)[0].id+':'+$(this).data('operator')+':'+$(this).val();
 			}
-
 		}
 	})
 	window.location = url
@@ -421,9 +397,12 @@ function refreshTable(url){
 	});
 }
 
-function loadAnimation(){
+function loadAnimation(title = null){
+	if ( !title ){
+		title = 'Guardando';
+	}
 	swal({
-		title: 'Guardando',
+		title: title,
 		buttons: false,
 		closeOnEsc: false,
 		closeOnClickOutside: false,

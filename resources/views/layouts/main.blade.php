@@ -5,7 +5,7 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta content="" name="description" />
-	<meta content="" name="author" />
+	<meta content="Luis Castañeda" name="author" />
 
 	<link href="{{asset('/plugins/pace/pace-theme-flash.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<!-- BEGIN CORE CSS FRAMEWORK -->
@@ -14,7 +14,7 @@
 	<link href="{{asset('/plugins/font-awesome/css/font-awesome.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/animate.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/plugins/jquery-scrollbar/jquery.scrollbar.css')}}" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" href="{{ asset('/plugins/jquery-datatable/css/jquery.dataTables.css')}}"  type="text/css" media="screen"/>
+	<link  href="{{ asset('/plugins/jquery-datatable/css/jquery.dataTables.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('/plugins/bootstrap-select2/select2.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('/plugins/ios-switch/ios7-switch.css')}}" rel="stylesheet" type="text/css" media="screen">
 	<link href="{{asset('/plugins/boostrap-slider/css/slider.css')}}" rel="stylesheet" type="text/css"/>
@@ -33,8 +33,8 @@
 	<link href="{{asset('/css/plugins/sweetalert.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/plugins/croppie.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/custom.css')}}" rel="stylesheet" type="text/css"/>
-	<script src="{{asset('/plugins/jquery-1.8.3.min.js')}}" type="text/javascript"></script>
 	<link href="{{asset('/css/plugins/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
+	<script src="{{asset('/plugins/jquery-1.8.3.min.js')}}" type="text/javascript"></script>
 	<!-- END CSS TEMPLATE -->
 <!-- 	<link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
@@ -49,7 +49,7 @@
 		<div class="modal-content">
 			<div class="modal-header text-center">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="titleModal">Cambio de foto de perfil para {{auth()->user()->fullname}}</h4>
+				<h4 class="modal-title" id="titleModal">Actualizar foto de perfil</h4>
 			</div>
 			<div class="modal-body">
 				{{ Form::model(auth()->user(), ['url' => route('User.updatePictue', auth()->user()->id), 'id' => 'pictureForm' ,'autocomplete' => 'off', 'files' => true]) }}
@@ -120,23 +120,6 @@
 							<i class="top-menu-toggle-dark fa fa-bars"></i>
 						</a>
 					</li>
-				</ul>
-				<ul class="nav quick-section">
-					<li class="quicklinks">
-						<a href="" class="" >
-							<i class="fa fa-refresh" onclick="window.location.href"></i>
-						</a>
-					</li>
-					<!-- <li class="quicklinks"> <span class="h-seperate"></span></li>
-					<li class="quicklinks">
-						<a href="#" class="" >
-							<div class="iconset top-tiles"></div>
-						</a>
-					</li>
-					<li class="m-r-10 input-prepend inside search-form no-boarder">
-						<span class="add-on"> <span class="iconset top-search"></span></span>
-						<input name="" type="text"  class="no-boarder " placeholder="Search Dashboard" style="width:250px;">
-					</li> -->
 				</ul>
 			</div>
 			<!-- END TOP NAVIGATION MENU -->
@@ -214,7 +197,7 @@
 					<a href="{{route('News')}}"> <i class="fa fa-newspaper-o"></i> <span class="title">Noticias</span> <span class="selected"></span></a>
 				</li>
 				<li class="start {{ ( in_array(Route::currentRouteName(),['Banner', 'Banner.form']) ) ? 'active open' : '' }}">
-					<a href="{{route('Banner')}}"> <i class="fa fa-file-text"></i> <span class="title">Banners</span> <span class="selected"></span></a>
+					<a href="{{route('Banner')}}"> <i class="fa fa-image"></i> <span class="title">Banners</span> <span class="selected"></span></a>
 				</li>
 				<li class="start {{ ( in_array(Route::currentRouteName(),['Faq', 'Faq.form']) ) ? 'active open' : '' }}">
 					<a href="{{route('Faq')}}"> <i class="fa fa-question-circle"></i> <span class="title">Faqs</span> <span class="selected"></span></a>

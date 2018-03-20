@@ -184,3 +184,6 @@ span.display-counter{
 .header .nav > li.dropdown .dropdown-toggle i, .header .nav > li.quicklinks i, .top-settings-dark {
 	font-size: 20px !important;
 }
+#user-options{
+	color: black;
+}
