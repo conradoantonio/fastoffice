@@ -60,18 +60,18 @@ class UsersController extends Controller
 	public function store(UserRequest $req)
 	{
 		$user = new User();
-		$pass = $req->password;
 		$user->fill($req->all());
 		$user->password = bcrypt($req->password);
 
 		if ($user->save()){
 			$params = array();
-			$params['content'] = "Has sido dado de alta como usuario administrador en el sisema de Ezcarro, estos son tus accesos al sistema:<br>".
-				"<strong>Usuario: </strong>".$user->email."<br>".
-				"<strong>Contraseña: </strong>".$pass."<br>";
-			$params['subject'] = "Nuevo usuario administrador";
+			$params['subject'] = "Nuevo usuario de sistema";
 			$params['title'] = "Accesos al sistema";
+			$params['content']['message'] = "Has sido dado de alta como usuario de sistema de ".env('APP_NAME').", estos son tus accesos para tu cuenta:<br>";
+			$params['content']['email'] = $user->email
+			$params['content']['password'] = $req->password;
 			$params['email'] = $user->email;
+			$params['view'] = 'mails.credentials';
 
 			if ( $this->mail($params) ){
 				return redirect()->route('User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
@@ -102,11 +102,13 @@ class UsersController extends Controller
 		if ( $user->save() ){
 			if ( $pass ){
 				$params = array();
-				$params['content'] = "Tu contraseña ha sido modificada, esta es tu nuevo acceso:<br>".
-					"<strong>Contraseña: </strong>".$pass."<br>";
-				$params['subject'] = "Usuario administrador modificado";
+				$params['subject'] = "Usuario de sistema modificado";
+				$params['content']['message'] = "Tu contraseña ha sido modificada, este es tu nuevo acceso:<br>";
+				$params['content']['email'] = $user->email
+				$params['content']['password'] = $req->password;
 				$params['title'] = "Accesos al sistema";
 				$params['email'] = $user->email;
+				$params['view'] = 'mails.credentials';
 
 				if ( $this->mail($params) ){
 					return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);
@@ -129,7 +131,6 @@ class UsersController extends Controller
 	{
 		$user = User::find($id);
 		if ( User::destroy($id) ) {
-			#File::delete(public_path()."/img/profiles/".$id);
 			return ['delete' => 'true'];
 		} else {
 			return ['delete' => 'false'];

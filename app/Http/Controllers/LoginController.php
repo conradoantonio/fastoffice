@@ -29,7 +29,7 @@ class LoginController extends Controller
 					$msg = [ 'status' => 'No tienes acceso al panel'];
 					session(['account' => $req->email]);
 				} elseif( $exist->role_id == 3){
-					$msg = [ 'role' => 'No eres socio o administrador de ezcarro'];
+					$msg = [ 'role' => 'No eres administrador del sistema'];
 					session(['account' => $req->email]);
 				} else {
 					$msg = [ 'password' => 'Contraseña incorrecta'];
