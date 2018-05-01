@@ -190,17 +190,62 @@
 						<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}"> <a href="{{route('User.index2')}}"> Aplicación</a> </li>
 					</ul>
 				</li>
-				<li class="start {{ ( Route::currentRouteName()== 'Company' ) ? 'active' : '' }}">
-					<a href="{{route('Company')}}"> <i class="fa fa-info-circle"></i> <span class="title">Empresa</span> <span class="selected"></span></a>
+				<?php /*
+					<li class="start {{ ( Route::currentRouteName()== 'Company' ) ? 'active' : '' }}">
+						<a href="{{route('Company')}}"> <i class="fa fa-info-circle"></i> <span class="title">Empresa</span> <span class="selected"></span></a>
+					</li>
+					<li class="start {{ ( in_array(Route::currentRouteName(),['News', 'News.form']) ) ? 'active open' : '' }}">
+						<a href="{{route('News')}}"> <i class="fa fa-newspaper-o"></i> <span class="title">Noticias</span> <span class="selected"></span></a>
+					</li>
+					<li class="start {{ ( in_array(Route::currentRouteName(),['Banner', 'Banner.form']) ) ? 'active open' : '' }}">
+						<a href="{{route('Banner')}}"> <i class="fa fa-image"></i> <span class="title">Banners</span> <span class="selected"></span></a>
+					</li>
+					<li class="start {{ ( in_array(Route::currentRouteName(),['Faq', 'Faq.form']) ) ? 'active open' : '' }}">
+						<a href="{{route('Faq')}}"> <i class="fa fa-question-circle"></i> <span class="title">Faqs</span> <span class="selected"></span></a>
+					</li>
+				*/?>
+				<li class="{{ in_array(Route::currentRouteName(), ['', ''] ) ? 'active' : '' }}">
+					<a href="#!">
+						<i class="fa fa-list-ul"></i> <span class="title">CRM</span> <span class="selected"></span> <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+							<a href=""> Prospectos </a>
+						</li>
+						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+							<a href=""> Clientes </a>
+						</li>
+						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+							<a href=""> Plantillas </a>
+						</li>
+					</ul>
 				</li>
-				<li class="start {{ ( in_array(Route::currentRouteName(),['News', 'News.form']) ) ? 'active open' : '' }}">
-					<a href="{{route('News')}}"> <i class="fa fa-newspaper-o"></i> <span class="title">Noticias</span> <span class="selected"></span></a>
+				<li class="{{ in_array(Route::currentRouteName(), ['', ''] ) ? 'active' : '' }}">
+					<a href="#!">
+						<i class="fa fa-money"></i> <span class="title">ERP</span> <span class="selected"></span> <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="{{ ( in_array(Route::currentRouteName(),['Meeting', 'Meeting.form']) ) ? 'active open' : '' }}">
+							<a href=""> Ingresos </a>
+						</li>
+						<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}">
+							<a href=""> Egresos </a>
+						</li>
+					</ul>
 				</li>
-				<li class="start {{ ( in_array(Route::currentRouteName(),['Banner', 'Banner.form']) ) ? 'active open' : '' }}">
-					<a href="{{route('Banner')}}"> <i class="fa fa-image"></i> <span class="title">Banners</span> <span class="selected"></span></a>
-				</li>
-				<li class="start {{ ( in_array(Route::currentRouteName(),['Faq', 'Faq.form']) ) ? 'active open' : '' }}">
-					<a href="{{route('Faq')}}"> <i class="fa fa-question-circle"></i> <span class="title">Faqs</span> <span class="selected"></span></a>
+
+				<li class="{{ in_array(Route::currentRouteName(), ['Meeting', 'Meeting.form'] ) ? 'active' : '' }}">
+					<a href="#!">
+						<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span> <span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="{{ ( in_array(Route::currentRouteName(),['Meeting', 'Meeting.form']) ) ? 'active open' : '' }}">
+							<a href="{{route('Meeting')}}"> Reuniones </a>
+						</li>
+						<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}">
+							<a href="{{route('Meeting')}}"> Agenda </a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 			<div class="clearfix"></div>
