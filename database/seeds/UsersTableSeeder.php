@@ -17,7 +17,6 @@ class UsersTableSeeder extends Seeder
 				'email' => 'geno_1940@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
-				'openpay_customer_id' => null,
 				'role_id' => 1,
 			]
 		];

@@ -281,5 +281,8 @@
 <script src="{{asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/plugins/toastr.min.js')}}" type="text/javascript"></script>
 <!-- END CORE TEMPLATE JS -->
+<!-- IMPORT OWN SCRIPTS USED IN VIEWS-->
+@stack('scripts')
+
 </body>
 </html>

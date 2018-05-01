@@ -116,8 +116,8 @@ class BannersController extends Controller
 		return ['delete' => 'false'];
 	}
 
-	public function status($id){
-		$banner = Banner::find($id);
+	public function status(Request $req){
+		$banner = Banner::find($req->id);
 		$banner->status = $banner->status?0:1;
 		if ( $banner->save() ) {
 			return ['status' => true];

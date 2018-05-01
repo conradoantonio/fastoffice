@@ -23,9 +23,9 @@
 					<td>{{$user->role->name}}</td>
 					<td>
 						@if($user->status)
-							<span class="label label-success status" data-url="{{route('User.status', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
+							<span class="label label-success status" data-url="{{route('User.status')}}" data-id="{{$user->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
 						@else
-							<span class="label label-danger status" data-url="{{route('User.status', $user->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
+							<span class="label label-danger status" data-url="{{route('User.status')}}" data-id="{{$user->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
 						@endif
 					</td>
 

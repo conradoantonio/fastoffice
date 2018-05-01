@@ -46,16 +46,8 @@ class User extends Authenticatable
 		return $this->belongsTo(Role::class);
 	}
 
-	public function supplier(){
-		return $this->hasOne(Supplier::class);
-	}
-
-	public function cards(){
-		return $this->hasMany(Card::class);
-	}
-
-	public function scores(){
-		return $this->hasMany(Rating::class);
+	public function calendars(){
+		return $this->hasMany(Calendar::class);
 	}
 
 	static public function totalUsersByRole($role = null){

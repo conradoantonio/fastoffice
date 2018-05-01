@@ -62,8 +62,8 @@ class FaqsController extends Controller
 		return ['delete' => 'false'];
 	}
 
-	public function status($id){
-		$faq = Faq::find($id);
+	public function status(Request $req){
+		$faq = Faq::find($req->id);
 		$faq->status = $faq->status?0:1;
 
 		if ( $faq->save() ) {

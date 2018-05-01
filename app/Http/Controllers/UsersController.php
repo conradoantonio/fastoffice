@@ -68,7 +68,7 @@ class UsersController extends Controller
 			$params['subject'] = "Nuevo usuario de sistema";
 			$params['title'] = "Accesos al sistema";
 			$params['content']['message'] = "Has sido dado de alta como usuario de sistema de ".env('APP_NAME').", estos son tus accesos para tu cuenta:<br>";
-			$params['content']['email'] = $user->email
+			$params['content']['email'] = $user->email;
 			$params['content']['password'] = $req->password;
 			$params['email'] = $user->email;
 			$params['view'] = 'mails.credentials';
@@ -104,7 +104,7 @@ class UsersController extends Controller
 				$params = array();
 				$params['subject'] = "Usuario de sistema modificado";
 				$params['content']['message'] = "Tu contraseña ha sido modificada, este es tu nuevo acceso:<br>";
-				$params['content']['email'] = $user->email
+				$params['content']['email'] = $user->email;
 				$params['content']['password'] = $req->password;
 				$params['title'] = "Accesos al sistema";
 				$params['email'] = $user->email;
@@ -137,9 +137,9 @@ class UsersController extends Controller
 		}
 	}
 
-	public function status($id)
+	public function status(Request $req)
 	{
-		$user = User::find($id);
+		$user = User::find($req->id);
 		$user->status = $user->status?0:1;
 
 		if ( $user->save() ) {

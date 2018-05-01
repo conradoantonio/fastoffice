@@ -87,8 +87,8 @@ class NewsController extends Controller
 		return ['delete' => 'false'];
 	}
 
-	public function status($id){
-		$new = News::find($id);
+	public function status(Request $req){
+		$new = News::find($req->id);
 		$new->status = $new->status?'0':'1';
 		if ( $new->save() ) {
 			return ['status' => true];

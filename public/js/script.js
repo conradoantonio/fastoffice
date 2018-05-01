@@ -144,6 +144,7 @@ $(document).delegate("span.label.status",'click',function(e){
 	var ele = $(this);
 	var status = ele.hasClass(':label-success')?"activar":"desactivar";
 	var url = ele.data('url');
+	var id = ele.data('id');
 
 	swal({
 		title: '¿Quieres '+status+' este registro?',
@@ -155,6 +156,9 @@ $(document).delegate("span.label.status",'click',function(e){
 			$.ajax({
 				url: url,
 				type:"PATCH",
+				data:{
+					id:id
+				},
 				beforeSend:function(){
 					loadAnimation()
 				},

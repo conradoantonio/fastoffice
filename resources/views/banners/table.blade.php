@@ -27,9 +27,9 @@
 					</td>
 					<td>
 						@if($banner->status)
-						<span class="label label-success status" data-url="{{route('Banner.status', $banner->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
+						<span class="label label-success status" data-url="{{route('Banner.status')}}" data-id="{{$banner->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
 						@else
-						<span class="label label-danger status" data-url="{{route('Banner.status', $banner->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
+						<span class="label label-danger status" data-url="{{route('Banner.status')}}" data-id="{{$banner->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
 						@endif
 					</td>
 					<td>

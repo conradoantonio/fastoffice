@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('formulatio-usuario/{id?}', 'UsersController@form')->name('User.form');
 	Route::post('alta-usuario', 'UsersController@store')->name('User.store');
 	Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
-	Route::patch('status-usuario/{id}', 'UsersController@status')->name('User.status');
+	Route::patch('status-usuario', 'UsersController@status')->name('User.status');
 	Route::delete('eliminar-usuario/{id}', 'UsersController@destroy')->name('User.destroy');
 
 	#Noticias
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('formulario-banners/{id?}', 'BannersController@form')->name('Banner.form');
 	Route::post('alta-banner', 'BannersController@store')->name('Banner.store');
 	Route::put('actualizar-banner/{id}', 'BannersController@update')->name('Banner.update');
-	Route::patch('status-banner/{id}', 'BannersController@status')->name('Banner.status');
+	Route::patch('status-banner', 'BannersController@status')->name('Banner.status');
 	Route::delete('eliminar-banner/{id}', 'BannersController@destroy')->name('Banner.destroy');
 	Route::delete('eliminar-banners', 'BannersController@multipleDestroys')->name('Banner.multipleDestroys');
 
@@ -67,12 +67,21 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('formulario-faqs/{id?}', 'FaqsController@form')->name('Faq.form');
 	Route::post('alta-faq', 'FaqsController@store')->name('Faq.store');
 	Route::put('actualizar-faq/{id}', 'FaqsController@update')->name('Faq.update');
-	Route::patch('status-faq/{id}', 'FaqsController@status')->name('Faq.status');
+	Route::patch('status-faq', 'FaqsController@status')->name('Faq.status');
 	Route::delete('eliminar-faq/{id}', 'FaqsController@destroy')->name('Faq.destroy');
 	Route::delete('eliminar-faqs', 'FaqsController@multipleDestroys')->name('Faq.multipleDestroys');
+
+	#Meeting
+	Route::get('reuniones', 'MeetingsController@index')->name('Meeting');
+	Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
+	Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
+	Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
+	Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
+	Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
+	Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
 });
 
 #Rutas API
-Route::prefix('api')->group(function () {
+Route::prefix('apiv1')->group(function () {
 
 });

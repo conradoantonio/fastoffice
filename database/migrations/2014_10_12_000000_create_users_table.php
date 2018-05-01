@@ -22,10 +22,9 @@ class CreateUsersTable extends Migration
 			$table->string('phone',10)->nullable();
 			$table->string('photo')->default('/img/profiles/avatar.jpg');
 			$table->integer('role_id');
-			$table->string('openpay_customer_id')->nullable();
 			$table->string('player_id')->nullable();
 			$table->integer('social')->default(0);
-			$table->integer('status')->default(1);
+			$table->integer('status')->default(1)->comment("0 inactivo, 1 activo, 2 bloqueado");
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 			$table->softDeletes();

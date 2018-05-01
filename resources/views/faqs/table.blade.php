@@ -25,9 +25,9 @@
 					<td>{{$faq->question}}</td>
 					<td>
 						@if($faq->status)
-						<span class="label label-success status" data-url="{{route('Faq.status', $faq->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
+						<span class="label label-success status" data-url="{{route('Faq.status')}}" data-id="{{$faq->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
 						@else
-						<span class="label label-danger status" data-url="{{route('Faq.status', $faq->id)}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
+						<span class="label label-danger status" data-url="{{route('Faq.status')}}" data-id="{{$faq->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
 						@endif
 					</td>
 					<td>
