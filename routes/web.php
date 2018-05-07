@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
 	Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
 	Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
+	Route::get('obtener-calendario', 'MeetingsController@events')->name('Meeting.events');
 });
 
 #Rutas API

@@ -389,7 +389,7 @@ $(document).delegate(".change_status",'click',function(e){
 	}).catch(swal.noop)
 })
 
-function refreshTable(url){
+function refreshTable(url, tarjet){
 	var table = $(".datatable").dataTable();
 	$('#body-content').fadeOut();
 	$('#body-content').empty();

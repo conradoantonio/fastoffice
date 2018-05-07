@@ -35,8 +35,10 @@
 	<link href="{{asset('/css/custom.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/plugins/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
 	<script src="{{asset('/plugins/jquery-1.8.3.min.js')}}" type="text/javascript"></script>
+
+	<!-- IMPORT LINKS USED IN VIEWS-->
+	@stack('links')
 	<!-- END CSS TEMPLATE -->
-<!-- 	<link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <!-- END HEAD -->
 
@@ -234,19 +236,11 @@
 					</ul>
 				</li>
 
-				<li class="{{ in_array(Route::currentRouteName(), ['Meeting', 'Meeting.form'] ) ? 'active' : '' }}">
-					<a href="#!">
-						<i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span> <span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="{{ ( in_array(Route::currentRouteName(),['Meeting', 'Meeting.form']) ) ? 'active open' : '' }}">
-							<a href="{{route('Meeting')}}"> Reuniones </a>
-						</li>
-						<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}">
-							<a href="{{route('Meeting')}}"> Agenda </a>
-						</li>
-					</ul>
+				<li class="start {{ in_array(Route::currentRouteName(), ['Meeting', 'Meeting.form'] ) ? 'active open' : '' }}">
+					<a href="{{route('Meeting')}}"> <i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span></a>
 				</li>
+
+
 			</ul>
 			<div class="clearfix"></div>
 		</div>
@@ -326,7 +320,8 @@
 <script src="{{asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/plugins/toastr.min.js')}}" type="text/javascript"></script>
 <!-- END CORE TEMPLATE JS -->
-<!-- IMPORT OWN SCRIPTS USED IN VIEWS-->
+
+<!-- IMPORT SCRIPTS USED IN VIEWS-->
 @stack('scripts')
 
 </body>

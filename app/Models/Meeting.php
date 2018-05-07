@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Meeting extends Model
 {
 	protected $fillable = [
-		'user_id', 'start_datetime', 'office_id', 'description'
+		'user_id', 'office_id', 'title', 'description', 'datetime_start', 'datetime_end'
 	];
 
 	public function user(){

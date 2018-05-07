@@ -9,6 +9,8 @@
 				</div>
 			</th>
 			<th>Título</th>
+			<th>Fecha inicio</th>
+			<th>Fecha término</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -23,11 +25,13 @@
 						</div>
 					</td>
 					<td>{{$meeting->title}}</td>
+					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_start)))}}</td>
+					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_end)))}}</td>
 					<td>
 						@if($meeting->status)
 						<span class="label label-success status" data-url="{{route('Meeting.status')}}" data-id="{{$meeting->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
 						@else
-						<span class="label label-danger status" data-url="{{route('Meeting.status')}}" data-id="{{$meeting->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
+						<span class="label label-danger status" data-url="{{route('Meeting.status')}}" data-id="{{$meeting->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactiva</span>
 						@endif
 					</td>
 					<td>
