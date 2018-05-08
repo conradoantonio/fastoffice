@@ -240,6 +240,10 @@
 					<a href="{{route('Meeting')}}"> <i class="fa fa-calendar"></i> <span class="title">Calendario</span> <span class="selected"></span></a>
 				</li>
 
+				<li class="start {{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active open' : '' }}">
+					<a href="{{route('Meeting')}}"> <i class="fa fa-building"></i> <span class="title">Oficinas</span> <span class="selected"></span></a>
+				</li>
+
 
 			</ul>
 			<div class="clearfix"></div>

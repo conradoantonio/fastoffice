@@ -68,8 +68,8 @@ class MeetingsController extends Controller
 
 	public function form($id = null){
 		$meeting = new Meeting();
-		$users = User::where('role_id', 4)->get()->prepend("Usuario no registrado", 0);
-		$offices = Office::all()->pluck('name','id')->prepend("Seleccione una oficina", 0);
+		$users = User::where(['role_id' => 4, 'status' => 1])->pluck('fullname', 'id')->prepend("Usuario no registrado", 0);
+		$offices = Office::where('status', 1)->pluck('name','id')->prepend("Seleccione una oficina", 0);
 
 		if ( $id ) {
 			$meeting = Meeting::findOrFail($id);
@@ -120,7 +120,7 @@ class MeetingsController extends Controller
 		}
 
 		if ( $meeting->save() ){
-			return Redirect()->route('Meeting')->with('msg', 'Reunion actualizada');
+			return Redirect()->route('Meeting')->with('msg', 'Reunión actualizada');
 		} else {
 			return Redirect()->back()->with('msg', 'Error al actualizar noticia');
 		}

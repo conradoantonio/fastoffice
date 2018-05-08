@@ -47,11 +47,11 @@ Route::group(['middleware' => ['auth']], function() {
 	#Noticias
 	Route::get('noticias', 'NewsController@index')->name('News');
 	Route::get('formNoticias/{id?}', 'NewsController@form')->name('News.form');
-	Route::post('altaNoticia', 'NewsController@store')->name('News.store');
-	Route::put('actualizarNoticia/{id}', 'NewsController@update')->name('News.update');
-	Route::patch('statusNoticia/{id}', 'NewsController@status')->name('News.status');
-	Route::delete('eliminarNoticia/{id}', 'NewsController@destroy')->name('News.destroy');
-	Route::delete('eliminarNoticias', 'NewsController@multipleDestroys')->name('News.multipleDestroys');
+	Route::post('alta-Noticia', 'NewsController@store')->name('News.store');
+	Route::put('actualizar-Noticia/{id}', 'NewsController@update')->name('News.update');
+	Route::patch('status-Noticia/{id}', 'NewsController@status')->name('News.status');
+	Route::delete('eliminar-Noticia/{id}', 'NewsController@destroy')->name('News.destroy');
+	Route::delete('eliminar-Noticias', 'NewsController@multipleDestroys')->name('News.multipleDestroys');
 
 	#Banners
 	Route::get('banners', 'BannersController@index')->name('Banner');
@@ -71,7 +71,16 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::delete('eliminar-faq/{id}', 'FaqsController@destroy')->name('Faq.destroy');
 	Route::delete('eliminar-faqs', 'FaqsController@multipleDestroys')->name('Faq.multipleDestroys');
 
-	#Meeting
+	#Offices
+	Route::get('oficinas', 'OfficesController@index')->name('Office');
+	Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
+	Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
+	Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
+	Route::patch('status-oficina', 'OfficesController@status')->name('Office.status');
+	Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
+	Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
+
+	#Meetings
 	Route::get('reuniones', 'MeetingsController@index')->name('Meeting');
 	Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
 	Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');

@@ -12,7 +12,7 @@
 	</div>
 	<div class="row-fluid text-left buttons-container">
 		<a href="{{route('News.form')}}" class="btn btn-success add"><i class="glyphicon glyphicon-plus"></i> Nueva noticia</a>
-		<a href="{{route('News.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar multiple</a>
+		<a href="{{route('News.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a>
 	</div>
 	<div class="row-fluid">
 		<div id="body-content">

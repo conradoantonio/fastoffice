@@ -15,9 +15,15 @@ class CreateOfficesTable extends Migration
 	{
 		Schema::create('offices', function (Blueprint $table) {
 			$table->increments('id');
-			$table->integer('branch_office_id');
+			$table->integer('branch_id');
+			$table->integer('user_id');
 			$table->string('name');
-			$table->string('address');
+			$table->text('address');
+			$table->string('photo')->nullable();
+			$table->integer('status')->default(1);
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+			$table->softDeletes();
 		});
 	}
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class OfficesTableSeeder extends Seeder
+class BranchesTableSeeder extends Seeder
 {
 	/**
 	 * Run the database seeds.
@@ -11,16 +11,15 @@ class OfficesTableSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$offices = [
+		$branches = [
 			[
-				'branch_id' => 1,
 				'user_id' => 3,
-				'name' => "Oficina 1",
+				'name' => "Sucursal 1",
 				'address' => "Simon Bolivar 594",
 			],
 
 		];
 
-		DB::table('offices')->insert($offices);
+		DB::table('branches')->insert($branches);
 	}
 }

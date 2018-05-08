@@ -14,7 +14,7 @@
 	<div role="tabpanel" class="tab-pane fade" id="table">
 		<div class="row-fluid text-left buttons-container">
 			<a href="{{route('Meeting.form')}}" class="btn btn-success add"><i class="glyphicon glyphicon-plus"></i> Nueva solicitud</a>
-			<a href="{{route('Meeting.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar multiple</a>
+			<a href="{{route('Meeting.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a>
 		</div>
 		@include('meetings.table')
 	</div>
