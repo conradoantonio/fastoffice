@@ -36,12 +36,12 @@
 			<div class="row">
 				<div class="form-group col-md-6 {{$errors->meeting->first('user_id')?'has-error':''}}">
 					{{Form::label('user_id', 'Usuario', ['class' => 'control-label'])}}
-					{!!Form::select('user_id', $users, $meeting->pluck('user_id'), ['class' => 'select2 form-control', 'id' => 'user_id', 'name' => 'user_id', 'data-name' => 'Usuario'] )!!}
+					{!!Form::select('user_id', $users, $meeting->id?$meeting->pluck('user_id'):null, ['class' => 'select2 form-control', 'id' => 'user_id', 'name' => 'user_id', 'data-name' => 'Usuario'] )!!}
 					{{@$errors->meeting->first('user_id')}}
 				</div>
 				<div class="form-group col-md-6 {{$errors->meeting->first('office_id')?'has-error':''}}">
 					{{Form::label('office_id', 'Oficina', ['class' => 'control-label required'])}}
-					{!!Form::select('office_id', $offices, $meeting->pluck('office_id'), ['class' => 'select2 form-control not-empty', 'id' => 'office_id', 'name' => 'office_id', 'data-name' => 'Oficina'] )!!}
+					{!!Form::select('office_id', $offices, $meeting->id?$meeting->pluck('office_id'):null, ['class' => 'select2 form-control not-empty', 'id' => 'office_id', 'name' => 'office_id', 'data-name' => 'Oficina'] )!!}
 					{{@$errors->meeting->first('office_id')}}
 				</div>
 			</div>

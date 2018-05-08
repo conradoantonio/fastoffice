@@ -25,7 +25,6 @@ class MeetingsController extends Controller
 					new \DateTime($value->datetime_end), //end time (you can also use Carbon instead of DateTime)
 					0, //optionally, you can specify an event ID
 					[
-						'className' => 'date',
 						'color' => "#1e671d"
 					]
 				);
@@ -58,7 +57,6 @@ class MeetingsController extends Controller
 					new \DateTime($value->datetime_end), //end time (you can also use Carbon instead of DateTime)
 					0, //optionally, you can specify an event ID
 					[
-						'className' => 'date',
 						'color' => "#1e671d"
 					]
 				);

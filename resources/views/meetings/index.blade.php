@@ -23,22 +23,34 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
 	<script type="text/javascript">
-		var calendar = $('#calendar').find('div').first().attr('id');
+		var calendar = $('#calendar').find('div').first();
 
-		$( document ).ajaxComplete(function() {
-			//$("#"+calendar).fullCalendar('removeEvents');
+		$('#tab_calendar').on('click', function (e) {
+			calendar.fullCalendar('removeEvents');
 			$(".fc-today-button").click()
-			$("#"+calendar).fullCalendar( 'refresh' );
 
 			$.ajax({
 				url:"/obtener-calendario",
 				method: "GET",
 				type: "GET",
 				success:function(events){
-					$("#"+calendar).fullCalendar( 'updateEvents', events )
+					var ev =  [];
+					$.each(events, function(){
+						var array = [];
+						array.title = this.title;
+						array.start = this.start.date;
+						array.end = this.end.date;
+						array.isAllDay = false;
+						array.color = "#1e671d";
+
+						ev.push(array);
+					});
+
+					calendar.fullCalendar('addEventSource', ev);
+					calendar.fullCalendar('refetchEvents');
 				}
 			});
-		});
+		})
 	</script>
 @endpush
 @endsection
