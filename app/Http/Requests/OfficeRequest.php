@@ -32,6 +32,8 @@ class OfficeRequest extends FormRequest
 					'name'  => 'required|unique:offices,name',
 					'address' => 'required',
 					'photo' => 'required',
+					'price' => 'required|numeric',
+					'num_people' => 'required|numeric',
 					'user_id' => 'required',
 					'branch_id' => 'required'
 				];
@@ -39,7 +41,8 @@ class OfficeRequest extends FormRequest
 				return [
 					'name'  => 'required|unique:offices,name,'.$this->route('id'),
 					'address' => 'required',
-					'photo' => 'required',
+					'price' => 'required|numeric',
+					'num_people' => 'required|numeric',
 					'user_id' => 'required',
 					'branch_id' => 'required'
 				];
@@ -56,6 +59,7 @@ class OfficeRequest extends FormRequest
 	{
 		return [
 			'required' => ':attribute es requerido.'
+			'numeric' => ':attribute debe ser numérico.'
 		];
 	}
 

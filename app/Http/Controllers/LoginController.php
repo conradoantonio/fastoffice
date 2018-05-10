@@ -15,7 +15,7 @@ class LoginController extends Controller
 	public function login(Request $req)
 	{
 		if ( Auth::attempt(['email' => $req->email, 'password' => $req->password, 'status' => 1])){
-				if ( auth()->user()->role_id == 2 ){
+				if ( auth()->user()->role_id == 4 ){
 					$this->logout();
 				}
 				return Redirect::to('/dashboard');

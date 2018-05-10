@@ -17,6 +17,8 @@ class OfficesTableSeeder extends Seeder
 				'user_id' => 3,
 				'name' => "Oficina 1",
 				'address' => "Simon Bolivar 594",
+				'price' => "100.00",
+				'num_people' => 10,
 			],
 
 		];

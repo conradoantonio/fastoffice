@@ -31,9 +31,32 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('dashboard', 'HomeController@index')->name('Dashboard');
 	Route::put('actualizar-foto-perfil/{id}', 'UsersController@updatePhotoProfile')->name('User.updatePictue');
 
-	#Compañia
-	Route::get('empresa', 'CompaniesController@index')->name('Company');
-	Route::put('actualizar-empresa/{id}', 'CompaniesController@update')->name('Company.update');
+	Route::group(['middleware' => 'role:Administrador'], function() {
+		#Compañia
+		Route::get('empresa', 'CompaniesController@index')->name('Company');
+		Route::put('actualizar-empresa/{id}', 'CompaniesController@update')->name('Company.update');
+
+		#Offices
+		Route::get('oficinas', 'OfficesController@index')->name('Office');
+		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
+		Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
+		Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
+		Route::patch('status-oficina', 'OfficesController@status')->name('Office.status');
+		Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
+		Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
+	});
+
+	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
+		#Meetings
+		Route::get('reuniones', 'MeetingsController@index')->name('Meeting');
+		Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
+		Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
+		Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
+		Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
+		Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
+		Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
+		Route::get('obtener-calendario', 'MeetingsController@events')->name('Meeting.events');
+	});
 
 	#Usuarios
 	Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
@@ -70,25 +93,6 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::patch('status-faq', 'FaqsController@status')->name('Faq.status');
 	Route::delete('eliminar-faq/{id}', 'FaqsController@destroy')->name('Faq.destroy');
 	Route::delete('eliminar-faqs', 'FaqsController@multipleDestroys')->name('Faq.multipleDestroys');
-
-	#Offices
-	Route::get('oficinas', 'OfficesController@index')->name('Office');
-	Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
-	Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
-	Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
-	Route::patch('status-oficina', 'OfficesController@status')->name('Office.status');
-	Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
-	Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
-
-	#Meetings
-	Route::get('reuniones', 'MeetingsController@index')->name('Meeting');
-	Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
-	Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
-	Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
-	Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
-	Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
-	Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
-	Route::get('obtener-calendario', 'MeetingsController@events')->name('Meeting.events');
 });
 
 #Rutas API

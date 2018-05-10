@@ -19,6 +19,8 @@ class CreateOfficesTable extends Migration
 			$table->integer('user_id');
 			$table->string('name');
 			$table->text('address');
+			$table->float('price');
+			$table->integer('num_people');
 			$table->string('photo')->nullable();
 			$table->integer('status')->default(1);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
