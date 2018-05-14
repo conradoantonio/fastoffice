@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\Office;
 use App\Models\Branch;
-use Redirect;
 use Image;
 
 class OfficesController extends Controller
@@ -23,11 +22,12 @@ class OfficesController extends Controller
 
 	public function form($id = null){
 		$office = new Office();
-		$users = User::where(['role_id' => 3, 'status' => 1])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
+		$users = ["Seleccione un usuario", 0];
 		$offices = Branch::where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
 
 		if ( $id ) {
 			$office = Office::findOrFail($id);
+			$users = User::where(['role_id' => 3, 'branch_id' => $office->branch_id])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 		}
 		return view('offices.form', compact('office', 'users', 'offices'));
 	}
@@ -81,9 +81,9 @@ class OfficesController extends Controller
 
 	public function multipleDestroys(Request $req){
 		if ( Office::destroy($req->ids) ){
-			foreach ($req->ids as $id) {
+			/*foreach ($req->ids as $id) {
 				File::deleteDirectory(public_path()."/img/offices/".$id."/");
-			}
+			}*/
 			return ["delete" => "true"];
 		}
 		return ['delete' => 'false'];
@@ -97,5 +97,9 @@ class OfficesController extends Controller
 		} else {
 			return ['status' => false];
 		}
+	}
+
+	public function getUsersByBranch($branch_id){
+		return User::where(['role_id' => 3, 'status' => 1, 'branch_id' => $branch_id])->get();
 	}
 }

@@ -222,7 +222,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active open' : '' }}">
+				<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form', 'Branch', 'Branch.form'] ) ? 'active open' : '' }}">
 					<a href="#!">
 						<i class="fa fa-money"></i> <span class="title">ERP</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
@@ -232,6 +232,9 @@
 						</li>
 						<li class="{{ ( Route::currentRouteName() == '' ) ? 'active' : '' }}">
 							<a href=""> Egresos </a>
+						</li>
+						<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
+							<a href="{{route('Branch')}}"> Franquicias </a>
 						</li>
 						<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
 							<a href="{{route('Office')}}"> Oficinas </a>

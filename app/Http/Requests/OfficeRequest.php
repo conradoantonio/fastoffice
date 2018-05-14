@@ -58,7 +58,7 @@ class OfficeRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'required' => ':attribute es requerido.'
+			'required' => ':attribute es requerido.',
 			'numeric' => ':attribute debe ser numérico.'
 		];
 	}

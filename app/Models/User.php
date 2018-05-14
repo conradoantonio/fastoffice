@@ -17,7 +17,7 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $fillable = [
-		'fullname', 'email', 'password', 'phone', 'birthday', 'municipality_id', 'state_id', 'openpay_customer_id', 'player_id', 'role_id'
+		'fullname', 'email', 'password', 'phone', 'birthday', 'municipality_id', 'state_id', 'openpay_customer_id', 'player_id', 'role_id', 'branch_id'
 	];
 
 	/**
@@ -44,6 +44,14 @@ class User extends Authenticatable
 
 	public function role(){
 		return $this->belongsTo(Role::class);
+	}
+
+	public function hasBranch(){
+		return $this->hasOne(Branch::class, 'user_id');
+	}
+
+	public function belongsBranch(){
+		return $this->belongsTo(Branch::class, 'branch_id');
 	}
 
 	public function calendars(){
