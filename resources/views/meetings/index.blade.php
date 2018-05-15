@@ -25,15 +25,29 @@
 	<script type="text/javascript">
 		var calendar = $('#calendar').find('div').first();
 
-		$('#tab_calendar').on('click', function (e) {
-			calendar.fullCalendar('removeEvents');
-			$(".fc-today-button").click()
+		$( document ).ajaxComplete(function( event, xhr, settings ) {
+			if ( settings.type === "GET" && settings.url.includes('/reuniones')) {
+				$(".fc-today-button").click()
+				fillCalendar();
+			}
+		});
 
+		$(document).delegate('#tab_calendar', 'click', function (e) {
+			$(".fc-today-button").click()
+			fillCalendar();
+		})
+
+		function fillCalendar(){
+			calendar.fullCalendar('removeEvents');
 			$.ajax({
 				url:"/obtener-calendario",
 				method: "GET",
 				type: "GET",
+				beforeSend:function(){
+					loadAnimation('Cargando reuniones');
+				},
 				success:function(events){
+					swal.close();
 					var ev =  [];
 					$.each(events, function(){
 						var array = [];
@@ -50,7 +64,7 @@
 					calendar.fullCalendar('refetchEvents');
 				}
 			});
-		})
+		}
 	</script>
 @endpush
 @endsection

@@ -10,6 +10,7 @@
 			</th>
 			<th>Franquicia</th>
 			<th>Nombre</th>
+			<th>Recepcionista</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -25,6 +26,7 @@
 					</td>
 					<td>{{$office->branch->name}}</td>
 					<td>{{$office->name}}</td>
+					<td>{{$office->user?$office->user->fullname:'No asignado'}}</td>
 					<td>
 						@if($office->status)
 						<span class="label label-success status" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
