@@ -37,6 +37,15 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::put('actualizar-empresa/{id}', 'CompaniesController@update')->name('Company.update');
 
 		#Franquicias
+		Route::get('categorias', 'CategoriesController@index')->name('Category');
+		Route::get('formulario-categoria/{id?}', 'CategoriesController@form')->name('Category.form');
+		Route::post('alta-categoria', 'CategoriesController@store')->name('Category.store');
+		Route::put('actualizar-categoria/{id}', 'CategoriesController@update')->name('Category.update');
+		Route::patch('status-categoria', 'CategoriesController@status')->name('Category.status');
+		Route::delete('eliminar-categoria/{id}', 'CategoriesController@destroy')->name('Category.destroy');
+		Route::delete('eliminar-categorias', 'CategoriesController@multipleDestroys')->name('Category.multipleDestroys');
+
+		#Franquicias
 		Route::get('franquicias', 'BranchesController@index')->name('Branch');
 		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
 		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
