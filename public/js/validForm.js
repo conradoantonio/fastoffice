@@ -25,7 +25,7 @@ $('.numeric').keypress(function(e) {
 });
 
 $('.decimals').keypress(function() {
-	if(!decimals.test($(this).val())) {
+	if(!regDecimals.test($(this).val())) {
 		if ( !$(this).parent().hasClass("has-error") ){
 			$(this).parent().addClass('has-error')
 		}

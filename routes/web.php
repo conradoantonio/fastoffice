@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
 		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
 		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
+		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
 	});
 
 	#Usuarios

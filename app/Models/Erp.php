@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Erp extends Model
 {
 	protected $fillable = [
-		'category_id', 'concept', 'amount', 'type'
+		'category_id', 'office_id', 'concept', 'amount', 'type'
 	];
+
+	public function office(){
+		return $this->belongsTo(Office::class);
+	}
 }

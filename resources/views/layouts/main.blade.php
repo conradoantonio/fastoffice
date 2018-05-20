@@ -222,7 +222,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form', 'Branch', 'Branch.form', 'Category', 'Category.form'] ) ? 'active open' : '' }}">
+				<li class="{{ in_array(Route::currentRouteName(), ['Erp', 'Erp.form', 'Office', 'Office.form', 'Branch', 'Branch.form', 'Category', 'Category.form'] ) ? 'active open' : '' }}">
 					<a href="#!">
 						<i class="fa fa-money"></i> <span class="title">ERP</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
@@ -230,11 +230,8 @@
 						<li class="{{ ( in_array(Route::currentRouteName(),['Category', 'Category.form']) ) ? 'active' : '' }}">
 							<a href="{{route('Category')}}"> Categorías </a>
 						</li>
-						<li class="{{ ( in_array(Route::currentRouteName(),[]) ) ? 'active' : '' }}">
-							<a href=""> Ingresos </a>
-						</li>
-						<li class="{{ ( Route::currentRouteName() == '' ) ? 'active' : '' }}">
-							<a href=""> Egresos </a>
+						<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
+							<a href=""> Ingresos y egresos </a>
 						</li>
 						<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
 							<a href="{{route('Branch')}}"> Franquicias </a>

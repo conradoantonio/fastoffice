@@ -29,16 +29,16 @@ class ErpRequest extends FormRequest
 				return [];
 			case 'POST':
 				return [
-					'concept' => 'required',
-					'amount' => 'required',
+					'concept' => 'present',
+					'amount' => 'required|numeric',
 					'type' => 'required',
 					'category_id' => 'required',
 					'office_id' => 'required',
 				];
 			case 'PUT':
 				return [
-					'concept' => 'required',
-					'amount' => 'required',
+					'concept' => 'present',
+					'amount' => 'required|numeric',
 					'type' => 'required',
 					'category_id' => 'required',
 					'office_id' => 'required',
