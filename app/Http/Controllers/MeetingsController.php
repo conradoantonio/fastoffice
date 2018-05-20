@@ -83,10 +83,17 @@ class MeetingsController extends Controller
 		$meeting = new Meeting();
 		$meeting->fill($req->all());
 
-		$old = Meeting::whereRaw("((datetime_start BETWEEN '".$req->datetime_start."' AND '".$req->datetime_end."') || (datetime_end BETWEEN '".$req->datetime_start."' AND '".$req->datetime_end."'))")
-		->where([
-			'office_id' => $req->office_id
-		])->get();
+		$old = Meeting::
+		where([
+			['datetime_start', '>', $req->datetime_start],
+			['datetime_start', '<', $req->datetime_end]
+		])
+		->orWhere(function($query) use ($req){
+			$query->where('datetime_end', '>', $req->datetime_start);
+			$query->where('datetime_end', '<', $req->datetime_end);
+		})
+		->where('office_id', $req->office_id)
+		->get();
 
 		if ( !$old->isEmpty() ){
 			$meeting->date = date('d M Y', strtotime($meeting->datetime_start));
@@ -98,7 +105,7 @@ class MeetingsController extends Controller
 		if ( $meeting->save() ){
 			return Redirect()->route('Meeting')->with('msg', 'Reunión creada');
 		} else {
-			return Redirect()->back()->with('msg', 'Error al crear noticia');
+			return Redirect()->back()->with('msg', 'Error al crear reunión');
 		}
 	}
 
@@ -106,7 +113,15 @@ class MeetingsController extends Controller
 		$meeting = Meeting::find($id);
 		$meeting->fill($req->all());
 
-		$old = Meeting::whereRaw("((datetime_start BETWEEN '".$req->datetime_start."' AND '".$req->datetime_end."') || (datetime_end BETWEEN '".$req->datetime_start."' AND '".$req->datetime_end."'))")
+		$old = Meeting::
+		where([
+			['datetime_start', '>', $req->datetime_start],
+			['datetime_start', '<', $req->datetime_end],
+		])
+		->orWhere(function($query) use ($req){
+			$query->where('datetime_end', '>', $req->datetime_start);
+			$query->where('datetime_end', '<', $req->datetime_end);
+		})
 		->where([
 			['id', '!=', $id],
 			'office_id' => $req->office_id
@@ -122,7 +137,7 @@ class MeetingsController extends Controller
 		if ( $meeting->save() ){
 			return Redirect()->route('Meeting')->with('msg', 'Reunión actualizada');
 		} else {
-			return Redirect()->back()->with('msg', 'Error al actualizar noticia');
+			return Redirect()->back()->with('msg', 'Error al actualizar reunión');
 		}
 	}
 

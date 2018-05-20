@@ -36,6 +36,24 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('empresa', 'CompaniesController@index')->name('Company');
 		Route::put('actualizar-empresa/{id}', 'CompaniesController@update')->name('Company.update');
 
+		#Franquicias
+		Route::get('categorias', 'CategoriesController@index')->name('Category');
+		Route::get('formulario-categoria/{id?}', 'CategoriesController@form')->name('Category.form');
+		Route::post('alta-categoria', 'CategoriesController@store')->name('Category.store');
+		Route::put('actualizar-categoria/{id}', 'CategoriesController@update')->name('Category.update');
+		Route::patch('status-categoria', 'CategoriesController@status')->name('Category.status');
+		Route::delete('eliminar-categoria/{id}', 'CategoriesController@destroy')->name('Category.destroy');
+		Route::delete('eliminar-categorias', 'CategoriesController@multipleDestroys')->name('Category.multipleDestroys');
+
+		#Franquicias
+		Route::get('franquicias', 'BranchesController@index')->name('Branch');
+		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
+		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
+		Route::put('actualizar-franquicia/{id}', 'BranchesController@update')->name('Branch.update');
+		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
+		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
+		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
+
 		#Offices
 		Route::get('oficinas', 'OfficesController@index')->name('Office');
 		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
@@ -44,6 +62,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::patch('status-oficina', 'OfficesController@status')->name('Office.status');
 		Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
 		Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
+		Route::get('obtener-usuarios/{branch_id?}', 'OfficesController@getUsersByBranch')->name('Office.users');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {

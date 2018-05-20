@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'admin@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
+				'branch_id' => 0,
 				'role_id' => 1,
 			],
 			[
@@ -24,6 +25,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'franquisatario@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
+				'branch_id' => 1,
 				'role_id' => 2,
 			],
 			[
@@ -31,6 +33,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'recepcion@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
+				'branch_id' => 0,
 				'role_id' => 3,
 			],
 			[
@@ -38,6 +41,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'usuario@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
+				'branch_id' => 0,
 				'role_id' => 4,
 			]
 		];

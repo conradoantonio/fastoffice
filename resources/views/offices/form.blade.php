@@ -71,4 +71,30 @@
 		{{ Form::close() }}
 	</div>
 </div>
+@push('scripts')
+	<script type="text/javascript">
+		$('#branch_id').on('change', function(){
+			elem_to_block = $('select#user_id').parent('div').children('div.select2-container');
+			$("#user_id").select2("val", 0);
+			if ( $(this).val() != 0 ){
+				$.ajax({
+					url: "{{route('Office.users')}}/"+$(this).val(),
+					method: 'POST',
+					beforeSend:function(){
+						blockUI(elem_to_block);
+					},
+					success:function(response){
+						$("#user_id option:gt(0)").remove();
+						$.each(response,function(i,e){
+							$("#user_id").append("<option value='"+e.id+"'>"+e.fullname+"</option>");
+						})
+						unblockUI(elem_to_block);
+					}
+				})
+			} else {
+				$("#user_id option:gt(0)").remove();
+			}
+		})
+	</script>
+@endpush
 @endsection

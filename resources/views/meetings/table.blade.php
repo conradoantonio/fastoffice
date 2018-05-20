@@ -9,6 +9,7 @@
 				</div>
 			</th>
 			<th>Título</th>
+			<th>Oficina</th>
 			<th>Fecha inicio</th>
 			<th>Fecha término</th>
 			<th>Estatus</th>
@@ -25,6 +26,7 @@
 						</div>
 					</td>
 					<td>{{$meeting->title}}</td>
+					<td>{{$meeting->office->name}}</td>
 					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_start)))}}</td>
 					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_end)))}}</td>
 					<td>
