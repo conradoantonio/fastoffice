@@ -56,6 +56,14 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
 		Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
 		Route::get('obtener-calendario', 'MeetingsController@events')->name('Meeting.events');
+
+		#Meetings
+		Route::get('erp', 'ErpController@index')->name('Erp');
+		Route::get('formulario-erp/{id?}', 'ErpController@form')->name('Erp.form');
+		Route::post('alta-erp', 'ErpController@store')->name('Erp.store');
+		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
+		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
+		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
 	});
 
 	#Usuarios
