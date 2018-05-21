@@ -13,10 +13,6 @@ class Branch extends Model
 		'user_id', 'name', 'address', 'status'
 	];
 
-	public function user(){
-		return $this->belongsTo(User::class);
-	}
-
 	public function users(){
 		return $this->hasMany(User::class);
 	}

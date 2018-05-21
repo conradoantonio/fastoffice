@@ -13,6 +13,10 @@ class ErpController extends Controller
 	public function index(Request $req){
 		$earnings = Erp::where('type', 1)->get();
 		$expenses = Erp::where('type', 2)->get();
+
+		if ($req->ajax()) {
+			return view('erp.content', compact('earnings', 'expenses'));
+		}
 		return view('erp.index', compact('earnings', 'expenses'));
 	}
 

@@ -231,11 +231,13 @@
 							<a href="{{route('Category')}}"> Categorías </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
-							<a href=""> Ingresos y egresos </a>
+							<a href="{{route('Erp')}}"> Ingresos y egresos </a>
 						</li>
-						<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
-							<a href="{{route('Branch')}}"> Franquicias </a>
-						</li>
+						@if(auth()->user()->role->name == 'Administrador')
+							<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
+								<a href="{{route('Branch')}}"> Franquicias </a>
+							</li>
+						@endif
 						<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
 							<a href="{{route('Office')}}"> Oficinas </a>
 						</li>
