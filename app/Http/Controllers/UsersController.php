@@ -20,10 +20,10 @@ class UsersController extends Controller
 	public function index(Request $req)
 	{
 		$roles_id = [];
-		if ( Route::currentRouteName() == 'User.index1' ){
-			$roles_id = [1,4,5,6];
-		} else {
-			$roles_id = [2,3];
+		if ( Route::currentRouteName() == 'User.index1' ){//System users
+			$roles_id = [1,2,3];
+		} else {//App users
+			$roles_id = [4];
 		}
 
 		$users = User::whereIn('role_id',$roles_id)->get();
@@ -47,7 +47,7 @@ class UsersController extends Controller
 		} else {
 			$user = new User();
 		}
-		$roles = Role::whereNotIn('id',[2,3])->pluck('name','id');
+		$roles = Role::whereNotIn('id',[4])->pluck('name','id');
 		return view('users.form', compact('user', 'roles'));
 	}
 
@@ -73,9 +73,9 @@ class UsersController extends Controller
 			$params['email'] = $user->email;
 			$params['view'] = 'mails.credentials';
 
-			if ( $this->mail($params) ){
+			/*if ( $this->mail($params) ){
 				return redirect()->route('User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
-			}
+			}*/
 			return redirect()->route('User.index1')->with([ 'msg' => 'Administrador creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 
 		} else {
@@ -110,9 +110,9 @@ class UsersController extends Controller
 				$params['email'] = $user->email;
 				$params['view'] = 'mails.credentials';
 
-				if ( $this->mail($params) ){
+				/*if ( $this->mail($params) ){
 					return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);
-				}
+				}*/
 				return redirect()->route('User.index1')->with([ 'msg' => 'Administrador actualizado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 			}
 			return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);

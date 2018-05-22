@@ -8,9 +8,10 @@
 					<label for="checkboxParent"></label>
 				</div>
 			</th>
-			<th>Franquicia</th>
 			<th>Nombre</th>
+			<th>Franquicia</th>
 			<th>Recepcionista</th>
+			<th>Tipo</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -24,9 +25,10 @@
 							<label for="checkbox{{$office->id}}"></label>
 						</div>
 					</td>
-					<td>{{$office->branch->name}}</td>
 					<td>{{$office->name}}</td>
-					<td>{{$office->user?$office->user->fullname:'No asignado'}}</td>
+					<td>{{$office->branch->name}}</td>
+					<td>{{$office->user?$office->user->fullname : 'No asignado'}}</td>
+					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status)
 						<span class="label label-success status" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>

@@ -7,6 +7,7 @@ use App\Http\Requests\OfficeRequest;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\Office;
+use App\Models\OfficeType;
 use App\Models\Branch;
 use Image;
 
@@ -22,14 +23,15 @@ class OfficesController extends Controller
 
 	public function form($id = null){
 		$office = new Office();
-		$users = ["Seleccione un usuario", 0];
+		$types = OfficeType::pluck('name', 'id')->prepend("Seleccione un tipo", 0);
+		$users = [0 => "Seleccione un usuario"];
 		$offices = Branch::where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
 
 		if ( $id ) {
 			$office = Office::findOrFail($id);
 			$users = User::where(['role_id' => 3, 'branch_id' => $office->branch_id])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 		}
-		return view('offices.form', compact('office', 'users', 'offices'));
+		return view('offices.form', compact('office', 'users', 'offices', 'types'));
 	}
 
 	public function store(OfficeRequest $req){

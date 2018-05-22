@@ -34,8 +34,9 @@ class OfficeRequest extends FormRequest
 					'photo' => 'required',
 					'price' => 'required|numeric',
 					'num_people' => 'required|numeric',
-					'user_id' => 'required',
-					'branch_id' => 'required'
+					'user_id' => 'present',
+					'branch_id' => 'required',
+					'office_type_id' => 'required'
 				];
 			case 'PUT':
 				return [
@@ -43,8 +44,9 @@ class OfficeRequest extends FormRequest
 					'address' => 'required',
 					'price' => 'required|numeric',
 					'num_people' => 'required|numeric',
-					'user_id' => 'required',
-					'branch_id' => 'required'
+					'user_id' => 'present',
+					'branch_id' => 'required',
+					'office_type_id' => 'required'
 				];
 			default:break;
 		}
@@ -75,7 +77,8 @@ class OfficeRequest extends FormRequest
 			'address' => 'Dirección',
 			'photo' => 'Imagen',
 			'user_id' => 'Usuario',
-			'branch_id' => 'Sucursal'
+			'branch_id' => 'Sucursal',
+			'office_type_id' => 'Tipo de oficina'
 		];
 	}
 

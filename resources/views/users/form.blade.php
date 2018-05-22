@@ -8,7 +8,7 @@
 	</div>
 	@endif
 	<div class="page-title">
-		<h1>{{$user->id ? 'Actualizar' : 'Crear'}} <span class="semi-bold">Administrador</span></h1>
+		<h1>{{$user->id ? 'Actualizar' : 'Crear'}} <span class="semi-bold">usuario de sistema</span></h1>
 	</div>
 	<div class="row-fluid">
 		{{ Form::model($user, ['route' => !$user->id?'User.store':['User.update',$user->id], 'class' => 'form valid', 'id' => 'UserForm' ,'autocomplete' => 'off']) }}
@@ -17,8 +17,14 @@
 			@endif
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->user->first('fullname')?'has-error':''}}">
-					{{Form::label('fullname', 'Nombre', ['class' => 'control-label  required'])}}
+					{{Form::label('fullname', 'Nombre', ['class' => 'control-label required'])}}
 					{{Form::text('fullname', null, ['class' => 'form-control not-empty', 'data-name' => 'Nombre'])}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{$errors->user->first('phone')?'has-error':''}}">
+					{{Form::label('phone', 'Teléfono', ['class' => 'control-label required'])}}
+					{{Form::text('phone', null, ['class' => 'form-control not-empty numeric', 'data-name' => 'Teléfono'])}}
 				</div>
 			</div>
 			<div class="row">
@@ -36,12 +42,12 @@
 				</div>
 			</div>
 			@if( $user->role_id != 2 )
-			<div class="row">
-				<div class="form-group col-md-12 {{$errors->user->first('role_id')?'has-error':''}}">
-					{{Form::label('role_id', 'Rol', ['class' => 'control-label  required'])}}
-					{{Form::select('role_id', $roles, $user->id?$user->role_id:0,['class' => 'form-control not-empty', 'data-name' => "Rol"])}}
+				<div class="row">
+					<div class="form-group col-md-12 {{$errors->user->first('role_id')?'has-error':''}}">
+						{{Form::label('role_id', 'Rol', ['class' => 'control-label  required'])}}
+						{{Form::select('role_id', $roles, $user->id?$user->role_id:0,['class' => 'form-control not-empty', 'data-name' => "Rol"])}}
+					</div>
 				</div>
-			</div>
 			@endif
 			<div class="row buttons-form">
 				<a href="{{route('User.index1')}}" class="btn btn-danger">Regresar</a>

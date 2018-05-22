@@ -14,7 +14,7 @@
 	<link href="{{asset('/plugins/font-awesome/css/font-awesome.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/animate.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/plugins/jquery-scrollbar/jquery.scrollbar.css')}}" rel="stylesheet" type="text/css"/>
-	<link  href="{{ asset('/plugins/jquery-datatable/css/jquery.dataTables.css')}}" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="{{ asset('/plugins/jquery-datatable/css/jquery.dataTables.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('/plugins/bootstrap-select2/select2.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('/plugins/ios-switch/ios7-switch.css')}}" rel="stylesheet" type="text/css" media="screen">
 	<link href="{{asset('/plugins/boostrap-slider/css/slider.css')}}" rel="stylesheet" type="text/css"/>

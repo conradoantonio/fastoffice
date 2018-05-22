@@ -9,6 +9,7 @@
 				</div>
 			</th>
 			<th>Nombre</th>
+			<th>Franquisatario</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -23,6 +24,7 @@
 						</div>
 					</td>
 					<td>{{$branch->name}}</td>
+					<td>{{$branch->user?$branch->user->fullname:'No asignado'}}</td>
 					<td>
 						@if($branch->status)
 						<span class="label label-success status" data-url="{{route('Branch.status')}}" data-id="{{$branch->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>

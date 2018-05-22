@@ -16,7 +16,8 @@ class CreateOfficesTable extends Migration
 		Schema::create('offices', function (Blueprint $table) {
 			$table->increments('id');
 			$table->integer('branch_id');
-			$table->integer('user_id');
+			$table->integer('user_id')->default(0);
+			$table->integer('office_type_id');
 			$table->string('name');
 			$table->text('address');
 			$table->float('price');

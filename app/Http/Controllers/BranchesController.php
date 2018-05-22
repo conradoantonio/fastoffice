@@ -20,15 +20,11 @@ class BranchesController extends Controller
 
 	public function form($id = null){
 		$branch = new Branch();
-		$users = User::doesntHave('hasBranch')->where(['role_id' => 2, 'status' => 1])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
+		$users = User::where(['role_id' => 2, 'status' => 1])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 		$child_users = User::doesntHave('belongsBranch')->where(['role_id' => 3, 'status' => 1])->pluck('fullname', 'id');
 
 		if ( $id ) {
 			$branch = Branch::findOrFail($id);
-			$users = User::where(['role_id' => 2, 'status' => 1])->where(function($query) use($id){
-				$query->where('branch_id', 0);
-				$query->orWhere('branch_id', $id);
-			})->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 
 			$child_users = User::where(['role_id' => 3, 'status' => 1])->where(function($query) use($id){
 				$query->where('branch_id', 0);
