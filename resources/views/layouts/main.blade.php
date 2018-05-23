@@ -240,9 +240,11 @@
 								<a href="{{route('Branch')}}"> Franquicias </a>
 							</li>
 						@endif
+						@if( auth()->user()->role_id != 3 )
 						<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
 							<a href="{{route('Office')}}"> Oficinas </a>
 						</li>
+						@endif
 					</ul>
 				</li>
 

@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'franquisatario@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
-				'branch_id' => 1,
+				'branch_id' => 0,
 				'role_id' => 2,
 			],
 			[
@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
 				'email' => 'recepcion@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
-				'branch_id' => 0,
+				'branch_id' => 1,
 				'role_id' => 3,
 			],
 			[

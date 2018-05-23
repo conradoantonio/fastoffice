@@ -24,7 +24,7 @@ class OfficesController extends Controller
 			}
 		})->get();
 
-		$branches = Branch::pluck('name', 'id')->prepend('Seleccione una franquicia', 0);
+		$branches = Branch::pluck('name', 'id')->prepend('Mostrar todas', 0);
 		if ( $req->ajax() ) {
 			return view('offices.table', compact('offices'));
 		}

@@ -50,6 +50,10 @@ class User extends Authenticatable
 		return $this->hasOne(Branch::class, 'user_id');
 	}
 
+	public function office(){
+		return $this->hasOne(Office::class);
+	}
+
 	public function belongsBranch(){
 		return $this->belongsTo(Branch::class, 'branch_id');
 	}

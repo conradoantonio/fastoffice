@@ -20,7 +20,8 @@ class CreateErpsTable extends Migration
 			$table->string('concept')->nullable();
 			$table->float('amount');
 			$table->integer('type')->comment("1 ingreso, 2 egreso");
-			$table->timestamps();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 		});
 	}
 
