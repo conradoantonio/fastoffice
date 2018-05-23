@@ -13,12 +13,22 @@ use Image;
 
 class OfficesController extends Controller
 {
-	public function index(Request $req){
-		$offices = Office::all();
+	public function index(Request $req, $id = null){
+		$offices = Office::with('type', 'branch', 'user')->whereHas('branch', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		})->get();
+
+		$branches = Branch::pluck('name', 'id')->prepend('Seleccione una franquicia', 0);
 		if ( $req->ajax() ) {
 			return view('offices.table', compact('offices'));
 		}
-		return view('offices.index', compact('offices'));
+		return view('offices.index', compact('offices', 'branches'));
 	}
 
 	public function form($id = null){

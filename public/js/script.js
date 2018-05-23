@@ -258,9 +258,9 @@ $('.multiple-delete-btn').on('click', function(e){
 
 $("#filtrar").on('click',function(){
 	url = "";
-	if ( $("#byUser").length ){
-		if ( $("#byUser").val() != 0 ){
-			url = "/"+$("#byUser").val();
+	if ( $("#byField").length ){
+		if ( $("#byField").val() != 0 ){
+			url = "/"+$("#byField").val();
 		} else {
 			url = "/0"
 		}
@@ -268,21 +268,30 @@ $("#filtrar").on('click',function(){
 			url = "/0"
 	}
 
-	if ( $("#start_date").val() != "" ){
-		var date = $("#start_date").datepicker('getDate');
-		var start = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' +  ("0" + (date.getDate())).slice(-2);
-		url = url+'/'+start;
+	if ( $("#start_date").length ){
+		if ( $("#start_date").val() ){
+			var date = $("#start_date").datepicker('getDate');
+			var start = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' +  ("0" + (date.getDate())).slice(-2);
+			url = url+'/'+start;
+		} else {
+			url = url+'/0';
+		}
 	} else {
-		url = url+'/0';
+		url = url;
 	}
 
-	if ( $("#end_date").val() != "" ){
-		var date = $("#end_date").datepicker('getDate');
-		var end = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' +  ("0" + (date.getDate())).slice(-2)
-		url = url+'/'+end;
+	if ( $("#end_date").length ){
+		if ( $("#end_date").val() ){
+			var date = $("#end_date").datepicker('getDate');
+			var end = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' +  ("0" + (date.getDate())).slice(-2)
+			url = url+'/'+end;
+		} else {
+			url = url+'/0';
+		}
 	} else {
-		url = url+'/0';
+		url = url;
 	}
+
 	refreshTable($(this).data('url') +url)
 })
 

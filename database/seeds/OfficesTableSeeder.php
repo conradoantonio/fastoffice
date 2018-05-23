@@ -15,6 +15,7 @@ class OfficesTableSeeder extends Seeder
 			[
 				'branch_id' => 1,
 				'user_id' => 3,
+				'office_type_id' => 1,
 				'name' => "Oficina 1",
 				'address' => "Simon Bolivar 594",
 				'price' => "100.00",

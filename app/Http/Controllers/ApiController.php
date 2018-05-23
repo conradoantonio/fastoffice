@@ -17,10 +17,11 @@ class ApiController extends Controller
     {
     	$user = User::find($req->user_id);
 
-    	if ($user) {//Comes from a registered user
-
-    	}
         $row = New Application;
+
+    	if ($user) {//Comes from a registered user
+    		
+    	}
 
         $row->name = $req->name;
         $row->price = $req->price;

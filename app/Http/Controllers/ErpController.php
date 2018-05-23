@@ -6,18 +6,37 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ErpRequest;
 use App\Models\Erp;
 use App\Models\Office;
+use App\Models\Branch;
 use App\Models\Category;
 
 class ErpController extends Controller
 {
-	public function index(Request $req){
-		$earnings = Erp::where('type', 1)->get();
-		$expenses = Erp::where('type', 2)->get();
+	public function index(Request $req, $id = null){
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		})->get();
+		$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		})->get();
+
+		$branches = Branch::pluck('name', 'id')->prepend("Seleccione una franquicia",0);
 
 		if ($req->ajax()) {
 			return view('erp.content', compact('earnings', 'expenses'));
 		}
-		return view('erp.index', compact('earnings', 'expenses'));
+		return view('erp.index', compact('earnings', 'expenses', 'branches'));
 	}
 
 	public function form($type, $id = null){

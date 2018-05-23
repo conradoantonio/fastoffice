@@ -11,6 +11,9 @@
 		<h1><span class="semi-bold">Calendario</span></h1>
 	</div>
 	<div class="row-fluid">
+		@include('helpers.filters', ['index_url' => route('Meeting'), 'export_url' => null, 'dates' => true])
+	</div>
+	<div class="row-fluid">
 		<div id="body-content">
 			@include('meetings.content')
 		</div>
@@ -26,7 +29,7 @@
 		var calendar = $('#calendar').find('div').first();
 
 		$( document ).ajaxComplete(function( event, xhr, settings ) {
-			if ( settings.type === "GET" && settings.url.includes('/reuniones')) {
+			if ( settings.type === "GET" && settings.url.includes('/reuniones') ) {
 				$(".fc-today-button").click()
 				fillCalendar();
 			}
@@ -38,13 +41,17 @@
 		})
 
 		function fillCalendar(){
+			var dest =  "/obtener-calendario";
+			if ( typeof url !== 'undefined' ){
+				dest = "/obtener-calendario" + url;
+			}
 			calendar.fullCalendar('removeEvents');
 			$.ajax({
-				url:"/obtener-calendario",
+				url:dest,
 				method: "GET",
 				type: "GET",
 				beforeSend:function(){
-					loadAnimation('Cargando reuniones');
+					loadAnimation('Refrescando reuniones');
 				},
 				success:function(events){
 					swal.close();
