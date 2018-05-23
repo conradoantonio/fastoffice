@@ -84,6 +84,13 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
 		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
 		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
+
+		#Prospects
+		Route::prefix('crm/prospectos')->group(function () {
+			Route::get('/', 'ApplicationsController@index')->name('Crm');
+			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.change_status');
+		});
+
 	});
 
 	#Usuarios

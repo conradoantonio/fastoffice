@@ -212,7 +212,7 @@
 					</a>
 					<ul class="sub-menu">
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
-							<a href=""> Prospectos </a>
+							<a href="{{route('Crm')}}"> Prospectos </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
 							<a href=""> Clientes </a>

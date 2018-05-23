@@ -21,4 +21,20 @@ class Application extends Model
 	protected $fillable = [
 		'user_id', 'fullname', 'email', 'phone', 'office_id', 'status', 'comment'
 	];
+
+	/**
+     * Get the possible user associated with the application.
+     */
+    public function customer()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    /**
+     * Get the office associated with the application.
+     */
+    public function office()
+    {
+        return $this->hasOne('App\Office', 'id', 'office_id');
+    }
 }
