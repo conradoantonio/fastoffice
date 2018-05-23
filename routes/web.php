@@ -75,6 +75,12 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
 		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
 
+		#Prospects
+		Route::prefix('crm/prospectos')->group(function () {
+			Route::get('/', 'ApplicationsController@index')->name('Crm');
+			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.change_status');
+		});
+
 		#Offices
 		Route::get('oficinas/{id?}', 'OfficesController@index')->name('Office');
 		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
@@ -124,10 +130,6 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 #Rutas API
-Route::prefix('api/v1')->group(function () {
-		#Prospects
-		Route::prefix('crm/prospectos')->group(function () {
-			Route::get('/', 'ApplicationsController@index')->name('Crm');
-			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.change_status');
-		});
+Route::prefix('apiv1')->group(function () {
+
 });

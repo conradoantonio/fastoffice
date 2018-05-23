@@ -27,7 +27,7 @@ class Application extends Model
      */
     public function customer()
     {
-        return $this->hasOne('App\User', 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     /**
@@ -35,6 +35,6 @@ class Application extends Model
      */
     public function office()
     {
-        return $this->hasOne('App\Office', 'id', 'office_id');
+        return $this->hasOne(Office::class, 'id', 'office_id');
     }
 }

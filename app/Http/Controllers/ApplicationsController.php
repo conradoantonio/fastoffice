@@ -18,9 +18,9 @@ class ApplicationsController extends Controller
         $prospects = Application::orderBy('id', 'desc')->where('status', 0)->get();
 
         if ($req->ajax()) {
-            return view('applications.table', ['prospects' => $prospects]);
+            return view('applications.prospects.table', ['prospects' => $prospects]);
         }
-        return view('applications.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
+        return view('applications.prospects.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
     }
 
     /**
