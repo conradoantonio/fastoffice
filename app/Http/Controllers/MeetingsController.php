@@ -16,7 +16,15 @@ class MeetingsController extends Controller
 		$meetings = Meeting::whereHas('office', function($q) use($id){
 			if ( auth()->user()->role_id == 2 ){
 				$q->where('branch_id', auth()->user()->branch->id);
-			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('id', auth()->user()->office->id);
+				if( $id ){
+					$q->where('id', $id);
+				}
+			} else {
 				if( $id ){
 					$q->where('branch_id', $id);
 				}
@@ -55,12 +63,13 @@ class MeetingsController extends Controller
 			'id' => 'calendarDisplay'
 		]);
 
-		$branches = Branch::pluck('name', 'id')->prepend("Seleccione una franquicia",0);
+		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
+		$offices = Office::pluck('name', 'id')->prepend("Mostrar todas", 0);
 
 		if ( $req->ajax() ){
 			return view('meetings.content', compact('meetings', 'calendar'))->render();
 		}
-		return view('meetings.index', compact('meetings', 'calendar', 'branches'))->render();
+		return view('meetings.index', compact('meetings', 'calendar', 'branches', 'offices'))->render();
 	}
 
 	public function events(Request $req, $id = null, $start_date = null, $end_date = null){

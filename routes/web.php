@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('obtener-calendario/{id?}/{start_date?}/{end_date?}', 'MeetingsController@events')->name('Meeting.events');
 
 		#Erp
-		Route::get('erp/{id?}', 'ErpController@index')->name('Erp');
+		Route::get('erp/{id?}/{start_date?}/{end_date?}', 'ErpController@index')->name('Erp');
 		Route::get('formulario-erp/{id?}', 'ErpController@form')->name('Erp.form');
 		Route::post('alta-erp', 'ErpController@store')->name('Erp.store');
 		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
