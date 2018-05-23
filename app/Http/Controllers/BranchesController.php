@@ -11,7 +11,7 @@ use Image;
 class BranchesController extends Controller
 {
 	public function index(Request $req){
-		$branches = Branch::all();
+		$branches = Branch::with('user')->get();
 		if ( $req->ajax() ) {
 			return view('branches.table', compact('branches'));
 		}

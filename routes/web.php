@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('empresa', 'CompaniesController@index')->name('Company');
 		Route::put('actualizar-empresa/{id}', 'CompaniesController@update')->name('Company.update');
 
-		#Franquicias
+		#Ctegorías ingresos/egresos
 		Route::get('categorias', 'CategoriesController@index')->name('Category');
 		Route::get('formulario-categoria/{id?}', 'CategoriesController@form')->name('Category.form');
 		Route::post('alta-categoria', 'CategoriesController@store')->name('Category.store');
@@ -53,9 +53,30 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
 		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
 		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
+	});
+
+	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
+		#Meetings
+		Route::get('reuniones/{id?}/{start_date?}/{end_date?}', 'MeetingsController@index')->name('Meeting');
+		Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
+		Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
+		Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
+		Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
+		Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
+		Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
+		Route::get('obtener-calendario/{id?}/{start_date?}/{end_date?}', 'MeetingsController@events')->name('Meeting.events');
+
+		#Erp
+		Route::get('erp/{id?}', 'ErpController@index')->name('Erp');
+		Route::get('formulario-erp/{id?}', 'ErpController@form')->name('Erp.form');
+		Route::post('alta-erp', 'ErpController@store')->name('Erp.store');
+		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
+		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
+		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
+		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
 
 		#Offices
-		Route::get('oficinas', 'OfficesController@index')->name('Office');
+		Route::get('oficinas/{id?}', 'OfficesController@index')->name('Office');
 		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
 		Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
 		Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
@@ -63,27 +84,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
 		Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
 		Route::get('obtener-usuarios/{branch_id?}', 'OfficesController@getUsersByBranch')->name('Office.users');
-	});
-
-	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
-		#Meetings
-		Route::get('reuniones', 'MeetingsController@index')->name('Meeting');
-		Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
-		Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
-		Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
-		Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
-		Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
-		Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
-		Route::get('obtener-calendario', 'MeetingsController@events')->name('Meeting.events');
-
-		#Meetings
-		Route::get('erp', 'ErpController@index')->name('Erp');
-		Route::get('formulario-erp/{id?}', 'ErpController@form')->name('Erp.form');
-		Route::post('alta-erp', 'ErpController@store')->name('Erp.store');
-		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
-		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
-		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
-		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
 	});
 
 	#Usuarios

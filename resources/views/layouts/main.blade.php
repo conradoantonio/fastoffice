@@ -69,7 +69,7 @@
 				{{ Form::close() }}
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="destroyCroppie()">Cancelar</button>
 				<button type="submit" class="btn btn-success guardar" data-target="pictureForm">Guardar</button>
 			</div>
 		</div>
@@ -227,9 +227,11 @@
 						<i class="fa fa-money"></i> <span class="title">ERP</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
+						@if(auth()->user()->role->name == 'Administrador')
 						<li class="{{ ( in_array(Route::currentRouteName(),['Category', 'Category.form']) ) ? 'active' : '' }}">
 							<a href="{{route('Category')}}"> Categorías </a>
 						</li>
+						@endif
 						<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
 							<a href="{{route('Erp')}}"> Ingresos y egresos </a>
 						</li>

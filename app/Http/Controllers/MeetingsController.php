@@ -7,12 +7,30 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Requests\MeetingRequest;
 use App\Models\Meeting;
 use App\Models\Office;
+use App\Models\Branch;
 use App\Models\User;
 
 class MeetingsController extends Controller
 {
-	public function index(Request $req){
-		$meetings = Meeting::all();
+	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
+		$meetings = Meeting::whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		});
+
+		if ( $start_date ){
+			$meetings->where('datetime_start','>',$start_date.' 00:00:00');
+		}
+		if( $end_date ){
+			$meetings->where('datetime_start','<=',$end_date.' 23:59:59');
+		}
+
+		$meetings = $meetings->get();
 
 		$events = [];
 
@@ -37,14 +55,33 @@ class MeetingsController extends Controller
 			'id' => 'calendarDisplay'
 		]);
 
+		$branches = Branch::pluck('name', 'id')->prepend("Seleccione una franquicia",0);
+
 		if ( $req->ajax() ){
 			return view('meetings.content', compact('meetings', 'calendar'))->render();
 		}
-		return view('meetings.index', compact('meetings', 'calendar'))->render();
+		return view('meetings.index', compact('meetings', 'calendar', 'branches'))->render();
 	}
 
-	public function events(Request $req){
-		$meetings = Meeting::all();
+	public function events(Request $req, $id = null, $start_date = null, $end_date = null){
+		$meetings = Meeting::whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		});
+
+		if ( $start_date ){
+			$meetings->where('datetime_start','>',$start_date.' 00:00:00');
+		}
+		if( $end_date ){
+			$meetings->where('datetime_start','<=',$end_date.' 23:59:59');
+		}
+
+		$meetings = $meetings->get();
 
 		$events = [];
 

@@ -8,7 +8,7 @@
 	</div>
 	@endif
 	<div class="page-title">
-		<h1>Listado <span class="semi-bold">Franquicias</span></h1>
+		<h1>Listado <span class="semi-bold">franquicias</span></h1>
 	</div>
 	<div class="row-fluid text-left buttons-container">
 		<a href="{{route('Branch.form')}}" class="btn btn-success add"><i class="glyphicon glyphicon-plus"></i> Nueva Franquicia</a>

@@ -132,6 +132,9 @@ span.on{
 span.display-counter{
 	float: right;
 }
+.select2-container{
+	width: 100%;
+}
 @media only screen and (max-width: 768px) {
 	#header_task_bar{
 		display: none;

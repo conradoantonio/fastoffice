@@ -10,6 +10,11 @@
 	<div class="page-title">
 		<h1><span class="semi-bold">Ingresos y egresos</span></h1>
 	</div>
+	@if( auth()->user()->role_id == 1 )
+	<div class="row-fluid">
+		@include('helpers.filters', ['index_url' => route('Erp'), 'export_url' => null, 'dates' => false])
+	</div>
+	@endif
 	<div class="row-fluid">
 		<div id="body-content">
 			@include('erp.content')
