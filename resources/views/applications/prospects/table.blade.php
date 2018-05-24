@@ -25,11 +25,11 @@
 							<label for="checkbox{{$prospect->id}}"></label>
 						</div>
 					</td>
-					@if ($prospect->user){{-- Toma los datos directamente del usuario registrado --}}
-						<td>{{$prospect->user->fullname}}</td>
+					@if ($prospect->customer){{-- Toma los datos directamente del usuario registrado --}}
+						<td>{{$prospect->customer->fullname}}</td>
 						<td>Registrado</td>
-						<td>{{$prospect->user->email}}</td>
-						<td>{{$prospect->user->phone}}</td>
+						<td>{{$prospect->customer->email}}</td>
+						<td>{{$prospect->customer->phone}}</td>
 					@else{{-- Toma los datos directamente de la aplicación --}}
 						<td>{{$prospect->fullname}}</td>
 						<td>Sin registrar</td>

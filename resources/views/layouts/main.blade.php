@@ -215,6 +215,9 @@
 							<a href="{{route('Crm.prospects')}}"> Prospectos </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+							<a href="{{route('Crm.prospects.history')}}"> Prospectos (Descartados) </a>
+						</li>
+						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
 							<a href=""> Clientes </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
@@ -330,6 +333,7 @@
 <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}" type="text/javascript"></script>
 <script src="{{asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/plugins/toastr.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/generalAjax.js')}}" type="text/javascript"></script>
 <!-- END CORE TEMPLATE JS -->
 
 <!-- IMPORT SCRIPTS USED IN VIEWS-->

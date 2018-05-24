@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
-use App\Models\Office;
 use App\Models\User;
+use App\Models\Office;
+use App\Models\Application;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -20,7 +20,7 @@ class ApiController extends Controller
         $office = Office::find($req->office_id);
 
         if (!$office) {
-            return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 404);
+            return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400);
         }
 
         $row = New Application;
@@ -33,7 +33,7 @@ class ApiController extends Controller
             $row->phone = $req->phone;
         }
 
-        $row->office = $office->id;
+        $row->office_id = $office->id;
 
         $row->save();
 

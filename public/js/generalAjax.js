@@ -5,12 +5,14 @@ function ajaxForm(form_id, config) {
     var button = $("form#"+form_id).find('button.save');
     $.ajax({
         method: "POST",
+        type: "POST",
         url: $("form#"+form_id).attr('action'),
         data: formData,
         cache:false,
         contentType: false,
         processData: false,
         success: function(data) {
+            $(".guardar").prop( "disabled", false ).removeClass('disabled');
             swal.close();
             swal({
                 title: data.status == 'success' ? 'Bien: ' : 'Error',
@@ -28,11 +30,7 @@ function ajaxForm(form_id, config) {
             }).catch(swal.noop);
 
             if (config.refresh == 'table') {
-                    refreshTable(data.url, config.column, config.table_id, config.container_id);
-            } else if (config.refresh == 'galery') {
-                    refreshGalery(data.url, config.container_id);
-            } else if (config.refresh == 'content') {
-                    refreshContent(data.url, config.container_id);
+                    refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.redirect) {
                 setTimeout( function() {
                     if (data.url) {
@@ -51,12 +49,14 @@ function ajaxFormModal(form_id, config) {
     var formData = new FormData($("form#"+form_id)[0]);
     $.ajax({
         method: "POST",
+        type: "POST",
         url: $("form#"+form_id).attr('action'),
         data: formData,
         cache:false,
         contentType: false,
         processData: false,
         success: function(data) {
+            $(".guardar").prop( "disabled", false ).removeClass('disabled');
             $('div.modal').modal('hide');
             swal.close();
             swal({
@@ -75,11 +75,7 @@ function ajaxFormModal(form_id, config) {
             }).catch(swal.noop);
 
             if (config.refresh == 'table') {
-                    refreshTable(data.url, config.column, config.table_id, config.container_id);
-            } else if (config.refresh == 'galery') {
-                    refreshGalery(data.url, config.container_id);
-            } else if (config.refresh == 'content') {
-                    refreshContent(data.url, config.container_id);
+                    refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.redirect) {
                 setTimeout( function() {
                     if (data.url) {
@@ -119,11 +115,7 @@ function ajaxSimple(config) {
             }).catch(swal.noop);
 
             if (config.refresh == 'table') {
-                    refreshTable(data.url, config.column, config.table_id, config.container_id);
-            } else if (config.refresh == 'galery') {
-                    refreshGalery(data.url, config.container_id);
-            } else if (config.refresh == 'content') {
-                    refreshContent(data.url, config.container_id);
+                    refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.redirect) {
                 setTimeout( function() {
                     window.location.href = data.url;
@@ -150,7 +142,6 @@ function ajaxMSimple(data) {
             $( ".data-fill" ).find( ".price" ).text('$'+(response.price/100));
             $( ".data-fill" ).find( ".total" ).text('$'+(response.total/100));
             $( ".data-fill" ).find( ".fee" ).text('$'+(response.fee/100));
-
         },
         error: function(xhr, status, error) {
             displayAjaxError(xhr, status, error);
@@ -180,6 +171,7 @@ function fill_text(response, modal_id) {
 }
 
 function displayAjaxError(xhr, status, error) {
+    $(".guardar").prop( "disabled", false ).removeClass('disabled');
     $('div.modal').modal('hide');
     swal.close();
     if (/^[\],:{}\s]*$/.test(xhr.responseText.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
@@ -197,4 +189,20 @@ function displayAjaxError(xhr, status, error) {
             },
         },
     }).catch(swal.noop);
+}
+
+//Reload a table, then initializes it as datatable
+function refreshContent(url, column, table_id, container_id) {
+    $('.delete-rows').attr('disabled', true);
+    var table = table_id ? $("table#"+table_id).dataTable() : $("table#example3").dataTable();
+    var container = container_id ? $("div#"+container_id) : $('div#table-container');
+    table.fnDestroy();
+    container.fadeOut();
+    container.empty();
+    container.load(url, function() {
+        container.fadeIn();
+        $(table_id ? "table#"+table_id : "table#example3").dataTable({
+            "aaSorting": [[ column ? column : 1, "desc" ]]
+        });
+    });
 }

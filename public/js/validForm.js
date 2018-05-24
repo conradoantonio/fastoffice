@@ -380,6 +380,18 @@ $(".guardar").on('click',function(e){
 					btn.prop('disabled',false).removeClass('disabled');
 				}
 			})
+		} else if ($('form#'+formId).hasClass('ajax-plus')) {
+			form = $('form#'+formId);
+            ajaxType = form.data('ajax-type');
+            config = {
+                'redirect'      : form.data('redirect'),
+                'refresh'       : form.data('refresh'),
+                'column'        : form.data('column'),
+                'table_id'      : form.data('table_id'),
+                'container_id'  : form.data('container_id'),
+            }
+            if (ajaxType == 'ajax-form') { ajaxForm(form.attr('id'), config); }
+            else if (ajaxType == 'ajax-form-modal') { ajaxFormModal(form.attr('id'), config); }
 		} else {
 			$('form#'+formId).submit();
 		}

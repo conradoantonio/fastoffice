@@ -11,7 +11,7 @@
 		<h1>{{$prospect ? 'Actualizar' : 'Crear'}} <span class="semi-bold">Prospecto</span></h1>
 	</div>
 	<div class="row-fluid">
-        <form id="form-data" class="valid ajax" action="{{url('admin/prospectos')}}/{{ $prospect ? 'update' : 'save' }}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table_container">
+        <form id="form-data" class="valid ajax-plus" action="{{url('crm/prospectos/guardar-prospecto')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label class="required" for="id">ID</label>
@@ -77,7 +77,7 @@
 </div>
 @push('scripts')
 	<script type="text/javascript">
-		$(function(){
+		$(function() {
 			$('select#user_id').on('change', function() {
 				if ($(this).val() == 0) {
 					console.log('borra la clase');
