@@ -287,7 +287,7 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="content">
-			<!-- Aqu�� va el contenido del cms -->
+			<!-- Aquí va el contenido del cms -->
 			@yield('content')
 		</div>
 	</div>

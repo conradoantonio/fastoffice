@@ -54,46 +54,18 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * Edit a resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $req)
-    {
-        $product = Product::find($req->id);
-        if ($product) {
-        	$img = $this->upload_file($req->file('img'), 'img/products', true);
-
-            $product->name = $req->name;
-            $product->price = $req->price;
-            $product->category_id = $req->category_id;
-            $product->description = $req->description;
-	        $img ? $product->img = $img : '';
-
-	        $product->save();
-
-	        return response(['msg' => 'Producto actualizado correctamente', 'status' => 'success', 'url' => url('admin/productos')], 200);
-        }
-
-	    return response(['msg' => 'No se encontró el producto a editar', 'status' => 'error', 'url' => url('admin/productos')], 404);
-    }
-
-    /**
      * Change the status of the specified resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $req)
+    public function change_status(Request $req)
     {
         $msg = count($req->ids) > 1 ? 'los prospectos' : 'el prospecto';
-        $products = Product::whereIn('id', $req->ids)
-        ->get();
-        //->delete();
-        //->update(['status' => $req->status]);
+        $prospects = Application::whereIn('id', $req->ids)
+        ->update(['comment' => $req->comment,'status' => $req->status]);
 
-        if ($products) {
-            $data = ['url' => url('crm/prospectos'), 'refresh' => 'table', 'user_id' => $this->current_user->id, 'status' => 'success' ,'msg' => 'Éxito cambiando el status de '.$msg];
-            return response($data, 200);
+        if ($prospects) {
+            return response(['url' => url('crm/prospectos'), 'refresh' => 'table', 'status' => 'success' ,'msg' => 'Éxito cambiando el status de '.$msg], 200);
         } else {
             return response(['msg' => 'Error al cambiar el status de '.$msg, 'status' => 'error', 'url' => url('crm/prospectos')], 404);
         }

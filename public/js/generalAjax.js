@@ -93,6 +93,7 @@ function ajaxFormModal(form_id, config) {
 function ajaxSimple(config) {
     $.ajax({
         method: config.method ? config.method : "POST",
+        type: config.method ? config.method : "POST",
         url: config.route,
         data: config,
         success: function(data) {
@@ -173,6 +174,7 @@ function fill_text(response, modal_id) {
 function displayAjaxError(xhr, status, error) {
     $(".guardar").prop( "disabled", false ).removeClass('disabled');
     $('div.modal').modal('hide');
+    swal.stopLoading();
     swal.close();
     if (/^[\],:{}\s]*$/.test(xhr.responseText.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
         display = JSON.parse(xhr.responseText).msg;
@@ -194,14 +196,14 @@ function displayAjaxError(xhr, status, error) {
 //Reload a table, then initializes it as datatable
 function refreshContent(url, column, table_id, container_id) {
     $('.delete-rows').attr('disabled', true);
-    var table = table_id ? $("table#"+table_id).dataTable() : $("table#example3").dataTable();
+    var table = table_id ? $("table#"+table_id).dataTable() : $("table#rows").dataTable();
     var container = container_id ? $("div#"+container_id) : $('div#table-container');
     table.fnDestroy();
     container.fadeOut();
     container.empty();
     container.load(url, function() {
         container.fadeIn();
-        $(table_id ? "table#"+table_id : "table#example3").dataTable({
+        $(table_id ? "table#"+table_id : "table#rows").dataTable({
             "aaSorting": [[ column ? column : 1, "desc" ]]
         });
     });

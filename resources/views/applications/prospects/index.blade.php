@@ -23,12 +23,12 @@
 @push('scripts')
     <script type="text/javascript">
         //Display a swal to change the password
-        $('body').delegate('.multiple-delete-btn','click', function() {
+        $('body').delegate('.multiple-delete-btn, .reject-prospect','click', function() {
             swal({
                 title: 'Describa el por qué se rechaza el prospecto: ',
                 buttons: {
                     cancel: "Cancelar",
-                    confirm_p: {
+                    confirm_reject: {
                         text: "Aceptar",
                         value: true,
                         visible: true,
@@ -43,6 +43,14 @@
                             "<form>"+
                                 "<div class='row'>"+
                                     "<div class='col-sm-12 col-xs-12'>"+
+                                        "<div class='form-group hide'>"+
+                                            "<label>Tipo de rechazo</label>"+
+                                            "<input type='text' class='form-control' id='type' name='type'>"+
+                                        "</div>"+
+                                        "<div class='form-group hide'>"+
+                                            "<label>ID</label>"+
+                                            "<input type='text' class='form-control' id='id-row' name='id-row'>"+
+                                        "</div>"+
                                         "<div class='form-group'>"+
                                             "<label>Motivo</label>"+
                                             "<textarea type='text' rows='3' class='form-control' id='comment' name='comment'></textarea>"+
@@ -56,29 +64,39 @@
                     },
                 }
             }).catch(swal.noop);
+
+            $('input#type').val($(this).hasClass('reject-prospect') ? 'single' : 'multiple');
+            $(this).hasClass('reject-prospect') ? $('input#id-row').val($(this).data('parent-id')) : '';
         });
 
         //Validate the modal for change the password
-        $('body').delegate('.swal-button--confirm_p','click', function() {
-            current_pass = $('#current-password').val();
-            new_pass = $('#new-password').val();
-            confirm_pass = $('#confirm-password').val();
+        $('body').delegate('.swal-button--confirm_reject','click', function() {
+            comment = $('#comment').val();
+            ids_array = [];
 
-            if (!current_pass || !new_pass || !confirm_pass) {//Empty fields
+            if ($('#type').val() == 'multiple') {
+                $("input.multiple-delete").each(function() {
+                    if($(this).is(':checked')) {
+                        ids_array.push($(this).val());
+                    }
+                });
+            } else {
+                ids_array.push($('input#id-row').val());
+            }
+
+            if (!comment) {//Empty field
                 $('li#error-fields').fadeIn();
-                swal.stopLoading();
-            } else if (!($('#confirm-password').val() == $('#new-password').val())) {//Different password
-                $('li#error-pass-different').fadeIn();
                 swal.stopLoading();
             } else {//Everything ok
                 config = {
-                    'current_pass'  : current_pass,
-                    'new_pass'      : new_pass,
-                    'confirm_pass'  : confirm_pass,
-                    'route'         : baseUrl.concat('/system/change-password'),
-                    'method'        : 'POST',
+                    'ids'      : ids_array,
+                    'comment'  : comment,
+                    'refresh'  : 'table',
+                    'status'   : 3,
+                    'route'    : "{{route('Crm.prospects.change_status')}}",
+                    'method'   : 'POST',
                 }
-                requestNewPassword(config);
+                ajaxSimple(config);
             }
         });
     </script>
