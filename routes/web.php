@@ -77,7 +77,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Prospects
 		Route::prefix('crm/prospectos')->group(function () {
-			Route::get('/', 'ApplicationsController@index')->name('Crm');
+			Route::get('/', 'ApplicationsController@index')->name('Crm.prospects');
+			Route::get('formulario-prospecto', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
 			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.change_status');
 		});
 

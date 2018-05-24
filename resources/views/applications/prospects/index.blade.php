@@ -11,8 +11,8 @@
     </div> --}}
     @endif
     <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
-        <a href="{{route('Office.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>
-        <a href="{{route('Office.multipleDestroys')}}" class="btn btn-danger delete-rows disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a>
+        <a href="{{route('Crm.prospects.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>
+        <a href="{{-- {{route('Applications.multipleDestroys')}} --}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a>
     </div>
     <div class="row-fluid">
         <div class="table-responsive" id="table-container">

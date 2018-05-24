@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\Office;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller
@@ -24,42 +26,31 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * Show the form for creating/editing a resource.
+     * Show the form for creating/editing a resource about a new prospect.
      *
      * @return \Illuminate\Http\Response
      */
-    public function form($id = 0)
+    public function form_prospect($id = 0)
     {
         $title = "Formulario";
-        $menu = "Productos";
-        $product = null;
-        $categories = Category::all();
+        $menu = "Prospectos";
+        $prospect = null;
+        $customers = User::where('role_id', 4)->get();
+        $offices = Office::where('status', 1)->get();//Falta filtrar por disponibilidad y tipo de usuario
         if ($id) {
-            $product = Product::find($id);
+            $prospect = Application::where('status', 0)->first($id);
         }
-        return view('products.form', ['product' => $product, 'categories' => $categories, 'menu' => $menu, 'title' => $title]);
+        return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'menu' => $menu, 'title' => $title]);
     }
 
     /**
-     * Save a new resource.
+     * Save a new prospect.
      *
      * @return \Illuminate\Http\Response
      */
-    public function save(Request $req)
+    public function save_prospect(Request $req)
     {
-        $product = New Product;
-
-        $img = $this->upload_file($req->file('img'), 'img/products', true);
-
-        $product->name = $req->name;
-        $product->price = $req->price;
-        $product->category_id = $req->category_id;
-        $product->description = $req->description;
-        $product->img = $img;
-
-        $product->save();
-
-        return response(['msg' => 'Producto registrado correctamente', 'status' => 'success', 'url' => url('admin/productos')], 200);
+        return app('App\Http\Controllers\ApiController')->save_prospect($req);
     }
 
     /**

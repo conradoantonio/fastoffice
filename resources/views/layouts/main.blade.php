@@ -207,12 +207,12 @@
 					</li>
 				*/?>
 				<li class="{{ in_array(Route::currentRouteName(), ['', ''] ) ? 'active' : '' }}">
-					<a href="#!">
+					<a href="javascript:;">
 						<i class="fa fa-list-ul"></i> <span class="title">CRM</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
-							<a href="{{route('Crm')}}"> Prospectos </a>
+							<a href="{{route('Crm.prospects')}}"> Prospectos </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
 							<a href=""> Clientes </a>
