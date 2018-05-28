@@ -31,6 +31,22 @@ class Application extends Model
     }
 
     /**
+     * Get the possible user associated with the application.
+     */
+    public function detail()
+    {
+        return $this->hasOne(ApplicationDetail::class, 'application_id', 'id');
+    }
+
+    /**
+     * Get the comments associated with the application.
+     */
+    public function comments()
+    {
+        return $this->hasMany(ApplicationComment::class, 'application_id', 'id');
+    }
+
+    /**
      * Get the office associated with the application.
      */
     public function office()

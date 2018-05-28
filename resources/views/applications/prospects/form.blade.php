@@ -19,6 +19,12 @@
 	            </div>
         	</div>
         	<div class="row">
+        		<div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="fullname">Presupuesto del cliente</label>
+                    <input type="text" class="form-control not-empty" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
+                </div>
+        	</div>
+        	<div class="row">
 	        	<div class="form-group col-md-12 col-xs-12">
 	                <label class="" for="user_id">Cliente</label>
 	                <select name="user_id" id="user_id" class="form-control" data-name="Cliente">
@@ -91,7 +97,25 @@
 					console.log('agrega la clase');
 				}
 			});
+
+			$('select#office_id').on('change', function() {
+				config = {
+                    /*'badget'         : badget,
+                    'num_people'     : num_people,
+                    'office_type_id' : office_type_id,*/
+                    'route'    : "{{route('Crm.prospects.filter_offices')}}",
+                    'method'   : 'POST',
+                    'callback' : 'call_s',
+                }
+				loadAnimation('Buscando oficinas...');
+                ajaxSimple(config);
+			});
+
+			
 		});
+
+			
+
 	</script>
 @endpush
 @endsection

@@ -100,23 +100,29 @@ function ajaxSimple(config) {
             $('div.modal').modal('hide');
             swal.close();
             
-            swal({
-                title: 'Bien: ',
-                icon: data.status ? data.status : "success",
-                content: {
-                    element: "div",
-                    attributes: {
-                        innerHTML:"<p class='text-response'>"+data.msg ? data.msg : "¡Cambios guardados exitosamente!"+"</p>"
+            if(!config.callback) {
+                swal({
+                    title: 'Bien: ',
+                    icon: data.status ? data.status : "success",
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML:"<p class='text-response'>"+data.msg ? data.msg : "¡Cambios guardados exitosamente!"+"</p>"
+                        },
                     },
-                },
-                buttons: false,
-                closeOnEsc: false,
-                closeOnClickOutside: false,
-                timer: 2000
-            }).catch(swal.noop);
+                    buttons: false,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                    timer: 2000
+                }).catch(swal.noop);
+            }
 
             if (config.refresh == 'table') {
+                    console.log('tabla');
                     refreshContent(data.url, config.column, config.table_id, config.container_id);
+            } else if(config.callback) {
+                console.log('callback');
+                window["call_s"](data);
             } else if(config.redirect) {
                 setTimeout( function() {
                     window.location.href = data.url;
@@ -207,4 +213,9 @@ function refreshContent(url, column, table_id, container_id) {
             "aaSorting": [[ column ? column : 1, "desc" ]]
         });
     });
+}
+
+//Callback function
+function call_s(data){
+    console.log('entro');
 }

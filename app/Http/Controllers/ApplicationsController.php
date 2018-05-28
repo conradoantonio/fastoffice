@@ -70,4 +70,31 @@ class ApplicationsController extends Controller
             return response(['msg' => 'Error al cambiar el status de '.$msg, 'status' => 'error', 'url' => url('crm/prospectos')], 404);
         }
     }
+
+    /**
+     * Save an application comment
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function save_application_comments(Request $req)
+    {
+        $row = New ApplicationComment;
+
+        $row->application_id = $req->application_id;
+        $row->comment = $req->comment;
+
+        $row->save();
+
+        return response(['refresh' => 'none', 'status' => 'success', 'msg' => 'Comentario guardado'], 200);
+    }
+
+    /**
+     * Look for offices that cumply the customer requirements
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter_offices(Request $req)
+    {
+        return Office::all();
+    }
 }

@@ -24,7 +24,6 @@
 	<link href="{{asset('/css/themes/coporate/style.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/themes/coporate/responsive.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('/css/custom-icon-set.css')}}" rel="stylesheet" type="text/css"/>
-	<link href="{{asset('/css/custom-icon-set.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('plugins/boostrap-clockpicker/bootstrap-clockpicker.min.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('plugins/bootstrap-datepicker/css/datepicker.min.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.css')}}" rel="stylesheet" type="text/css" media="screen"/>
@@ -300,7 +299,7 @@
 <!-- BEGIN CORE JS FRAMEWORK-->
 
 <script src="{{asset('/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('plugins/boostrapv3/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{asset('/plugins/breakpoints.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugins/jquery-unveil/jquery.unveil.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugins/jquery-block-ui/jqueryblockui.js')}}" type="text/javascript"></script>
@@ -314,8 +313,6 @@
 
 <!-- BEGIN CORE TEMPLATE JS -->
 <script src="{{asset('/js/core.js')}}" type="text/javascript"></script>
-<!-- <script src="{{asset('/js/chat.js')}}" type="text/javascript"></script>
-<script src="{{asset('/js/demo.js')}}" type="text/javascript"></script> -->
 
 <!-- JQUERY DATATABLE -->
 <script src="{{ asset('/plugins/jquery-datatable/js/jquery.dataTables.js') }}" type="text/javascript"></script>
