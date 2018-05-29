@@ -497,3 +497,12 @@ function createTable(){
 		}
 	});
 }
+
+function clearSelect (select, removeItems = false) {
+	select.val(0);//Reset index
+
+	if (removeItems) {
+    	select.children().remove();
+        select.append("<option value='0' disabled selected>Seleccione una opción</option>");
+	}
+}

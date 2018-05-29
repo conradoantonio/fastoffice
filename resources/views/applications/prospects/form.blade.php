@@ -18,12 +18,54 @@
 	                <input type="text" class="form-control" value="{{$prospect ? $prospect->id : ''}}" id="id" name="id">
 	            </div>
         	</div>
+        	{{-- Application details data --}}
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="fullname">Presupuesto del cliente</label>
-                    <input type="text" class="form-control not-empty" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
+                    <label class="required" for="badget">Presupuesto del cliente</label>
+                    <input type="text" class="form-control not-empty numeric" value="{{$prospect ? $prospect->detail->badget : ''}}" id="badget" name="badget" data-name="Presupuesto">
                 </div>
         	</div>
+        	<div class="row">
+        		<div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="num_people">Número de personas</label>
+                    <input type="text" class="form-control not-empty numeric" value="{{$prospect ? $prospect->detail->num_people : ''}}" id="num_people" name="num_people" data-name="Número de personas">
+                </div>
+        	</div>
+        	<div class="row">
+        		<div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="office_type_id">Tipo de oficina</label>
+	                <select name="office_type_id" id="office_type_id" class="form-control not-empty" data-name="Tipo de oficina">
+	                    <option value="0" disabled selected>Seleccione una opción</option>
+	                    @if ($prospect)
+	                        @foreach($officeTypes as $type)
+	                            <option value="{{$type->id}}" {{$prospect->detail->office_type_id == $type->id ? 'selected' : ''}}>{{$type->name}}</option>
+	                        @endforeach
+	                    @else
+	                        @foreach($officeTypes as $type)
+	                            <option value="{{$type->id}}">{{$type->name}}</option>
+	                        @endforeach
+	                    @endif
+	                </select>
+                </div>
+        	</div>
+        	<div class="row">
+	        	<div class="form-group col-md-12 col-xs-12">
+	                <label class="required" for="office_id">Oficina</label>
+	                <select name="office_id" id="office_id" class="form-control not-empty" data-name="Oficina">
+	                    <option value="0" disabled selected>Seleccione una opción</option>
+	                    {{-- @if ($prospect)
+	                        @foreach($offices as $office)
+	                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}}</option>
+	                        @endforeach
+	                    @else
+	                        @foreach($offices as $office)
+	                            <option value="{{$office->id}}">{{$office->name}}</option>
+	                        @endforeach
+	                    @endif --}}
+	                </select>
+	            </div>
+        	</div>
+        	{{-- Application data --}}
         	<div class="row">
 	        	<div class="form-group col-md-12 col-xs-12">
 	                <label class="" for="user_id">Cliente</label>
@@ -42,23 +84,6 @@
 	            </div>
         	</div>
         	<div class="row">
-	        	<div class="form-group col-md-12 col-xs-12">
-	                <label class="required" for="office_id">Oficina</label>
-	                <select name="office_id" id="office_id" class="form-control not-empty" data-name="Oficina">
-	                    <option value="0" disabled selected>Seleccione una opción</option>
-	                    @if ($prospect)
-	                        @foreach($offices as $office)
-	                            <option value="{{$office->id}}" {{$prospect->user_id == $office->id ? 'selected' : ''}}>{{$office->name}}</option>
-	                        @endforeach
-	                    @else
-	                        @foreach($offices as $office)
-	                            <option value="{{$office->id}}">{{$office->name}}</option>
-	                        @endforeach
-	                    @endif
-	                </select>
-	            </div>
-        	</div>
-        	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="fullname">Nombre completo</label>
                     <input type="text" class="form-control not-empty" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
@@ -67,16 +92,17 @@
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="email">Correo</label>
-                    <input type="text" class="form-control not-empty email" value="{{$prospect ? $prospect->email : ''}}" id="email" name="email" data-name="Correo">
+                    <input type="text" class="form-control email not-empty" value="{{$prospect ? $prospect->email : ''}}" id="email" name="email" data-name="Correo">
                 </div>
         	</div>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="phone">Teléfono</label>
-                    <input type="text" class="form-control not-empty numeric" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
+                    <input type="text" class="form-control  not-empty numeric" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
                 </div>
         	</div>
         	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
+            <button type="button" class="btn btn-primary search" data-target="form-data">Filtrar oficina</button>
             <button type="submit" class="btn btn-success guardar" data-target="form-data">Guardar</button>
         </form>
 	</div>
@@ -98,24 +124,28 @@
 				}
 			});
 
-			$('select#office_id').on('change', function() {
+			$('.search').on('click', function() {
 				config = {
-                    /*'badget'         : badget,
-                    'num_people'     : num_people,
-                    'office_type_id' : office_type_id,*/
-                    'route'    : "{{route('Crm.prospects.filter_offices')}}",
-                    'method'   : 'POST',
-                    'callback' : 'call_s',
+                    'badget'         : $('#badget').val(),
+                    'num_people'     : $('#num_people').val(),
+                    'office_type_id' : $('#office_type_id').val(),
+                    'route'          : "{{route('Crm.prospects.filter_offices')}}",
+                    'method'         : 'POST',
+                    'callback'       : 'fill_prospect_offices',
                 }
+
 				loadAnimation('Buscando oficinas...');
                 ajaxSimple(config);
 			});
 
-			
+			$('#badget, #num_people').on('blur', function() {
+				console.log('entró al blur');
+				if (!$('#badget').val() || !$('#num_people').val()) {
+					console.log('deberia limpiar el select');
+					clearSelect($('#office_id'), true);
+				}
+			});
 		});
-
-			
-
 	</script>
 @endpush
 @endsection

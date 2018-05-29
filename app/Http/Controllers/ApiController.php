@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Office;
+use App\Models\OfficeType;
 use App\Models\Application;
 use Illuminate\Http\Request;
 

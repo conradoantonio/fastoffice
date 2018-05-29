@@ -121,8 +121,7 @@ function ajaxSimple(config) {
                     console.log('tabla');
                     refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.callback) {
-                console.log('callback');
-                window["call_s"](data);
+                window[config.callback](data);
             } else if(config.redirect) {
                 setTimeout( function() {
                     window.location.href = data.url;
@@ -216,6 +215,16 @@ function refreshContent(url, column, table_id, container_id) {
 }
 
 //Callback function
-function call_s(data){
-    console.log('entro');
+function fill_prospect_offices(data) {
+    select = $('#office_id');
+    select.children().remove();
+
+    if (data.length) {
+        select.append("<option value='0' disabled selected>Seleccione una opción</option>");
+        data.forEach( function (opt) {
+            select.append("<option value="+ opt.id +">"+ opt.name + ' ubicada en ' + opt.address + ' (Precio: $' + opt.price +")</option>");
+        });
+    } else {
+        select.append("<option value='0' disabled selected>No hay oficinas disponibles con este criterio de búsqueda</option>");
+    }
 }
