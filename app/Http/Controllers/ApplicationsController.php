@@ -109,6 +109,9 @@ class ApplicationsController extends Controller
             }); 
         }
 
+        #Add filter to search only available offices
+        //$query = $query->where('status', 1);
+
         return $query->get();
     }
 }

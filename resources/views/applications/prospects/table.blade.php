@@ -38,6 +38,7 @@
 				
 				<td>{{$prospect->office->name}}</td>
 				<td>
+					<a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-info view-comments" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver comentarios"><i class="fa fa-eye"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-success add-comments" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Agregar comentario"><i class="fa fa-comment"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary" href="{{-- {{route('prospect.form', $prospect->id)}} --}}" data-toggle="tooltip" data-placement="top" title="Aceptar prospecto"><i class="fa fa-check"></i></a>
