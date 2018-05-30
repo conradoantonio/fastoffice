@@ -27,7 +27,7 @@
     @push('scripts')
         <script type="text/javascript">
             //Reject prospects
-            $('body').delegate('.reject-prospect','click', function() {
+            $('body').delegate('.reject-prospect', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();
                 
                 $('#reject-application input[name=prospect]').val(prospect);
@@ -37,7 +37,7 @@
             });
 
             //Add comments
-            $('body').delegate('.add-comments','click', function() {
+            $('body').delegate('.add-comments', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();
 
                 $('#add-application-comment input[name=prospect]').val(prospect);
@@ -45,35 +45,42 @@
                 $('#add-application-comment').modal('show');
             });
 
+            //View only comments
             $('body').delegate('.view-comments','click', function() {
+                $('div.load-bar').removeClass('hide');
+                $('div.comments-content').addClass('hide');
+                $('#view-application-comments').modal('show');
+
                 var id = $(this).parent().siblings("td:nth-child(1)").text();
 
                 config = {
                     'id'        : id,
+                    'keepModal' : true,
                     'route'     : "{{route('Crm.prospects.view_comments')}}",
                     'method'    : 'POST',
                     'callback'  : 'display_application_comments',
                 }
 
                 ajaxSimple(config);
+            });
 
-                $('#view-application-comments').modal('show');
-                
-                /*$("table#detalles tbody").children().remove();
+            //View details from application prospect
+            $('body').delegate('.view-details', 'click', function() {
+                $('div.load-bar').removeClass('hide');
+                $('div.details-content').addClass('hide');
+                $('#view-application-details').modal('show');
 
-                items = response.detalles;
-                for (var key in items) {
-                    if (items.hasOwnProperty(key)) {
-                        $("table#detalles tbody").append(
-                            '<tr>'+
-                                '<td class="text-center">'+items[key].nombre+'</td>'+
-                                '<td class="text-center">$'+(items[key].precio / 100)+'</td>'+
-                                '<td class="text-center">'+(items[key].cantidad)+'</td>'+
-                                '<td class="text-center">$'+((items[key].precio * items[key].cantidad) / 100)+'</td>'+
-                            '</tr>'
-                        );
-                    }
-                }*/
+                var id = $(this).parent().siblings("td:nth-child(1)").text();
+
+                config = {
+                    'id'        : id,
+                    'keepModal' : true,
+                    'route'     : "{{route('Crm.prospects.get_application_info')}}",
+                    'method'    : 'POST',
+                    'callback'  : 'display_application_details',
+                }
+
+                ajaxSimple(config);
             });
         </script>
     @endpush

@@ -92,13 +92,27 @@ class ApplicationsController extends Controller
     }
 
     /**
-     * Save an application comment
+     * View the comments from an application
      *
      * @return \Illuminate\Http\Response
      */
     public function view_applications_coments(Request $req)
     {
         return ApplicationComment::where('application_id', $req->id)->get();
+    }
+
+    /**
+     * Get all the info from an application
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_application_info(Request $req)
+    {
+        $application = Application::find($req->id);
+        $application->customer;
+        $application->detail;
+        $application->comments;
+        return $application;
     }
 
     /**

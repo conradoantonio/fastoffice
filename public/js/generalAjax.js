@@ -97,9 +97,8 @@ function ajaxSimple(config) {
         url: config.route,
         data: config,
         success: function(data) {
-            $('div.modal').modal('hide');
-            sw_open = swal.getState();
-            if (sw_open.isOpen) { swal.close(); }
+            if (swal.getState().isOpen) { swal.close(); }
+            if (!config.keepModal) { $('div.modal').modal('hide'); }
             
             if(!config.callback) {
                 swal({
@@ -119,8 +118,7 @@ function ajaxSimple(config) {
             }
 
             if (config.refresh == 'table') {
-                    console.log('tabla');
-                    refreshContent(data.url, config.column, config.table_id, config.container_id);
+                refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.callback) {
                 window[config.callback](data);
             } else if(config.redirect) {
@@ -156,8 +154,8 @@ function ajaxMSimple(data) {
     });
 }
 
-function fill_text(response, modal_id) {
-    $( ".fill-container" ).addClass('hide');
+function fill_text(response, modal_id, clear_fields = false) {
+    clear_fields ? $( ".fill-container" ).addClass('hide') : '';
     var keyNames = Object.keys(response);
 
     for (var i in keyNames) {
@@ -170,11 +168,6 @@ function fill_text(response, modal_id) {
     if (modal_id) {
         $('div#'+modal_id).modal();
     }
-
-    //Custom code
-    $('#load-bar').addClass('hide');
-    $('#detail-fields').removeClass('hide');
-
 }
 
 function displayAjaxError(xhr, status, error) {
@@ -231,6 +224,34 @@ function fill_prospect_offices(data) {
 }
 
 function display_application_comments(data) {
-    console.log(data);
+    $('div.load-bar').addClass('hide');
+
+    $("table.comments-table tbody").children().remove();
+
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            $("table.comments-table tbody").append(
+                '<tr>'+
+                    '<td class="text-center">'+data[key].comment+'</td>'+
+                    '<td class="text-center">'+data[key].created_at+'</td>'+
+                '</tr>'
+            );
+        }
+    }
+
+    $('div.comments-content').removeClass('hide');
 }
+
+function display_application_details(data) {
+
+    fill_text(data.detail, null, true);
+    fill_text(data, null);
+
+    $('div.load-bar').addClass('hide');
+
+    $('div.details-content').removeClass('hide');
+
+    console.info(data.detail);
+}
+
 
