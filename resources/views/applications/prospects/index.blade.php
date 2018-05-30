@@ -15,7 +15,7 @@
         @endif
         <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
             <a href="{{route('Crm.prospects.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>
-            <a href="{{-- {{route('Applications.multipleDestroys')}} --}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a>
+            {{-- <a href="{{route('Applications.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a> --}}
         </div>
         <div class="row-fluid">
             <div class="table-responsive" id="table-container">
@@ -26,82 +26,54 @@
 
     @push('scripts')
         <script type="text/javascript">
-            //Display a swal to change the password
-            $('body').delegate('.multiple-delete-btn, .reject-prospect','click', function() {
-                swal({
-                    title: 'Describa el por qué se rechaza el prospecto: ',
-                    buttons: {
-                        cancel: "Cancelar",
-                        confirm_reject: {
-                            text: "Aceptar",
-                            value: true,
-                            visible: true,
-                            className: "",
-                            closeModal: false
-                        },
-                    },
-                    content: {
-                        element: "form",
-                        attributes: {
-                            innerHTML:
-                                "<form>"+
-                                    "<div class='row'>"+
-                                        "<div class='col-sm-12 col-xs-12'>"+
-                                            "<div class='form-group hide'>"+
-                                                "<label>Tipo de rechazo</label>"+
-                                                "<input type='text' class='form-control' id='type' name='type'>"+
-                                            "</div>"+
-                                            "<div class='form-group hide'>"+
-                                                "<label>ID</label>"+
-                                                "<input type='text' class='form-control' id='id-row' name='id-row'>"+
-                                            "</div>"+
-                                            "<div class='form-group'>"+
-                                                "<label>Motivo</label>"+
-                                                "<textarea type='text' rows='3' class='form-control' id='comment' name='comment'></textarea>"+
-                                            "</div>"+
-                                        "</div>"+
-                                    "</div>"+
-                                    "<ul class='error_list'>"+
-                                        "<li style='display: none;' id='error-fields'>Este campo es obligatorio</li>"+
-                                    "</ul>"+
-                                "</form>"
-                        },
-                    }
-                }).catch(swal.noop);
-
-                $('input#type').val($(this).hasClass('reject-prospect') ? 'single' : 'multiple');
-                $(this).hasClass('reject-prospect') ? $('input#id-row').val($(this).data('parent-id')) : '';
+            //Reject prospects
+            $('body').delegate('.reject-prospect','click', function() {
+                var prospect = $(this).parent().siblings("td:nth-child(3)").text();
+                
+                $('#reject-application input[name=prospect]').val(prospect);
+                $('#reject-application input[name=application_id]').val($(this).data('parent-id'));
+                $('#reject-application input[name=status]').val(3);
+                $('#reject-application').modal('show');
             });
 
-            //Validate the modal for change the password
-            $('body').delegate('.swal-button--confirm_reject','click', function() {
-                comment = $('#comment').val();
-                ids_array = [];
+            //Add comments
+            $('body').delegate('.add-comments','click', function() {
+                var prospect = $(this).parent().siblings("td:nth-child(3)").text();
 
-                if ($('#type').val() == 'multiple') {
-                    $("input.multiple-delete").each(function() {
-                        if($(this).is(':checked')) {
-                            ids_array.push($(this).val());
-                        }
-                    });
-                } else {
-                    ids_array.push($('input#id-row').val());
+                $('#add-application-comment input[name=prospect]').val(prospect);
+                $('#add-application-comment input[name=application_id]').val($(this).data('parent-id'));
+                $('#add-application-comment').modal('show');
+            });
+
+            $('body').delegate('.view-comments','click', function() {
+                var id = $(this).parent().siblings("td:nth-child(1)").text();
+
+                config = {
+                    'id'        : id,
+                    'route'     : "{{route('Crm.prospects.view_comments')}}",
+                    'method'    : 'POST',
+                    'callback'  : 'display_application_comments',
                 }
 
-                if (!comment) {//Empty field
-                    $('li#error-fields').fadeIn();
-                    swal.stopLoading();
-                } else {//Everything ok
-                    config = {
-                        'ids'      : ids_array,
-                        'comment'  : comment,
-                        'refresh'  : 'table',
-                        'status'   : 3,
-                        'route'    : "{{route('Crm.prospects.change_status')}}",
-                        'method'   : 'POST',
+                ajaxSimple(config);
+
+                $('#view-application-comments').modal('show');
+                
+                /*$("table#detalles tbody").children().remove();
+
+                items = response.detalles;
+                for (var key in items) {
+                    if (items.hasOwnProperty(key)) {
+                        $("table#detalles tbody").append(
+                            '<tr>'+
+                                '<td class="text-center">'+items[key].nombre+'</td>'+
+                                '<td class="text-center">$'+(items[key].precio / 100)+'</td>'+
+                                '<td class="text-center">'+(items[key].cantidad)+'</td>'+
+                                '<td class="text-center">$'+((items[key].precio * items[key].cantidad) / 100)+'</td>'+
+                            '</tr>'
+                        );
                     }
-                    ajaxSimple(config);
-                }
+                }*/
             });
         </script>
     @endpush

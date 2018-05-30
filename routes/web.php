@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.prospects.change_status');
 			Route::post('filtrar-oficinas', 'ApplicationsController@filter_offices')->name('Crm.prospects.filter_offices');
 			Route::post('guardar-commentario', 'ApplicationsController@save_application_comments')->name('Crm.prospects.save_comment');
+			Route::post('ver-commentarios', 'ApplicationsController@view_applications_coments')->name('Crm.prospects.view_comments');
 		});
 
 		#Offices

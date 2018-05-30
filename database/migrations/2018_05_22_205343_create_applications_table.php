@@ -19,7 +19,7 @@ class CreateApplicationsTable extends Migration
             $table->string('fullname')->nullable();
             $table->string('email')->nullable();
             $table->string('phone',10)->nullable();
-            $table->integer('status')->default(0)->comment("0 Prospecto, 1 Cliente (está contratado), 3 Concretado (Fue cliente pero terminó contrato), 4 No concretado (Describir razón)");
+            $table->integer('status')->default(0)->comment("0 Prospecto, 1 Cliente (está contratado), 2 Concretado (Fue cliente pero terminó contrato), 3 No concretado (Describir razón)");
             $table->text('comment')->comment("La razón por la que NO se cerró el contrato")->nullable();
             $table->timestamps();
         });

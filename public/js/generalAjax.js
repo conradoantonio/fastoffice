@@ -98,7 +98,8 @@ function ajaxSimple(config) {
         data: config,
         success: function(data) {
             $('div.modal').modal('hide');
-            swal.close();
+            sw_open = swal.getState();
+            if (sw_open.isOpen) { swal.close(); }
             
             if(!config.callback) {
                 swal({
@@ -228,3 +229,8 @@ function fill_prospect_offices(data) {
         select.append("<option value='0' disabled selected>No hay oficinas disponibles con este criterio de búsqueda</option>");
     }
 }
+
+function display_application_comments(data) {
+    console.log(data);
+}
+

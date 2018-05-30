@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\ApplicationComment;
+
 use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller
@@ -62,14 +64,13 @@ class ApplicationsController extends Controller
      */
     public function change_status(Request $req)
     {
-        $msg = count($req->ids) > 1 ? 'los prospectos' : 'el prospecto';
-        $prospects = Application::whereIn('id', $req->ids)
-        ->update(['comment' => $req->comment,'status' => $req->status]);
+        $prospect = Application::where('id', $req->application_id)
+        ->update(['comment' => $req->comment, 'status' => $req->status]);
 
-        if ($prospects) {
-            return response(['url' => url('crm/prospectos'), 'refresh' => 'table', 'status' => 'success' ,'msg' => 'Éxito cambiando el status de '.$msg], 200);
+        if ($prospect) {
+            return response(['url' => url('crm/prospectos'), 'refresh' => 'table', 'status' => 'success' ,'msg' => 'Éxito cambiando el status del registro'], 200);
         } else {
-            return response(['msg' => 'Error al cambiar el status de '.$msg, 'status' => 'error', 'url' => url('crm/prospectos')], 404);
+            return response(['msg' => 'Error al cambiar el status del registro', 'status' => 'error', 'url' => url('crm/prospectos')], 404);
         }
     }
 
@@ -88,6 +89,16 @@ class ApplicationsController extends Controller
         $row->save();
 
         return response(['refresh' => 'none', 'status' => 'success', 'msg' => 'Comentario guardado'], 200);
+    }
+
+    /**
+     * Save an application comment
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_applications_coments(Request $req)
+    {
+        return ApplicationComment::where('application_id', $req->id)->get();
     }
 
     /**
