@@ -135,6 +135,10 @@ span.display-counter{
 .select2-container{
 	width: 100%;
 }
+div#notifications > div.popover{
+	max-height: 545px;
+	overflow: auto;
+}
 @media only screen and (max-width: 768px) {
 	#header_task_bar{
 		display: none;

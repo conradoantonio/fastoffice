@@ -7,6 +7,7 @@ use App\Models\User;
 use Auth;
 use Redirect;
 use DB;
+use Session;
 
 class HomeController extends Controller
 {
@@ -28,11 +29,11 @@ class HomeController extends Controller
 	public function index()
 	{
 		if ( auth()->user()->role_id == 1){
-			
+
 
 			return view('dashboard');
 		} else {
-			
+
 
 			return view('dashboard');
 		}

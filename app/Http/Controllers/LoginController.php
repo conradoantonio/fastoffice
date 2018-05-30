@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Session;
 use Auth;
-use Redirect;
+use App\Models\Meeting;
 
 class LoginController extends Controller
 {
@@ -18,7 +18,14 @@ class LoginController extends Controller
 				if ( auth()->user()->role_id == 4 ){
 					$this->logout();
 				}
-				return Redirect::to('/dashboard');
+				if ( auth()->user()->role_id == 3 ){
+					$today = date('Y-m-d');
+					if ( auth()->user()->office ){
+						$meetings = Meeting::with(['office', 'user'])->where('datetime_start', '>=', $today.' 00:00:00')->where('datetime_start', '<=', $today.' 23:59:59')->where('status', '1')->where('office_id', auth()->user()->office->id)->get();
+						session(['reminders' => $meetings]);
+					}
+				}
+				return redirect('/dashboard');
 		} else {
 			$exist = DB::table('users')->where('email', $req->email)->first();
 			if ( !$exist ) {
@@ -37,13 +44,14 @@ class LoginController extends Controller
 				}
 			}
 
-			return Redirect::back()->withErrors($msg);
+			return back()->withErrors($msg);
 		}
 	}
 
 	public function logout(){
 		Auth::logout();
 		session()->forget('account');
-		return Redirect::to('/login');
+		session()->forget('reminders');
+		return redirect('/login');
 	}
 }

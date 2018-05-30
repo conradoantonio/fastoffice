@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Observers\MeetingObserver;
 
 class Meeting extends Model
 {

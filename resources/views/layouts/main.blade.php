@@ -126,14 +126,40 @@
 			<!-- END TOP NAVIGATION MENU -->
 			<!-- BEGIN CHAT TOGGLER -->
 			<div class="pull-right">
-				<!-- <div class="chat-toggler">
+				@if( auth()->user()->role_id == 3 )
+					<div class="chat-toggler" id="notifications">
+						<a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Recordatorios">
+							<div class="user-details">
+								<div class="username">
+									<span class="badge badge-important">{{session('reminders')->count()}}</span> <i class="fa fa-bell"></i></span>
+								</div>
+				  			</div>
+				  			<div class="iconset top-down-arrow"></div>
+			  			</a>
+			  			<div id="notification-list" style="display:none">
+							<div style="width:300px">
+								@foreach( session('reminders') as $reminder )
+								<div class="notification-messages danger">
+									<div class="message-wrapper">
+										<div class="heading"> {{$reminder->office->name}} - {{ucwords(strftime('%d %B %Y %H:%M', strtotime($reminder->datetime_start)))}}</div>
+										<div class="description"> {{$reminder->title}} </div>
+										<div class="date pull-left"> Usuario: {{$reminder->user? $reminder->user->fullname : 'No registrado'}} </div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								@endforeach
+							</div>
+			  			</div>
+					</div>
+				@endif
+				{{-- <div class="chat-toggler">
 					<a href="#" class="dropdown-toggle">
 						<div class="user-details">
 							<div class="username">{{auth()->user()->fullname}}</div>
 						</div>
 					</a>
 					<div class="profile-pic"> <img src="{{!auth()->user()->photo?asset('/img/profiles/avatar_small.jpg'):asset('/img/profiles/'.auth()->user()->id.'/'.auth()->user()->photo)}}" alt="" data-src="{{!auth()->user()->photo?asset('/img/profiles/avatar_small.jpg'):asset('/img/profiles/'.auth()->user()->id.'/'.auth()->user()->photo)}}" data-src-retina="{{!auth()->user()->photo?asset('/img/profiles/avatar_small2x.jpg'):asset('/img/profiles/'.auth()->user()->id.'/'.auth()->user()->photo)}}" width="35" height="35"> </div>
-				</div> -->
+				</div> --}}
 				<ul class="nav quick-section">
 					<li class="quicklinks"> <span class="h-seperate"></span></li>
 					<li class="quicklinks">
