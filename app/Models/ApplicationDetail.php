@@ -29,4 +29,12 @@ class ApplicationDetail extends Model
     {
         return $this->hasOne(Application::class, 'id', 'application_id');
     }
+
+    /**
+     * Get the office type asociated with the detail.
+     */
+    public function office()
+    {
+        return $this->hasOne(Office::class, 'id', 'office_type_id');
+    }
 }
