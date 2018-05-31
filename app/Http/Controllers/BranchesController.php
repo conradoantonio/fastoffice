@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Branch;
 use App\Models\User;
 use Image;
+use Excel;
 
 class BranchesController extends Controller
 {
@@ -97,6 +98,36 @@ class BranchesController extends Controller
 			return ["delete" => "true"];
 		}
 		return ['delete' => 'false'];
+	}
+
+	public function import(Request $req){
+		if ($req->hasFile('archivo-excel')) {
+			$path = $req->file('archivo-excel')->getRealPath();
+			$extension = $req->file('archivo-excel')->getClientOriginalExtension();
+
+			$data = Excel::load($path, function($reader) {
+				$reader->setDateFormat('Y-m-d');
+			})->get();
+
+			if (!empty($data) && $data->count()) {
+				foreach ($data as $value) {
+					$branch = Branch::firstOrCreate(
+						['name' => $value->store_code],
+						['address' => $value->address_line_1.' '.$value->sub_locality],
+						['phone' => $value->primary_phone],
+						['website' => $value->website],
+						['zip_code' => $value->postal_code],
+						['locality' => $value->locality]
+					);
+				}
+			} else {
+				return ['status' => false, 'msg' => 'El excel esta vació'];
+			}
+			return ['status' => true, 'msg' => 'Se han importado los regitros del excel'];
+		}
+		else {
+			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel"];
+		}
 	}
 
 	public function status(Request $req){

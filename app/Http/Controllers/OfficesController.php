@@ -10,6 +10,7 @@ use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Branch;
 use Image;
+use Excel;
 
 class OfficesController extends Controller
 {
@@ -108,6 +109,46 @@ class OfficesController extends Controller
 			return ['status' => true];
 		} else {
 			return ['status' => false];
+		}
+	}
+
+	public function import(Request $req){
+		if ($req->hasFile('archivo-excel')) {
+			$path = $req->file('archivo-excel')->getRealPath();
+			$extension = $req->file('archivo-excel')->getClientOriginalExtension();
+
+			$data = Excel::load($path, function($reader) {
+				$reader->setDateFormat('Y-m-d');
+			})->get();
+
+			$type = 0;
+			if ( $value->type == 'Física' ){
+				$type = 1;
+			} elseif ( $value->type == 'Virtual' ){
+				$type = 2;
+			} elseif ( $value->type == 'Sala de juntas' ){
+				$type = 3;
+			} else {
+				$type = 4;
+			}
+
+			if (!empty($data) && $data->count()) {
+				foreach ($data as $value) {
+					$office = Office::firstOrCreate(
+						['name' => $value->name],
+						['address' => $value->address],
+						['phone' => $value->phone],
+						['price' => $value->price],
+						['num_people' => $value->people]
+					);
+				}
+			} else {
+				return ['status' => false, 'msg' => 'El excel esta vació'];
+			}
+			return ['status' => true, 'msg' => 'Se han importado los regitros del excel'];
+		}
+		else {
+			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel"];
 		}
 	}
 
