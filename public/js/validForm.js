@@ -124,6 +124,16 @@ $(".email").blur(function() {
 	}
 });
 
+$(".rfc").blur(function() {
+	if(!$(this).val().match(regExprRfc)) {
+		if ( !$(this).parent().hasClass("has-error") ){
+			$(this).parent().addClass('has-error')
+		}
+	} else {
+		$(this).parent().removeClass('has-error')
+	}
+});
+
 $('.decimals').blur(function() {
 	if(!regDecimals.test($(this).val())) {
 		if ( !$(this).parent().hasClass("has-error") ){
@@ -278,7 +288,17 @@ $(".guardar").on('click',function(e){
 			}
 		}
 
-		if ( $(this).hasClass('decimals') ){
+		if ( $(this).hasClass('rfc') ) {
+			if(!$(this).val().match(regExprRfc)) {
+				if ( !$(this).parent().hasClass("has-error") ){
+					$(this).parent().addClass('has-error')
+					errors_count += 1;
+					msg = msg +"<li>"+$(this).data('name')+": RFC inválido</li>";
+				}
+			}
+		}
+
+		if ( $(this).hasClass('decimals') ) {
 			if(!regDecimals.test($(this).val())) {
 				if ( !$(this).parent().hasClass("has-error") ){
 					$(this).parent().addClass('has-error')

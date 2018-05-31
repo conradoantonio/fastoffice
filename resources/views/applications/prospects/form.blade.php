@@ -108,7 +108,21 @@
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="phone">Teléfono</label>
-                    <input type="text" class="form-control  not-empty numeric" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
+                    <input type="text" class="form-control not-empty numeric" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
+                </div>
+        	</div>
+        	<div class="row">
+        		<div class="form-group col-sm-6 col-xs-12">
+                    <label class="required" for="regime">Régimen</label>
+	                <select id="regime" name="regime" class="form-control not-empty" data-name="Régimen">
+	                    <option value="0" selected>Seleccione una opción</option>
+	                    <option value="Persona física" {{($prospect ? ($prospect->regime == 'Persona física' ? 'selected' : '') : '')}}>Persona física</option>
+	                    <option value="Persona moral" {{($prospect ? ($prospect->regime == 'Persona moral' ? 'selected' : '') : '')}}>Persona moral</option>
+	                </select>
+                </div>
+                <div class="form-group col-sm-6 col-xs-12">
+                    <label class="required" for="rfc">RFC</label>
+                    <input type="text" class="form-control not-empty rfc" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
                 </div>
         	</div>
         	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
@@ -122,13 +136,15 @@
 			$('select#user_id').on('change', function() {
 				if ($(this).val() == 0) {
 					console.log('borra la clase');
-					$('#fullname, #email, #phone').addClass('not-empty');
+					$('#fullname, #email, #phone, #rfc, #regime').addClass('not-empty');
 					$('#email').addClass('email');
-					$('#fullname, #email, #phone').parent().parent().removeClass('hide');
+					$('#rfc').addClass('rfc');
+					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().removeClass('hide');
 				} else {
-					$('#fullname, #email, #phone').removeClass('not-empty');
+					$('#fullname, #email, #phone, #rfc, #regime').removeClass('not-empty');
 					$('#email').removeClass('email');
-					$('#fullname, #email, #phone').parent().parent().addClass('hide');
+					$('#rfc').removeClass('rfc');
+					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().addClass('hide');
 					console.log('agrega la clase');
 				}
 			});

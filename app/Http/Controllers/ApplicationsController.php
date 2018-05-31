@@ -29,6 +29,24 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * Show the rejected applications.
+     *
+     */
+    public function show_applications_rejected(Request $req)
+    {
+        $title = "Prospectos (Rechazados)";
+        $menu = "CRM";
+        $prospects = Application::orderBy('id', 'desc')->where('status', 3)->get();
+
+        if ($req->ajax()) {
+            return view('applications.rejected.table', ['prospects' => $prospects]);
+        }
+        return view('applications.rejected.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
+    }
+
+    
+
+    /**
      * Show the form for creating/editing a resource about a new prospect.
      *
      * @return \Illuminate\Http\Response

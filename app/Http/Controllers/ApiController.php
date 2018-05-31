@@ -33,6 +33,8 @@ class ApiController extends Controller
             $prospect->fullname = $req->fullname;
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
+            $prospect->regime = $req->regime;
+            $prospect->rfc = $req->rfc;
         }
 
         $prospect->office_id = $office->id;

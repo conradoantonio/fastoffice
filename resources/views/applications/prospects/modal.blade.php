@@ -133,7 +133,7 @@
                             <li class="list-group-item fill-container"><span class="label_show">Presupuesto del cliente: $<span class="badget"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Número de gente solicitado: <span class="num_people"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Tipo de oficina: <span class="office_type"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Razón de rechazo: <span class="comment"></span></span></li>
+                            <li class="list-group-item fill-container" style="color: firebrick;"><span class="label_show">Razón de rechazo: <span class="comment"></span></span></li>
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item active">Datos del cliente</li>
@@ -141,6 +141,8 @@
                             <li class="list-group-item fill-container"><span class="label_show">Nombre completo: <span class="fullname"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Correo: <span class="email"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Teléfono: <span class="phone"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Régimen: <span class="regime"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">RFC: <span class="rfc"></span></span></li>
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item active">Detalle de la oficina de interés</li>
