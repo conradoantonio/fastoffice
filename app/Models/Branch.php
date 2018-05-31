@@ -10,7 +10,7 @@ class Branch extends Model
 	use SoftDeletes;
 
 	protected $fillable = [
-		'user_id', 'name', 'address', 'status'
+		'user_id', 'name', 'address', 'phone', 'website', 'zip_code', 'locality', 'status'
 	];
 
 	public function user(){

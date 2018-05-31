@@ -16,10 +16,15 @@
 			{{ method_field('PUT') }}
 			@endif
 			<div class="row">
-				<div class="form-group col-md-12 {{$errors->office->first('name')?'has-error':''}}">
+				<div class="form-group col-md-6 {{$errors->office->first('name')?'has-error':''}}">
 					{{Form::label('name', 'Nombre', ['class' => 'control-label  required'])}}
 					{{Form::text('name', null, ['class' => 'form-control not-empty', 'data-name' => 'Nombre'])}}
 					{{@$errors->office->first('name')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->office->first('phone')?'has-error':''}}">
+					{{Form::label('phone', 'Teléfono', ['class' => 'control-label  required'])}}
+					{{Form::text('phone', null, ['class' => 'form-control not-empty numeric length', 'data-name' => 'Teléfono', 'data-max' => 10, 'data-min' => 7])}}
+					{{@$errors->office->first('phone')}}
 				</div>
 			</div>
 			<div class="row">

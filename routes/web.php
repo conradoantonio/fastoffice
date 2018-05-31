@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('franquicias', 'BranchesController@index')->name('Branch');
 		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
 		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
+		Route::post('subir-excel-franquicia', 'BranchesController@import')->name('Branch.excel');
 		Route::put('actualizar-franquicia/{id}', 'BranchesController@update')->name('Branch.update');
 		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
 		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');

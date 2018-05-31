@@ -20,6 +20,7 @@ class CreateOfficesTable extends Migration
 			$table->integer('office_type_id');
 			$table->string('name');
 			$table->text('address');
+			$table->text('phone');
 			$table->float('price');
 			$table->integer('num_people');
 			$table->string('photo')->nullable();
