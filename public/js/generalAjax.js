@@ -232,6 +232,7 @@ function display_application_comments(data) {
         if (data.hasOwnProperty(key)) {
             $("table.comments-table tbody").append(
                 '<tr>'+
+                    '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
                     '<td class="text-center">'+data[key].comment+'</td>'+
                     '<td class="text-center">'+data[key].created_at+'</td>'+
                 '</tr>'
@@ -243,15 +244,30 @@ function display_application_comments(data) {
 }
 
 function display_application_details(data) {
+    fill_text(data, null, true);
+    fill_text(data.detail, null);
+    fill_text(data.detail.office, null);
 
-    fill_text(data.detail, null, true);
-    fill_text(data, null);
+    if (data.customer) {
+        fill_text(data.customer, null);
+        $('span.is_registered').text('Registrado');
+    } else {
+        $('span.is_registered').text('Sin registrar');
+    }
+
+    /*Custom code*/
+    $('span#application-id').text(data.id);
+    $('span.capacity_people').text(data.detail.num_people);
+    $('span.capacity_people').text(data.detail.num_people);
+    $('span.office_type').text(data.detail.office.type.name);
+    $('li.office-photo img').attr('src', $('meta[name="base-url"]').attr('content').concat('/img/offices/'+data.detail.office.id+'/'+data.detail.office.photo));
+
 
     $('div.load-bar').addClass('hide');
 
     $('div.details-content').removeClass('hide');
 
-    console.info(data.detail);
+    console.info(data);
 }
 
 

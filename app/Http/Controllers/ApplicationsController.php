@@ -110,7 +110,7 @@ class ApplicationsController extends Controller
     {
         $application = Application::find($req->id);
         $application->customer;
-        $application->detail;
+        $application->detail->office->type;
         $application->comments;
         return $application;
     }

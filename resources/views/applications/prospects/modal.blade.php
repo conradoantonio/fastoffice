@@ -14,6 +14,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-responsive comments-table">
                                         <thead>
+                                            <th style="text-align: center;">Número</th>
                                             <th style="text-align: center;">Comentario</th>
                                             <th style="text-align: center;">Fecha y hora de creación</th>
                                         </thead>
@@ -115,23 +116,43 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade data-fill" tabindex="-1" role="dialog" aria-labelledby="titulo_detalles_pedido" id="view-application-details">
+<div class="modal fade data-fill" tabindex="-1" role="dialog" aria-labelledby="label-title" id="view-application-details">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h2 class="modal-title" id="titulo_detalles_pedido">Detalles prospecto</h2>
+                <h2 class="modal-title" id="label-title">Detalles prospecto</h2>
             </div>
             <div class="modal-body">
                 <div class="row text-left details-content">
                     <div class="col-md-12">
                         <ul class="list-group">
                             <li class="list-group-item active">Datos generales</li>
-                            <li class="list-group-item fill-container"><span class="label_show">ID Prospecto: <span class="id"></span></span></li>
+                            <li class="list-group-item fill-containers"><span class="label_show">ID Prospecto: <span id="application-id"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Fecha de creación: <span class="created_at"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Presupuesto del cliente: <span class="badget"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Presupuesto del cliente: $<span class="badget"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Número de gente solicitado: <span class="num_people"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Tipo de oficina: <span class="office_type"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Razón de rechazo: <span class="comment"></span></span></li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item active">Datos del cliente</li>
+                            <li class="list-group-item fill-containers"><span class="label_show">¿Registrado?: <span class="is_registered"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Nombre completo: <span class="fullname"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Correo: <span class="email"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Teléfono: <span class="phone"></span></span></li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item active">Detalle de la oficina de interés</li>
+                            <li class="list-group-item fill-container"><span class="label_show">Nombre: <span class="name"></span></span></li>
+                            <li class="list-group-item fill-containers"><span class="label_show">Tipo: <span class="office_type"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Dirección: <span class="address"></span></span></li>
+                            <li class="list-group-item fill-containers"><span class="label_show">Capacidad de personas: <span class="capacity_people"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Precio: $<span class="price"></span></span></li>
+                            <li class="list-group-item office-photo">
+                                <span class="label_show">Foto: </span><br>
+                                <img width="300px;" src="" id="photo">
+                            </li>
                         </ul>
                     </div>
                 </div>
