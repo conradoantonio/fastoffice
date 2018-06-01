@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('franquicias', 'BranchesController@index')->name('Branch');
 		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
 		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
-		Route::post('subir-excel-franquicia', 'BranchesController@import')->name('Branch.excel');
+		Route::post('subir-excel-franquicias', 'BranchesController@import')->name('Branch.excel');
 		Route::put('actualizar-franquicia/{id}', 'BranchesController@update')->name('Branch.update');
 		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
 		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('oficinas/{id?}', 'OfficesController@index')->name('Office');
 		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
 		Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
+		Route::post('subir-excel-oficinas', 'OfficesController@import')->name('Office.excel');
 		Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
 		Route::patch('status-oficina', 'OfficesController@status')->name('Office.status');
 		Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');

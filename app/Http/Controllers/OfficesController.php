@@ -121,25 +121,32 @@ class OfficesController extends Controller
 				$reader->setDateFormat('Y-m-d');
 			})->get();
 
-			$type = 0;
-			if ( $value->type == 'Física' ){
-				$type = 1;
-			} elseif ( $value->type == 'Virtual' ){
-				$type = 2;
-			} elseif ( $value->type == 'Sala de juntas' ){
-				$type = 3;
-			} else {
-				$type = 4;
-			}
 
 			if (!empty($data) && $data->count()) {
 				foreach ($data as $value) {
+					$branch = Branch::where('name', $value->sucursal)->first();
+					$type = 0;
+					if ( $value->type == 'Física' ){
+						$type = 1;
+					} elseif ( $value->type == 'Virtual' ){
+						$type = 2;
+					} elseif ( $value->type == 'Sala de juntas' ){
+						$type = 3;
+					} else {
+						$type = 4;
+					}
+
 					$office = Office::firstOrCreate(
-						['name' => $value->name],
-						['address' => $value->address],
-						['phone' => $value->phone],
-						['price' => $value->price],
-						['num_people' => $value->people]
+						['name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
+						[
+							'branch_id' => $branch?$branch->id:0,
+							'name' => $value->name,
+							'address' => $value->address,
+							'phone' => $value->phone,
+							'price' => $value->price,
+							'num_people' => $value->people,
+							'office_type_id' => $type
+						]
 					);
 				}
 			} else {

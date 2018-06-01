@@ -6,9 +6,8 @@
 				<h4 class="modal-title" id="myModalLabel">Importar excel</h4>
 			</div>
 			<div class="modal-body">
-				<form action="{{route('Branch.excel')}}" method="POST" enctype="multipart/form-data" class="valid ajax" autocomplete="off" id="formInvitados">
+				<form action="{{$import_url}}" method="POST" enctype="multipart/form-data" class="valid ajax" autocomplete="off" id="formInvitados">
 					<div class="row">
-						<input type="hidden" id="status" name="status" value=2>
 						<div class="form-group col-md-12">
 							<label for="archivo-excel" class="control-label">EXCEL</label>
 							<input type="file" id="archivo-excel" name="archivo-excel" class="not-empty form-control" data-name="Excel">

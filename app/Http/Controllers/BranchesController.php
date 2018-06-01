@@ -112,12 +112,15 @@ class BranchesController extends Controller
 			if (!empty($data) && $data->count()) {
 				foreach ($data as $value) {
 					$branch = Branch::firstOrCreate(
-						['name' => $value->store_code],
-						['address' => $value->address_line_1.' '.$value->sub_locality],
-						['phone' => $value->primary_phone],
-						['website' => $value->website],
-						['zip_code' => $value->postal_code],
-						['locality' => $value->locality]
+						['name' => $value->store_code, 'address' => $value->address_line_1.' '.$value->sub_locality, 'phone' => $value->primary_phone],
+						[
+							'name' => $value->store_code,
+							'address' => $value->address_line_1.' '.$value->sub_locality,
+							'phone' => $value->primary_phone,
+							'website' => $value->website,
+							'zip_code' => $value->postal_code,
+							'locality' => $value->locality
+						]
 					);
 				}
 			} else {

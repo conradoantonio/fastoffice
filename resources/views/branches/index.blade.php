@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('pageTitle', 'Franquicias')
 @section('content')
-@include('branches.modal')
+@include('branches.modal', ['import_url' => route('Branch.excel')])
 <div class="container-fluid content-body">
 	@if(session('msg'))
 	<div class="alert alert-success">
