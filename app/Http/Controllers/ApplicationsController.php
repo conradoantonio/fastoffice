@@ -79,6 +79,16 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * Update a prospect.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_prospect(Request $req)
+    {
+        return response(['msg' => 'Programar actualizar el prospecto', 'status' => 'success'], 200);
+    }
+
+    /**
      * Change the status of the specified resource.
      *
      * @return \Illuminate\Http\Response

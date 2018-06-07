@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::get('/historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
 			Route::get('formulario-prospecto/{id?}', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
 			Route::post('guardar-prospecto', 'ApplicationsController@save_prospect')->name('Crm.prospects.save');
+			Route::post('actualizar-prospecto', 'ApplicationsController@update_prospect')->name('Crm.prospects.update');
 			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.prospects.change_status');
 			Route::post('filtrar-oficinas', 'ApplicationsController@filter_offices')->name('Crm.prospects.filter_offices');
 			Route::post('guardar-commentario', 'ApplicationsController@save_application_comments')->name('Crm.prospects.save_comment');
