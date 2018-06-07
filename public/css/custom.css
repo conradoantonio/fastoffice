@@ -197,3 +197,11 @@ div#notifications > div.popover{
 #user-options{
 	color: black;
 }
+.btn-edit{
+	color: white;
+	background-color: #1F38C2;
+}
+.btn-edit:hover{
+	color: white;
+	background-color: #1F38C2;
+}

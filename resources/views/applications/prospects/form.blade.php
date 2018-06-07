@@ -55,15 +55,17 @@
 		                <label class="required" for="office_id">Oficina</label>
 		                <select name="office_id" id="office_id" class="form-control not-empty" data-name="Oficina">
 		                    <option value="0" disabled selected>Seleccione una opción</option>
-		                    {{-- @if ($prospect)
+		                    @if ($prospect)
 		                        @foreach($offices as $office)
-		                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}}</option>
+		                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}} ubicada en {{$office->address}} (Precio: ${{$office->price}})</option>
+            						select.append("<option value="+ opt.id +">"+ opt.name + ' ubicada en ' + opt.address + ' (Precio: $' + opt.price +")</option>");
+
 		                        @endforeach
-		                    @else
+		                    {{-- @else
 		                        @foreach($offices as $office)
 		                            <option value="{{$office->id}}">{{$office->name}}</option>
-		                        @endforeach
-		                    @endif --}}
+		                        @endforeach --}}
+		                    @endif
 		                </select>
 		            </div>
 	        	</div>

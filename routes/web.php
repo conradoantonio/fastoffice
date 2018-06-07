@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::prefix('crm/prospectos')->group(function () {
 			Route::get('/', 'ApplicationsController@index')->name('Crm.prospects');
 			Route::get('/historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
-			Route::get('formulario-prospecto', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
+			Route::get('formulario-prospecto/{id?}', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
 			Route::post('guardar-prospecto', 'ApplicationsController@save_prospect')->name('Crm.prospects.save');
 			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.prospects.change_status');
 			Route::post('filtrar-oficinas', 'ApplicationsController@filter_offices')->name('Crm.prospects.filter_offices');

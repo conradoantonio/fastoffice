@@ -60,7 +60,10 @@ class ApplicationsController extends Controller
         $officeTypes = OfficeType::all();
         $offices = Office::where('status', 1)->get();//Falta filtrar por disponibilidad y tipo (privilegio) de usuario de sistema
         if ($id) {
-            $prospect = Application::where('status', 0)->first($id);
+            $prospect = Application::where('status', 0)->where('id', $id)->first();
+            if ($prospect) {
+                $offices = Office::where('id', $prospect->office->id)->where('status', 1)->get();
+            }
         }
         return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'menu' => $menu, 'title' => $title]);
     }

@@ -228,16 +228,24 @@ function display_application_comments(data) {
 
     $("table.comments-table tbody").children().remove();
 
-    for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-            $("table.comments-table tbody").append(
-                '<tr>'+
-                    '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
-                    '<td class="text-center">'+data[key].comment+'</td>'+
-                    '<td class="text-center">'+data[key].created_at+'</td>'+
-                '</tr>'
-            );
+    if (data.length > 0) {
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                $("table.comments-table tbody").append(
+                    '<tr>'+
+                        '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
+                        '<td class="text-center">'+data[key].comment+'</td>'+
+                        '<td class="text-center">'+data[key].created_at+'</td>'+
+                    '</tr>'
+                );
+            }
         }
+    } else {
+        $("table.comments-table tbody").append(
+            '<tr>'+
+                '<td class="text-center" color="red" colspan="3">No se han registrado comentarios.</td>'+
+            '</tr>'
+        ); 
     }
 
     $('div.comments-content').removeClass('hide');
@@ -266,8 +274,6 @@ function display_application_details(data) {
     $('div.load-bar').addClass('hide');
 
     $('div.details-content').removeClass('hide');
-
-    console.info(data);
 }
 
 
