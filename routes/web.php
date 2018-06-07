@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('alta-reunion', 'MeetingsController@store')->name('Meeting.store');
 		Route::put('actualizar-reunion/{id}', 'MeetingsController@update')->name('Meeting.update');
 		Route::patch('status-reunion', 'MeetingsController@status')->name('Meeting.status');
+		Route::patch('progreso-reunion', 'MeetingsController@progress')->name('Meeting.progress');
 		Route::delete('eliminar-reunion/{id}', 'MeetingsController@destroy')->name('Meeting.destroy');
 		Route::delete('eliminar-reuniones', 'MeetingsController@multipleDestroys')->name('Meeting.multipleDestroys');
 		Route::get('obtener-calendario/{id?}/{start_date?}/{end_date?}', 'MeetingsController@events')->name('Meeting.events');

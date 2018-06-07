@@ -66,6 +66,13 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-12 {{$errors->office->first('description')?'has-error':''}}">
+					{{Form::label('description', 'Descripción', ['class' => 'control-label  required'])}}
+					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
+					{{@$errors->office->first('description')}}
+				</div>
+			</div>
+			<div class="row">
 				@if( $office->photo )
 					<div class="col-md-3">
 						<img src="{{asset('img/offices/'.$office->id.'/'.$office->photo)}}" alt="Foto noticia" class="show">

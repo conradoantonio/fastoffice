@@ -37,7 +37,8 @@ class OfficeRequest extends FormRequest
 					'num_people' => 'required|numeric',
 					'user_id' => 'present',
 					'branch_id' => 'required',
-					'office_type_id' => 'required'
+					'office_type_id' => 'required',
+					'description' => 'required'
 				];
 			case 'PUT':
 				return [
@@ -48,7 +49,8 @@ class OfficeRequest extends FormRequest
 					'num_people' => 'required|numeric',
 					'user_id' => 'present',
 					'branch_id' => 'required',
-					'office_type_id' => 'required'
+					'office_type_id' => 'required',
+					'description' => 'required'
 				];
 			default:break;
 		}
@@ -80,7 +82,8 @@ class OfficeRequest extends FormRequest
 			'photo' => 'Imagen',
 			'user_id' => 'Usuario',
 			'branch_id' => 'Sucursal',
-			'office_type_id' => 'Tipo de oficina'
+			'office_type_id' => 'Tipo de oficina',
+			'description' => 'Descripción'
 		];
 	}
 

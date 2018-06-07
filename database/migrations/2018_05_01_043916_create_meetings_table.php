@@ -22,6 +22,7 @@ class CreateMeetingsTable extends Migration
 			$table->datetime('datetime_start');
 			$table->datetime('datetime_end');
 			$table->integer('status')->default(1);
+			$table->integer('proccess')->comment('Campo para checar si la tarea esta pendiente(0), completada(1) o incompleta(2)')->default(0);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 		});

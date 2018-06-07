@@ -217,4 +217,15 @@ class MeetingsController extends Controller
 			return ['status' => false, 'msg' => 'Ocurrio un problema al cambiar la solicitud, intente más tarde'];
 		}
 	}
+
+	public function progress(Request $req){
+		$meeting = Meeting::find($req->id);
+		$meeting->proccess = $req->val;
+
+		if ( $meeting->save() ) {
+			return ['status' => true, 'msg' => 'Solicitud cambiada exitosamente'];
+		} else {
+			return ['status' => false, 'msg' => 'Ocurrio un problema al cambiar la solicitud, intente más tarde'];
+		}
+	}
 }

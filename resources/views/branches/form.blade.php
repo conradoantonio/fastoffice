@@ -43,11 +43,40 @@
 					{{@$errors->branch->first('child_user_ids')}}
 				</div>
 			</div>
-			<?php /*
+			<div class="row">
+				<div class="form-group col-md-6 {{$errors->branch->first('zip_code')?'has-error':''}}">
+					{{Form::label('zip_code', 'Código postal', ['class' => 'control-label required'])}}
+					{{Form::text('zip_code', null, ['class' => 'form-control not-empty decimals', 'data-name' => 'Código postal'])}}
+					{{@$errors->branch->first('zip_code')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->branch->first('locality')?'has-error':''}}">
+					{{Form::label('locality', 'Localidad', ['class' => 'control-label required'])}}
+					{{Form::text('locality', null, ['class' => 'form-control not-empty', 'data-name' => 'Localidad'])}}
+					{{@$errors->branch->first('locality')}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6 {{$errors->branch->first('phone')?'has-error':''}}">
+					{{Form::label('phone', 'Teléfono', ['class' => 'control-label required'])}}
+					{{Form::text('phone', null, ['class' => 'form-control not-empty decimals length', 'data-name' => 'Teléfono', 'data-max' => 10])}}
+					{{@$errors->branch->first('phone')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->branch->first('website')?'has-error':''}}">
+					{{Form::label('website', 'Sitio web', ['class' => 'control-label required'])}}
+					{{Form::text('website', null, ['class' => 'form-control not-empty', 'data-name' => 'Sitio web'])}}
+					{{@$errors->branch->first('website')}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{$errors->branch->first('description')?'has-error':''}}">
+					{{Form::label('description', 'Descripción', ['class' => 'control-label  required'])}}
+					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
+				</div>
+			</div>
 			<div class="row">
 				@if( $branch->photo )
 					<div class="col-md-3">
-						<img src="{{asset('img/branchs/'.$branch->id.'/'.$branch->photo)}}" alt="Foto noticia" class="show">
+						<img src="{{asset('img/branches/'.$branch->id.'/'.$branch->photo)}}" alt="Foto noticia" class="show">
 					</div>
 				@endif
 				<div class="form-group col-md-{{$branch->photo?'9':'12'}} {{$errors->branch->first('photo')?'has-error':''}}">
@@ -55,7 +84,6 @@
 					{{Form::file('photo', ['class' =>!$branch->id?'form-control not-empty file image':'form-control file image', 'data-name' => 'Foto'])}}
 				</div>
 			</div>
-			*/ ?>
 			<div class="row text-left buttons-form">
 				<a href="{{route('Branch')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'branchesForm'])}}

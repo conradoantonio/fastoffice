@@ -139,6 +139,9 @@ div#notifications > div.popover{
 	max-height: 545px;
 	overflow: auto;
 }
+.notification-messages.warning{
+	background-color: #ffffae;
+}
 @media only screen and (max-width: 768px) {
 	#header_task_bar{
 		display: none;

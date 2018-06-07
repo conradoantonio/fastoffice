@@ -28,6 +28,57 @@
 	<script type="text/javascript">
 		var calendar = $('#calendar').find('div').first();
 
+		$( document ).delegate('.proccess', 'click', function(){
+			var sentence = '',
+				val = 0,
+				url = '',
+				id = 0,
+				ele = $(this);
+			if ( $(this).hasClass('btn-info') ){
+				sentence = 'Completa';
+				val = 1;
+			} else {
+				sentence = 'Incompleta'
+				val = 2;
+			}
+
+			url = $(this).data('url');
+			id = $(this).data('id');
+
+			swal({
+				title: '¿Quieres marcar como '+sentence+' esta solicitud?',
+				icon: 'warning',
+				buttons:["Cancelar", "Aceptar"],
+				dangerMode: false,
+			}).then((accept) => {
+				if (accept){
+					$.ajax({
+						url: url,
+						type:"PATCH",
+						data:{
+							id:id,
+							val:val
+						},
+						beforeSend:function(){
+							loadAnimation()
+						},
+						success:function(response){
+							if (response.status){
+								swal("Se ha modificado el estatus","","success");
+								if ( val == 1 ){
+									ele.parent().parent().find('.progress-val').removeClass('label-warning, label-danger').addClass('label-success').text('Completa')
+								} else{
+									ele.parent().parent().find('.progress-val').removeClass('label-warning, label-success').addClass('label-danger').text('Incompleta')
+								}
+							} else {
+								swal("Ha ocurrido un error","","error");
+							}
+						}
+					})
+				}
+			})
+		})
+
 		$( document ).ajaxComplete(function( event, xhr, settings ) {
 			if ( settings.type === "GET" && settings.url.includes('/reuniones') ) {
 				$(".fc-today-button").click()

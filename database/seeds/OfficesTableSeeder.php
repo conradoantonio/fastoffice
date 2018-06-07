@@ -21,6 +21,7 @@ class OfficesTableSeeder extends Seeder
 				'address' => "Simon Bolivar 594",
 				'price' => "100.00",
 				'num_people' => 10,
+				'description' => 'The office is big.'
 			],
 
 		];

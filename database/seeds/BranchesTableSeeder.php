@@ -18,7 +18,8 @@ class BranchesTableSeeder extends Seeder
 				'phone' => "6691505087",
 				'zip_code' => "44900",
 				'website' => "www.google.com",
-				'locality' => "Guadalajara"
+				'locality' => "Guadalajara",
+				'description' => "The bulding its's blue."
 			],
 
 		];

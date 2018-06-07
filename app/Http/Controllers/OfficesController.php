@@ -145,7 +145,8 @@ class OfficesController extends Controller
 							'phone' => $value->phone,
 							'price' => $value->price,
 							'num_people' => $value->people,
-							'office_type_id' => $type
+							'office_type_id' => $type,
+							'description' => $value->description
 						]
 					);
 				}

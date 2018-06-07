@@ -8,7 +8,7 @@ use App\Observers\MeetingObserver;
 class Meeting extends Model
 {
 	protected $fillable = [
-		'user_id', 'office_id', 'title', 'description', 'datetime_start', 'datetime_end'
+		'user_id', 'office_id', 'title', 'description', 'datetime_start', 'datetime_end', 'statut', 'proccess'
 	];
 
 	public function user(){

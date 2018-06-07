@@ -23,6 +23,7 @@ class CreateOfficesTable extends Migration
 			$table->text('phone');
 			$table->float('price');
 			$table->integer('num_people');
+			$table->text('description');
 			$table->string('photo')->nullable();
 			$table->integer('status')->default(1);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

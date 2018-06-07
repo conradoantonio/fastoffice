@@ -13,6 +13,7 @@
 			<th>Fecha inicio</th>
 			<th>Fecha término</th>
 			<th>Estatus</th>
+			<th>Progreso</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -37,8 +38,19 @@
 						@endif
 					</td>
 					<td>
+						@if($meeting->proccess == 1)
+						<span class="label label-success progress-val">Completado</span>
+						@elseif( $meeting->proccess == 0 )
+						<span class="label label-warning progress-val">Por hacer</span>
+						@else
+						<span class="label label-danger progress-val">Incompleto</span>
+						@endif
+					</td>
+					<td>
 						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Meeting.form', $meeting->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 						<a href="{{route('Meeting.destroy',$meeting->id) }}" class="btn btn-xs btn-mini btn-danger delete_row" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash"></i></a>
+						<button class="btn btn-mini btn-xs btn-info proccess" data-url="{{route('Meeting.progress')}}" data-id="{{$meeting->id}}" title="Tarea completada"><i class="fa fa-check"></i></button>
+						<button class="btn btn-mini btn-xs btn-warning proccess" data-url="{{route('Meeting.progress')}}" data-id="{{$meeting->id}}" title="Tarea incompleta"><i class="fa fa-times"></i></button>
 					</td>
 				</tr>
 			@endforeach

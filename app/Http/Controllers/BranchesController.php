@@ -36,19 +36,19 @@ class BranchesController extends Controller
 	}
 
 	public function store(Request $req){
-		#$photo = $req->file('photo');
+		$photo = $req->file('photo');
 
 		$branch = new Branch();
 		$branch->fill($req->except('photo', 'child_user_ids'));
-		#$branch->photo = time().'.'.$photo->getClientOriginalExtension();
+		$branch->photo = time().'.'.$photo->getClientOriginalExtension();
 
 		if ( $branch->save() ){
 			if ( $req->child_user_ids ){
 				User::whereIn('id', $req->child_user_ids)->update(['branch_id' => $branch->id]);
 			}
-			/*File::makeDirectory(public_path()."/img/branches/".$branch->id, 0777, true, true);
+			File::makeDirectory(public_path()."/img/branches/".$branch->id, 0777, true, true);
 			$path = public_path()."/img/branches/".$branch->id."/".$branch->photo;
-			Image::make($photo)->save($path);*/
+			Image::make($photo)->save($path);
 
 			return Redirect()->route('Branch')->with('msg', 'Franquicia creada');
 		} else {
@@ -57,7 +57,7 @@ class BranchesController extends Controller
 	}
 
 	public function update(Request $req, $id){
-		#$photo = $req->file('photo');
+		$photo = $req->file('photo');
 
 		$branch = Branch::find($id);
 		$branch->fill($req->except('photo', 'child_user_ids'));
@@ -67,12 +67,12 @@ class BranchesController extends Controller
 			User::whereIn('id', $req->child_user_ids)->update(['branch_id' => $branch->id]);
 		}
 
-		/*if ( $photo ){
-			File::cleanDirectory(public_path()."/img/branches/".$branch->id."/");
+		if ( $photo ){
+			File::delete(public_path()."/img/branches/".$branch->id."/".$branch->photo);
 			$branch->photo = time().'.'.$photo->getClientOriginalExtension();
 			$path = public_path()."/img/branches/".$branch->id."/".$branch->photo;
 			Image::make($photo)->save($path);
-		}*/
+		}
 
 		if ( $branch->save() ){
 			return Redirect()->route('Branch')->with('msg', 'Franquicia actualizada');

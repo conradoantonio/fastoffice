@@ -140,7 +140,17 @@
 			  			<div id="notification-list" style="display:none">
 							<div style="width:300px">
 								@foreach( session('reminders') as $reminder )
-								<div class="notification-messages danger">
+								@php
+									$class = "";
+									if ( $reminder->proccess == 1 ){
+										$class = 'success';
+									} elseif ( $reminder->proccess == 0 ){
+										$class = 'warning';
+									} else {
+										$class = 'danger';
+									}
+								@endphp
+								<div class="notification-messages {{$class}}">
 									<div class="message-wrapper">
 										<div class="heading"> {{$reminder->office->name}} - {{ucwords(strftime('%d %B %Y %H:%M', strtotime($reminder->datetime_start)))}}</div>
 										<div class="description"> {{$reminder->title}} </div>

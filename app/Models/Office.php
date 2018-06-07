@@ -10,7 +10,7 @@ class Office extends Model
 	use SoftDeletes;
 
 	protected $fillable = [
-		'branch_id', 'user_id', 'office_type_id', 'name', 'address', 'phone', 'price', 'num_people'
+		'branch_id', 'user_id', 'office_type_id', 'name', 'address', 'phone', 'price', 'num_people', 'description'
 	];
 
 	public function type(){
