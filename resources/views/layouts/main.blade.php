@@ -19,6 +19,7 @@
 	<link href="{{asset('/plugins/bootstrap-select2/select2.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="{{asset('/plugins/ios-switch/ios7-switch.css')}}" rel="stylesheet" type="text/css" media="screen">
 	<link href="{{asset('/plugins/boostrap-slider/css/slider.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('/plugins/dropzone/css/dropzone.min.css')}}" rel="stylesheet" type="text/css"/>
 	<!-- END CORE CSS FRAMEWORK -->
 
 	<!-- BEGIN CSS TEMPLATE -->
@@ -242,12 +243,12 @@
 						<a href="{{route('Faq')}}"> <i class="fa fa-question-circle"></i> <span class="title">Faqs</span> <span class="selected"></span></a>
 					</li>
 				*/?>
-				<li class="{{ in_array(Route::currentRouteName(), ['', ''] ) ? 'active' : '' }}">
+				<li class="{{ in_array(Route::currentRouteName(), ['Template', 'Template.form', 'Crm.prospects', 'Crm.prospects.form'] ) ? 'active' : '' }}">
 					<a href="javascript:;">
 						<i class="fa fa-list-ul"></i> <span class="title">CRM</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.prospects', 'Crm.prospects.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Crm.prospects')}}"> Prospectos </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
@@ -256,8 +257,8 @@
 						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
 							<a href=""> Clientes </a>
 						</li>
-						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
-							<a href=""> Plantillas </a>
+						<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
+							<a href="{{route('Template')}}"> Plantillas </a>
 						</li>
 					</ul>
 				</li>
@@ -346,6 +347,7 @@
 <script src="{{asset('/plugins/pace/pace.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugins/jquery-numberAnimate/jquery.animateNumbers.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/plugins/dropzone/dropzone.js')}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 
 <!-- BEGIN CORE TEMPLATE JS -->

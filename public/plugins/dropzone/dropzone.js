@@ -360,19 +360,19 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 /*
 #
 # More info at [www.dropzonejs.com](http://www.dropzonejs.com)
-# 
-# Copyright (c) 2012, Matias Meno  
-# 
+#
+# Copyright (c) 2012, Matias Meno
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -401,9 +401,9 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
     /*
     This is a list of all available events you can register on a dropzone object.
-    
+
     You can register an event handler like this:
-    
+
         dropzone.on("dragEnter", function() { });
     */
 
@@ -414,7 +414,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       url: null,
       method: "post",
       withCredentials: false,
-      parallelUploads: 2,
+      parallelUploads: 1,
       uploadMultiple: false,
       maxFilesize: 256,
       paramName: "file",
@@ -426,22 +426,22 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
-      acceptedFiles: null,
+      acceptedFiles: "image/*,application/pdf",
       acceptedMimeTypes: null,
       autoProcessQueue: true,
       addRemoveLinks: false,
       previewsContainer: null,
-      dictDefaultMessage: "Drop files here to upload",
-      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
-      dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
-      dictFileTooBig: "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
-      dictInvalidFileType: "You can't upload files of this type.",
-      dictResponseError: "Server responded with {{statusCode}} code.",
-      dictCancelUpload: "Cancel upload",
-      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-      dictRemoveFile: "Remove file",
+       dictDefaultMessage: "Suelta tus imagenes aquí",
+      dictFallbackMessage: "Tu navegador no soporta drag and drop",
+      dictFallbackText: "Usa el fallback de abajo para subir tus imagenes de la manera tradicional",
+      dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Tamaño máximo permitido: {{maxFilesize}}MB.",
+      dictInvalidFileType: "No puedes usar archivos de este tipo.",
+      dictResponseError: "El servidor respondio con un código {{statusCode}}.",
+      dictCancelUpload: "Cancelar subida.",
+      dictCancelUploadConfirmation: "¿Estás seguro que quieres cancelar esta subida?",
+      dictRemoveFile: "Archivo removido",
       dictRemoveFileConfirmation: null,
-      dictMaxFilesExceeded: "You can only upload {{maxFiles}} files.",
+       dictMaxFilesExceeded: "Tú puedes subir un maximo de {{maxFiles}} archivos.",
       accept: function(file, done) {
         return done();
       },
@@ -1368,7 +1368,8 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       headers = {
         "Accept": "application/json",
         "Cache-Control": "no-cache",
-        "X-Requested-With": "XMLHttpRequest"
+        "X-Requested-With": "XMLHttpRequest",
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       };
       if (this.options.headers) {
         extend(headers, this.options.headers);

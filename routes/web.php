@@ -54,6 +54,18 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
 		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
 		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
+
+		#Templates
+		Route::get('plantillas', 'TemplatesController@index')->name('Template');
+		Route::get('formulario-plantilla/{id?}', 'TemplatesController@form')->name('Template.form');
+		Route::post('alta-plantilla', 'TemplatesController@store')->name('Template.store');
+		Route::put('actualizar-plantilla/{id}', 'TemplatesController@update')->name('Template.update');
+		Route::patch('status-plantilla', 'TemplatesController@status')->name('Template.status');
+		Route::delete('eliminar-plantilla/{id}', 'TemplatesController@destroy')->name('Template.destroy');
+		Route::delete('eliminar-plantillas', 'TemplatesController@multipleDestroys')->name('Template.multipleDestroys');
+
+		#Attachment
+		Route::delete('eliminar-adjunto', 'AttachmentsController@delete')->name('Attachment.delete');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
