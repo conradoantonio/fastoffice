@@ -11,7 +11,7 @@
 		<h1>{{$prospect ? 'Actualizar' : 'Crear'}} <span class="semi-bold">Prospecto</span></h1>
 	</div>
 	<div class="row-fluid">
-        <form id="form-data" class="valid ajax-plus" action="{{url('crm/prospectos/guardar-prospecto')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
+        <form id="form-data" class="valid ajax-plus" action="{{url('crm/prospectos')}}/{{$prospect ? 'actualizar-prospecto' : 'guardar-prospecto'}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
 	        <div>
 	        	<h3>Buscar disponibilidad de oficina</h3>
 	        	<div class="row">
@@ -58,8 +58,6 @@
 		                    @if ($prospect)
 		                        @foreach($offices as $office)
 		                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}} ubicada en {{$office->address}} (Precio: ${{$office->price}})</option>
-            						select.append("<option value="+ opt.id +">"+ opt.name + ' ubicada en ' + opt.address + ' (Precio: $' + opt.price +")</option>");
-
 		                        @endforeach
 		                    {{-- @else
 		                        @foreach($offices as $office)
@@ -95,28 +93,28 @@
 	                </select>
 	            </div>
         	</div>
-        	<div class="row">
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="fullname">Nombre completo</label>
-                    <input type="text" class="form-control not-empty" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty') : 'not-empty')}}" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
                 </div>
         	</div>
-        	<div class="row">
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="email">Correo</label>
-                    <input type="text" class="form-control email not-empty" value="{{$prospect ? $prospect->email : ''}}" id="email" name="email" data-name="Correo">
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'email not-empty') : 'email not-empty')}}" value="{{$prospect ? $prospect->email : ''}}" id="email" name="email" data-name="Correo">
                 </div>
         	</div>
-        	<div class="row">
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="phone">Teléfono</label>
-                    <input type="text" class="form-control not-empty numeric" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'numeric not-empty') : 'numeric not-empty')}}" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
                 </div>
         	</div>
-        	<div class="row">
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="regime">Régimen</label>
-	                <select id="regime" name="regime" class="form-control not-empty" data-name="Régimen">
+	                <select id="regime" name="regime" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty') : 'not-empty')}}" data-name="Régimen">
 	                    <option value="0" selected>Seleccione una opción</option>
 	                    <option value="Persona física" {{($prospect ? ($prospect->regime == 'Persona física' ? 'selected' : '') : '')}}>Persona física</option>
 	                    <option value="Persona moral" {{($prospect ? ($prospect->regime == 'Persona moral' ? 'selected' : '') : '')}}>Persona moral</option>
@@ -124,7 +122,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="rfc">RFC</label>
-                    <input type="text" class="form-control not-empty rfc" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty rfc') : 'not-empty rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
                 </div>
         	</div>
         	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
@@ -137,7 +135,6 @@
 		$(function() {
 			$('select#user_id').on('change', function() {
 				if ($(this).val() == 0) {
-					console.log('borra la clase');
 					$('#fullname, #email, #phone, #rfc, #regime').addClass('not-empty');
 					$('#email').addClass('email');
 					$('#rfc').addClass('rfc');
@@ -147,7 +144,6 @@
 					$('#email').removeClass('email');
 					$('#rfc').removeClass('rfc');
 					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().addClass('hide');
-					console.log('agrega la clase');
 				}
 			});
 

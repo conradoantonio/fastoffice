@@ -7,6 +7,7 @@ use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationComment;
+use App\Models\ApplicationDetail;
 
 use Illuminate\Http\Request;
 
@@ -76,6 +77,59 @@ class ApplicationsController extends Controller
     public function save_prospect(Request $req)
     {
         return app('App\Http\Controllers\ApiController')->save_prospect($req);
+    }
+
+    /**
+     * Update a prospect.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_prospect(Request $req)
+    {
+        $prospect = Application::find($req->id);
+        $user = User::find($req->user_id);
+        $office = Office::find($req->office_id);
+
+        if (!$prospect) {
+            return response(['msg' => 'Prospecto inválido, refresque esta página', 'status' => 'error', 'refresh' => 'none'], 500);
+        }
+
+        if (!$office) {
+            return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400);
+        }
+
+        if ($user) {//Comes from a registered user
+            $prospect->user_id = $user->id;
+            $prospect->fullname = null;
+            $prospect->email = null;
+            $prospect->phone = null;
+            $prospect->regime = null;
+            $prospect->rfc = null;
+        } else {
+            $prospect->user_id = 0;
+            $prospect->fullname = $req->fullname;
+            $prospect->email = $req->email;
+            $prospect->phone = $req->phone;
+            $prospect->regime = $req->regime;
+            $prospect->rfc = $req->rfc;
+        }
+
+        $prospect->office_id = $office->id;
+
+        $prospect->save();
+
+        #Details
+        $detail = ApplicationDetail::find($prospect->detail->id);
+
+        if ($detail) {
+            $detail->badget = $req->badget;
+            $detail->num_people = $req->num_people;
+            $detail->office_type_id = $office->type->id;
+
+            $detail->save();
+        }
+
+        return response(['msg' => 'Prospecto actualizado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
     }
 
     /**
