@@ -108,7 +108,7 @@
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="phone">Teléfono</label>
-                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'numeric not-empty') : 'email not-empty')}}" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'numeric not-empty') : 'numeric not-empty')}}" value="{{$prospect ? $prospect->phone : ''}}" id="phone" name="phone" data-name="Teléfono">
                 </div>
         	</div>
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
@@ -135,7 +135,6 @@
 		$(function() {
 			$('select#user_id').on('change', function() {
 				if ($(this).val() == 0) {
-					console.log('borra la clase');
 					$('#fullname, #email, #phone, #rfc, #regime').addClass('not-empty');
 					$('#email').addClass('email');
 					$('#rfc').addClass('rfc');
@@ -145,7 +144,6 @@
 					$('#email').removeClass('email');
 					$('#rfc').removeClass('rfc');
 					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().addClass('hide');
-					console.log('agrega la clase');
 				}
 			});
 
