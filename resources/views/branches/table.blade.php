@@ -34,6 +34,7 @@
 					</td>
 					<td>
 						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Branch.form', $branch->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
+						<button class="btn btn-mini btn-xs btn-info uploadImages" data-target="#ModalDrop" data-toggle="modal" data-url="{{route('Branch.update', $branch->id)}}"><i class="fa fa-upload"></i></button>
 						<a href="{{route('Branch.destroy',$branch->id) }}" class="btn btn-xs btn-mini btn-danger delete_row" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash"></i></a>
 					</td>
 				</tr>

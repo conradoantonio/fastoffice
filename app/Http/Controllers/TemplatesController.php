@@ -58,6 +58,7 @@ class TemplatesController extends Controller
 
 				Image::make($image)->save($path);
 			}
+			return;
 		}
 
 		if ( $template->save() ){

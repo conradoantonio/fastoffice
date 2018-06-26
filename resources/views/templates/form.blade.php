@@ -27,20 +27,15 @@
 					{{Form::textarea ('content', null, ['class' => 'form-control not-empty', 'data-name' => 'Contenido'])}}
 				</div>
 			</div>
-
+			@if( $template->id )
+				<div id="dropzoneDiv" class="dropzone">
+				</div>
+			@endif
 			<div class="row buttons-form">
 				<a href="{{route('Template')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'templatesForm'])}}
 			</div>
 		{{ Form::close() }}
-		@if( $template->id )
-			<div class="row-fluid" id="dropzoneDiv">
-				<form action="{{route('Template.update', $template->id)}}" class="dropzone">
-					{{ method_field('PUT') }}
-					{{ csrf_field() }}
-				</form>
-			</div>
-		@endif
 	</div>
 </div>
 @push('scripts')
@@ -54,11 +49,17 @@
 	if ( data ){
 		$('div.dz-default.dz-message').remove()
 	}
+	Dropzone.autoDiscover = false;
 
 	$(function(){
-	    var myDropzone = new Dropzone(".dropzone", {
+	    var myDropzone = new Dropzone("#dropzoneDiv", {
 	    	url: "{{route('Template.update', $template->id)}}",
 	    	addRemoveLinks: true,
+			init: function() {
+				this.on("sending", function(file, xhr, formData){
+					formData.append("_method", "PUT");
+				});
+			},
 	    	removedfile: function(file) {
 	    		swal({
 					title: '¿Quieres eliminar este archivo adjunto?',

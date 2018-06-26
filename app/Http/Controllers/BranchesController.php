@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\Branch;
 use App\Models\User;
+use App\Models\Picture;
 use Image;
 use Excel;
 
 class BranchesController extends Controller
 {
 	public function index(Request $req){
-		$branches = Branch::with('user')->get();
+		$branches = Branch::with('user', 'pictures')->get();
 		if ( $req->ajax() ) {
 			return view('branches.table', compact('branches'));
 		}
@@ -39,16 +40,13 @@ class BranchesController extends Controller
 		$photo = $req->file('photo');
 
 		$branch = new Branch();
-		$branch->fill($req->except('photo', 'child_user_ids'));
-		$branch->photo = time().'.'.$photo->getClientOriginalExtension();
+		$branch->fill($req->except('child_user_ids'));
 
 		if ( $branch->save() ){
 			if ( $req->child_user_ids ){
 				User::whereIn('id', $req->child_user_ids)->update(['branch_id' => $branch->id]);
 			}
 			File::makeDirectory(public_path()."/img/branches/".$branch->id, 0777, true, true);
-			$path = public_path()."/img/branches/".$branch->id."/".$branch->photo;
-			Image::make($photo)->save($path);
 
 			return Redirect()->route('Branch')->with('msg', 'Franquicia creada');
 		} else {
@@ -57,21 +55,33 @@ class BranchesController extends Controller
 	}
 
 	public function update(Request $req, $id){
-		$photo = $req->file('photo');
-
 		$branch = Branch::find($id);
 		$branch->fill($req->except('photo', 'child_user_ids'));
 
-		User::where('branch_id', $branch->id)->update(['branch_id' => 0]);
 		if ( $req->child_user_ids ){
+			User::where('branch_id', $branch->id)->update(['branch_id' => 0]);
 			User::whereIn('id', $req->child_user_ids)->update(['branch_id' => $branch->id]);
 		}
 
-		if ( $photo ){
-			File::delete(public_path()."/img/branches/".$branch->id."/".$branch->photo);
-			$branch->photo = time().'.'.$photo->getClientOriginalExtension();
-			$path = public_path()."/img/branches/".$branch->id."/".$branch->photo;
-			Image::make($photo)->save($path);
+		if ( $req->hasFile('photo') ){
+			$directorio = public_path()."/img/branches/".$branch->id.'/';
+			if (!File::exists($directorio)){
+				File::makeDirectory($directorio, 0777, true, true);
+			}
+
+			$image = $req->file('photo');
+			$name = date("His").'.'.$image->getClientOriginalExtension();
+			$path = $directorio.$name;
+
+			if ( $image ) {
+				$picture = new Picture();
+				$picture->path = '/img/branches/'.$id.'/'.$name;
+				$picture->size = $image->getClientSize();
+				$branch->pictures()->save($picture);
+
+				Image::make($image)->save($path);
+			}
+			return;
 		}
 
 		if ( $branch->save() ){

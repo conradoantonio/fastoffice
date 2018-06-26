@@ -73,17 +73,6 @@
 					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
 				</div>
 			</div>
-			<div class="row">
-				@if( $branch->photo )
-					<div class="col-md-3">
-						<img src="{{asset('img/branches/'.$branch->id.'/'.$branch->photo)}}" alt="Foto noticia" class="show">
-					</div>
-				@endif
-				<div class="form-group col-md-{{$branch->photo?'9':'12'}} {{$errors->branch->first('photo')?'has-error':''}}">
-					{{Form::label('photo', 'Foto', ['class' => !$branch->id?'label-control required':'label-control'])}}
-					{{Form::file('photo', ['class' =>!$branch->id?'form-control not-empty file image':'form-control file image', 'data-name' => 'Foto'])}}
-				</div>
-			</div>
 			<div class="row text-left buttons-form">
 				<a href="{{route('Branch')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'branchesForm'])}}
