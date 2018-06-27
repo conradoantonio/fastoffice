@@ -205,7 +205,7 @@
 		<div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
 			<div class="user-info-wrapper">
 				<div class="profile-wrapper">
-					<img src="{{asset(auth()->user()->photo)}}"  alt="" data-src="{{asset(auth()->user()->photo)}}" data-src-retina="{{!auth()->user()->photo?asset('/img/profiles/avatar2x.jpg'):asset('/img/profiles/'.auth()->user()->id.'/'.auth()->user()->photo)}}" width="69" height="69" />
+					<img src="{{asset(auth()->user()->photo)}}"  alt="" data-src="{{asset(auth()->user()->photo)}}" data-src-retina="{{asset(auth()->user()->photo)}}" width="69" height="69" />
 				</div>
 				<div class="user-info">
 					<div class="greeting">Bienvenido</div>
