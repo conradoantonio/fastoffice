@@ -12,6 +12,10 @@ class Controller extends BaseController
 {
 	use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+	function __construct() {
+        date_default_timezone_set('America/Mexico_City');
+    }
+
 	 public function mail($params){
 		$params['view'] = @$params['view']?$params['view']:'mails.general';
 		Mail::send($params['view'], ['title' => $params['title'], 'content' => $params['content']], function ($message) use($params)

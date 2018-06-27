@@ -56,6 +56,21 @@
             <form id="form-data" class="valid ajax-plus" action="{{route('Crm.prospects.save_comment')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form-modal" data-column="0" data-refresh="" data-redirect="0" data-table_id="example3" data-container_id="content-container">
                 <div class="modal-body">
                     <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12" style="padding-bottom: 20px;">
+                            <label for="add_to_calendar">Agregar a calendario</label>
+                            <div class="checkbox check-primary">
+                                <input id="add_to_calendar" name="add_to_calendar" type="checkbox">
+                                <label for="add_to_calendar" style="padding-left:0px;"></label>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-6 hide">
+                            <label class="required" for="date">Día inicio</label>
+                            <input type="text" class="form-control not-empty input-date" name="date" data-name="Fecha">
+                        </div>
+                        <div class="form-group col-sm-6 col-xs-6 hide">
+                            <label class="required" for="hour">Hora inicio</label>
+                            <input type="text" class="form-control not-empty clockpicker" name="hour" data-name="Hora">
+                        </div>
                         <div class="form-group col-sm-12 col-xs-12 hide">
                             <label class="required" for="application_id">ID</label>
                             <input type="text" class="form-control not-empty" name="application_id" data-name="ID">

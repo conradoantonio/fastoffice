@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+
 use App\Models\User;
 use App\Models\Office;
+use App\Models\Meeting;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationComment;
@@ -45,8 +48,6 @@ class ApplicationsController extends Controller
         return view('applications.rejected.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
     }
 
-    
-
     /**
      * Show the form for creating/editing a resource about a new prospect.
      *
@@ -68,6 +69,24 @@ class ApplicationsController extends Controller
         }
         return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'menu' => $menu, 'title' => $title]);
     }
+
+    /**
+     * Show the form for creating/editing a resource about a new prospect.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generate_contract($id = 0)
+    {
+        $title = "Generar contratos";
+        $menu = "Prospectos";
+        $prospect = null;
+        if ($id) {
+            $prospect = Application::where('status', 0)->where('id', $id)->first();
+        }
+
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'menu' => $menu, 'title' => $title]);
+    }
+    
 
     /**
      * Save a new prospect.
@@ -162,6 +181,18 @@ class ApplicationsController extends Controller
         $row->comment = $req->comment;
 
         $row->save();
+
+        if ($req->has('add_to_calendar')) {
+            $met = New Meeting;
+
+            $met->office_id = $row->application->office_id;
+            $met->title = 'Comentario';
+            $met->description = $req->comment;
+            $met->datetime_start = date("Y-m-d H:i:s", strtotime($req->date.' '.$req->hour));
+            $met->datetime_end = date("Y-m-d H:i:s", strtotime("+1 hours", strtotime($met->datetime_start)));
+
+            $met->save();
+        }
 
         return response(['refresh' => 'none', 'status' => 'success', 'msg' => 'Comentario guardado'], 200);
     }

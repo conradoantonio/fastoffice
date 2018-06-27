@@ -26,6 +26,18 @@
 
     @push('scripts')
         <script type="text/javascript">
+            //Add comment to calendar
+            $('body').delegate('#add_to_calendar', 'click', function() {
+                if ($(this).is(":checked")) {
+                    $('input[name=date], input[name=hour]').parent().removeClass('hide');
+                    $('input[name=date], input[name=hour]').addClass('not-empty');
+                } else {
+                    $('input[name=date], input[name=hour]').parent().addClass('hide');
+                    $('input[name=date], input[name=hour]').removeClass('not-empty');
+                }
+            });
+            
+
             //Reject prospects
             $('body').delegate('.reject-prospect', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();
@@ -39,6 +51,9 @@
             //Add comments
             $('body').delegate('.add-comments', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();
+
+                $('input[name=date], input[name=hour]').parent().addClass('hide');
+                $('input[name=date], input[name=hour]').removeClass('not-empty');
 
                 $('#add-application-comment input[name=prospect]').val(prospect);
                 $('#add-application-comment input[name=application_id]').val($(this).data('parent-id'));

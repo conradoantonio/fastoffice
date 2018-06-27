@@ -434,6 +434,7 @@ function clean(ele) {
 	try {
 		ele.find('form').find('input.form-control, textarea.form-control').val(null).parent().removeClass('has-error')
 		$('form#'+ele.find('form')[0].id+' select').val(0);
+		$('form#'+ele.find('form')[0].id+' input[type=checkbox]').prop('checked', false);
 		$('form#'+ele.find('form')[0].id+' select').parent().removeClass('has-error');
 		$('form#'+ele.find('form')[0].id).select2("val", 0);
 	}

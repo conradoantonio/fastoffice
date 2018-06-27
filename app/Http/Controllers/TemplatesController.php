@@ -38,6 +38,7 @@ class TemplatesController extends Controller
 	}
 
 	public function update(Request $req, $id){
+		$aux = 0;
 		$template = Template::find($id);
 		$template->fill($req->except('file'));
 
@@ -47,7 +48,10 @@ class TemplatesController extends Controller
 				File::makeDirectory($directorio, 0777, true, true);
 			}
 			$image = $req->file('file');
-			$name = date("His").'.'.$image->getClientOriginalExtension();
+			$name = date("His");
+			$last = Attachment::orderBy('id', 'desc')->first();
+			if ($last) { $aux = $last->id; }
+			$name = $name.$aux.'.'.$image->getClientOriginalExtension();
 			$path = $directorio.$name;
 
 			if ( $image ) {
