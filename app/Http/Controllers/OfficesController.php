@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Branch;
+use App\Models\OfficePicture;
 use Image;
 use Excel;
 
@@ -46,16 +47,11 @@ class OfficesController extends Controller
 	}
 
 	public function store(OfficeRequest $req){
-		$photo = $req->file('photo');
-
 		$office = new Office();
 		$office->fill($req->except('photo'));
-		$office->photo = time().'.'.$photo->getClientOriginalExtension();
 
 		if ( $office->save() ){
 			File::makeDirectory(public_path()."/img/offices/".$office->id, 0777, true, true);
-			$path = public_path()."/img/offices/".$office->id."/".$office->photo;
-			Image::make($photo)->save($path);
 
 			return Redirect()->route('Office')->with('msg', 'Oficina creada');
 		} else {
@@ -64,16 +60,28 @@ class OfficesController extends Controller
 	}
 
 	public function update(OfficeRequest $req, $id){
-		$photo = $req->file('photo');
-
 		$office = Office::find($id);
 		$office->fill($req->except('photo'));
 
-		if ( $photo ){
-			File::cleanDirectory(public_path()."/img/offices/".$office->id."/");
-			$office->photo = time().'.'.$photo->getClientOriginalExtension();
-			$path = public_path()."/img/offices/".$office->id."/".$office->photo;
-			Image::make($photo)->save($path);
+		if ( $req->hasFile('photo') ){
+			$directorio = public_path()."/img/offices/".$office->id."/";
+			if (!File::exists($directorio)){
+				File::makeDirectory($directorio, 0777, true, true);
+			}
+
+			$image = $req->file('photo');
+			$name = date("His").$office->pictures->count().'.'.$image->getClientOriginalExtension();
+			$path = $directorio.$name;
+
+			if ( $image ) {
+				$picture = new OfficePicture();
+				$picture->path = '/img/offices/'.$id.'/'.$name;
+				$picture->size = $image->getClientSize();
+				$office->pictures()->save($picture);
+
+				Image::make($image)->save($path);
+			}
+			return;
 		}
 
 		if ( $office->save() ){
@@ -162,5 +170,19 @@ class OfficesController extends Controller
 
 	public function getUsersByBranch($branch_id){
 		return User::where(['role_id' => 3, 'status' => 1, 'branch_id' => $branch_id])->get();
+	}
+
+	public function getPicturesByOffice($id){
+		$office = Office::find($id);
+		return $office->pictures;
+	}
+
+	public function deleteOfficePicture(Request $req){
+		$officePicture = OfficePicture::where('path', $req->path)->first();
+		if ( $officePicture->delete() ){
+			File::delete(public_path().$req->path);
+			return ['status' => true, 'msg' => 'Imagen eliminado'];
+		}
+		return ['status' => false, 'msg' => 'Imagen eliminado'];
 	}
 }

@@ -26,6 +26,6 @@ class Branch extends Model
 	}
 
 	public function pictures(){
-		return $this->hasMany(Picture::class, 'parent_id');
+		return $this->hasMany(BranchPicture::class);
 	}
 }

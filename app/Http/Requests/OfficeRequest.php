@@ -41,6 +41,11 @@ class OfficeRequest extends FormRequest
 					'description' => 'required'
 				];
 			case 'PUT':
+				if ( $this->photo ){
+					return [
+						'photo' => 'image|mimes:jpeg,png,jpg,gif|max:3070'
+					];
+				}
 				return [
 					'name'  => 'required|unique:offices,name,'.$this->route('id'),
 					'address' => 'required',

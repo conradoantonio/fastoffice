@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Models\Branch;
 use App\Models\User;
-use App\Models\Picture;
+use App\Models\BranchPicture;
 use Image;
 use Excel;
 
 class BranchesController extends Controller
 {
 	public function index(Request $req){
-		$branches = Branch::with('user', 'pictures')->get();
+		$branches = Branch::with('user')->get();
 		if ( $req->ajax() ) {
 			return view('branches.table', compact('branches'));
 		}
@@ -70,11 +70,11 @@ class BranchesController extends Controller
 			}
 
 			$image = $req->file('photo');
-			$name = date("His").'.'.$image->getClientOriginalExtension();
+			$name = date("His").$branch->pictures->count().'.'.$image->getClientOriginalExtension();
 			$path = $directorio.$name;
 
 			if ( $image ) {
-				$picture = new Picture();
+				$picture = new BranchPicture();
 				$picture->path = '/img/branches/'.$id.'/'.$name;
 				$picture->size = $image->getClientSize();
 				$branch->pictures()->save($picture);
@@ -151,5 +151,14 @@ class BranchesController extends Controller
 		} else {
 			return ['status' => false];
 		}
+	}
+
+	public function deleteBranchPicture(Request $req){
+		$branchPicture = BranchPicture::where('path', $req->path)->first();
+		if ( $branchPicture->delete() ){
+			File::delete(public_path().$req->path);
+			return ['status' => true, 'msg' => 'Imagen eliminado'];
+		}
+		return ['status' => false, 'msg' => 'Imagen eliminado'];
 	}
 }

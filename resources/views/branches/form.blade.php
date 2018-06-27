@@ -73,6 +73,10 @@
 					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
 				</div>
 			</div>
+			<div class="row">
+				<div class="row-fluid dropzone" id="dropzoneDiv">
+				</div>
+			</div>
 			<div class="row text-left buttons-form">
 				<a href="{{route('Branch')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'branchesForm'])}}
@@ -80,4 +84,65 @@
 		{{ Form::close() }}
 	</div>
 </div>
+@push('scripts')
+<script type="text/javascript">
+	var data = "";
+	if ( "{{$branch->id}}" ){
+		data = "{{$branch->pictures}}"
+		data = JSON.parse(data.replace(/&quot;/g,'"'));
+	}
+
+	if ( data ){
+		$('div.dz-default.dz-message').remove()
+	}
+	Dropzone.autoDiscover = false;
+
+	$(function(){
+	    var myDropzone = new Dropzone("div#dropzoneDiv", {
+			url: "{{route('Branch.update', $branch->id)}}",
+			addRemoveLinks: true,
+			paramName: 'photo',
+			init: function() {
+				this.on("sending", function(file, xhr, formData){
+					formData.append("_method", "PUT");
+				});
+			},
+			removedfile: function(file) {
+				swal({
+					title: '¿Quieres eliminar este archivo adjunto?',
+					icon: "warning",
+					buttons: ["Cancelar", "Eliminar"],
+					dangerMode: true,
+				}).then((accept) => {
+					if (accept) {
+						$.ajax({
+							url: "{{route('Branch.destroyImage')}}",
+							method:'delete',
+							type:'delete',
+							data:{
+								path: file.name
+							},
+							success:function(response){
+								file.previewElement.remove();
+								if ( response.status ){
+									swal('Éxito', response.msg, 'success');
+								} else {
+									swal('Error', response.msg, 'warning');
+								}
+							}
+						})
+					}
+				})
+			}
+		});
+		if ( data ){
+	    	$.each(data, function(key, value){
+				var mockFile = { name: value.path, size: value.size};
+				myDropzone.options.addedfile.call(myDropzone, mockFile);
+				myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
+			})
+		}
+	})
+</script>
+@endpush
 @endsection

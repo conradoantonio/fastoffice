@@ -431,7 +431,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       autoProcessQueue: true,
       addRemoveLinks: false,
       previewsContainer: null,
-       dictDefaultMessage: "Suelta tus imagenes aquí",
+      dictDefaultMessage: "Suelta tus imagenes aquí",
       dictFallbackMessage: "Tu navegador no soporta drag and drop",
       dictFallbackText: "Usa el fallback de abajo para subir tus imagenes de la manera tradicional",
       dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Tamaño máximo permitido: {{maxFilesize}}MB.",
