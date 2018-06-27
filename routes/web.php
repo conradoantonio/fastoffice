@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Franquicias
 		Route::get('franquicias', 'BranchesController@index')->name('Branch');
+		Route::get('imagenes-franquicia/{id}', 'BranchesController@getPicturesByBranch')->name('Branch.Pictures');
 		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
 		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
 		Route::post('subir-excel-franquicias', 'BranchesController@import')->name('Branch.excel');
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
 		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
 		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
+		Route::delete('eliminar-franquicia-imagen', 'BranchesController@deleteBranchPicture')->name('Branch.destroyImage');
 
 		#Templates
 		Route::get('plantillas', 'TemplatesController@index')->name('Template');
@@ -108,6 +110,7 @@ Route::group(['middleware' => ['auth']], function() {
 		#Offices
 		Route::get('oficinas/{id?}', 'OfficesController@index')->name('Office');
 		Route::get('formulario-oficina/{id?}', 'OfficesController@form')->name('Office.form');
+		Route::get('imagenes-oficina/{id}', 'OfficesController@getPicturesByOffice')->name('Office.Pictures');
 		Route::post('alta-oficina', 'OfficesController@store')->name('Office.store');
 		Route::post('subir-excel-oficinas', 'OfficesController@import')->name('Office.excel');
 		Route::put('actualizar-oficina/{id}', 'OfficesController@update')->name('Office.update');
@@ -115,6 +118,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-oficina/{id}', 'OfficesController@destroy')->name('Office.destroy');
 		Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
 		Route::get('obtener-usuarios/{branch_id?}', 'OfficesController@getUsersByBranch')->name('Office.users');
+		Route::delete('eliminar-oficina-imagen', 'OfficesController@deleteOfficePicture')->name('Office.destroyImage');
 	});
 
 	#Usuarios

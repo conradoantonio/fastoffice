@@ -24,4 +24,8 @@ class Office extends Model
 	public function branch(){
 		return $this->belongsTo(Branch::class);
 	}
+
+	public function pictures(){
+		return $this->hasMany(OfficePicture::class);
+	}
 }

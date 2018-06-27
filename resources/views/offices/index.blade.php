@@ -27,4 +27,67 @@
 		</div>
 	</div>
 </div>
+@push('scripts')
+<script type="text/javascript">
+	$(function(){
+		Dropzone.autoDiscover = false;
+
+		var myDropzone = new Dropzone("div#dropzoneDiv", {
+			url: "{{url('')}}",
+			addRemoveLinks: true,
+			paramName: 'photo',
+			init: function() {
+				this.on("sending", function(file, xhr, formData){
+					formData.append("_method", "PUT");
+				});
+			},
+	    	removedfile: function(file) {
+	    		swal({
+					title: '¿Quieres eliminar este archivo adjunto?',
+					icon: "warning",
+					buttons: ["Cancelar", "Eliminar"],
+					dangerMode: true,
+				}).then((accept) => {
+					if (accept) {
+						$.ajax({
+							url: "{{route('Office.destroyImage')}}",
+							method:'delete',
+							type:'delete',
+							data:{
+								path: file.name
+							},
+							success:function(response){
+								file.previewElement.remove();
+								if ( response.status ){
+									swal('Éxito', response.msg, 'success');
+								} else {
+									swal('Error', response.msg, 'warning');
+								}
+							}
+						})
+					}
+				})
+			}
+	    });
+
+	    $(document).delegate(".uploadImages", 'click', function(){
+	    	myDropzone.removeAllFiles(true)
+			myDropzone.options.url = $(this).data('url2')
+			var url = $(this).data('url1')
+			$.ajax({
+				url: url,
+				method:'GET',
+				success: function(response){
+					console.log(response)
+					$.each(response, function(key, value){
+						var mockFile = { name: value.path, size: value.size};
+						myDropzone.options.addedfile.call(myDropzone, mockFile);
+						myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
+					})
+				}
+			})
+		})
+	})
+</script>
+@endpush
 @endsection

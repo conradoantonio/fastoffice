@@ -73,14 +73,7 @@
 				</div>
 			</div>
 			<div class="row">
-				@if( $office->photo )
-					<div class="col-md-3">
-						<img src="{{asset('img/offices/'.$office->id.'/'.$office->photo)}}" alt="Foto noticia" class="show">
-					</div>
-				@endif
-				<div class="form-group col-md-{{$office->photo?'9':'12'}} {{$errors->office->first('photo')?'has-error':''}}">
-					{{Form::label('photo', 'Foto', ['class' => !$office->id?'label-control required':'label-control'])}}
-					{{Form::file('photo', ['class' =>!$office->id?'form-control not-empty file image':'form-control file image', 'data-name' => 'Foto'])}}
+				<div class="row-fluid dropzone" id="dropzoneDiv">
 				</div>
 			</div>
 			<div class="row text-left buttons-form">
@@ -92,6 +85,63 @@
 </div>
 @push('scripts')
 	<script type="text/javascript">
+		var data = "";
+		if ( "{{$office->id}}" ){
+			data = "{{$office->pictures}}"
+			data = JSON.parse(data.replace(/&quot;/g,'"'));
+		}
+
+		if ( data ){
+			$('div.dz-default.dz-message').remove()
+		}
+		Dropzone.autoDiscover = false;
+
+		$(function(){
+			var myDropzone = new Dropzone("div#dropzoneDiv", {
+				url: "{{route('Office.update', $office->id)}}",
+				addRemoveLinks: true,
+				paramName: 'photo',
+				init: function() {
+					this.on("sending", function(file, xhr, formData){
+						formData.append("_method", "PUT");
+					});
+				},
+				removedfile: function(file) {
+					swal({
+						title: '¿Quieres eliminar este archivo adjunto?',
+						icon: "warning",
+						buttons: ["Cancelar", "Eliminar"],
+						dangerMode: true,
+					}).then((accept) => {
+						if (accept) {
+							$.ajax({
+								url: "{{route('Office.destroyImage')}}",
+								method:'delete',
+								type:'delete',
+								data:{
+									path: file.name
+								},
+								success:function(response){
+									file.previewElement.remove();
+									if ( response.status ){
+										swal('Éxito', response.msg, 'success');
+									} else {
+										swal('Error', response.msg, 'warning');
+									}
+								}
+							})
+						}
+					})
+				}
+			});
+			if ( data ){
+				$.each(data, function(key, value){
+					var mockFile = { name: value.path, size: value.size};
+					myDropzone.options.addedfile.call(myDropzone, mockFile);
+					myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
+				})
+			}
+		})
 		$('#branch_id').on('change', function(){
 			elem_to_block = $('select#user_id').parent('div').children('div.select2-container');
 			$("#user_id").select2("val", 0);
