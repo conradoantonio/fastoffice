@@ -22,13 +22,15 @@ class TemplatesController extends Controller
 		$template = new Template();
 		if ( $id ){
 			$template = Template::find($id);
+			$template->user_status_id  = $template->user_status_id + 1;
 		}
 		return view('templates.form', compact('template'));
 	}
 
 	public function store(Request $req){
 		$template = new Template();
-		$template->fill($req->all());
+		$template->fill($req->except('user_status_id'));
+		$template->user_status_id  = $req->user_status_id - 1;
 
 		if ( $template->save() ){
 			return redirect()->route('Template')->with('msg', 'Plantilla creada');
@@ -40,7 +42,8 @@ class TemplatesController extends Controller
 	public function update(Request $req, $id){
 		$aux = 0;
 		$template = Template::find($id);
-		$template->fill($req->except('file'));
+		$template->fill($req->except(['file', 'user_status_id']));
+		$template->user_status_id  = $req->user_status_id - 1;
 
 		if ( $req->hasFile('file') ){
 			$directorio = public_path().'/img/templates/'.$req->id.'/';

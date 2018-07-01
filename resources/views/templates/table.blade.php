@@ -9,6 +9,7 @@
 				</div>
 			</th>
 			<th>Nombre</th>
+			<th>Estatus de prospecto</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -23,6 +24,17 @@
 						</div>
 					</td>
 					<td>{{$template->name}}</td>
+					<td>
+						@if( $template->user_status_id == 0 )
+							Prospecto
+						@elseif( $template->user_status_id == 1 )
+							Cliente
+						@elseif( $template->user_status_id == 2 )
+							Concretado
+						@else
+							No concretado
+						@endif
+					</td>
 					<td>
 						@if($template->status)
 						<span class="label label-success status" data-url="{{route('Template.status')}}" data-id="{{$template->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>

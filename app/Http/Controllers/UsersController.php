@@ -110,9 +110,9 @@ class UsersController extends Controller
 				$params['email'] = $user->email;
 				$params['view'] = 'mails.credentials';
 
-				/*if ( $this->mail($params) ){
+				if ( $this->mail($params) ){
 					return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);
-				}*/
+				}
 				return redirect()->route('User.index1')->with([ 'msg' => 'Administrador actualizado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 			}
 			return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);

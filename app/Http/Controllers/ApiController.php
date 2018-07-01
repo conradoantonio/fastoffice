@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use Mail;
 
 use App\Models\User;
 use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationDetail;
+
+use App\Traits\GeneralFunctions;
+
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -52,5 +56,26 @@ class ApiController extends Controller
         $detail->save();
 
         return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+    }
+
+    /**
+     * Send mails for schedule task.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sendEmailCronJob(Request $req)
+    {
+        $params = array();
+        $params['subject'] = $req->subject;
+        $params['title'] = $req->title;
+        $params['content'] = $req->content;
+        $params['reminders'] = $req->reminders;
+        $params['email'] = $req->email;
+
+        Mail::send('mails.reminder', ['title' => $params['title'], 'content' => $params['content'], 'reminders' => $params['reminders']], function ($mail) use ($params) {
+            $mail->to($params['email'])
+                ->from(env('MAIL_USERNAME'), env('APP_NAME'))
+                ->subject(env('APP_NAME').' | '.$params['subject']);
+        });
     }
 }

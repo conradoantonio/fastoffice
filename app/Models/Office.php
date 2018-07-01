@@ -28,4 +28,8 @@ class Office extends Model
 	public function pictures(){
 		return $this->hasMany(OfficePicture::class);
 	}
+
+	public function tasks(){
+		return $this->hasMany(Meeting::class, 'office_id');
+	}
 }

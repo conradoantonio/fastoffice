@@ -160,5 +160,5 @@ Route::group(['middleware' => ['auth']], function() {
 
 #Rutas API
 Route::prefix('apiv1')->group(function () {
-
+	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
 });
