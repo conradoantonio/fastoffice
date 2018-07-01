@@ -69,23 +69,6 @@ class ApplicationsController extends Controller
         }
         return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'menu' => $menu, 'title' => $title]);
     }
-
-    /**
-     * Show the form for creating/editing a resource about a new prospect.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function generate_contract($id = 0)
-    {
-        $title = "Generar contratos";
-        $menu = "Prospectos";
-        $prospect = null;
-        if ($id) {
-            $prospect = Application::where('status', 0)->where('id', $id)->first();
-        }
-
-        return view('applications.generate_contract.form', ['prospect' => $prospect, 'menu' => $menu, 'title' => $title]);
-    }
     
 
     /**
@@ -244,5 +227,39 @@ class ApplicationsController extends Controller
         //$query = $query->where('status', 1);
 
         return $query->get();
+    }
+
+    /**
+     *===================================================================================================================================
+     *=                                                      Methods for contracts                                                      =
+     *===================================================================================================================================
+     */
+
+    /**
+     * Show the form for creating/editing a resource about a new prospect.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function generate_contract($id = 0)
+    {
+        $title = "Generar contratos";
+        $menu = "Prospectos";
+        $prospect = null;
+        if ($id) {
+            $prospect = Application::where('status', 0)->where('id', $id)->first();
+        }
+
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'menu' => $menu, 'title' => $title]);
+    }
+
+    /**
+     * Save the contract data.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function save_contract(Request $req)
+    {
+        
+        return response(['msg' => 'Contracto generado exitósamente', 'status' => 'success'], 200);
     }
 }
