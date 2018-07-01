@@ -17,13 +17,19 @@
 			@endif
 			<div class="row">
 				<div class="form-group col-md-12">
-					{{Form::label('name', 'Nombre', ['class' => 'control-label  required'])}}
+					{{Form::label('name', 'Nombre', ['class' => 'control-label required'])}}
 					{{Form::text('name', null, ['class' => 'form-control not-empty', 'data-name' => 'Nombre'])}}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-12">
-					{{Form::label('content', 'Contenido', ['class' => !$template->id?'label-control required':'label-control'])}}
+					{{Form::label('user_status_id', 'Status de prospecto', ['class' => 'control-label required'])}}
+					{!!Form::select('user_status_id', ['Seleccionar status', 'Prospecto', 'Cliente', 'Concreatado', 'No concretado'], null, ['class' => 'select2 form-control not-empty', 'id' => 'user_status_id', 'name' => 'user_status_id', 'data-name' => 'Status de prospecto'] )!!}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12">
+					{{Form::label('content', 'Contenido', ['class' => !$template->id?'label-controlrequired':'label-control'])}}
 					{{Form::textarea ('content', null, ['class' => 'form-control not-empty', 'data-name' => 'Contenido'])}}
 				</div>
 			</div>

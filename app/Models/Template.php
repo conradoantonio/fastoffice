@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Template extends Model
 {
 	protected $fillable = [
-		'name', 'content'
+		'name', 'content', 'user_status_id'
 	];
 
 	public $timestamps = false;
