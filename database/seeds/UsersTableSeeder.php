@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
 	{
 		$users = [
 			[
-				'fullname' => "Admin",
+				'fullname' => "Jorge Enrique Benard Solorzano",
 				'email' => 'admin@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,

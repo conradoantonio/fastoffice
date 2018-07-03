@@ -1,54 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Concepto de pago</title>
+	<title>Contrato</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<style>
-	.color{
-		background-color: gray;
-		font-weight: bold;
-	}
-	.none{
-		background-color:none;
-	}
-	td, th{
-		padding: 1px!important;
-	}
-	.firma {
-		text-align: center;
-    	display: inline-block;
-		width: 300px;
-	    height: 40px;
-	    margin: 5px;
-	}
-	.firmas {
-		width: 700px;
-	}
-
+	
 	</style>
 </head>
 
 <body>
-	<div class="row">
+	<div class="fixed-top-left">
+		<img class="logo" src="{{asset('img/fa_of_logo.png')}}">
+	</div>
+	<div class="start">
+		<p class="break bold">CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
+		<br>
+		<p class="break">
+			EN EL MUNICIPIO DE ZAPOPAN JALISCO A LOS 15 DIAS DEL MES DE ENERO DEL AÑO 2018 COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
+			POR UNA PARTE, JACQUELINE GARCIA GUTIERREZ A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ “EL PRESTADOR” Y POR LA OTRA PARTE XXXXXXXXXXXXXXXXXXXXX 
+			A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ “EL CLIENTE” AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS
+		</p>
+	</div>
+	{{-- <div class="row">
 	 	<div class="centrar">
 			<img class="img-logo" src="{{asset('img/login_logo.png')}}" alt="company-logo">
 		</div>
-	</div>
-	<div class="row">
-		<div class="">
-			<div class="col-sm-12 col-xs-12">
-                <div class="alert alert- alert-dismissible justify" role="alert">
-                    Recibo por concepto de servicios al ArtLook <strong>{{$estilista->usuario->nombre.' '.$estilista->usuario->apellido}}</strong>, con fecha inicial del día
-					{{date('d/M/Y', strtotime($fecha_inicio))}} al {{date('d/M/Y', strtotime($fecha_fin))}}, por la cantidad de ${{$total}} mxn, 
-					quedando saldadas las cuentas a la fecha anteriormente mencionada. <br>
-					A continuación se enlistan los servicios brindados por el Artlook:
-                </div>
-            </div>
-		</div>
-	</div>
+	</div> --}}
+	
 	<br>
-	<table class="table">
+	{{-- <table class="table">
 		<thead class="thead-light">
 			<tr>
 				<th>Servicio</th>
@@ -73,19 +54,8 @@
 				</tr>
 			@endif
 		</tbody>
-	</table>
+	</table> --}}
 	<br>
-
-	<div class="containter firmas">
-		<div class="col-md-6 firma">
-			____________________________<br>	
-			Eduardo Ascencio Santana
-		</div>
-		<div class="col-md-6 firma">
-			____________________________<br>
-			{{$estilista->usuario->nombre.' '.$estilista->usuario->apellido}}
-		</div>
-	</div>
 </body>
 </html>
 

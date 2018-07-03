@@ -36,7 +36,31 @@
                     $('input[name=date], input[name=hour]').removeClass('not-empty');
                 }
             });
-            
+
+            //Accept the prospect
+            $('body').delegate('.accept-prospect','click', function() {
+                var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
+                var customer = $(this).parent().siblings("td:nth-child(3)").text();
+                var office = $(this).parent().siblings("td:nth-child(7)").text();
+                var url = "{{url('crm/prospectos/generar-contrato')}}"+"/"+prospect_id;
+
+                swal({
+                    title: '¿Realmente quiere aceptar al prospecto ' + customer + ' interesado en la oficina ' + office + '?',
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML:"¡En caso de ser necesario, se creará un usuario para que el cliente pueda acceder a la aplicación!"
+                        },
+                    },
+                    icon: 'warning',
+                    buttons:["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                }).then((accept) => {
+                    if (accept) {
+                        window.location.href = url;
+                    }
+                }).catch(swal.noop);
+            });
 
             //Reject prospects
             $('body').delegate('.reject-prospect', 'click', function() {

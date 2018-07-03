@@ -7,6 +7,7 @@ use PDF;
 use App\Models\User;
 use App\Models\Office;
 use App\Models\Meeting;
+use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationComment;
@@ -244,12 +245,14 @@ class ApplicationsController extends Controller
     {
         $title = "Generar contratos";
         $menu = "Prospectos";
-        $prospect = null;
+        $prospect = $contract = null;
         if ($id) {
             $prospect = Application::where('status', 0)->where('id', $id)->first();
         }
 
-        return view('applications.generate_contract.form', ['prospect' => $prospect, 'menu' => $menu, 'title' => $title]);
+        if ($prospect) { $this->create_user($id); }
+
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'contract' => $contract, 'menu' => $menu, 'title' => $title]);
     }
 
     /**
@@ -259,7 +262,66 @@ class ApplicationsController extends Controller
      */
     public function save_contract(Request $req)
     {
-        
-        return response(['msg' => 'Contracto generado exitósamente', 'status' => 'success'], 200);
+        $contract = New Contract;
+
+        $req->has('user_id') ? $contract->user_id = $req->user_id : '';
+        $req->has('application_id') ? $contract->application_id = $req->application_id : '';
+        $contract->office_id = $req->office_id;
+        $contract->contract_date = $req->contract_date;
+        $contract->provider_name = $req->provider_name;
+        $contract->customer_ine_number = $req->customer_ine_number;
+        $contract->customer_activity = $req->customer_activity;
+        $contract->customer_address = $req->customer_address;
+        $contract->start_date_validity = $req->start_date_validity;
+        $contract->end_date_validity = $req->end_date_validity;
+        $contract->monthly_payment_str = $req->monthly_payment_str;
+        $contract->payment_range = $req->payment_range;
+        $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
+        $contract->guarantee_deposit_str = $req->guarantee_deposit_str;
+
+        $contract->save();
+
+        if ($req->has('application_id')) {
+            $app = Application::find($req->application_id);
+            if ($app) {
+                $app->status = 1;//Marked as customer
+                $app->save();
+            }
+        }
+
+        return response(['msg' => 'Contracto generado exitósamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+    }
+
+    /**
+     *===================================================================================================================================
+     *=                                                      Methods for customers                                                      =
+     *===================================================================================================================================
+     */
+
+    /**
+     * Show the customers contracts.
+     *
+     */
+    public function show_customers_contracts(Request $req)
+    {
+        $title = "Contratos de clientes";
+        $menu = "CRM";
+        $contracts = Application::orderBy('id', 'desc')->where('status', 1)->get();
+
+        if ($req->ajax()) {
+            return view('applications.customers_contracts.table', ['contracts' => $contracts]);
+        }
+        return view('applications.customers_contracts.index', ['contracts' => $contracts, 'menu' => $menu , 'title' => $title]);
+    }
+
+    public function view_contract($contract_id)
+    {
+        $contract = Application::find($contract_id);
+
+        if ($contract) {
+            $pdf = PDF::loadView('contracts.physical_person.physical_office', ['contract' => $contract])
+            ->setPaper('letter')->setWarnings(false);
+            return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
+        }
     }
 }

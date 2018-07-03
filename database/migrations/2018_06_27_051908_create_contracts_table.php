@@ -15,12 +15,20 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->integer('application_id')->nullable();
-            $table->string('state');
-            $table->string('municipality');
-            $table->string('start_day');
-            $table->string('start_month');
-            $table->string('start_year');
+            $table->integer('office_id');
+            $table->date('contract_date');
+            $table->string('provider_name');
+            $table->string('customer_ine_number');
+            $table->string('customer_activity');
+            $table->string('customer_address');
+            $table->date('start_date_validity');
+            $table->date('end_date_validity');
+            $table->string('monthly_payment_str');
+            $table->string('payment_range');
+            $table->string('monthly_payment_delay_str');
+            $table->string('guarantee_deposit_str');
             $table->timestamps();
         });
     }

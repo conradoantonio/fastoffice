@@ -3,24 +3,33 @@ html{
 	margin-right: 0;
 	padding: 0;
 }
-a{
-	text-decoration: none;
-	color: black;
-}
-th, td {
-    text-align: center!important;
-    font-size: 14px;
+body {
+	text-align: center!important;
+	margin-right: 0;
+	padding: 20mm;
+	border-color: coral!important;
+	/*width: 700px;
+	margin-top:20mm;*/
 }
 h5,
-p{
+/*p{
 	font-size: 15px;
 	padding: 0px;
 	margin: 0px;
-}
+}*/
 
 h3{
 	padding: 0px;
 	margin-bottom: 0px;
+}
+.start{
+	padding-top: 150mm;
+}
+.break{
+    display: block;
+}
+.bold{
+	font-weight: bold;
 }
 .no-padding{
 	padding: 0px;
@@ -28,11 +37,11 @@ h3{
 .no-margin{
 	margin: 0px;
 }
-img.img-logo{
-	width: 20%;
+.justify{
+	text-align: justify!important;
 }
-.centrar{
-	text-align: center;
+.center{
+	text-align: center!important;
 }
 .title{
 	color: #006064;
@@ -66,22 +75,9 @@ img.img-logo{
     height: 80px;
     border-bottom: 3px solid gray;	
 }
-.justify{
-	text-align: justify;
-}
-body {
-	width: 700px;
-	margin-top:20mm;
-}
+
 .container{
 	width: 600px;
-}
-.separate{
-	height: 30mm;
-}
-
-.separate2{
-	height: 15mm;
 }
 
 .fixed-top-left{
@@ -91,15 +87,16 @@ body {
 .fixed-top-right {
 	position: fixed;
 }
-.logo {
-	width: 30mm;
-	height: 15mm;
+img.logo {
+	opacity: 0.5;
+	/*width: 30mm;
+	height: 15mm;*/
 }
-.header-info {
+/*.header-info {
 	margin-right: 12mm;
 	text-align: right;
 	font-size: 12px!important;
-}
+}*/
 #header{
 	height: 70px;
 }
