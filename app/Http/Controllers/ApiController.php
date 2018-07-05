@@ -22,6 +22,7 @@ class ApiController extends Controller
      */
     public function save_prospect(Request $req)
     {
+        dd($req->all());
         $user = User::find($req->user_id);
         $office = Office::find($req->office_id);
 
@@ -57,6 +58,17 @@ class ApiController extends Controller
 
         return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
     }
+
+    /**
+     * Look for offices that cumply the customer requirements
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter_offices(Request $req)
+    {
+        return app('App\Http\Controllers\ApplicationsController')->filter_offices($req);
+    }
+    
 
     /**
      * Send mails for schedule task.

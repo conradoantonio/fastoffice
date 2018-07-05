@@ -1,35 +1,48 @@
 html{
 	font-family: 'Roboto', sans-serif;
-	margin-right: 0;
+	/*margin-right: 0;*/
+	font-size: 12.7px;
 	padding: 0;
 }
 body {
 	text-align: center!important;
-	margin-right: 0;
-	padding: 20mm;
+	/*margin-right: 0;*/
+	padding: 10mm;
 	border-color: coral!important;
 	/*width: 700px;
 	margin-top:20mm;*/
 }
-h5,
-/*p{
-	font-size: 15px;
-	padding: 0px;
-	margin: 0px;
-}*/
-
-h3{
-	padding: 0px;
-	margin-bottom: 0px;
+img.logo {
+	opacity: 0.5;
+	/*width: 30mm;
+	height: 15mm;*/
 }
-.start{
-	padding-top: 150mm;
+ul.b-up-alpha{
+	list-style-type: upper-alpha; 
+}
+ul.b-numeric{
+	list-style-type: decimal; 
+}
+ul.b-up-disc{
+	list-style-type: disc; 
+}
+ul.no-style{
+	list-style: none;
+}
+.start-page{
+	padding-top: 15mm;
 }
 .break{
     display: block;
 }
 .bold{
 	font-weight: bold;
+}
+.italic{
+	font-style: oblique;
+}
+.underline{
+	text-decoration: underline;
 }
 .no-padding{
 	padding: 0px;
@@ -43,39 +56,30 @@ h3{
 .center{
 	text-align: center!important;
 }
-.title{
-	color: #006064;
+.left{
+	text-align: left!important;
 }
-.subtitle{
-	color: #004d40;
+.right{
+	text-align: right!important;
 }
-
-.rf-laboratory{
-    display: inline-block;
-    width: 210px;
-    height: 75px;
-    margin: 10px;
-    border-bottom: 3px solid gray;
+.new-page{
+	page-break-after: always;
 }
-
-.Shield-Box,
-.RF-Test-Agilent,
-.RF-Test-CMW,
-.RF-Test-CMU{
-    display: inline-block;
-    width: 220px;
-    height: 40px;
-    margin: 5px;
-    border-bottom: 3px solid gray;
+.one-line-sp{
+	margin-bottom: 3.7mm; 
 }
-
-.Link-DMS{
-	display: inline-block;
-    width: 700px;
-    height: 80px;
-    border-bottom: 3px solid gray;	
+span.white-space-3:before{
+	content: "\00a0 \00a0 \00a0";
 }
-
+span.white-space-4:before{
+	content: "\00a0 \00a0 \00a0 \00a0";
+}
+span.white-space-5:before{
+	content: "\00a0 \00a0 \00a0 \00a0 \00a0";
+}
+.less-li-he{
+	line-height: 15px;
+}
 .container{
 	width: 600px;
 }
@@ -87,16 +91,6 @@ h3{
 .fixed-top-right {
 	position: fixed;
 }
-img.logo {
-	opacity: 0.5;
-	/*width: 30mm;
-	height: 15mm;*/
-}
-/*.header-info {
-	margin-right: 12mm;
-	text-align: right;
-	font-size: 12px!important;
-}*/
 #header{
 	height: 70px;
 }

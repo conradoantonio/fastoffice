@@ -214,9 +214,9 @@ class ApplicationsController extends Controller
     {
         $query = Office::query();
 
-        if ($req->badget){ $query = $query->where('price', '<=', $req->badget); }
+        if ($req->badget) { $query = $query->where('price', '<=', $req->badget); }
 
-        if ($req->num_people){ $query = $query->where('num_people', '>=', $req->num_people); }
+        if ($req->num_people) { $query = $query->where('num_people', '>=', $req->num_people); }
 
         if ($req->office_type_id) { 
             $query = $query->whereHas('type', function($q) use($req) {
