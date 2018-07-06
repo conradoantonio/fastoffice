@@ -5,12 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<style>
-		.signature {
-			text-align: center;
-	    	display: inline-block;
-			width: 50%;
-		    height: 40px;
-		}
+		
 	</style>
 </head>
 
@@ -21,29 +16,29 @@
 	<div class="start-page">
 		<p class="break bold center">CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
 		<br>
-		<p class="break justify">
+		<p class="break justify uppercase">
 			EN EL MUNICIPIO DE ZAPOPAN JALISCO A LOS 15 DIAS DEL MES DE ENERO DEL AÑO 2018 COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-			POR UNA PARTE, JACQUELINE GARCIA GUTIERREZ A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ “EL PRESTADOR” Y POR LA OTRA PARTE XXXXXXXXXXXXXXXXXXXXX 
-			A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ “EL CLIENTE” AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
+			POR UNA PARTE, <span class="bold">JACQUELINE GARCIA GUTIERREZ</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
+			A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
 		</p>
 		<br>
 		<p class="break bold center">DECLARACIONES:</p>
 		<br>
 		<p class="break justify">I.<span class="white-space-5">DECLARA “EL PRESTADOR”</span></p>
 		<ul class="b-up-alpha justify">
-			<li class="one-line-sp">Es una persona física con actividad empresarial, mayor de edad con facultad para suscribir el presente instrumento y que representa en este acto para identificarse con la credencial del Instituto Federal Electoral número 3081087463460.</li>
-			<li class="one-line-sp">Que se encuentra autorizado para disponer del bien inmueble para oficinas de representación comercial que se ubica en Av. Cruz del Sur 3195 3er. piso interior #12 Colonia Lomas de la Victoria C.P 45527 en San Pedro Tlaquepaque Jalisco.</li>
-			<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en el domicilio de Av. Cruz del Sur 3195 tercer piso Col. Lomas de la Victoria C.P 45527 en San Pedro Tlaquepaque Jalisco.</li>
-			<li class="one-line-sp">Que tiene como registro federal de contribuyentes: GAGJ801226650</li>
+			<li class="one-line-sp">Es una persona física con actividad empresarial, mayor de edad con facultad para suscribir el presente instrumento y que representa en este acto para identificarse con la credencial del Instituto Federal Electoral número {{-- {{$contract->provider_ine_number}} --}}.</li>
+			<li class="one-line-sp">Que se encuentra autorizado para disponer del bien inmueble para oficinas de representación comercial que se ubica en {{$contract->office->address}}</li>
+			<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en el domicilio de {{$contract->office->address}}</li>
+			<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer->rfc}}</li>
 		</ul>
 
 		<br>
 		<p class="break justify">II.<span class="white-space-5">DECLARA “EL CLIENTE”</span></p>
 		<ul class="b-up-alpha justify">
-			<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número XXXXXXXXXXX</li>
-			<li class="one-line-sp">Que su primordial actividad es la siguiente: <span class="bold">XXXXXXXXXXXXXXX</span>.</li>
-			<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en Sebastián Bach #4978 int. 7 cp. 45030 de la colonia Prados Guadalupe en Zapopan Jalisco.</li>
-			<li class="one-line-sp">Que tiene como registro federal de contribuyentes: XXXXXXXXXX.</li>
+			<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número {{$contract->customer_ine_number}}</li>
+			<li class="one-line-sp">Que su primordial actividad es la siguiente: {{$contract->customer_activity}}.</li>
+			<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->office->address}}.</li>
+			<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer_ine_number}}.</li>
 		</ul>
 
 		<br><br><br><br><br><br><br>

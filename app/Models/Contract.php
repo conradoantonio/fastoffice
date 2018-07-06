@@ -20,7 +20,7 @@ class Contract extends Model
 	 */
 	protected $fillable = [
 		'user_id', 'application_id', 'office_id', 'contract_date', 'provider_name', 'customer_ine_number', 'customer_activity', 'customer_address',
-		'start_date_validity', 'end_date_validity', 'monthly_payment_str', 'payment_range', 'monthly_payment_delay_str', 'guarantee_deposit_str',
+		'start_date_validity', 'end_date_validity', 'monthly_payment_str', 'payment_range_start', 'payment_range_end', 'monthly_payment_delay_str',
 	];
 
 	/**

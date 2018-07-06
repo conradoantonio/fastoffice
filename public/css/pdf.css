@@ -29,6 +29,9 @@ ul.b-up-disc{
 ul.no-style{
 	list-style: none;
 }
+.uppercase{
+	text-transform: uppercase;
+}
 .start-page{
 	padding-top: 15mm;
 }
@@ -67,6 +70,12 @@ ul.no-style{
 }
 .one-line-sp{
 	margin-bottom: 3.7mm; 
+}
+.signature {
+	text-align: center;
+	display: inline-block;
+	width: 50%;
+    height: 40px;
 }
 span.white-space-3:before{
 	content: "\00a0 \00a0 \00a0";

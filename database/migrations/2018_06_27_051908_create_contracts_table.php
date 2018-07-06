@@ -26,9 +26,9 @@ class CreateContractsTable extends Migration
             $table->date('start_date_validity');
             $table->date('end_date_validity');
             $table->string('monthly_payment_str');
-            $table->string('payment_range');
+            $table->integer('payment_range_start');
+            $table->integer('payment_range_end');
             $table->string('monthly_payment_delay_str');
-            $table->string('guarantee_deposit_str');
             $table->timestamps();
         });
     }
