@@ -10,6 +10,8 @@ use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Branch;
 use App\Models\OfficePicture;
+use App\Models\State;
+use App\Models\Municipality;
 use Image;
 use Excel;
 
@@ -38,12 +40,17 @@ class OfficesController extends Controller
 		$types = OfficeType::pluck('name', 'id')->prepend("Seleccione un tipo", 0);
 		$users = [0 => "Seleccione un usuario"];
 		$offices = Branch::where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
+		$states = State::pluck('name', 'id')->prepend('Selecciona un estado', 0);
+		$municipalities = [0 => 'Seleccione un municipio'];
 
 		if ( $id ) {
 			$office = Office::findOrFail($id);
 			$users = User::where(['role_id' => 3, 'branch_id' => $office->branch_id])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
+			$municipalities = Municipality::whereHas('state', function($query) use ($office){
+				$query->where('id', $office->state_id);
+			})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);
 		}
-		return view('offices.form', compact('office', 'users', 'offices', 'types'));
+		return view('offices.form', compact('office', 'users', 'offices', 'types', 'states', 'municipalities'));
 	}
 
 	public function store(OfficeRequest $req){
@@ -133,12 +140,14 @@ class OfficesController extends Controller
 			if (!empty($data) && $data->count()) {
 				foreach ($data as $value) {
 					$branch = Branch::where('name', $value->sucursal)->first();
+					$state = State::where('name', $value->estado)->first();
+					$municipality = Municipality::where('name', $value->municipio)->first();
 					$type = 0;
-					if ( $value->type == 'Física' ){
+					if ( $value->type == 'Física' ) {
 						$type = 1;
-					} elseif ( $value->type == 'Virtual' ){
+					} elseif ( $value->type == 'Virtual' ) {
 						$type = 2;
-					} elseif ( $value->type == 'Sala de juntas' ){
+					} elseif ( $value->type == 'Sala de juntas' ) {
 						$type = 3;
 					} else {
 						$type = 4;
@@ -148,6 +157,8 @@ class OfficesController extends Controller
 						['name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
 						[
 							'branch_id' => $branch?$branch->id:0,
+							'state_id' => $state?$state->id:0,
+							'municipality_id' => $municipality?$municipality->id:0,
 							'name' => $value->name,
 							'address' => $value->address,
 							'phone' => $value->phone,
@@ -184,5 +195,12 @@ class OfficesController extends Controller
 			return ['status' => true, 'msg' => 'Imagen eliminado'];
 		}
 		return ['status' => false, 'msg' => 'Imagen eliminado'];
+	}
+
+	public function getMunicipalities($state_id){
+		return Municipality::whereHas('state', function($query) use ($state_id){
+			$query->where('id', $state_id);
+		})
+		->select('name', 'id')->get();
 	}
 }

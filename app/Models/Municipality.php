@@ -12,7 +12,7 @@ class Municipality extends Model
      * @var string
      */
     protected $table = 'municipalities';
-    
+
     /**
 	 * The attributes that are mass assignable.
 	 *
@@ -27,6 +27,6 @@ class Municipality extends Model
      */
     public function state()
     {
-        return $this->belongsTo(State::class, 'id', 'state_id');
+        return $this->belongsTo(State::class, 'state_id', 'id');
     }
 }

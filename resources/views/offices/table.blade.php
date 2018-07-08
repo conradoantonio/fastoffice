@@ -11,6 +11,8 @@
 			<th>Nombre</th>
 			<th>Franquicia</th>
 			<th>Recepcionista</th>
+			<th>Estado</th>
+			<th>Municipio</th>
 			<th>Tipo</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
@@ -28,6 +30,8 @@
 					<td>{{$office->name}}</td>
 					<td>{{$office->branch->name}}</td>
 					<td>{{$office->user?$office->user->fullname : 'No asignado'}}</td>
+					<td>{{$office->state->name}}</td>
+					<td>{{$office->municipality->name}}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status)

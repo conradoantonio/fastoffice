@@ -35,6 +35,16 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-6">
+					{{Form::label('state_id', 'Estado', ['class' => 'control-label required'])}}
+					{!!Form::select('state_id', $states, null, ['class' => 'select2 form-control not-empty', 'data-name' => "Estado"] )!!}
+				</div>
+				<div class="form-group col-md-6">
+					{{Form::label('municipality_id', 'Municipio', ['class' => 'control-label required'])}}
+					{!!Form::select('municipality_id', $municipalities, null, ['class' => 'select2 form-control not-empty select2-offscreen', 'data-name' => "Municipio"] )!!}
+				</div>
+			</div>
+			<div class="row">
 				<div class="form-group col-md-12 {{$errors->office->first('office_type_id')?'has-error':''}}">
 					{{Form::label('office_type_id', 'Tipo de oficina', ['class' => 'control-label required'])}}
 					{!!Form::select('office_type_id', $types, null, ['class' => 'select2 form-control not-empty', 'id' => 'office_type_id', 'name' => 'office_type_id', 'data-name' => 'Tipo de oficina'] )!!}
@@ -142,6 +152,7 @@
 				})
 			}
 		})
+
 		$('#branch_id').on('change', function(){
 			elem_to_block = $('select#user_id').parent('div').children('div.select2-container');
 			$("#user_id").select2("val", 0);
@@ -162,6 +173,29 @@
 				})
 			} else {
 				$("#user_id option:gt(0)").remove();
+			}
+		})
+
+		$('#state_id').on('change', function(){
+			elem_to_block = $('select#municipality_id').parent('div').children('div.select2-container');
+			$("#municipality_id").select2("val", 0);
+			if ( $(this).val() != 0 ){
+				$.ajax({
+					url: "{{url('obtener-municipio')}}/"+$(this).val(),
+					method: 'POST',
+					beforeSend:function(){
+						blockUI(elem_to_block);
+					},
+					success:function(response){
+						$("#municipality_id option:gt(0)").remove();
+						$.each(response,function(i,e){
+							$("#municipality_id").append("<option value='"+e.id+"'>"+e.name+"</option>");
+						})
+						unblockUI(elem_to_block);
+					}
+				})
+			} else {
+				$("#municipality_id option:gt(0)").remove();
 			}
 		})
 	</script>
