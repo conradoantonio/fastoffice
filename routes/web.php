@@ -164,6 +164,14 @@ Route::group(['middleware' => ['auth']], function() {
 
 #Rutas API
 Route::prefix('apiv1')->group(function () {
+	/*
+	* Webservices básicos
+	*/
+	Route::post('login', 'ApiController@login');
+	Route::post('registro', 'ApiController@register');
+	Route::post('actualizar-perfil', 'ApiController@updateProfile');
+	Route::post('recuperar-password', 'ApiController@recovery');
+
 	Route::post('filtrar-oficinas', 'ApiController@filter_offices');
 	Route::post('guardar-prospecto', 'ApiController@save_prospect');
 	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
