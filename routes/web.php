@@ -122,6 +122,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-oficinas', 'OfficesController@multipleDestroys')->name('Office.multipleDestroys');
 		Route::get('obtener-usuarios/{branch_id?}', 'OfficesController@getUsersByBranch')->name('Office.users');
 		Route::delete('eliminar-oficina-imagen', 'OfficesController@deleteOfficePicture')->name('Office.destroyImage');
+		Route::get('obtener-municipio/{state_id}', 'OfficesController@getMunicipalities')->name('Office.state');
 	});
 
 	#Usuarios

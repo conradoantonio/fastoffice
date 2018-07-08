@@ -18,6 +18,8 @@ class CreateOfficesTable extends Migration
 			$table->integer('branch_id');
 			$table->integer('user_id')->default(0);
 			$table->integer('office_type_id');
+			$table->integer('state_id');
+			$table->integer('municipality_id');
 			$table->string('name');
 			$table->text('address');
 			$table->text('phone');

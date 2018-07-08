@@ -16,6 +16,8 @@ class OfficesTableSeeder extends Seeder
 				'branch_id' => 1,
 				'user_id' => 3,
 				'office_type_id' => 1,
+				'state_id' => 1,
+				'municipality_id' => 1,
 				'name' => "Oficina 1",
 				'phone' => "1231233",
 				'address' => "Simon Bolivar 594",
