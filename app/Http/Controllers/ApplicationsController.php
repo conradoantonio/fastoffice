@@ -264,6 +264,9 @@ class ApplicationsController extends Controller
     {
         $contract = New Contract;
 
+        $payment_range_start = date('d', strtotime($req->start_date_validity));
+        $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
+
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
@@ -275,9 +278,9 @@ class ApplicationsController extends Controller
         $contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
         $contract->monthly_payment_str = $req->monthly_payment_str;
-        $contract->payment_range = $req->payment_range;
+        $contract->payment_range_start = $payment_range_start;
+        $contract->payment_range_end = $payment_range_end;
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
-        $contract->guarantee_deposit_str = $req->guarantee_deposit_str;
 
         $contract->save();
 
@@ -306,7 +309,10 @@ class ApplicationsController extends Controller
     {
         $title = "Contratos de clientes";
         $menu = "CRM";
-        $contracts = Application::orderBy('id', 'desc')->where('status', 1)->get();
+        $contracts = Contract::whereHas('application', function($query) {//Verify if the contract has an application row
+            $query->orderBy('id', 'desc')->where('status', 1);
+        })
+        ->get();
 
         if ($req->ajax()) {
             return view('applications.customers_contracts.table', ['contracts' => $contracts]);
@@ -314,15 +320,17 @@ class ApplicationsController extends Controller
         return view('applications.customers_contracts.index', ['contracts' => $contracts, 'menu' => $menu , 'title' => $title]);
     }
 
+    /**
+     * Show the pdf contract.
+     *
+     */
     public function view_contract($contract_id)
     {
-        $contract = Application::find($contract_id);
-        print_r($contract);
-
-        /*if ($contract) {
+        $contract = Contract::find($contract_id);
+        if ($contract) {
             $pdf = PDF::loadView('contracts.physical_person.physical_office', ['contract' => $contract])
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
-        }*/
+        }
     }
 }
