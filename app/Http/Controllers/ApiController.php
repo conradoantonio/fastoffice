@@ -59,6 +59,17 @@ class ApiController extends Controller
     }
 
     /**
+     * Look for offices that cumply the customer requirements
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter_offices(Request $req)
+    {
+        return app('App\Http\Controllers\ApplicationsController')->filter_offices($req);
+    }
+    
+
+    /**
      * Send mails for schedule task.
      *
      * @return \Illuminate\Http\Response

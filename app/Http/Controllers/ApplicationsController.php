@@ -214,9 +214,9 @@ class ApplicationsController extends Controller
     {
         $query = Office::query();
 
-        if ($req->badget){ $query = $query->where('price', '<=', $req->badget); }
+        if ($req->badget) { $query = $query->where('price', '<=', $req->badget); }
 
-        if ($req->num_people){ $query = $query->where('num_people', '>=', $req->num_people); }
+        if ($req->num_people) { $query = $query->where('num_people', '>=', $req->num_people); }
 
         if ($req->office_type_id) { 
             $query = $query->whereHas('type', function($q) use($req) {
@@ -317,11 +317,12 @@ class ApplicationsController extends Controller
     public function view_contract($contract_id)
     {
         $contract = Application::find($contract_id);
+        print_r($contract);
 
-        if ($contract) {
+        /*if ($contract) {
             $pdf = PDF::loadView('contracts.physical_person.physical_office', ['contract' => $contract])
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
-        }
+        }*/
     }
 }
