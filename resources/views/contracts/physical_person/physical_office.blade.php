@@ -4,14 +4,14 @@
 	<title>Contrato</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<style>
-		
-	</style>
 </head>
 
 <body>
-	<div class="fixed-top-left">
+	<div class="fixed-top">
 		<img class="logo" src="{{asset('img/fa_of_logo.png')}}">
+	</div>
+	<div class="fixed-middle">
+		<img class="water-mark" src="{{asset('img/fa_icon.png')}}">
 	</div>
 	<div class="start-page">
 		<p class="break bold center">CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
@@ -67,7 +67,7 @@
 		<p class="break justify bold">2. Contraprestaciones:</p>
 		<ul class="b-up-alpha less-li-he justify">
 			<li class="one-line-sp">“EL CLIENTE” se obliga a pagar a “EL PRESTADOR” por concepto de prestación de servicios de este contrato y validando la promoción de pronto pago la cantidad mensual de ${{$contract->office->price}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado la cual será válida realizando el pago el día puntual de la fecha de contratación entre el día {{$contract->payment_range_start}} y {{$contract->payment_range_end}} de cada mes.</li>
-			<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de    ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6 A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
+			<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6 A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
 			
 			<div class="new-page"></div>
 			<br><br>
@@ -159,7 +159,9 @@
 			<li class="one-line-sp">En los términos de este contrato son confidenciales. “EL CLIENTE no podrá divulgar ningún tipo de información que se le haya proporcionado, sin la autorización de la otra parte a menos que la ley o una autoridad competente lo requieran. esta obligación continuara después de la finalización o terminación del presente contrato por un lapso de tiempo de 5 años posteriores a la fecha en la que se haya terminado, rescindido o finalizado el presente instrumento jurídico.</li>
 		</ul>
 
-		<br><br><br><br>
+		<div class="new-page"></div>
+		<br><br>
+
 		<p class="break justify bold">7. Incumplimiento y terminación del contrato:</p>
 		<ul class="b-up-alpha less-li-he justify">
 			<li class="one-line-sp">En el evento de que “EL PRESTADOR” incumpla con alguna de las obligaciones asumidas a su cargo por virtud del presente contrato, “EL CLIENTE” deberá notificar por escrito a “EL PRESTADOR”</li>
@@ -180,7 +182,8 @@
 			<li class="one-line-sp">para la interpretación y cumplimiento de este contrato, así como para lo no previsto en el mismo, las partes se someten a la jurisdicción y competencia de los tribunales por medio de la vía mercantil del fuero común de la ciudad de {{$contract->office->municipality->name}} en el estado de {{$contract->office->state->name}}, por lo que renuncian expresamente al fuero que, por razón de su domicilio presente o futuro, pudiera corresponderles.</li>
 		</ul>
 
-		<br><br><br>
+		<div class="new-page"></div>
+		<br><br>
 		<br>
 		<p class="break justify bold">9. Respetar el compromiso de no competencia:</p>
 		<p class="break justify">en razón a la información y conocimientos de carácter confidencial a los que tuvo acceso por motivo de la relación contractual que mantuvo con EL PRESTADOR, EL CLIENTE se obliga, durante 5 (cinco) años contados a partir del día en que opere la terminación del presente contrato, a no operar negocios similares, participar directa o indirectamente en algún negocio perteneciente al ramo de mercado al que pertenece EL PRESTADOR, así como establecer o participar en negocios en los que se ofrezcan productos y servicios similares a los que ofrece EL PRESTADOR en sus franquicias, invertir en esquemas de negocio iguales o con algún grado de similitud al utilizado por EL PRESTADOR, desarrollar o participar en el desarrollo de un sistema o de un esquema de negocio de cualquier tipo que constituya competencia directa con el concepto de negocio DEL PRESTADOR o que utilice procesos y procedimientos similares a los establecidos en el contrato  y en la información confidencial DEL PRESTADOR. O en su defecto que EL CLIENTE elija cubrir una indemnización por la cantidad de $480,000.00 (cuatrocientos ochenta mil pesos 00/100 m.n.) en favor DEL PRESTADOR, cuando este se quiera dedicar a un concepto similar al prestador, en este supuesto el simple pago de la indemnización permitirá al cliente ser competencia DEL PRESTADOR.</p>
@@ -216,7 +219,7 @@
 		<div class="new-page"></div>
 		
 		<br>
-		<p class="break center bold underline">APÉNDICE</p>
+		<p class="break center bold underline letter-space">APÉNDICE</p>
 		<br>
 		<p class="break left">LISTA DE PRECIOS DE SERVICIOS ADICIONALES:</p>
 
@@ -253,5 +256,20 @@
 	</div>
 
 </body>
-</html>
+	<script type="text/php">
+	    if (isset($pdf)) {
+	    	echo 'asdasdasd';
+		    $x = 755;
+		    $y = 550;
+		    $text = "{PAGE_NUM} of {PAGE_COUNT}";
+		    $font = $fontMetrics->get_font("Times");
+		    $size = 8;
+		    $color = array(0,0,0);
+		    $word_space = 0.0;  //  default
+		    $char_space = 0.0;  //  default
+		    $angle = 0.0;   //  default
+		    $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
 
+		}
+	</script>
+</html>

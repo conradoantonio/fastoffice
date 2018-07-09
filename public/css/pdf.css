@@ -8,7 +8,6 @@ body {
 	text-align: center!important;
 	/*margin-right: 0;*/
 	padding: 10mm;
-	border-color: coral!important;
 	/*width: 700px;
 	margin-top:20mm;*/
 }
@@ -16,6 +15,12 @@ img.logo {
 	opacity: 0.5;
 	/*width: 30mm;
 	height: 15mm;*/
+}
+img.water-mark{
+	opacity: 0.1;
+	display: block;
+	padding-top: 50%!important;
+    width: 25%;
 }
 ul.b-up-alpha{
 	list-style-type: upper-alpha; 
@@ -28,6 +33,21 @@ ul.b-up-disc{
 }
 ul.no-style{
 	list-style: none;
+}
+span.white-space-3:before{
+	content: "\00a0 \00a0 \00a0";
+}
+span.white-space-4:before{
+	content: "\00a0 \00a0 \00a0 \00a0";
+}
+span.white-space-5:before{
+	content: "\00a0 \00a0 \00a0 \00a0 \00a0";
+}
+.fixed-top{
+	position:fixed; 
+}
+.fixed-middle {
+	position: fixed;
 }
 .capitalize{
 	text-transform: capitalize;
@@ -49,6 +69,9 @@ ul.no-style{
 }
 .underline{
 	text-decoration: underline;
+}
+.letter-space{
+	letter-spacing: 5px;
 }
 .no-padding{
 	padding: 0px;
@@ -80,29 +103,9 @@ ul.no-style{
 	width: 50%;
     height: 40px;
 }
-span.white-space-3:before{
-	content: "\00a0 \00a0 \00a0";
-}
-span.white-space-4:before{
-	content: "\00a0 \00a0 \00a0 \00a0";
-}
-span.white-space-5:before{
-	content: "\00a0 \00a0 \00a0 \00a0 \00a0";
-}
 .less-li-he{
 	line-height: 15px;
 }
 .container{
-	width: 600px;
-}
-
-.fixed-top-left{
-	position:fixed; 
-}
-
-.fixed-top-right {
-	position: fixed;
-}
-#header{
-	height: 70px;
+	width: 100%;
 }

@@ -255,7 +255,7 @@
 							<a href="{{route('Crm.prospects.history')}}"> Prospectos (Descartados) </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.prospects.customers_contracts', '']) ) ? 'active open' : '' }}">
-							<a href="{{route('Crm.prospects.customers_contracts')}}"> Clientes </a>
+							<a href="{{route('Crm.prospects.customers_contracts')}}"> Contratos de clientes </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Template')}}"> Plantillas </a>

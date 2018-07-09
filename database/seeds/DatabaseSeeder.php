@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(BranchesTableSeeder::class);
 		$this->call(OfficesTableSeeder::class);
 		$this->call(OfficeTypeTableSeeder::class);
+		$this->call(StatesTableSeeder::class);
+		$this->call(MunicipalitiesTableSeeder::class);
 	}
 }
