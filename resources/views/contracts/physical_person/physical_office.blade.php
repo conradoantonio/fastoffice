@@ -17,8 +17,8 @@
 		<p class="break bold center">CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
 		<br>
 		<p class="break justify uppercase">
-			EN EL MUNICIPIO DE ZAPOPAN JALISCO A LOS 15 DIAS DEL MES DE ENERO DEL AÑO 2018 COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-			POR UNA PARTE, <span class="bold">JACQUELINE GARCIA GUTIERREZ</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
+			EN EL MUNICIPIO DE {{$contract->office->municipality}} JALISCO A LOS {{strftime('%d', strtotime($contract->contract_date))}} DIAS DEL MES DE {{strftime('%B', strtotime($contract->contract_date))}} DEL AÑO {{strftime('%Y', strtotime($contract->contract_date))}} COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
+			POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
 			A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
 		</p>
 		<br>

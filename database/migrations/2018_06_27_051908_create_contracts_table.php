@@ -20,8 +20,9 @@ class CreateContractsTable extends Migration
             $table->integer('office_id');
             $table->date('contract_date');
             $table->string('provider_name');
-            $table->string('customer_ine_number');
-            $table->string('customer_activity');
+            $table->string('provider_ine_number')->nullable();
+            $table->string('customer_ine_number')->nullable();
+            $table->string('customer_activity')->nullable();
             $table->string('customer_address');
             $table->date('start_date_validity');
             $table->date('end_date_validity');

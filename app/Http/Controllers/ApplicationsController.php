@@ -272,6 +272,7 @@ class ApplicationsController extends Controller
         $contract->office_id = $req->office_id;
         $contract->contract_date = $req->contract_date;
         $contract->provider_name = $req->provider_name;
+        $contract->provider_ine_number = $req->provider_ine_number;
         $contract->customer_ine_number = $req->customer_ine_number;
         $contract->customer_activity = $req->customer_activity;
         $contract->customer_address = $req->customer_address;

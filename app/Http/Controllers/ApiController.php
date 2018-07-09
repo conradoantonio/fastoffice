@@ -22,7 +22,6 @@ class ApiController extends Controller
      */
     public function save_prospect(Request $req)
     {
-        dd($req->all());
         $user = User::find($req->user_id);
         $office = Office::find($req->office_id);
 

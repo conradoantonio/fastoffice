@@ -52,9 +52,15 @@
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
-                    <input type="text" class="form-control not-empty" value="{{auth()->user() ? auth()->user()->fullname : ''}}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
+                    <input type="text" class="form-control not-empty" value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
                 </div>
         	</div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="provider_ine_number">Número de INE del prestador</label>
+                    <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
+                </div>
+            </div>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="customer_ine_number">Número de INE del cliente</label>
