@@ -29,6 +29,9 @@ ul.b-up-disc{
 ul.no-style{
 	list-style: none;
 }
+.capitalize{
+	text-transform: capitalize;
+}
 .uppercase{
 	text-transform: uppercase;
 }
