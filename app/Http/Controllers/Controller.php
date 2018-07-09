@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Traits\GeneralFunctions;
 use Mail;
 
+setlocale(LC_ALL,"es_ES");
+
 class Controller extends BaseController
 {
 	use AuthorizesRequests, DispatchesJobs, ValidatesRequests, GeneralFunctions;
