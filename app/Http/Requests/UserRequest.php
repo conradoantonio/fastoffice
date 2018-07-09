@@ -37,11 +37,6 @@ class UserRequest extends FormRequest
 						'password' => 'required|min:8',
 					];
 				} else {
-					if ( $this->social ){
-						return [
-							'email' => 'required|email|unique:users,email,1,social',
-						];
-					}
 					return [
 						'fullname'  => 'required|regex:/^[\pL\s]+$/u|min:3',
 						'phone' => 'required|numeric',

@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         #commands\CheckUserStatus::class,
-        Commands\CheckNotificationsCalendar::class
+        Commands\CheckNotificationsCalendar::class,
+        Commands\CheckPaymentStatus::class
     ];
 
     /**
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('command:CheckPaymentStatus')->daily();
+
         $schedule->command('command:CheckNotificationsCalendar')->weekdays()
             ->at('06:00');
     }
