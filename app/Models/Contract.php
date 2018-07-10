@@ -24,7 +24,7 @@ class Contract extends Model
 	];
 
 	/**
-     * Get the possible application associated with the contract.
+     * Get the application associated with the contract.
      */
     public function application()
     {

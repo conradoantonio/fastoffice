@@ -30,7 +30,7 @@ class CreateContractsTable extends Migration
             $table->integer('payment_range_start');
             $table->integer('payment_range_end');
             $table->string('monthly_payment_delay_str');
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->comment('0 por pagar, 1 pagado, 2 retrasado');
             $table->timestamps();
         });
     }

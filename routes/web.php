@@ -97,7 +97,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::get('/historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
 			Route::get('/clientes-contratos', 'ApplicationsController@show_customers_contracts')->name('Crm.prospects.customers_contracts');
 			Route::get('formulario-prospecto/{id?}', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
-			Route::get('generar-contrato/{id?}', 'ApplicationsController@generate_contract')->name('Crm.prospects.generate_contract');
+			Route::get('formulario-contrato/{app_id?}/{contract_id?}', 'ApplicationsController@generate_contract')->name('Crm.prospects.generate_contract');
 			Route::get('ver-contrato/{id?}', 'ApplicationsController@view_contract')->name('Crm.prospects.view_contract');//View contracts
 			Route::post('guardar-contrato', 'ApplicationsController@save_contract')->name('Crm.prospects.save_contract');
 			Route::post('actualizar-contrato', 'ApplicationsController@update_contract')->name('Crm.prospects.update_contract');

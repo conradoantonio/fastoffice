@@ -241,16 +241,20 @@ class ApplicationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function generate_contract($id = 0)
+    public function generate_contract($app_id = 0, $contract_id = 0)
     {
-        $title = "Generar contratos";
+        $title = $contract_id ? "Editar contrato" : "Crear contrato";
         $menu = "Prospectos";
         $prospect = $contract = null;
-        if ($id) {
-            $prospect = Application::where('status', 0)->where('id', $id)->first();
+        if ($app_id) {
+            $prospect = Application::/*where('status', 0)->*/where('id', $app_id)->first();
         }
 
-        if ($prospect) { $this->create_user($id); }
+        if ($contract_id) {
+            $contract = Contract::find($contract_id);
+        }
+
+        if ($prospect) { $this->create_user($app_id); }//Creates an application user if is neccesary
 
         return view('applications.generate_contract.form', ['prospect' => $prospect, 'contract' => $contract, 'menu' => $menu, 'title' => $title]);
     }
@@ -293,7 +297,40 @@ class ApplicationsController extends Controller
             }
         }
 
-        return response(['msg' => 'Contracto generado exitósamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+        return response(['msg' => 'Contrato generado exitósamente', 'status' => 'success', 'url' => url('crm/prospectos/clientes-contratos')], 200);
+    }
+
+    /**
+     * Updates the contract data.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_contract(Request $req)
+    {
+        $contract = Contract::find($req->id);
+
+        if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'success'], 404); }
+
+        $payment_range_start = date('d', strtotime($req->start_date_validity));
+        $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
+
+        $contract->office_id = $req->office_id;
+        $contract->contract_date = $req->contract_date;
+        $contract->provider_name = $req->provider_name;
+        $contract->provider_ine_number = $req->provider_ine_number;
+        $contract->customer_ine_number = $req->customer_ine_number;
+        $contract->customer_activity = $req->customer_activity;
+        $contract->customer_address = $req->customer_address;
+        $contract->start_date_validity = $req->start_date_validity;
+        $contract->end_date_validity = $req->end_date_validity;
+        $contract->monthly_payment_str = $req->monthly_payment_str;
+        $contract->payment_range_start = $payment_range_start;
+        $contract->payment_range_end = $payment_range_end;
+        $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
+
+        $contract->save();
+
+        return response(['msg' => 'Contracto modificado exitósamente', 'status' => 'success', 'url' => url('crm/prospectos/clientes-contratos')], 200);
     }
 
     /**

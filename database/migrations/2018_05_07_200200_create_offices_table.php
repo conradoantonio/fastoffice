@@ -27,7 +27,7 @@ class CreateOfficesTable extends Migration
 			$table->integer('num_people');
 			$table->text('description');
 			$table->string('photo')->nullable();
-			$table->integer('status')->default(1);
+			$table->integer('status')->default(1)->comment('0 => Inactiva, 1 => Disponible, 2 => Rentada');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 			$table->softDeletes();

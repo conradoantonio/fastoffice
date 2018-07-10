@@ -8,7 +8,7 @@
 	</div>
 	@endif
 	<div class="page-title">
-		<h1>{{$contract ? 'Generar' : 'Crear'}} <span class="semi-bold">Contrato</span></h1>
+		<h1>{{$contract ? 'Actualizar' : 'Crear'}} <span class="semi-bold">Contrato</span></h1>
 	</div>
 	<div class="row-fluid">
         <form id="form-data" class="valid ajax-plus" action="{{url('crm/prospectos')}}/{{$contract ? 'actualizar-contrato' : 'guardar-contrato'}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
@@ -92,7 +92,7 @@
                 </div>
         	</div>
         	@if($contract)
-	        	<div class="row">
+	        	{{-- <div class="row">
 	        		<div class="form-group col-sm-6 col-xs-12">
 	                    <label class="required" for="payment_range_start">Primer día de pago</label>
 	                    <input type="text" class="form-control not-empty" disabled value="{{$contract ? $contract->payment_range_start : ''}}" id="payment_range_start" name="payment_range_start" data-name="Primer día de pago">
@@ -101,7 +101,7 @@
 	                    <label class="required" for="payment_range_end">Último día de pago</label>
 	                    <input type="text" class="form-control not-empty" disabled value="{{$contract ? $contract->payment_range_end : ''}}" id="payment_range_end" name="payment_range_end" data-name="Primer día de pago">
 	                </div>
-	        	</div>
+	        	</div> --}}
 	        @endif
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
@@ -129,7 +129,7 @@
         	</div>
         	<hr>
 
-        	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
+        	<a href="{{route($contract ? 'Crm.prospects.customers_contracts' : 'Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
             <button type="submit" class="btn btn-success guardar" data-target="form-data">Guardar</button>
         </form>
 	</div>
