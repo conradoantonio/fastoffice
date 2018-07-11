@@ -243,7 +243,7 @@
 						<a href="{{route('Faq')}}"> <i class="fa fa-question-circle"></i> <span class="title">Faqs</span> <span class="selected"></span></a>
 					</li>
 				*/?>
-				<li class="{{ in_array(Route::currentRouteName(), ['Template', 'Template.form', 'Crm.prospects', 'Crm.prospects.form'] ) ? 'active' : '' }}">
+				<li class="{{ in_array(Route::currentRouteName(), ['Template', 'Template.form', 'Crm.prospects', 'Crm.prospects.form', 'Crm.prospects.update_contract', 'Crm.prospects.history', 'Crm.contracts', 'Crm.contracts.form'] ) ? 'active' : '' }}">
 					<a href="javascript:;">
 						<i class="fa fa-list-ul"></i> <span class="title">CRM</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
@@ -251,11 +251,11 @@
 						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.prospects', 'Crm.prospects.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Crm.prospects')}}"> Prospectos </a>
 						</li>
-						<li class="{{ ( in_array(Route::currentRouteName(),['', '']) ) ? 'active open' : '' }}">
+						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.prospects.history']) ) ? 'active open' : '' }}">
 							<a href="{{route('Crm.prospects.history')}}"> Prospectos (Descartados) </a>
 						</li>
-						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.prospects.customers_contracts', '']) ) ? 'active open' : '' }}">
-							<a href="{{route('Crm.prospects.customers_contracts')}}"> Contratos de clientes </a>
+						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.contracts', 'Crm.contracts.form']) ) ? 'active open' : '' }}">
+							<a href="{{route('Crm.contracts')}}"> Contratos de clientes </a>
 						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Template')}}"> Plantillas </a>

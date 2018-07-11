@@ -11,7 +11,7 @@
 		<h1>{{$contract ? 'Actualizar' : 'Crear'}} <span class="semi-bold">Contrato</span></h1>
 	</div>
 	<div class="row-fluid">
-        <form id="form-data" class="valid ajax-plus" action="{{url('crm/prospectos')}}/{{$contract ? 'actualizar-contrato' : 'guardar-contrato'}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
+        <form id="form-data" class="valid ajax-plus" action="{{route($contract ? 'Crm.contracts.update' : 'Crm.contracts.save')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label class="required" for="id">ID</label>
@@ -129,7 +129,7 @@
         	</div>
         	<hr>
 
-        	<a href="{{route($contract ? 'Crm.prospects.customers_contracts' : 'Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
+        	<a href="{{route($contract ? 'Crm.contracts' : 'Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
             <button type="submit" class="btn btn-success guardar" data-target="form-data">Guardar</button>
         </form>
 	</div>

@@ -94,13 +94,8 @@ Route::group(['middleware' => ['auth']], function() {
 		#Prospects
 		Route::prefix('crm/prospectos')->group(function () {
 			Route::get('/', 'ApplicationsController@index')->name('Crm.prospects');
-			Route::get('/historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
-			Route::get('/clientes-contratos', 'ApplicationsController@show_customers_contracts')->name('Crm.prospects.customers_contracts');
+			Route::get('historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
 			Route::get('formulario-prospecto/{id?}', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
-			Route::get('formulario-contrato/{app_id?}/{contract_id?}', 'ApplicationsController@generate_contract')->name('Crm.prospects.generate_contract');
-			Route::get('ver-contrato/{id?}', 'ApplicationsController@view_contract')->name('Crm.prospects.view_contract');//View contracts
-			Route::post('guardar-contrato', 'ApplicationsController@save_contract')->name('Crm.prospects.save_contract');
-			Route::post('actualizar-contrato', 'ApplicationsController@update_contract')->name('Crm.prospects.update_contract');
 			Route::post('guardar-prospecto', 'ApplicationsController@save_prospect')->name('Crm.prospects.save');
 			Route::post('actualizar-prospecto', 'ApplicationsController@update_prospect')->name('Crm.prospects.update');
 			Route::post('change-status', 'ApplicationsController@change_status')->name('Crm.prospects.change_status');
@@ -108,6 +103,16 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('guardar-commentario', 'ApplicationsController@save_application_comments')->name('Crm.prospects.save_comment');
 			Route::post('ver-commentarios', 'ApplicationsController@view_applications_coments')->name('Crm.prospects.view_comments');
 			Route::post('obtener-info-application', 'ApplicationsController@get_application_info')->name('Crm.prospects.get_application_info');
+		});
+
+		#Contracts
+		Route::prefix('crm/contracts')->group(function () {
+			Route::get('/', 'ContractsController@index')->name('Crm.contracts');
+			Route::get('ver-contrato/{id?}', 'ContractsController@show_contract')->name('Crm.prospects.show_contract');//View contracts
+			Route::get('recibo-de-dinero/{id?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
+			Route::get('formulario/{app_id?}/{contract_id?}', 'ContractsController@form')->name('Crm.contracts.form');
+			Route::post('guardar', 'ContractsController@save')->name('Crm.contracts.save');
+			Route::post('actualizar', 'ContractsController@update')->name('Crm.contracts.update');
 		});
 
 		#Offices
