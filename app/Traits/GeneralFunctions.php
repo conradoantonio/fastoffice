@@ -5,6 +5,7 @@ namespace App\Traits;
 use Illuminate\Support\Facades\File;
 
 use App\Models\Application;
+use App\Models\Office;
 use App\Models\User;
 
 use Mail;
@@ -83,5 +84,28 @@ trait GeneralFunctions
 		}
 
 		return false;
+	}
+
+	/**
+     * Check if an office is available.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function check_office_status($office_id)
+	{
+		$available = Office::where('status', 1)->where('id', $office_id)->first();
+
+		return $available ? true : false;
+	}
+
+	/**
+     * Check if an office is available.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function change_office_status($office_id, $status)
+	{
+		Office::where('id', $office_id)
+        ->update(['status' => $status]);
 	}
 }

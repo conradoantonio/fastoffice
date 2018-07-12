@@ -54,11 +54,11 @@ class ContractsController extends Controller
      * Show the pdf contract.
      *
      */
-    public function show_money_receipt($contract_id)
+    public function show_money_receipt($contract_id, $type_payment)
     {
         $contract = Contract::find($contract_id);
         if ($contract) {
-            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract])
+            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment])
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('recibo_de_pago.pdf');//Visualiza el archivo sin descargarlo
         }
@@ -94,6 +94,10 @@ class ContractsController extends Controller
      */
     public function save(Request $req)
     {
+        $available = $this->check_office_status($req->office_id);
+        
+        if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
+
         $contract = New Contract;
 
         $payment_range_start = date('d', strtotime($req->start_date_validity));
@@ -117,6 +121,8 @@ class ContractsController extends Controller
 
         $contract->save();
 
+        $this->change_office_status($req->office_id, 2);//Rented!!
+
         if ($req->has('application_id')) {
             $app = Application::find($req->application_id);
             if ($app) {
@@ -137,7 +143,7 @@ class ContractsController extends Controller
     {
         $contract = Contract::find($req->id);
 
-        if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'success'], 404); }
+        if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 404); }
 
         $payment_range_start = date('d', strtotime($req->start_date_validity));
         $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
@@ -157,6 +163,8 @@ class ContractsController extends Controller
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
 
         $contract->save();
+
+        $this->change_office_status($req->office_id, 2);//Rented!!
 
         return response(['msg' => 'Contracto modificado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }

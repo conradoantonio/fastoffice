@@ -13,6 +13,7 @@ class BranchesTableSeeder extends Seeder
 	{
 		$branches = [
 			[
+				'user_id' => 2,
 				'name' => "Sucursal 1",
 				'address' => "Simon Bolivar 594",
 				'phone' => "6691505087",

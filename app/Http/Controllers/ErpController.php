@@ -57,7 +57,7 @@ class ErpController extends Controller
 
 	public function form($type, $id = null){
 		$erp = new Erp();
-		$offices = Office::where('status', 1)->pluck('name','id')->prepend("Seleccione una oficina", 0);
+		$offices = Office::where('status', '!=', 0)->pluck('name','id')->prepend("Seleccione una oficina", 0);
 		$categories = [0 => 'Seleccione una categoría'];
 
 		if ( $id ) {

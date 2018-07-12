@@ -44,7 +44,7 @@
 				<td>
 					{{-- <a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a> --}}
 					<a href="{{route('Crm.contracts.form', [$contract->application->id, $contract->id])}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
-					<a href="{{route('Crm.contracts.show_money_receipt', [$contract->id])}}" class="btn btn-xs btn-mini btn-info show-money-receipt" target="_blank" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Descargar recibo de pago"><i class="fa fa-money"></i></a>
+					<a href="javascript:;" class="btn btn-xs btn-mini btn-info show-money-receipt" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Descargar recibo de pago"><i class="fa fa-money"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary view-contract" href="{{route('Crm.prospects.show_contract', $contract->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver contrato"><i class="fa fa-eye"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-trash"></i></a>
 				</td>

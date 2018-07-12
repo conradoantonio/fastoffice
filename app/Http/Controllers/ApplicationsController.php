@@ -212,7 +212,7 @@ class ApplicationsController extends Controller
      */
     public function filter_offices(Request $req)
     {
-        $query = Office::query();
+        $query = Office::where('status', 1);//Available
 
         if ($req->badget) { $query = $query->where('price', '<=', $req->badget); }
 
@@ -223,9 +223,6 @@ class ApplicationsController extends Controller
                 $q->where('id', $req->office_type_id);
             }); 
         }
-
-        #Add filter to search only available offices
-        //$query = $query->where('status', 1);
 
         return $query->get();
     }

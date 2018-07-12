@@ -34,10 +34,12 @@
 					<td>{{$office->municipality->name}}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
-						@if($office->status)
-						<span class="label label-success status" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
+						@if($office->status == 0)
+							<span class="label label-danger {{-- status --}}" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" {{-- data-toggle="tooltip" data-placement="top" title="Cambiar status" --}}>Inactivo</span>
+						@elseif($office->status == 1)
+							<span class="label label-success {{-- status --}}" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" {{-- data-toggle="tooltip" data-placement="top" title="Cambiar status" --}}>Disponible</span>
 						@else
-						<span class="label label-danger status" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Inactivo</span>
+							<span class="label label-info {{-- status --}}" data-url="{{route('Office.status')}}" data-id="{{$office->id}}" {{-- data-toggle="tooltip" data-placement="top" title="Cambiar status" --}}>Rentada</span>
 						@endif
 					</td>
 					<td>

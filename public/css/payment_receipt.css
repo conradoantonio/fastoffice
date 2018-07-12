@@ -11,7 +11,7 @@ body {
 	margin-top:20mm;*/
 }
 div.border {
-	border-color: blue!important;
+	border-color: #5081BD!important;
     border-width: 6px!important;
     border-style: solid!important;
 }
@@ -110,6 +110,9 @@ span.white-space-5:before{
 	display: inline-block;
 	width: 50%;
     height: 40px;
+}
+.note-fs{
+	font-size: 10px;
 }
 .less-li-he{
 	line-height: 15px;
