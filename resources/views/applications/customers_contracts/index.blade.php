@@ -66,7 +66,7 @@
                     href = '{{route('Crm.contracts.show_money_receipt')}}/'+id+'/'+type;
 
                     $("a#payment-recepit-tab").attr('href', href);
-                    $("a#payment-recepit-tab").click();
+                    $("a#payment-recepit-tab")[0].click();
                 }
             });
 
