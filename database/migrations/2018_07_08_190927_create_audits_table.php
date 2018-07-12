@@ -17,8 +17,9 @@ class CreateAuditsTable extends Migration
             $table->increments('id');
             $table->integer('office_id');
             $table->integer('user_id')->comment("Auditor que realiza la auditoría");
-            $table->string('tittle');
-            $table->timestamps();
+            $table->string('title');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

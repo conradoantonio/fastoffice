@@ -128,6 +128,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('obtener-usuarios/{branch_id?}', 'OfficesController@getUsersByBranch')->name('Office.users');
 		Route::delete('eliminar-oficina-imagen', 'OfficesController@deleteOfficePicture')->name('Office.destroyImage');
 		Route::get('obtener-municipio/{state_id}', 'OfficesController@getMunicipalities')->name('Office.state');
+
+		#Auditorias
+		Route::get('auditorias/{id?}', 'AuditsController@index')->name('Audit');
+		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
 	});
 
 	#Usuarios

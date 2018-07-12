@@ -262,7 +262,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="{{ in_array(Route::currentRouteName(), ['Erp', 'Erp.form', 'Office', 'Office.form', 'Branch', 'Branch.form', 'Category', 'Category.form'] ) ? 'active open' : '' }}">
+				<li class="{{ in_array(Route::currentRouteName(), ['Erp', 'Erp.form', 'Office', 'Office.form', 'Branch', 'Branch.form', 'Category', 'Category.form', 'Audit', 'Audit.show'] ) ? 'active open' : '' }}">
 					<a href="#!">
 						<i class="fa fa-money"></i> <span class="title">ERP</span> <span class="selected"></span> <span class="arrow"></span>
 					</a>
@@ -283,6 +283,9 @@
 						@if( auth()->user()->role_id != 3 )
 						<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
 							<a href="{{route('Office')}}"> Oficinas </a>
+						</li>
+						<li class="{{ in_array(Route::currentRouteName(), ['Audit', 'Audit.show'] ) ? 'active' : '' }}">
+							<a href="{{route('Audit')}}"> Auditorías </a>
 						</li>
 						@endif
 					</ul>

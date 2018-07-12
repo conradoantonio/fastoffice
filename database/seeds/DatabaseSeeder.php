@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(OfficeTypeTableSeeder::class);
 		$this->call(StatesTableSeeder::class);
 		$this->call(MunicipalitiesTableSeeder::class);
+		$this->call(QuestionCategoryTableSeeder::class);
+		$this->call(QuestionTableSeeder::class);
 	}
 }

@@ -35,6 +35,14 @@ class UserRequest extends FormRequest
 						'email' => 'required|email|min:8|unique:users',
 						'phone' => 'required|numeric',
 						'password' => 'required|min:8',
+						'regime' => 'sometimes',
+						'rfc' => [
+							'required',
+							'unique:users,rfc',
+							'min:12',
+							'max:13',
+							'regex:/^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/'
+						],
 					];
 				} else {
 					return [
@@ -50,7 +58,15 @@ class UserRequest extends FormRequest
 						'fullname' => 'required|regex:/^[\pL\s]+$/u|min:3',
 						'email' => 'required|email|unique:users,email, '.$this->route('id'),
 						'phone' => 'required|numeric',
-						'password' => 'sometimes|min:8',
+						'password' => 'sometimes|nullable|min:8',
+						'regime' => 'sometimes',
+						'rfc' => [
+							'sometimes',
+							'unique:users,rfc, '.$this->route('id'),
+							'min:12',
+							'max:13',
+							'regex:/^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/'
+						],
 					];
 				} else {
 					return [
@@ -92,6 +108,8 @@ class UserRequest extends FormRequest
 			'phone' => 'Teléfono',
 			'email' => 'Correo electrónico',
 			'password' => 'Contraseña',
+			'regime' => 'Régimen',
+			'rfc' => 'RFC'
 		];
 	}
 

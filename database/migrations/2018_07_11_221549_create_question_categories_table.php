@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAuditDetailsTable extends Migration
+class CreateQuestionCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAuditDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('audit_details', function (Blueprint $table) {
+        Schema::create('question_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('audit_id');
-            $table->integer('question_id');
-            $table->integer('answer');
-            $table->text('detail');
+            $table->string('name');
+            $table->integer('status')->default(1);
         });
     }
 
@@ -29,6 +27,6 @@ class CreateAuditDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('audit_details');
+        Schema::dropIfExists('question_categories');
     }
 }

@@ -9,7 +9,7 @@ class AuditDetail extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-		'question_id', 'answer_id', 'detail'
+		'question_id', 'answer', 'detail'
 	];
 
 	public function audit(){
@@ -22,5 +22,9 @@ class AuditDetail extends Model
 
 	public function answer(){
 		return $this->belongsTo(Answer::class);
+	}
+
+	public function photos(){
+		return $this->hasMany(AuditPhoto::class);
 	}
 }

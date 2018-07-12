@@ -15,4 +15,12 @@ class Audit extends Model
 	public function auditDetail(){
 		return $this->hasMany(AuditDetail::class);
 	}
+
+	public function office(){
+		return $this->belongsTo(Office::class);
+	}
+
+	public function user(){
+		return $this->belongsTo(User::class);
+	}
 }

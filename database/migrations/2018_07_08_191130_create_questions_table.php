@@ -16,6 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('question');
+            $table->string('category_id');
             $table->integer('status')->default(1);
         });
     }
