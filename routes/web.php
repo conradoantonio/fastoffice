@@ -109,8 +109,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::prefix('crm/contracts')->group(function () {
 			Route::get('/', 'ContractsController@index')->name('Crm.contracts');
 			Route::get('ver-contrato/{id?}', 'ContractsController@show_contract')->name('Crm.prospects.show_contract');//View contracts
-			Route::get('recibo-de-dinero/{id?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
+			Route::get('recibo-de-dinero/{id?}/{pay_type?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
 			Route::get('formulario/{app_id?}/{contract_id?}', 'ContractsController@form')->name('Crm.contracts.form');
+			Route::post('pagar', 'ContractsController@make_payment')->name('Crm.contracts.make_payment');
 			Route::post('guardar', 'ContractsController@save')->name('Crm.contracts.save');
 			Route::post('actualizar', 'ContractsController@update')->name('Crm.contracts.update');
 		});

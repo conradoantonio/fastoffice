@@ -14,9 +14,10 @@ div.border {
 	border-color: #5081BD!important;
     border-width: 6px!important;
     border-style: solid!important;
+    box-shadow: 15px 15px black!important;
 }
 img.logo-big {
-	padding-top: 15mm;
+	padding-top: 12mm;
 	width: 60%;
 	/*width: 30mm;
 	height: 15mm;*/

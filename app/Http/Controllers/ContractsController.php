@@ -10,6 +10,7 @@ use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\PaymentHistory;
 use App\Models\ApplicationComment;
 use App\Models\ApplicationDetail;
 
@@ -167,5 +168,24 @@ class ContractsController extends Controller
         $this->change_office_status($req->office_id, 2);//Rented!!
 
         return response(['msg' => 'Contracto modificado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+    }
+
+    /**
+     * Register a payment for a contract.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function make_payment(Request $req)
+    {
+        $contract = Contract::find($req->contract_id);
+        if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
+
+        $row = New PaymentHistory;
+
+        $row->contract_id = $req->contract_id;
+        $row->payment_method = $req->payment_method;
+        $row->type = $req->type;
+        $row->payment_str = $req->payment_str;
+        $row->payment = $req->payment;
     }
 }
