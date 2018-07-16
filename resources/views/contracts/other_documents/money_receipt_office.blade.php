@@ -22,7 +22,7 @@
 		<span class="break justify uppercase">LA CANTIDAD DE <span class="bold">${{$contract->status == 2 ? $contract->office->price * 1.10 : $contract->office->price}} ({{$contract->status == 2 ? $contract->monthly_payment_delay_str : $contract->monthly_payment_str}}) </span> </span>
 		<span class="break justify uppercase">EN: {{$type_payment}}</span>
 		<span class="break justify uppercase">POR CONCEPTO DE:  RENTA DE OFICINA {{$contract->office->name}} </span>
-		<span class="break justify uppercase">DEL CONTRATO DE SERVICIOS A FAVOR DE “EL PRESTADOR” FAST OFFICE & BENS SA DE CV</span>
+		<span class="break justify uppercase">DEL CONTRATO DE SERVICIOS A FAVOR DE “EL PRESTADOR” {{$contract->office->branch->user->regime == 'Persona moral' ? 'FAST OFFICE & BENS SA DE CV' : $contract->office->branch->user->fullname}}</span>
 		<span class="break justify uppercase">SUCURSAL {{$contract->office->branch->name}}</span>
 		<span class="break justify uppercase">UBICADA EN:  {{$contract->office->branch->address}} en {{$contract->office->branch->locality}}</span>
 		<span class="break justify uppercase">CORRESPONDIENTES AL MES DE {{strftime('%B', strtotime(date('Y-m-d')))}} O MESES QUE “EL CLIENTE” ESTÁ PAGANDO</span>

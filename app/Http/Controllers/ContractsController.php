@@ -184,8 +184,27 @@ class ContractsController extends Controller
 
         $row->contract_id = $req->contract_id;
         $row->payment_method = $req->payment_method;
-        $row->type = $req->type;
+        $row->payment = $req->type;
         $row->payment_str = $req->payment_str;
         $row->payment = $req->payment;
+
+        $row->save();
+
+        $contract->status = 1;
+        $contract->save();
+
+        return response(['msg' => 'Pago registrado correctamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+    }
+
+    /**
+     * Get all the payment history from a contract
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_payment_history(Request $req)
+    {
+        $rows = PaymentHistory::where('contract_id', $req->id)->orderBy('id', 'DESC')->get();
+
+        return $rows;
     }
 }

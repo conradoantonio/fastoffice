@@ -223,6 +223,7 @@ function fill_prospect_offices(data) {
     }
 }
 
+//Display the application comments
 function display_application_comments(data) {
     $('div.load-bar').addClass('hide');
 
@@ -249,6 +250,37 @@ function display_application_comments(data) {
     }
 
     $('div.comments-content').removeClass('hide');
+}
+
+//Display payments history from a contract
+function display_payment_history(data) {
+    console.log(data);
+    $('div.load-bar').addClass('hide');
+
+    $("table.payment-history tbody").children().remove();
+
+    if (data.length > 0) {
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                $("table.payment-history tbody").append(
+                    '<tr>'+
+                        '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
+                        '<td class="text-center">$'+data[key].payment+' ('+data[key].payment_str+')</td>'+
+                        '<td class="text-center">'+data[key].payment_method+'</td>'+
+                        '<td class="text-center">'+data[key].created_at+'</td>'+
+                    '</tr>'
+                );
+            }
+        }
+    } else {
+        $("table.payment-history tbody").append(
+            '<tr>'+
+                '<td class="text-center" color="red" colspan="4">No se han registrado pagos.</td>'+
+            '</tr>'
+        ); 
+    }
+
+    $('div.payment-history-content').removeClass('hide');
 }
 
 function display_application_details(data) {

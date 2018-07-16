@@ -46,4 +46,12 @@ class Contract extends Model
     {
         return $this->hasOne(Office::class, 'id', 'office_id');
     }
+
+    /**
+     * Get the payments history from a contract.
+     */
+    public function payment_history()
+    {
+        return $this->hasMany(PaymentHistory::class, 'contract_id', 'id');
+    }
 }

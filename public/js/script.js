@@ -1,6 +1,8 @@
 $(function(){
 	createTable();
-	$('[data-toggle="tooltip"]').tooltip()
+	$('body').tooltip({
+	    selector: '[data-toggle=tooltip]'
+	});
 	$("select.select2").select2();
 	$("#s2id_byUser").addClass('col-md-12').css('padding','0')
 	$("#start_date").datepicker({

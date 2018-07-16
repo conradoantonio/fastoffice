@@ -44,6 +44,7 @@
                 ajaxSimple(config);
             });
 
+            //Show the form to generate a new pdf of money receipt
             $('body').delegate('.show-money-receipt','click', function() {
                 $('#form-payment-receipt select[name=payment_type]').val(0);//Reset select
                 $('#form-payment-receipt input.form-control').val('');//Reset select
@@ -54,6 +55,7 @@
                 $('#form-payment-receipt').modal('show');              
             });
 
+            //Show the money receipt pdf
             $('body').delegate('.show-receipt-pdf','click', function() {
                 type = $('#form-payment-receipt select[name=payment_type]').val();
                 id = $('#form-payment-receipt input[name=id]').val();
@@ -71,6 +73,7 @@
                 }
             });
 
+            //Show the modal to make a payment
             $('body').delegate('.mark-as-paid','click', function() {
                 var id = $(this).parent().siblings("td:nth-child(1)").text();
                 var normal_price = $(this).parent().siblings("td:nth-child(9)").text();
@@ -87,12 +90,32 @@
                 $('div#mark-as-paid').modal('show');
             });
 
+            //Code to load input content for the payment
             $('body').delegate('#mark-as-paid select[name=type]', 'change', function() {
                 var price = $('option:selected', this).attr('quantity');
                 var str = $('option:selected', this).attr('money-str');
 
                 $('#mark-as-paid input[name=payment]').val(price);
                 $('#mark-as-paid input[name=payment_str]').val(str);
+            });
+
+            //Load payments history
+            $('body').delegate('.view-payments','click', function() {
+                $('div.load-bar').removeClass('hide');
+                $('div.payment-history-content').addClass('hide');
+                $('#view-payment-history').modal('show');
+
+                var id = $(this).parent().siblings("td:nth-child(1)").text();
+
+                config = {
+                    'id'        : id,
+                    'keepModal' : true,
+                    'route'     : "{{route('Crm.contracts.get_payment_history')}}",
+                    'method'    : 'POST',
+                    'callback'  : 'display_payment_history',
+                }
+
+                ajaxSimple(config);
             });
         </script>
     @endpush
