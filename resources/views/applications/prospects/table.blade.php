@@ -8,6 +8,7 @@
 			</div>
 		</th>
 		<th>Nombre del prospecto</th>
+		<th>Régimen</th>
 		<th>¿Registrado?</th>
 		<th>Email</th>
 		<th>Teléfono</th>
@@ -26,6 +27,7 @@
 				</td>
 				@if ($prospect->customer){{-- Toma los datos directamente del usuario registrado --}}
 					<td>{{$prospect->customer->fullname}}</td>
+					<td>{{$prospect->customer->regime}}</td>
 					<td>Registrado</td>
 					<td>{{$prospect->customer->email}}</td>
 					<td>{{$prospect->customer->phone}}</td>

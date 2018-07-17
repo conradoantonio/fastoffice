@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato para oficina física de persona física a persona física</title>
+	<title>Contrato para oficina física de persona física a persona moral</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -19,8 +19,8 @@
 	<br>
 	<p class="break justify uppercase">
 		EN EL MUNICIPIO DE {{$contract->office->municipality->name}} {{$contract->office->state->name}} A LOS {{strftime('%d', strtotime($contract->contract_date))}} DÍAS DEL MES DE {{strftime('%B', strtotime($contract->contract_date))}} DEL AÑO {{strftime('%Y', strtotime($contract->contract_date))}} COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-		POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
-		A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
+		POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE 
+		<span class="bold">{{$contract->customer_company}}</span> REPRESENTADA POR <span class="bold">{{$contract->customer->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
 	</p>
 	<br>
 	<p class="break bold center">DECLARACIONES:</p>
@@ -33,18 +33,18 @@
 		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->office->branch->user->rfc}}</li>
 	</ul>
 
-	<br>
 	<p class="break justify">II.<span class="white-space-5">DECLARA “EL CLIENTE”</span></p>
 	<ul class="b-up-alpha justify">
-		<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número {{$contract->customer_ine_number}}</li>
-		<li class="one-line-sp">Que su primordial actividad es la siguiente: {{$contract->customer_activity}}.</li>
-		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}</span>.</li>
-		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer_ine_number}}.</li>
+		<li class="one-line-sp">Que es una empresa legalmente constituida de conformidad con las leyes mexicanas como lo demuestra con la escritura de su acta constitutiva número {{$contract->act_number}} otorgada ante la fe del notario público número {{$contract->notary_number}} del estado de {{$contract->notary_state->name}} el Lic. {{$contract->notary_name}}</li>
+		<li class="one-line-sp">Que {{$contract->customer->name}} tiene facultades para suscribir el presente instrumento de conformidad con la escritura {{$contract->deed_number}} de fecha {{$contract->deed_date}} otorgada ante la fe del notario público número {{$contract->notary_number}} del estado de {{$contract->notary_state->name}}.</li>
+		<li class="one-line-sp">Que dentro de su objetivo social se encuentra el de {{$contract->customer_social_object}}</li>
+		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}.</li>
+		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer->rfc}}.</li>
 	</ul>
 
 	<div class="new-page"></div>
 
-	<br><br><br>
+	<br><br>
 	<p class="break justify">III.<span class="white-space-4">DECLARAN AMBAS PARTES</span></p>
 	<ul class="no-style justify">
 		<li>Que en atención a lo expuesto están conformes en sujetar su compromiso a los términos del presente contrato y a las siguientes condiciones:</li>
@@ -68,7 +68,7 @@
 	<p class="break justify bold">2. Contraprestaciones:</p>
 	<ul class="b-up-alpha less-li-he justify">
 		<li class="one-line-sp">“EL CLIENTE” se obliga a pagar a “EL PRESTADOR” por concepto de prestación de servicios de este contrato y validando la promoción de pronto pago la cantidad mensual de ${{$contract->office->price}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado la cual será válida realizando el pago el día puntual de la fecha de contratación entre el día {{$contract->payment_range_start}} y {{$contract->payment_range_end}} de cada mes.</li>
-		<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6 A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
+		<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6, A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
 		
 		<div class="new-page"></div>
 		<br><br>
