@@ -31,7 +31,6 @@ class OfficeRequest extends FormRequest
 				return [
 					'name'  => 'required|unique:offices,name',
 					'address' => 'required',
-					'photo' => 'required',
 					'price' => 'required|numeric',
 					'phone' => 'required|numeric',
 					'num_people' => 'required|numeric',
@@ -84,7 +83,6 @@ class OfficeRequest extends FormRequest
 		return [
 			'name' => 'Nombre',
 			'address' => 'Dirección',
-			'photo' => 'Imagen',
 			'user_id' => 'Usuario',
 			'branch_id' => 'Sucursal',
 			'office_type_id' => 'Tipo de oficina',
