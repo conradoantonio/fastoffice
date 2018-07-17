@@ -5,6 +5,7 @@ namespace App\Traits;
 use Illuminate\Support\Facades\File;
 
 use App\Models\Application;
+use App\Models\Contract;
 use App\Models\Office;
 use App\Models\User;
 
@@ -107,5 +108,35 @@ trait GeneralFunctions
 	{
 		Office::where('id', $office_id)
         ->update(['status' => $status]);
+	}
+
+	/**
+     * Check if an office is available.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function get_contract_path(Contract $contract)
+	{
+		$folder = $subfolder = $view = $path = '';
+		//First folder
+		if ($contract->office->branch->user->regime == 'Persona física') { $folder = 'physical_person'; } 
+		if ($contract->office->branch->user->regime == 'Persona moral') { $folder = 'moral_person'; } 
+
+		//Subfolder
+		if ($contract->office->type->name == 'Física') { $subfolder = 'physical_office'; } 
+		if ($contract->office->type->name == 'Virtual') { $subfolder = 'virtual_office'; } 
+		if ($contract->office->type->name == 'Sala de juntas') { $subfolder = 'meeting_room'; } 
+		if ($contract->office->type->name == 'Sala de conferencias') { $subfolder = 'conference_room'; } 
+
+		//Contract view
+		if ($contract->customer->regime == 'Persona física') { $view = 'physical_person'; } 
+		if ($contract->customer->regime == 'Persona moral') { $view = 'moral_person'; } 
+
+		if ($folder && $subfolder && $view) {//Got all params
+			$path = 'contracts'.'.'.$folder.'.'.$subfolder.'.'.$view;
+			return $path;
+		}
+
+		return false;
 	}
 }

@@ -43,12 +43,18 @@ class ContractsController extends Controller
      */
     public function show_contract($contract_id)
     {
+        set_time_limit(0);
         $contract = Contract::find($contract_id);
         if ($contract) {
-            $pdf = PDF::loadView('contracts.physical_person.physical_office', ['contract' => $contract])
-            ->setPaper('letter')->setWarnings(false);
-            return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
+            $view = $this->get_contract_path($contract);
+            if (view()->exists($view)) {
+                $pdf = PDF::loadView($view, ['contract' => $contract])
+                ->setPaper('letter')->setWarnings(false);
+                return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
+            }
         }
+
+        return redirect()->back()->with('msg', 'El contrato no puede mostrarse ya que falta información sobre el franquiciatario, revise su información y trate de nuevo.');
     }
 
     /**
