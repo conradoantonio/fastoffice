@@ -82,10 +82,12 @@
 					{{@$errors->office->first('description')}}
 				</div>
 			</div>
+			@if( $office->id )
 			<div class="row">
 				<div class="row-fluid dropzone" id="dropzoneDiv">
 				</div>
 			</div>
+			@endif
 			<div class="row text-left buttons-form">
 				<a href="{{route('Office')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'officesForm'])}}

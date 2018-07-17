@@ -13,7 +13,7 @@ class QuestionTableSeeder extends Seeder
     {
     	$questions = [
 			[
-				'question' => "¿LA FACHADE SE ENCUENTRA PINTADA ADECUADAMENTE?",
+				'question' => "¿LA FACHADA SE ENCUENTRA PINTADA ADECUADAMENTE?",
 				'category_id' => 1
 			],
 			[
@@ -173,14 +173,6 @@ class QuestionTableSeeder extends Seeder
 				'category_id' => 7
 			],
 			[
-				'question' => "¿?",
-				'category_id' => 8
-			],
-			[
-				'question' => "¿?",
-				'category_id' => 8
-			],
-			[
 				'question' => "¿LAS REDES DE INTERNET FUNCIONAN CORRECTAMENTE?",
 				'category_id' => 8
 			],
@@ -229,6 +221,10 @@ class QuestionTableSeeder extends Seeder
 				'category_id' => 9
 			],
 			[
+				'question' => "¿lA RECEPCIONISTA TIENE ALIMENTOS SOBRE EL ÁREA DE RECEPCIÓN?",
+				'category_id' => 9
+			],
+			[
 				'question' => "¿LA ATENCIÓN DE LA RECEPCIONISTA ES AMABLE Y DE EXCELENTE SERVICIO?",
 				'category_id' => 9
 			],
@@ -246,6 +242,10 @@ class QuestionTableSeeder extends Seeder
 			],
 			[
 				'question' => "¿LA RECEPCIÓN SE ENCUENTRA ABASTECIDA DE HOJAS BLANCAS, PLUMAS AZULES Y NEGRAS, LÁPICES, ENGRAPADORA?",
+				'category_id' => 9
+			],
+			[
+				'question' => "¿EL MULTINACIONAL SE ENCUENTRA TRABAJAND CORRECTAMENTE?",
 				'category_id' => 9
 			],
 			[

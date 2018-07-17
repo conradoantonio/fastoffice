@@ -73,10 +73,12 @@
 					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
 				</div>
 			</div>
+			@if( $branch->id )
 			<div class="row">
 				<div class="row-fluid dropzone" id="dropzoneDiv">
 				</div>
 			</div>
+			@endif
 			<div class="row text-left buttons-form">
 				<a href="{{route('Branch')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'branchesForm'])}}
