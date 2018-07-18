@@ -1,6 +1,11 @@
 @extends('layouts.main')
 @section('pageTitle', 'Detalle auditoría')
 @section('content')
+@push('links')
+<link rel="stylesheet" href="{{asset('plugins/fancybox/source/jquery.fancybox.css?v=2.1.7')}}" type="text/css" media="screen" />
+<link rel="stylesheet" href="{{asset('plugins/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5')}}" type="text/css" media="screen" />
+<link rel="stylesheet" href="{{asset('plugins/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7')}}" type="text/css" media="screen" />
+@endpush
 <div class="container-fluid content-body">
 	<div class="page-title">
 		<h1>Detalle <span class="semi-bold">{{$audit->title}}</span></h1>
@@ -50,7 +55,7 @@
 							$total_questions = count(collect($auditDetails)->where('answer', 1));
 						@endphp
 						<tr>
-							<td colspan="2">
+							<td colspan="3">
 								<strong>{{$key}}</strong>
 							</td>
 							<td>
@@ -74,7 +79,17 @@
 
 								</td>
 								<td>
-									{{$auditDetail->detail}}
+									{{ nl2br($auditDetail->detail) }}
+								</td>
+								<td>
+									@if( !$auditDetail->photos->isEmpty() )
+										<a href="#" class="open-album" data-open-id="album-{{$auditDetail->id}}"><i class="fa fa-picture-o"></i> Ver galería</a>
+										@foreach( $auditDetail->photos as $photo )
+										<a href="{{asset($photo->path)}}" class="image-show hide" rel="album-{{$auditDetail->id}}"></a>
+										@endforeach
+									@else
+										Sin imágenes
+									@endif
 								</td>
 							</tr>
 						@endforeach
@@ -89,4 +104,33 @@
 	</ul>
 	<a href="{{route('Audit')}}" class="btn btn-danger">Regresar</a>
 </div>
+@push('scripts')
+<script type="text/javascript" src="{{asset('plugins/fancybox/source/jquery.fancybox.pack.js?v=2.1.7')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7')}}"></script>
+<script type="text/javascript">
+	$('.open-album').click(function(e) {
+		var el, id = $(this).data('open-id');
+		if(id){
+			el = $('.image-show[rel=' + id + ']:eq(0)');
+			e.preventDefault();
+			el.click();
+		}
+	});
+	$(".image-show").fancybox({
+		prevEffect	: 'none',
+			nextEffect	: 'none',
+			helpers	: {
+				title	: {
+					type: 'outside'
+				},
+				thumbs	: {
+					width	: 50,
+					height	: 50
+				}
+			}
+	});
+</script>
+@endpush
 @endsection
