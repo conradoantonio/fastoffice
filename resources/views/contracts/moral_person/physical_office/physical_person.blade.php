@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato para oficina física de persona física a persona física</title>
+	<title>Contrato para oficina física de persona moral a persona física</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -19,7 +19,7 @@
 	<br>
 	<p class="break justify uppercase">
 		EN EL MUNICIPIO DE {{$contract->office->municipality->name}} {{$contract->office->state->name}} A LOS {{strftime('%d', strtotime($contract->contract_date))}} DÍAS DEL MES DE {{strftime('%B', strtotime($contract->contract_date))}} DEL AÑO {{strftime('%Y', strtotime($contract->contract_date))}} COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-		POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
+		POR UNA PARTE, <span class="bold">FAST OFFICE & BENS S.A. DE C.V.</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> REPRESENTADA POR <span class="bold">{{$contract->office->branch->user->fullname}}</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
 		A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
 	</p>
 	<br>
@@ -27,10 +27,10 @@
 	<br>
 	<p class="break justify">I.<span class="white-space-5">DECLARA “EL PRESTADOR”</span></p>
 	<ul class="b-up-alpha justify">
-		<li class="one-line-sp">Es una persona física con actividad empresarial, mayor de edad con facultad para suscribir el presente instrumento y que representa en este acto para identificarse con la credencial del Instituto Federal Electoral número {{$contract->provider_ine_number}}.</li>
-		<li class="one-line-sp">Que se encuentra autorizado para disponer del bien inmueble para oficinas de representación comercial que se ubica en {{$contract->office->address}} en <span class="capitalize">{{$contract->office->municipality->name}} {{$contract->office->state->name}}</span></li>
-		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en el domicilio de {{$contract->provider_address}}</li>
-		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->office->branch->user->rfc}}</li>
+		<li class="one-line-sp">Es una empresa legalmente constituida de conformidad con las leyes mexicanas como lo demuestra con la escritura de su acta constitutiva número 5363 otorgada ante la fe del notario público número 42 del estado de Jalisco el Lic. Alfonso Chacón Robles.</li>
+		<li class="one-line-sp">Que se encuentra autorizado para disponer del bien inmueble para oficinas de representación comercial que se ubica en {{$contract->office->address}} en {{$contract->office->municipality->name}} {{$contract->office->state->name}}.</li>
+		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en el domicilio de Av. Ludwig van Beethoven no. 5612 Colonia Residencial la estancia en Zapopan, Jalisco</li>
+		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: FOA1411107KA</li>
 	</ul>
 
 	<br>
@@ -198,6 +198,8 @@
 		<br><br><br>
 		_______________________________<br>
         <span>{{$contract->office->branch->user->fullname}}</span>
+        <br><br>
+		<span class="bold">FAST OFFICE & BENS, S.A DE C.V.</span>
 	</div>
 	<div class="signature uppercase">
 		<span class="bold">"EL CLIENTE"</span>

@@ -93,7 +93,7 @@
 
 
 
-            <h3>Datos del prestador</h3>
+            <h3>Datos del prestador (Franquiciatario)</h3>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
@@ -102,10 +102,56 @@
         	</div>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="provider_ine_number">Número de INE del prestador</label>
-                    <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
+                    <label class="required" for="provider_address">Dirección del prestador</label>
+                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->provider_address : ''}}" id="provider_address" name="provider_address" data-name="Dirección del prestador">
                 </div>
             </div>
+            @if($prospect && $prospect->office->branch->user->regime == 'Persona física')
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="provider_ine_number">Número de INE del prestador</label>
+                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
+                    </div>
+                </div>
+            @elseif($prospect && $prospect->office->branch->user->regime == 'Persona moral')
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="provider_act_number">Número de acta</label>
+                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_act_number : ''}}" id="provider_act_number" name="provider_act_number" data-name="Número de acta (Prestador)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="provider_notary_number">Número de notario</label>
+                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_notary_number : ''}}" id="provider_notary_number" name="provider_notary_number" data-name="Número de notario (Prestador)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="provider_notary_state_id">Estado del notario</label>
+                        <select name="provider_notary_state_id" class="form-control not-empty select2" data-name="Estado del notario (Prestador)">
+                            <option value="0" disabled selected>Seleccione una opción</option>
+                            @if ($contract)
+                                @foreach($states as $state)
+                                    <option value="{{$state->id}}" {{$contract->provider_notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
+                                @endforeach
+                            @else
+                                @foreach($states as $state)
+                                    <option value="{{$state->id}}">{{$state->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="provider_notary_name">Nombre de notario</label>
+                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_notary_name : ''}}" id="provider_notary_name" name="provider_notary_name" data-name="Nombre de notario (Prestador)">
+                    </div>
+                </div>
+            @endif
+
+
 
             <hr>
             <h3>Datos del cliente</h3>
@@ -143,24 +189,24 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="act_number">Número de acta</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->act_number : ''}}" id="act_number" name="act_number" data-name="Número de acta">
+                        <label class="required" for="customer_act_number">Número de acta</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_act_number : ''}}" id="customer_act_number" name="customer_act_number" data-name="Número de acta (Cliente)">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="notary_number">Número de notario</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->notary_number : ''}}" id="notary_number" name="notary_number" data-name="Número de notario">
+                        <label class="required" for="customer_notary_number">Número de notario</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_notary_number : ''}}" id="customer_notary_number" name="customer_notary_number" data-name="Número de notario">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">{{-- CHANGE THIS!!! --}}
-                        <label class="required" for="notary_state_id">Estado del notario</label>
-                        <select name="notary_state_id" class="form-control not-empty select2" data-name="Estado del notario">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_notary_state_id">Estado del notario</label>
+                        <select name="customer_notary_state_id" class="form-control not-empty select2" data-name="Estado del notario">
                             <option value="0" disabled selected>Seleccione una opción</option>
                             @if ($contract)
                                 @foreach($states as $state)
-                                    <option value="{{$state->id}}" {{$contract->notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
+                                    <option value="{{$state->id}}" {{$contract->customer_notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
                                 @endforeach
                             @else
                                 @foreach($states as $state)
@@ -172,20 +218,20 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="notary_name">Nombre del notario</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->notary_name : ''}}" id="notary_name" name="notary_name" data-name="Número de notario">
+                        <label class="required" for="customer_notary_name">Nombre del notario</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_notary_name : ''}}" id="customer_notary_name" name="customer_notary_name" data-name="Número de notario">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="deed_number">Número de escritura</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->deed_number : ''}}" id="deed_number" name="deed_number" data-name="Número de escritura">
+                        <label class="required" for="customer_deed_number">Número de escritura</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_deed_number : ''}}" id="customer_deed_number" name="customer_deed_number" data-name="Número de escritura">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="deed_date">Fecha de escritura</label>
-                        <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->deed_date : ''}}" id="deed_date" name="deed_date" data-name="Fecha de escritura">
+                        <label class="required" for="customer_deed_date">Fecha de escritura</label>
+                        <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->customer_deed_date : ''}}" id="customer_deed_date" name="customer_deed_date" data-name="Fecha de escritura">
                     </div>
                 </div>
                 <div class="row">
