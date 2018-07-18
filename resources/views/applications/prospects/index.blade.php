@@ -41,7 +41,7 @@
             $('body').delegate('.accept-prospect','click', function() {
                 var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
                 var customer = $(this).parent().siblings("td:nth-child(3)").text();
-                var office = $(this).parent().siblings("td:nth-child(7)").text();
+                var office = $(this).parent().siblings("td:nth-child(8)").text();
                 var url = "{{url('crm/contracts/formulario')}}"+"/"+prospect_id;
 
                 swal({

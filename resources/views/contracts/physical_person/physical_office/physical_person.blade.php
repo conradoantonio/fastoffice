@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato</title>
+	<title>Contrato para oficina física de persona física a persona física</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -38,7 +38,7 @@
 	<ul class="b-up-alpha justify">
 		<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número {{$contract->customer_ine_number}}</li>
 		<li class="one-line-sp">Que su primordial actividad es la siguiente: {{$contract->customer_activity}}.</li>
-		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->office->address}} <span class="capitalize">{{$contract->office->municipality->name}} {{$contract->office->state->name}}</span>.</li>
+		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}</span>.</li>
 		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer_ine_number}}.</li>
 	</ul>
 

@@ -6,6 +6,11 @@
         <div class="page-title">
             <h1>Listado <span class="semi-bold">de contratos de clientes</span></h1>
         </div>
+        @if(session('msg'))
+            <div class="alert alert-warning">
+                {{session('msg')}}
+            </div>
+        @endif
         @if( auth()->user()->role_id == 1 )
         {{-- <div class="row-fluid">
             @include('helpers.filters', ['index_url' => route('Office'), 'export_url' => null, 'dates' => false])

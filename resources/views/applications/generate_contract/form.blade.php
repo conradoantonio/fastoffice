@@ -37,18 +37,63 @@
 	                <input type="text" class="form-control" value="{{$prospect && $prospect->office ? $prospect->office_id : ''}}" id="office_id" name="office_id">
 	            </div>
         	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
+            <hr>
+            
+
+            <h3>Datos generales del contrato</h3>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="contract_date">Fecha de contrato</label>
                     <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
                 </div>
-        	</div>
-        	<div class="row">
-        	 	<div class="form-group col-sm-12 col-xs-12">
-	                <label for="office_data">Oficina</label>
-	                <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office ? $prospect->office->name. ' ubicada en '. $prospect->office->address : ''}}" id="office_data" name="office_data">
-	            </div>
-        	</div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="start_date_validity">Inicio de vigencia del contrato</label>
+                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" id="start_date_validity" name="start_date_validity" data-name="Inicio de vigencia del contrato">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="end_date_validity">Fin de vigencia del contrato</label>
+                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->end_date_validity : ''}}" id="end_date_validity" name="end_date_validity" data-name="Fin de vigencia del contrato">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label for="office_data">Oficina</label>
+                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office ? $prospect->office->name. ' ubicada en '. $prospect->office->address : ''}}" id="office_data" name="office_data">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
+                    <label class="required" for="monthly_payment">Pago mensual $</label>
+                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
+                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
+                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price * 1.10) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
+                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                </div>
+            </div>
+            <hr>
+
+
+
+            <h3>Datos del prestador</h3>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
@@ -61,72 +106,95 @@
                     <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
                 </div>
             </div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="customer_ine_number">Número de INE del cliente</label>
-                    <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->customer_ine_number : ''}}" id="customer_ine_number" name="customer_ine_number" data-name="Número de INE del cliente">
+
+            <hr>
+            <h3>Datos del cliente</h3>
+            @if ($prospect && $prospect->customer->regime == 'Persona física')
+            	<div class="row">
+            		<div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_ine_number">Número de INE del cliente</label>
+                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->customer_ine_number : ''}}" id="customer_ine_number" name="customer_ine_number" data-name="Número de INE del cliente">
+                    </div>
+            	</div>
+            	<div class="row">
+            		<div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_activity">Actividad del cliente</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_activity : ''}}" id="customer_activity" name="customer_activity" data-name="Actividad del cliente">
+                    </div>
+            	</div>
+            	<div class="row">
+            		<div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_address">Dirección del cliente</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_address : ''}}" id="customer_address" name="customer_address" data-name="Dirección del cliente">
+                    </div>
+            	</div>
+            @elseif($prospect && $prospect->customer->regime == 'Persona moral')
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_company">Nombre de la empresa</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_company : ''}}" id="customer_company" name="customer_company" data-name="Nombre de la empresa">
+                    </div>
                 </div>
-        	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="customer_activity">Actividad del cliente</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_activity : ''}}" id="customer_activity" name="customer_activity" data-name="Actividad del cliente">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_address">Dirección de la empresa</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_address : ''}}" id="customer_address" name="customer_address" data-name="Dirección de la empresa">
+                    </div>
                 </div>
-        	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="customer_address">Dirección del cliente</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_address : ''}}" id="customer_address" name="customer_address" data-name="Dirección del cliente">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="act_number">Número de acta</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->act_number : ''}}" id="act_number" name="act_number" data-name="Número de acta">
+                    </div>
                 </div>
-        	</div>
-			<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="start_date_validity">Inicio de vigencia del contrato</label>
-                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" id="start_date_validity" name="start_date_validity" data-name="Inicio de vigencia del contrato">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="notary_number">Número de notario</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->notary_number : ''}}" id="notary_number" name="notary_number" data-name="Número de notario">
+                    </div>
                 </div>
-        	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="end_date_validity">Fin de vigencia del contrato</label>
-                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->end_date_validity : ''}}" id="end_date_validity" name="end_date_validity" data-name="Fin de vigencia del contrato">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">{{-- CHANGE THIS!!! --}}
+                        <label class="required" for="notary_state_id">Estado del notario</label>
+                        <select name="notary_state_id" class="form-control not-empty select2" data-name="Estado del notario">
+                            <option value="0" disabled selected>Seleccione una opción</option>
+                            @if ($contract)
+                                @foreach($states as $state)
+                                    <option value="{{$state->id}}" {{$contract->notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
+                                @endforeach
+                            @else
+                                @foreach($states as $state)
+                                    <option value="{{$state->id}}">{{$state->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
                 </div>
-        	</div>
-        	@if($contract)
-	        	{{-- <div class="row">
-	        		<div class="form-group col-sm-6 col-xs-12">
-	                    <label class="required" for="payment_range_start">Primer día de pago</label>
-	                    <input type="text" class="form-control not-empty" disabled value="{{$contract ? $contract->payment_range_start : ''}}" id="payment_range_start" name="payment_range_start" data-name="Primer día de pago">
-	                </div>
-	                <div class="form-group col-sm-6 col-xs-12">
-	                    <label class="required" for="payment_range_end">Último día de pago</label>
-	                    <input type="text" class="form-control not-empty" disabled value="{{$contract ? $contract->payment_range_end : ''}}" id="payment_range_end" name="payment_range_end" data-name="Primer día de pago">
-	                </div>
-	        	</div> --}}
-	        @endif
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
-                    <label class="required" for="monthly_payment">Pago mensual $</label>
-                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="notary_name">Nombre del notario</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->notary_name : ''}}" id="notary_name" name="notary_name" data-name="Número de notario">
+                    </div>
                 </div>
-        	</div>
-			<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="deed_number">Número de escritura</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->deed_number : ''}}" id="deed_number" name="deed_number" data-name="Número de escritura">
+                    </div>
                 </div>
-        	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
-                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price * 1.10) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="deed_date">Fecha de escritura</label>
+                        <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->deed_date : ''}}" id="deed_date" name="deed_date" data-name="Fecha de escritura">
+                    </div>
                 </div>
-        	</div>
-        	<div class="row">
-        		<div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="customer_social_object">Objetivo social</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_social_object : ''}}" id="customer_social_object" name="customer_social_object" data-name="Objetivo social">
+                    </div>
                 </div>
-        	</div>
+            @endif
         	<hr>
 
         	<a href="{{route($contract ? 'Crm.contracts' : 'Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
