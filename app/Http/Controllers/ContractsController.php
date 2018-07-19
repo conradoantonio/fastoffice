@@ -124,24 +124,30 @@ class ContractsController extends Controller
         $contract->payment_range_end = $payment_range_end;
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
 
-        //Physical provider data
+        //Provider
         $contract->provider_name = $req->provider_name;
+        $contract->provider_address = $req->provider_address;
+        //Physical
         $contract->provider_ine_number = $req->provider_ine_number;
-        
-        //Physical person customer
+        //Moral
+        $contract->provider_act_number = $req->provider_act_number;
+        $contract->provider_notary_number = $req->provider_notary_number;
+        $contract->provider_notary_state_id = $req->provider_notary_state_id;
+        $contract->provider_notary_name = $req->provider_notary_name;
+
+        //Customer
+        $contract->customer_address = $req->customer_address;//Also for company address in moral customer
+        //Physical
         $contract->customer_ine_number = $req->customer_ine_number;
         $contract->customer_activity = $req->customer_activity;
-        $contract->customer_address = $req->customer_address;//Also for company address in moral customer
-
-        //Moral person customer
+        //Moral
         $contract->customer_company = $req->customer_company;
-        $contract->customer_address = $req->customer_address;
-        $contract->act_number = $req->act_number;
-        $contract->notary_number = $req->notary_number;
-        $contract->notary_state_id = $req->notary_state_id;
-        $contract->notary_name = $req->notary_name;
-        $contract->deed_number = $req->deed_number;
-        $contract->deed_date = $req->deed_date;
+        $contract->customer_act_number = $req->customer_act_number;
+        $contract->customer_notary_number = $req->customer_notary_number;
+        $contract->customer_notary_state_id = $req->customer_notary_state_id;
+        $contract->customer_notary_name = $req->customer_notary_name;
+        $contract->customer_deed_number = $req->customer_deed_number;
+        $contract->customer_deed_date = $req->customer_deed_date;
         $contract->customer_social_object = $req->customer_social_object;
 
         $contract->save();
@@ -174,6 +180,8 @@ class ContractsController extends Controller
         $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
 
         //General contract data
+        $req->has('user_id') ? $contract->user_id = $req->user_id : '';
+        $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $req->start_date_validity;
@@ -183,24 +191,30 @@ class ContractsController extends Controller
         $contract->payment_range_end = $payment_range_end;
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
 
-        //Physical provider data
+        //Provider
         $contract->provider_name = $req->provider_name;
+        $contract->provider_address = $req->provider_address;
+        //Physical
         $contract->provider_ine_number = $req->provider_ine_number;
+        //Moral
+        $contract->provider_act_number = $req->provider_act_number;
+        $contract->provider_notary_number = $req->provider_notary_number;
+        $contract->provider_notary_state_id = $req->provider_notary_state_id;
+        $contract->provider_notary_name = $req->provider_notary_name;
 
-        //Physical person customer
+        //Customer
+        $contract->customer_address = $req->customer_address;//Also for company address in moral customer
+        //Physical
         $contract->customer_ine_number = $req->customer_ine_number;
         $contract->customer_activity = $req->customer_activity;
-        $contract->customer_address = $req->customer_address;
-
-        //Moral person customer
+        //Moral
         $contract->customer_company = $req->customer_company;
-        $contract->customer_address = $req->customer_address;
-        $contract->act_number = $req->act_number;
-        $contract->notary_number = $req->notary_number;
-        $contract->notary_state_id = $req->notary_state_id;
-        $contract->notary_name = $req->notary_name;
-        $contract->deed_number = $req->deed_number;
-        $contract->deed_date = $req->deed_date;
+        $contract->customer_act_number = $req->customer_act_number;
+        $contract->customer_notary_number = $req->customer_notary_number;
+        $contract->customer_notary_state_id = $req->customer_notary_state_id;
+        $contract->customer_notary_name = $req->customer_notary_name;
+        $contract->customer_deed_number = $req->customer_deed_number;
+        $contract->customer_deed_date = $req->customer_deed_date;
         $contract->customer_social_object = $req->customer_social_object;
 
         $contract->save();

@@ -50,9 +50,9 @@ class Contract extends Model
     /**
      * Get the payments history from a contract.
      */
-    public function notary_state()
+    public function customer_notary_state()
     {
-        return $this->hasOne(State::class, 'id', 'notary_state_id');
+        return $this->hasOne(State::class, 'id', 'customer_notary_state_id');
     }
 
     /**
