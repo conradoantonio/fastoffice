@@ -64,14 +64,15 @@
             $('body').delegate('.show-receipt-pdf','click', function() {
                 type = $('#form-payment-receipt select[name=payment_type]').val();
                 id = $('#form-payment-receipt input[name=id]').val();
+                status = $('#form-payment-receipt select[name=status]').val();
 
-                if (!type || !id) {
+                if (!type || !id || !status) {
                     swal({
-                        title: 'Seleccione una opción para continuar',
+                        title: 'Complete los campos antes de continuar',
                         icon: 'error',
                     }).catch(swal.noop);
                 } else {
-                    href = '{{route('Crm.contracts.show_money_receipt')}}/'+id+'/'+type;
+                    href = '{{route('Crm.contracts.show_money_receipt')}}/'+id+'/'+type+'/'+status;
 
                     $("a#payment-recepit-tab").attr('href', href);
                     $("a#payment-recepit-tab")[0].click();

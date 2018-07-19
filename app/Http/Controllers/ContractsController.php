@@ -62,11 +62,11 @@ class ContractsController extends Controller
      * Show the pdf contract.
      *
      */
-    public function show_money_receipt($contract_id, $type_payment)
+    public function show_money_receipt($contract_id, $type_payment, $status)
     {
         $contract = Contract::find($contract_id);
         if ($contract) {
-            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment])
+            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'status' => $status])
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('recibo_de_pago.pdf');//Visualiza el archivo sin descargarlo
         }
@@ -238,7 +238,7 @@ class ContractsController extends Controller
 
         $row->contract_id = $req->contract_id;
         $row->payment_method = $req->payment_method;
-        $row->payment = $req->type;
+        $row->status = $req->type;
         $row->payment_str = $req->payment_str;
         $row->payment = $req->payment;
 
@@ -258,6 +258,11 @@ class ContractsController extends Controller
     public function get_payment_history(Request $req)
     {
         $rows = PaymentHistory::where('contract_id', $req->id)->orderBy('id', 'DESC')->get();
+
+        foreach($rows as &$row) {
+            $time = $row->created_at;
+            $row->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
+        }
 
         return $rows;
     }

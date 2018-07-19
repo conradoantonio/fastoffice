@@ -17,6 +17,7 @@
                                             <th style="text-align: center;">No.</th>
                                             <th style="text-align: center;">Monto</th>
                                             <th style="text-align: center;">Método de pago</th>
+                                            <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Fecha y hora de pago</th>
                                         </thead>
                                         <tbody>
@@ -31,7 +32,6 @@
                     <div class="col-md-12">
                         <div class="progress-outer">
                             <h5>Cargando comentarios... espere un momento</h5>
-                            <span><i style="font-size: 10mm;" class="fa fa-cloud-download" aria-hidden="true"></i></span><br>
                             <div class="progress transparent progress-large progress-striped active no-radius no-margin">
                                 <div data-percentage="100%" class="progress-bar progress-bar-success animate-progress-bar"></div>       
                             </div>
@@ -48,7 +48,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade data-fill" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="label-title" id="form-payment-receipt">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -66,6 +66,14 @@
                             <option value="">Seleccione una opción</option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Tarjeta">Tarjeta</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="status">Status de pago</label>
+                        <select class="form-control not-empty" name="status" data-name="Status de pago">
+                            <option value="">Seleccione una opción</option>
+                            <option value="1">Pago normal</option>
+                            <option value="2">Pago atrasado</option>
                         </select>
                     </div>
                 </div>

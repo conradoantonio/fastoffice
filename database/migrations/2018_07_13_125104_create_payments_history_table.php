@@ -19,6 +19,7 @@ class CreatePaymentsHistoryTable extends Migration
             $table->string('payment');
             $table->string('payment_str');
             $table->string('payment_method');
+            $table->integer('status')->default(1)->comment('1 Si el pago se pagó normal, 2 si se pagó retrasado');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });

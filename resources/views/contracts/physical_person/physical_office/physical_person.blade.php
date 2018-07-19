@@ -39,7 +39,7 @@
 		<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número {{$contract->customer_ine_number}}</li>
 		<li class="one-line-sp">Que su primordial actividad es la siguiente: {{$contract->customer_activity}}.</li>
 		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}</span>.</li>
-		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer_ine_number}}.</li>
+		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer->rfc}}.</li>
 	</ul>
 
 	<div class="new-page"></div>

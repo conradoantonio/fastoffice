@@ -19,7 +19,7 @@ class PaymentHistory extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'contract_id', 'payment', 'payment_str', 'type', 'payment_method',
+		'contract_id', 'payment', 'payment_str', 'type', 'payment_method', 'status',
 	];
 
 	/**

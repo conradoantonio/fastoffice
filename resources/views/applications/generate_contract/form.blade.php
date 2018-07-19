@@ -146,7 +146,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="provider_notary_name">Nombre de notario</label>
-                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_notary_name : ''}}" id="provider_notary_name" name="provider_notary_name" data-name="Nombre de notario (Prestador)">
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->provider_notary_name : ''}}" id="provider_notary_name" name="provider_notary_name" data-name="Nombre de notario (Prestador)">
                     </div>
                 </div>
             @endif

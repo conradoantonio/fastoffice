@@ -58,6 +58,14 @@ class Contract extends Model
     /**
      * Get the payments history from a contract.
      */
+    public function provider_notary_state()
+    {
+        return $this->hasOne(State::class, 'id', 'provider_notary_state_id');
+    }
+
+    /**
+     * Get the payments history from a contract.
+     */
     public function payment_history()
     {
         return $this->hasMany(PaymentHistory::class, 'contract_id', 'id');
