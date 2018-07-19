@@ -180,7 +180,7 @@ class OfficesController extends Controller
 	}
 
 	public function getUsersByBranch($branch_id){
-		return User::where(['role_id' => 3, 'status' => 1, 'branch_id' => $branch_id])->get();
+		return User::doesntHave('office')->where(['role_id' => 3, 'status' => 1, 'branch_id' => $branch_id])->get();
 	}
 
 	public function getPicturesByOffice($id){

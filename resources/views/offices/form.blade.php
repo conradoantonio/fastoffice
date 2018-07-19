@@ -41,7 +41,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					{{Form::label('municipality_id', 'Municipio', ['class' => 'control-label required'])}}
-					{!!Form::select('municipality_id', $municipalities, null, ['class' => 'select2 form-control not-empty select2-offscreen', 'data-name' => "Municipio"] )!!}
+					{!!Form::select('municipality_id', session('municipalities')?session('municipalities'):$municipalities, null, ['class' => 'select2 form-control not-empty select2-offscreen', 'data-name' => "Municipio"] )!!}
 				</div>
 			</div>
 			<div class="row">

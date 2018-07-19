@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Municipality;
 
 class OfficeRequest extends FormRequest
 {
@@ -96,8 +97,14 @@ class OfficeRequest extends FormRequest
 			return new JsonResponse($errors, 422);
 		}
 
+		$input = $this->all();
+		$municipalities = Municipality::whereHas('state', function($query) use ($input){
+			$query->where('id', $input['state_id']);
+		})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);
+
 		return $this->redirector->to($this->getRedirectUrl())
 			->withInput()
-			->withErrors($errors, 'office');
+			->withErrors($errors, 'office')
+			->with('municipalities', $municipalities);
 	}
 }
