@@ -63,7 +63,11 @@ class TemplatesController extends Controller
 				$attachment->size = $image->getClientSize();
 				$template->attachments()->save($attachment);
 
-				Image::make($image)->save($path);
+				if ( strtolower($image->getClientOriginalExtension()) == 'pdf'){
+					$image->move($directorio, $name);
+				} else {
+					Image::make($image)->save($path);
+				}
 			}
 			return;
 		}

@@ -24,7 +24,7 @@
 						</div>
 					</td>
 					<td>{{$d->concept}}</td>
-					<td>{{$d->amount}}</td>
+					<td>${{number_format($d->amount,2)}}</td>
 					<td>{{$d->office->name}}</td>
 					<td>
 						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Erp.form', $d->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>

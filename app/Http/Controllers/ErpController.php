@@ -8,6 +8,7 @@ use App\Models\Erp;
 use App\Models\Office;
 use App\Models\Branch;
 use App\Models\Category;
+use Excel;
 
 class ErpController extends Controller
 {
@@ -99,5 +100,177 @@ class ErpController extends Controller
 
 	public function getCategoriesByType($type_id){
 		return Category::where(['type' => $type_id])->get();
+	}
+
+	public function export($id, $start_date, $end_date){
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ) {
+				$q->where('branch_id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ) {
+				$q->where('id', auth()->user()->office->id);
+			} else {
+				if ( $id ) {
+					$q->where('branch_id', $id);
+				}
+			}
+		});
+		$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		});
+
+
+		if ( $start_date ) {
+			$earnings->where('created_at','>',$start_date.' 00:00:00');
+			$expenses->where('created_at','>',$start_date.' 00:00:00');
+		}
+		if( $end_date ) {
+			$earnings->where('created_at','<=',$end_date.' 23:59:59');
+			$expenses->where('created_at','<=',$end_date.' 23:59:59');
+		}
+
+		$earnings = $earnings->get();
+		$expenses = $expenses->get();
+
+		$ganancias = [];
+		$gastos = [];
+
+		foreach ($earnings as $row) {
+			$ganancias[] = [
+				'Categoría' => $row->category->name,
+				'Concepto' => $row->concept,
+				'Cantidad' => $row->amount,
+				'Sucursal' => $row->office->branch->name,
+				'Oficina' => $row->office->name
+			];
+		}
+
+		foreach ($expenses as $row) {
+			$gastos[] = [
+				'Categoría' => $row->category->name,
+				'Concepto' => $row->concept,
+				'Cantidad' => $row->amount,
+				'Sucursal' => $row->office->branch->name,
+				'Oficina' => $row->office->name
+			];
+		}
+
+		$excel = Excel::create('Utilidades', function($excel) use($ganancias, $gastos, $id, $start_date, $end_date) {
+			$excel->sheet('Ingresos', function($sheet) use($ganancias, $gastos, $id, $start_date, $end_date) {
+
+				$sheet->cell('A1', function($cell) use ($ganancias){
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Ingresos: $'.number_format(collect($ganancias)->sum('Cantidad'),2));
+				});
+
+				$sheet->cell('B1', function($cell) use ($ganancias, $gastos){
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos)->sum('Cantidad') ),2));
+				});
+
+				$sheet->cell('A2', function($cell) use($start_date, $end_date){
+					if ( $start_date && $end_date ){
+						$periodo = $start_date.' - '.$end_date;
+					} elseif( $start_date ) {
+						$periodo = "Después del ".$start_date;
+					} elseif ( $end_date ) {
+						$periodo = "Antes del ".$end_date;
+					}
+					else {
+						$periodo = "Todo el tiempo";
+					}
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Periodo: '.$periodo);
+				});
+
+				if( $id || auth()->user()->role_id != 1 ){
+					$id = !$id?auth()->user()->id:$id;
+					$sucursal = Branch::find($id);
+					$sheet->cell('A3', function($cell) use ($sucursal){
+						$cell->setFontWeight('bold');
+						$cell->setFontSize(14);
+						$cell->setValue('Sucursal: '.$sucursal->name);
+					});
+				}
+
+				$sheet->cells('A:I', function($cells) {
+					$cells->setAlignment('left');
+					$cells->setValignment('center');
+				});
+
+				$sheet->cells('A5:E5', function($cells) {
+					$cells->setAlignment('center');
+					$cells->setValignment('center');
+					$cells->setFontWeight('bold');
+					$cells->setFontSize(12);
+				});
+				$sheet->fromArray($ganancias, null, 'A5', true);
+				$sheet->setAutoFilter('A5:E5');
+			});
+
+			$excel->sheet('Egresos', function($sheet) use($ganancias, $gastos, $id, $start_date, $end_date) {
+				$sheet->cell('A1', function($cell) use ($ganancias, $gastos) {
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Egresos: $'.number_format( collect($gastos)->sum('Cantidad') ,2));
+				});
+
+				$sheet->cell('B1', function($cell) use ($ganancias, $gastos) {
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos)->sum('Cantidad') ),2));
+				});
+
+				$sheet->cell('A2', function($cell) use($start_date, $end_date){
+					if ( $start_date && $end_date ){
+						$periodo = $start_date.' - '.$end_date;
+					} elseif( $start_date ) {
+						$periodo = "Después del ".$start_date;
+					} elseif ( $end_date ) {
+						$periodo = "Antes del ".$end_date;
+					}
+					else {
+						$periodo = "Todo el tiempo";
+					}
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Periodo: '.$periodo);
+				});
+
+				if( $id || auth()->user()->role_id != 1 ){
+					$id = !$id?auth()->user()->id:$id;
+					$sucursal = Branch::find($id);
+					$sheet->cell('A3', function($cell) use ($sucursal){
+						$cell->setFontWeight('bold');
+						$cell->setFontSize(14);
+						$cell->setValue('Sucursal: '.$sucursal->name);
+					});
+				}
+
+				$sheet->cells('A:I', function($cells) {
+					$cells->setAlignment('left');
+					$cells->setValignment('center');
+				});
+
+				$sheet->cells('A5:E5', function($cells) {
+					$cells->setAlignment('center');
+					$cells->setValignment('center');
+					$cells->setFontWeight('bold');
+					$cells->setFontSize(12);
+				});
+				$sheet->fromArray($gastos, null, 'A5', true);
+				$sheet->setAutoFilter('A5:E5');
+			});
+		})->download('xlsx');
+
+		return $excel;
 	}
 }

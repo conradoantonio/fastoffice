@@ -7,6 +7,7 @@ use PDF;
 use App\Models\User;
 use App\Models\Office;
 use App\Models\Meeting;
+use App\Models\Template;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
@@ -26,11 +27,12 @@ class ApplicationsController extends Controller
         $title = "Prospectos";
         $menu = "CRM";
         $prospects = Application::orderBy('id', 'desc')->where('status', 0)->get();
+        $templates = Template::where('status',1)->get();
 
         if ($req->ajax()) {
             return view('applications.prospects.table', ['prospects' => $prospects]);
         }
-        return view('applications.prospects.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
+        return view('applications.prospects.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title, 'templates' => $templates]);
     }
 
     /**
@@ -70,7 +72,7 @@ class ApplicationsController extends Controller
         }
         return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'menu' => $menu, 'title' => $title]);
     }
-    
+
 
     /**
      * Save a new prospect.
@@ -218,12 +220,44 @@ class ApplicationsController extends Controller
 
         if ($req->num_people) { $query = $query->where('num_people', '>=', $req->num_people); }
 
-        if ($req->office_type_id) { 
+        if ($req->office_type_id) {
             $query = $query->whereHas('type', function($q) use($req) {
                 $q->where('id', $req->office_type_id);
-            }); 
+            });
         }
 
         return $query->get();
+    }
+
+    /**
+     * Send a specific template to selected prospects
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function send_template(Request $req){
+        $template = Template::find($req->template_id);
+        $prospects = Application::with('customer')->whereIn('id', $req->prospects_ids)->get();
+        $emails = [];
+
+        $prospects->each(function($prospect, $key) use (&$emails){
+            if ( $prospect->user_id ){
+                $emails[] = $prospect->customer->email;
+            } else {
+                $emails[] = $prospect->email;
+            }
+        });
+
+        $params = array();
+        $params['subject'] = "Información Fast Office";
+        $params['title'] = $template->name;
+        $params['content']['message'] = $template->content;
+        $params['content']['attachments'] = $template->attachments;
+        $params['email'] = $emails;
+        $params['view'] = 'mails.templates';
+
+        if ( $this->mail($params) ){
+            return response(['msg' => 'Plantilla enviada', 'status' => 'success'], 200);
+        }
+        return response(['msg' => 'Error al enviar la plantilla', 'status' => 'error'], 404);
     }
 }

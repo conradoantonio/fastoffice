@@ -205,3 +205,7 @@ div#notifications > div.popover{
 	color: white;
 	background-color: #1F38C2;
 }
+.fancybox-close{
+	top: -3px !important;
+	right: -4px !important;
+}
