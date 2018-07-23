@@ -331,9 +331,9 @@ $("#export").on('click',function(){
 
 $("#exportar").on('click',function(){
 	url = "";
-	if ( $("#byUser").length )  {
-		if ( $("#byUser").val() != 0 ){
-			url = "/"+$("#byUser").val();
+	if ( $("#byField").length )  {
+		if ( $("#byField").val() != 0 ){
+			url = "/"+$("#byField").val();
 		} else {
 			url = "/0"
 		}

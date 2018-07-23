@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('pageTitle', 'Prospectos')
 @section('content')
-   
+
     @include('applications.prospects.modal')
 
     <div class="container-fluid content-body">
@@ -15,6 +15,7 @@
         @endif
         <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
             <a href="{{route('Crm.prospects.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>
+            <button class="btn btn-info" data-target="#send-template" data-toggle="modal"><i class="fa fa-paper-plane"></i> Enviar plantilla</button>
             {{-- <a href="{{route('Applications.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a> --}}
         </div>
         <div class="row-fluid">
@@ -65,7 +66,7 @@
             //Reject prospects
             $('body').delegate('.reject-prospect', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();
-                
+
                 $('#reject-application input[name=prospect]').val(prospect);
                 $('#reject-application input[name=application_id]').val($(this).data('parent-id'));
                 $('#reject-application input[name=status]').val(3);
@@ -121,6 +122,46 @@
 
                 ajaxSimple(config);
             });
+
+            $(document).delegate("#send_button", 'click',  function(){
+                var template_id = $("#template_id").val(), prospects_ids = [];
+
+                $('.multiple-delete:checked').each(function(){
+                    prospects_ids.push($(this).val());
+                })
+
+                if ( template_id == 0 || prospects_ids.length === 0 ){
+                    if ( prospects_ids.length === 0 ){
+                        swal('Error', 'No ha seleccionado ningun rospecto como destinatario de la plantilla', 'error')
+                    } else {
+                        swal({
+                            title: 'Verifique los siguientes campos: ',
+                            icon: 'error',
+                            content: {
+                                element: "div",
+                                attributes: {
+                                    innerHTML:"<ul id='errores_list'><li>Plantilla: Campo vacio</li></ul>"
+                                },
+                            }
+                        }).catch(swal.noop);
+                        $("#template_id").parent().addClass('has-error')
+                    }
+                    return;
+                }
+                $("#template_id").parent().removeClass('has-error')
+
+                config = {
+                    'template_id'   : template_id,
+                    'prospects_ids' : prospects_ids,
+                    'keepModal'     : false,
+                    'route'         : $("#send-template-form").attr('action'),
+                    'method'        : 'POST',
+                    'callback'      : '',
+                }
+                loadAnimation('Procesando');
+                ajaxSimple(config);
+                $("#template_id").select2('val',0)
+            })
         </script>
     @endpush
 @endsection

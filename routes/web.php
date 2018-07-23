@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::put('actualizar-erp/{id}', 'ErpController@update')->name('Erp.update');
 		Route::patch('status-erp', 'ErpController@status')->name('Erp.status');
 		Route::delete('eliminar-erp/{id}', 'ErpController@destroy')->name('Erp.destroy');
+		Route::get('erp-exportar/{id?}/{start_date?}/{end_date?}', 'ErpController@export')->name('Erp.export');
 		Route::get('obtener-categories/{branch_id?}', 'ErpController@getCategoriesByType')->name('Erp.categories');
 
 		#Prospects
@@ -103,6 +104,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('guardar-commentario', 'ApplicationsController@save_application_comments')->name('Crm.prospects.save_comment');
 			Route::post('ver-commentarios', 'ApplicationsController@view_applications_coments')->name('Crm.prospects.view_comments');
 			Route::post('obtener-info-application', 'ApplicationsController@get_application_info')->name('Crm.prospects.get_application_info');
+			Route::post('enviar-plantilla', 'ApplicationsController@send_template')->name('Crm.prospects.send_template');
 		});
 
 		#Contracts

@@ -11,7 +11,7 @@
 		<h1><span class="semi-bold">Ingresos y egresos</span></h1>
 	</div>
 	<div class="row-fluid">
-		@include('helpers.filters', ['index_url' => route('Erp'), 'export_url' => null, 'dates' => true])
+		@include('helpers.filters', ['index_url' => route('Erp'), 'export_url' => route('Erp.export'), 'dates' => true])
 	</div>
 	<div class="row-fluid">
 		<div id="body-content">
