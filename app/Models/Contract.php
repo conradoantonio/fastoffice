@@ -48,6 +48,14 @@ class Contract extends Model
     }
 
     /**
+     * Get the possible cancellation of the contract.
+     */
+    public function cancelation()
+    {
+        return $this->hasOne(CancelledContract::class, 'id', 'contract_id');
+    }
+
+    /**
      * Get the payments history from a contract.
      */
     public function customer_notary_state()

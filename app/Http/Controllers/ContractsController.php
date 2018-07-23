@@ -266,4 +266,22 @@ class ContractsController extends Controller
 
         return $rows;
     }
+
+    /**
+     * Create or download the cancellation pdf for a contract
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show_cancelled_pdf($contract_id)
+    {
+        $contract = Contract::find($contract_id);
+        if ($contract) {
+            if ($contract->cancelation) {
+                return redirect('pdf/c_test.pdf');
+            }
+            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract])
+            ->setPaper('letter')->setWarnings(false);
+            return $pdf->stream('cancelación.pdf');//Visualiza el archivo sin descargarlo
+        }
+    }
 }

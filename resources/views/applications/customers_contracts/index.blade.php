@@ -123,6 +123,33 @@
 
                 ajaxSimple(config);
             });
+
+            //Cancel a contract
+            $('body').delegate('.cancel-contract','click', function() {
+                var contract_id = $(this).parent().siblings("td:nth-child(1)").text();
+                var customer = $(this).parent().siblings("td:nth-child(3)").text();
+                var office = $(this).parent().siblings("td:nth-child(6)").text();
+                var url = "{{url('crm/contracts/ver-cancelacion')}}"+"/"+contract_id;
+
+                swal({
+                    title: '¿Realmente quiere cancelar el contrato del cliente ' + customer + ' con la oficina ' + office + '?',
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML:"¡Tendrás que marcar como finalizado este contrato manualmente de todos modos!"
+                        },
+                    },
+                    icon: 'warning',
+                    buttons:["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                }).then((accept) => {
+                    if (accept) {
+                        window.location.href = url;
+                    }
+                }).catch(swal.noop);
+            });
+
+            
         </script>
     @endpush
 @endsection

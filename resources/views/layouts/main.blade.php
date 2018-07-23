@@ -257,6 +257,12 @@
 						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.contracts', 'Crm.contracts.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Crm.contracts')}}"> Contratos de clientes </a>
 						</li>
+						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.contracts.cancelled']) ) ? 'active open' : '' }}">
+							<a href="{{route('Crm.contracts.cancelled')}}"> Contratos cancelados </a>
+						</li>
+						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.contracts.finished']) ) ? 'active open' : '' }}">
+							<a href="{{route('Crm.contracts.finished')}}"> Contratos finalizados </a>
+						</li>
 						<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
 							<a href="{{route('Template')}}"> Plantillas </a>
 						</li>

@@ -205,3 +205,11 @@ div#notifications > div.popover{
 	color: white;
 	background-color: #1F38C2;
 }
+.btn-cancel{
+	color: white;
+	background-color: #000000;
+}
+.btn-cancel:hover{
+	color: white;
+	background-color: #000000;
+}
