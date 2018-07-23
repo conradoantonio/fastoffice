@@ -12,8 +12,7 @@ use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\PaymentHistory;
-use App\Models\ApplicationComment;
-use App\Models\ApplicationDetail;
+use App\Models\CancelledContract;
 
 use Illuminate\Http\Request;
 
@@ -149,6 +148,7 @@ class ContractsController extends Controller
         $contract->customer_deed_number = $req->customer_deed_number;
         $contract->customer_deed_date = $req->customer_deed_date;
         $contract->customer_social_object = $req->customer_social_object;
+        $contract->status = 0;//Pending of payment
 
         $contract->save();
 
@@ -268,20 +268,79 @@ class ContractsController extends Controller
     }
 
     /**
+     *=============================================================================================================================================================
+     *=                                                         Canceled and finished contracts functions                                                         =
+     *=============================================================================================================================================================
+     */
+
+    /**
+     * Show the customers contracts.
+     *
+     */
+    public function show_finished(Request $req)
+    {
+        $title = "Contratos finalizados";
+        $menu = "CRM";
+        $contracts = Contract::whereHas('application', function($query) {//Verify if the contract has an application row
+            $query->orderBy('id', 'desc')->where('status', 2);//Finished
+        })
+        ->get();
+
+        if ($req->ajax()) {
+            return view('applications.contracts_finished.table', ['contracts' => $contracts]);
+        }
+        return view('applications.contracts_finished.index', ['contracts' => $contracts, 'menu' => $menu , 'title' => $title]);
+    }
+
+    /**
      * Create or download the cancellation pdf for a contract
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_cancelled_pdf($contract_id)
+    public function show_cancelled_pdf(Request $req)
     {
-        $contract = Contract::find($contract_id);
+        $contract = Contract::find($req->id);
         if ($contract) {
             if ($contract->cancelation) {
-                return redirect('pdf/c_test.pdf');
+                return response(['msg' => 'PDF se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_$req->id.pdf")], 200);
+            } else {
+                $this->make_path('pdf/cancelled');
+                
+                $row = New CancelledContract;
+                $row->contract_id = $req->id;
+                $row->save();
+
+                $contract = Contract::find($req->id);//Need to findit because we need his cancelation relation
+
+                $pdf = PDF::loadView('contracts.other_documents.cancel_contract', ['contract' => $contract])
+                ->setPaper('letter')
+                ->setWarnings(false)
+                ->save("pdf/cancelled/contrato_$req->id.pdf");
+
+                return response(['msg' => 'PDF creado, se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_$req->id.pdf")], 200);
             }
-            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract])
-            ->setPaper('letter')->setWarnings(false);
-            return $pdf->stream('cancelación.pdf');//Visualiza el archivo sin descargarlo
         }
+
+        return redirect()->back()->with('msg', 'ID de contrato inválido');
+    }
+
+    /**
+     * Finish a contract
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mark_as_finished(Request $req)
+    {
+        $contract = Contract::find($req->id);
+        if (!$contract) { return response(['msg' => 'Contrato no encontrado', 'status' => 'error'], 404); }
+
+        $application = Application::find($contract->application_id);
+        if (!$application) { return response(['msg' => 'Contrato no encontrado', 'status' => 'error'], 404); }
+        
+        $application->status = 2;
+
+        $application->save();
+
+        return response(['msg' => 'Contrato finalizado', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }
 }

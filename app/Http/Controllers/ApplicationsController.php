@@ -44,11 +44,12 @@ class ApplicationsController extends Controller
         $title = "Prospectos (Rechazados)";
         $menu = "CRM";
         $prospects = Application::orderBy('id', 'desc')->where('status', 3)->get();
+        $templates = Template::where('status',1)->get();
 
         if ($req->ajax()) {
             return view('applications.rejected.table', ['prospects' => $prospects]);
         }
-        return view('applications.rejected.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title]);
+        return view('applications.rejected.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title, 'templates' => $templates]);
     }
 
     /**

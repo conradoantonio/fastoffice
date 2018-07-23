@@ -119,9 +119,9 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('actualizar', 'ContractsController@update')->name('Crm.contracts.update');
 
 			#Cancelled
-			Route::get('cancelados', 'ContractsController@show_cancelled')->name('Crm.contracts.cancelled');
-			Route::get('ver-cancelacion/{id?}', 'ContractsController@show_cancelled_pdf')->name('Crm.prospects.show_cancelled_pdf');
 			Route::get('finalizados', 'ContractsController@show_finished')->name('Crm.contracts.finished');
+			Route::post('finalizar-contrato', 'ContractsController@mark_as_finished')->name('Crm.contracts.mark_as_finished');
+			Route::post('ver-cancelacion', 'ContractsController@show_cancelled_pdf')->name('Crm.contracts.show_cancelled_pdf');
 		});
 
 		#Offices

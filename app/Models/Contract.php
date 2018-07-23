@@ -52,11 +52,11 @@ class Contract extends Model
      */
     public function cancelation()
     {
-        return $this->hasOne(CancelledContract::class, 'id', 'contract_id');
+        return $this->hasOne(CancelledContract::class, 'contract_id', 'id');
     }
 
     /**
-     * Get the payments history from a contract.
+     * Get the municipality of the provider notary.
      */
     public function customer_notary_state()
     {
@@ -64,7 +64,7 @@ class Contract extends Model
     }
 
     /**
-     * Get the payments history from a contract.
+     * Get the state of the provider notary.
      */
     public function provider_notary_state()
     {

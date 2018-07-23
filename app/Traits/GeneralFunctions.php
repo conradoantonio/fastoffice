@@ -139,4 +139,15 @@ trait GeneralFunctions
 
 		return false;
 	}
+
+	/**
+     * Check if an office is available.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function make_path($path) {
+		if (!File::exists($path)) {//Creates the path
+            File::makeDirectory(public_path().'/pdf/cancelled', 0755, true, true);
+        }
+    }
 }

@@ -66,6 +66,8 @@
                             <option value="">Seleccione una opción</option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Tarjeta">Tarjeta</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Transferencia">Transferencia</option>
                         </select>
                     </div>
                     <div class="form-group col-sm-12 col-xs-12">
@@ -106,6 +108,8 @@
                                 <option value="">Seleccione una opción</option>
                                 <option value="Efectivo">Efectivo</option>
                                 <option value="Tarjeta">Tarjeta</option>
+                                <option value="Cheque">Cheque</option>
+                                <option value="Transferencia">Transferencia</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-xs-12">

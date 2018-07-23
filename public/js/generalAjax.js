@@ -120,7 +120,7 @@ function ajaxSimple(config) {
             if (config.refresh == 'table') {
                 refreshContent(data.url, config.column, config.table_id, config.container_id);
             } else if(config.callback) {
-                window[config.callback](data);
+                window[config.callback](data, config.reload_ta);
             } else if(config.redirect) {
                 setTimeout( function() {
                     window.location.href = data.url;
@@ -203,7 +203,7 @@ function refreshContent(url, column, table_id, container_id) {
     container.load(url, function() {
         container.fadeIn();
         $(table_id ? "table#"+table_id : "table#rows").dataTable({
-            "aaSorting": [[ column ? column : 1, "desc" ]]
+            "aaSorting": [[ column ? column : 0, "desc" ]]
         });
     });
 }
@@ -284,6 +284,7 @@ function display_payment_history(data) {
     $('div.payment-history-content').removeClass('hide');
 }
 
+//Display the details data of the application
 function display_application_details(data) {
     fill_text(data, null, true);
     fill_text(data.detail, null);
@@ -309,4 +310,20 @@ function display_application_details(data) {
     $('div.details-content').removeClass('hide');
 }
 
+//Redirect to view a pdf
+function redirect_pdf(data, reload) {
+    if (reload) {
+        refreshContent(data.url);
+    }
+    var win = window.open(data.route, '_blank');
+    if (win) {
+        //Browser has allowed it to be opened
+        win.focus();
+    } else {
+        //Browser has blocked it
+        swal('Porfavor, permita las ventanas emergentes (popups) en este sitio', 'Para visualizar documentos pdf, vaya a las preferencias de su navegador y permita esta acción.', 'error');
+    }
+    /*window.open(data.route, 'PDF', 'status=1, height=300, width=300, resizable=0');*/
+    /*javascript:window.open(data.route,'','width=1366,height=768,left=0,top=0,toolbar=yes,fullscreen=yes','location=no');*/
+}
 
