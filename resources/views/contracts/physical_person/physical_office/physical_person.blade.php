@@ -44,7 +44,7 @@
 
 	<div class="new-page"></div>
 
-	<br><br><br>
+	<br><br>
 	<p class="break justify">III.<span class="white-space-4">DECLARAN AMBAS PARTES</span></p>
 	<ul class="no-style justify">
 		<li>Que en atención a lo expuesto están conformes en sujetar su compromiso a los términos del presente contrato y a las siguientes condiciones:</li>

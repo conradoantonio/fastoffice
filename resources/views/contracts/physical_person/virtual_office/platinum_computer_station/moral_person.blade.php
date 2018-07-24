@@ -1,0 +1,1 @@
+moral_person.blade.php

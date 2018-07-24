@@ -21,4 +21,12 @@ class OfficeType extends Model
 	protected $fillable = [
 		'name'
 	];
+
+	/**
+     * Get the possible category associated with the office.
+     */
+    public function category()
+    {
+        return $this->hasOne(OfficeTypeCategory::class, 'office_type_id', 'id');
+    }
 }

@@ -1,0 +1,4 @@
+<p class="break justify bold">6. Confidencialidad:</p>
+<ul class="b-up-alpha less-li-he justify">
+	<li class="one-line-sp">En los términos de este contrato son confidenciales. “EL CLIENTE no podrá divulgar ningún tipo de información que se le haya proporcionado, sin la autorización de la otra parte a menos que la ley o una autoridad competente lo requieran. esta obligación continuara después de la finalización o terminación del presente contrato por un lapso de tiempo de 5 años posteriores a la fecha en la que se haya terminado, rescindido o finalizado el presente instrumento jurídico.</li>
+</ul>

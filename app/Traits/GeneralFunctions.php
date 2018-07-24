@@ -124,7 +124,13 @@ trait GeneralFunctions
 
 		//Subfolder
 		if ($contract->office->type->name == 'Física') { $subfolder = 'physical_office'; } 
-		if ($contract->office->type->name == 'Virtual') { $subfolder = 'virtual_office'; } 
+		
+		//Special code for virtual offices
+		if ($contract->office->type->name == 'Virtual') { 
+			$subfolder = 'virtual_office';
+			$subfolder = $subfolder.'.'.$contract->office->type->category->view_name;
+
+		}
 		if ($contract->office->type->name == 'Sala de juntas') { $subfolder = 'meeting_room'; } 
 		if ($contract->office->type->name == 'Sala de conferencias') { $subfolder = 'conference_room'; } 
 
@@ -147,7 +153,7 @@ trait GeneralFunctions
      */
 	public function make_path($path) {
 		if (!File::exists($path)) {//Creates the path
-            File::makeDirectory(public_path().'/pdf/cancelled', 0755, true, true);
+            File::makeDirectory(public_path($path), 0755, true, true);
         }
     }
 }

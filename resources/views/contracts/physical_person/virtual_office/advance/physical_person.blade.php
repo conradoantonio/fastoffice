@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato para oficina física de persona física a persona moral</title>
+	<title>Contrato para oficina virtual de persona física a persona física</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -19,8 +19,8 @@
 	<br>
 	<p class="break justify uppercase">
 		EN EL MUNICIPIO DE {{$contract->office->municipality->name}} {{$contract->office->state->name}} A LOS {{strftime('%d', strtotime($contract->contract_date))}} DÍAS DEL MES DE {{strftime('%B', strtotime($contract->contract_date))}} DEL AÑO {{strftime('%Y', strtotime($contract->contract_date))}} COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-		POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE 
-		<span class="bold">{{$contract->customer_company}}</span> REPRESENTADA POR <span class="bold">{{$contract->customer->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
+		POR UNA PARTE, <span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> Y POR LA OTRA PARTE <span class="bold">{{$contract->customer->fullname}}</span>
+		A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS:
 	</p>
 	<br>
 	<p class="break bold center">DECLARACIONES:</p>
@@ -33,12 +33,12 @@
 		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->office->branch->user->rfc}}</li>
 	</ul>
 
+	<br>
 	<p class="break justify">II.<span class="white-space-5">DECLARA “EL CLIENTE”</span></p>
 	<ul class="b-up-alpha justify">
-		<li class="one-line-sp">Que es una empresa legalmente constituida de conformidad con las leyes mexicanas como lo demuestra con la escritura de su acta constitutiva número {{$contract->customer_act_number}} otorgada ante la fe del notario público número {{$contract->customer_notary_number}} del estado de {{$contract->customer_notary_state->name}} el Lic. {{$contract->customer_notary_name}}</li>
-		<li class="one-line-sp">Que {{$contract->customer->fullname}} tiene facultades para suscribir el presente instrumento de conformidad con la escritura {{$contract->customer_deed_number}} de fecha {{strftime('%d', strtotime($contract->customer_deed_date))}} de {{strftime('%B', strtotime($contract->customer_deed_date))}} del año {{strftime('%Y', strtotime($contract->customer_deed_date))}} otorgada ante la fe del notario público número {{$contract->customer_notary_number}} del estado de {{$contract->customer_notary_state->name}}.</li>
-		<li class="one-line-sp">Que dentro de su objetivo social se encuentra el de {{$contract->customer_social_object}}</li>
-		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}.</li>
+		<li class="one-line-sp">Que es una persona física con actividad empresarial, mayor de edad, con facultad para suscribir el presente instrumento y que presenta en este acto para identificarse la credencial del instituto federal electoral con número {{$contract->customer_ine_number}}</li>
+		<li class="one-line-sp">Que su primordial actividad es la siguiente: {{$contract->customer_activity}}.</li>
+		<li class="one-line-sp">Que señala como domicilio para efectos de este contrato, el ubicado en {{$contract->customer_address}}</span>.</li>
 		<li class="one-line-sp">Que tiene como registro federal de contribuyentes: {{$contract->customer->rfc}}.</li>
 	</ul>
 
@@ -72,7 +72,7 @@
 		
 		<div class="new-page"></div>
 		<br><br>
-		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negada la entrada a la oficina y se cambiará clave de alarma.</li>
+		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negado todos los servicios otorgados por “EL PRESTADOR” y será retenida la documentación y/o correspondencia de “EL CLIENTE” hasta contar con el pago total a la fecha de los servicios prestados.</li>
 	</ul>
 
 	<br>
@@ -82,15 +82,13 @@
 			<ul class="no-style no-padding no-margin">
 				<li>“EL PRESTADOR” se obliga a mantener disponibles para “EL CLIENTE” los servicios siguientes:</li>
 				<li><br></li>
-				<li>A-1) oficina amueblada para {{$contract->office->num_people}} personas. </li>
-				<li>A-2) cada persona adicional tiene un costo de $ 580.00 pesos </li>
-				<li>A-3) servicios de energía eléctrica, agua potable, limpieza.</li>
-				<li>A-4) recepción de llamadas, mensajes, correspondencia en horario de (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
-				<li>A-5) sala de juntas ilimitada, previa reservación. (Ver anexo de políticas de sala de juntas)</li>
-				<li>A-6) estación de café</li>
-				<li>A-7) mensajería (costos por paquete de acuerdo a la compañía)</li>
-				<li>A-8) internet inalámbrico</li>
-				<li>A-9) servicio de impresora, copiadora (costo adicional)</li>
+				<li>A-1) Domicilio fiscal. </li>
+				<li>A-2) Control de llamadas y correspondencia. (no incluye línea telefónica) </li>
+				<li>A-3) Atención a departamentos gubernamentales con atención personalizada.</li>
+				<li>A-4) Sala de juntas con servicio de proyección (16 hrs. mensuales de acuerdo a disponibilidad). Las horas de sala de juntas no son acumulables</li>
+				<li>A-5) Estación de café ilimitada</li>
+				<li>A-6) Acceso de instalaciones a cualquier centro de negocios FAST OFFICE en horario de recepción. (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
+				<li>A-7) Planes de negocio y desarrollo (Networking).</li>
 				<li><br></li>
 				<li>Cada uno de los anteriores puntos es un servicio prestado por “EL PRESTADOR” de acuerdo al objeto de este contrato.</li>
 			</ul>
@@ -153,19 +151,5 @@
 </div>
 
 {{-- </body> --}}
-<script type="text/php">
-    if (isset($pdf)) {
-	    $x = 470;
-	    $y = 730;
-	    $text = "Página {PAGE_NUM} | {PAGE_COUNT}";
-	    $font = $fontMetrics->get_font("Roboto");
-	    $size = 12;
-	    $color = array(0.266,0.329,0.415);
-	    $word_space = 0.0;  //  default
-	    $char_space = 0.0;  //  default
-	    $angle = 0.0;   //  default
-	    $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
-	}
-</script>
+@include('contracts.layouts.footer')
 </html>
-

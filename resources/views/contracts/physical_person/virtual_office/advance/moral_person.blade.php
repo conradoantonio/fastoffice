@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato para oficina física de persona física a persona moral</title>
+	<title>Contrato para oficina virtual de persona física a persona moral</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -72,7 +72,7 @@
 		
 		<div class="new-page"></div>
 		<br><br>
-		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negada la entrada a la oficina y se cambiará clave de alarma.</li>
+		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negado todos los servicios otorgados por “EL PRESTADOR” y será retenida la documentación y/o correspondencia de “EL CLIENTE” hasta contar con el pago total a la fecha de los servicios prestados.</li>
 	</ul>
 
 	<br>
@@ -82,15 +82,13 @@
 			<ul class="no-style no-padding no-margin">
 				<li>“EL PRESTADOR” se obliga a mantener disponibles para “EL CLIENTE” los servicios siguientes:</li>
 				<li><br></li>
-				<li>A-1) oficina amueblada para {{$contract->office->num_people}} personas. </li>
-				<li>A-2) cada persona adicional tiene un costo de $ 580.00 pesos </li>
-				<li>A-3) servicios de energía eléctrica, agua potable, limpieza.</li>
-				<li>A-4) recepción de llamadas, mensajes, correspondencia en horario de (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
-				<li>A-5) sala de juntas ilimitada, previa reservación. (Ver anexo de políticas de sala de juntas)</li>
-				<li>A-6) estación de café</li>
-				<li>A-7) mensajería (costos por paquete de acuerdo a la compañía)</li>
-				<li>A-8) internet inalámbrico</li>
-				<li>A-9) servicio de impresora, copiadora (costo adicional)</li>
+				<li>A-1) Domicilio fiscal. </li>
+				<li>A-2) Control de llamadas y correspondencia. (no incluye línea telefónica) </li>
+				<li>A-3) Atención a departamentos gubernamentales con atención personalizada.</li>
+				<li>A-4) Sala de juntas con servicio de proyección (16 hrs. mensuales de acuerdo a disponibilidad). Las horas de sala de juntas no son acumulables</li>
+				<li>A-5) Estación de café ilimitada</li>
+				<li>A-6) Acceso de instalaciones a cualquier centro de negocios FAST OFFICE en horario de recepción. (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
+				<li>A-7) Planes de negocio y desarrollo (Networking).</li>
 				<li><br></li>
 				<li>Cada uno de los anteriores puntos es un servicio prestado por “EL PRESTADOR” de acuerdo al objeto de este contrato.</li>
 			</ul>
@@ -144,7 +142,7 @@
 	<br><br><br>
 
 	@include('contracts.layouts.clause_9')
-
+	
 	@include('contracts.layouts.signatures')
 
 	<div class="new-page"></div>
@@ -153,19 +151,5 @@
 </div>
 
 {{-- </body> --}}
-<script type="text/php">
-    if (isset($pdf)) {
-	    $x = 470;
-	    $y = 730;
-	    $text = "Página {PAGE_NUM} | {PAGE_COUNT}";
-	    $font = $fontMetrics->get_font("Roboto");
-	    $size = 12;
-	    $color = array(0.266,0.329,0.415);
-	    $word_space = 0.0;  //  default
-	    $char_space = 0.0;  //  default
-	    $angle = 0.0;   //  default
-	    $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
-	}
-</script>
+@include('contracts.layouts.footer')
 </html>
-

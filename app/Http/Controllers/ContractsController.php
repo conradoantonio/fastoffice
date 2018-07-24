@@ -13,6 +13,7 @@ use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\PaymentHistory;
 use App\Models\CancelledContract;
+use App\Models\OfficeTypeCategory;
 
 use Illuminate\Http\Request;
 
@@ -81,9 +82,10 @@ class ContractsController extends Controller
         $title = $contract_id ? "Editar contrato" : "Crear contrato";
         $menu = "Prospectos";
         $states = State::all();
-        $prospect = $contract = null;
+        $of_ty_cat = $prospect = $contract = null;
         if ($app_id) {
             $prospect = Application::/*where('status', 0)->*/where('id', $app_id)->first();
+            $of_ty_cat = OfficeTypeCategory::where('office_type_id', $prospect->office->type->id)->get();
         }
 
         if ($contract_id) {
@@ -92,7 +94,7 @@ class ContractsController extends Controller
 
         if ($prospect) { $this->create_user($app_id); }//Creates an application user if is neccesary
 
-        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'menu' => $menu, 'title' => $title]);
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'menu' => $menu, 'title' => $title]);
     }
 
     /**
@@ -115,6 +117,7 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        $contract->office_type_category_id = $req->office_type_category_id;
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
@@ -183,6 +186,7 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        $contract->office_type_category_id = $req->office_type_category_id;
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
@@ -321,7 +325,7 @@ class ContractsController extends Controller
             }
         }
 
-        return redirect()->back()->with('msg', 'ID de contrato inválido');
+        return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 200);
     }
 
     /**

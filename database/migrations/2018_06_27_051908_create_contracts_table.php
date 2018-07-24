@@ -27,6 +27,7 @@ class CreateContractsTable extends Migration
             $table->integer('payment_range_end');
             $table->string('monthly_payment_delay_str');
             $table->integer('status')->default(1)->comment('0 por pagar, 1 pagado, 2 retrasado');
+            $table->integer('office_type_category_id')->nullable();
 
             //Provider fields
             $table->string('provider_name');

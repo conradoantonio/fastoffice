@@ -1,0 +1,10 @@
+<p class="break justify bold">7. Incumplimiento y terminación del contrato:</p>
+<ul class="b-up-alpha less-li-he justify">
+	<li class="one-line-sp">En el evento de que “EL PRESTADOR” incumpla con alguna de las obligaciones asumidas a su cargo por virtud del presente contrato, “EL CLIENTE” deberá notificar por escrito a “EL PRESTADOR”</li>
+	<li class="one-line-sp">“EL PRESTADOR” podrá dar por rescindido el presente contrato en cualquier momento que “EL CLIENTE” incumpla alguna de las obligaciones de “EL CLIENTE” sin tener que presentar previa notificación.</li>
+	<li class="one-line-sp">El presente contrato podrá ser rescindido en los siguientes casos:</li>
+	<li class="one-line-sp">Por incumplimiento de cualquiera de las partes, tomando en cuenta las condiciones, plazos y multas señaladas para cada una de las obligaciones contenidas en el presente contrato. en caso de que alguna de las obligaciones no se encuentre sujeta a condición, plazo o no se especifique que el incumplimiento de la misma será causal de rescisión; las partes manifiestan de común acuerdo sujetarse a la siguiente regla de aplicación de la rescisión: en caso de no especificarse, será motivo de rescisión del presente contrato el hecho de que las partes reincidan en el incumplimiento de alguna de las obligaciones a su cargo, siempre y cuando la parte afectada por el incumplimiento hubiese señalado el mismo mediante notificación escrita y haya señalado un plazo para subsanarlo.</li>
+	<li class="one-line-sp">Por convenio celebrado entre las partes, en el que de mutuo acuerdo determinen la terminación anticipada del presente contrato.</li>
+	<li class="one-line-sp">por el hecho de que transcurra el plazo natural de duración estipulado en este contrato, sin que “EL CLIENTE” tramite su renovación en los términos señalados en el título de duración en su punto b.</li>
+	<li class="one-line-sp">En caso del fallecimiento de “EL CLIENTE”. </li>
+</ul>

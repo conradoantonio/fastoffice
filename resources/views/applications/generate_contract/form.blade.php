@@ -65,6 +65,25 @@
                     <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office ? $prospect->office->name. ' ubicada en '. $prospect->office->address : ''}}" id="office_data" name="office_data">
                 </div>
             </div>
+            @if($prospect && $prospect->office->type->name == 'Virtual')
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="office_type_category_id">Plantilla de oficina {{$prospect->office->type->name}}</label>
+                        <select name="office_type_category_id" class="form-control not-empty select2" data-name="Plantilla de oficina {{$prospect->office->type->name}}">
+                            <option value="0" disabled selected>Seleccione una opción</option>
+                            @if ($contract)
+                                @foreach($of_ty_cat as $of_cat)
+                                    <option value="{{$of_cat->id}}" {{$contract->office_type_category_id == $of_cat->id ? 'selected' : ''}}>{{$of_cat->name}}</option>
+                                @endforeach
+                            @else
+                                @foreach($of_ty_cat as $of_cat)
+                                    <option value="{{$of_cat->id}}">{{$of_cat->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+            @endif
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                     <label class="required" for="monthly_payment">Pago mensual $</label>
