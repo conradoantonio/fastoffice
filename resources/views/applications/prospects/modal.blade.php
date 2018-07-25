@@ -144,10 +144,9 @@
                         <ul class="list-group">
                             <li class="list-group-item active">Datos generales</li>
                             <li class="list-group-item fill-containers"><span class="label_show">ID Prospecto: <span id="application-id"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Fecha de creación: <span class="created_at"></span></span></li>
+                            <li class="list-group-item fill-containers"><span class="label_show">Fecha de creación: <span class="created_at_date"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Presupuesto del cliente: $<span class="badget"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Número de gente solicitado: <span class="num_people"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Tipo de oficina: <span class="office_type"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Número de personas requerido: <span class="num_people"></span></span></li>
                             <li class="list-group-item fill-container" style="color: firebrick;"><span class="label_show">Razón de rechazo: <span class="comment"></span></span></li>
                         </ul>
                         <ul class="list-group">

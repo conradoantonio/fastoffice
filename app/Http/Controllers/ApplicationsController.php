@@ -191,7 +191,14 @@ class ApplicationsController extends Controller
      */
     public function view_applications_coments(Request $req)
     {
-        return ApplicationComment::where('application_id', $req->id)->get();
+        $rows = ApplicationComment::where('application_id', $req->id)->get();
+
+        foreach ($rows as $row) {
+            $time = $row->created_at;
+            $row->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
+        }
+        
+        return $rows;
     }
 
     /**
@@ -202,8 +209,13 @@ class ApplicationsController extends Controller
     public function get_application_info(Request $req)
     {
         $application = Application::find($req->id);
+        
+        $time = $application->created_at;
+        $application->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
+
         $application->customer;
         $application->detail->office->type;
+        $application->detail->office->pictures;
         $application->comments;
         return $application;
     }

@@ -55,7 +55,7 @@ class ContractsController extends Controller
             }
         }
 
-        return redirect()->back()->with('msg', 'El contrato no puede mostrarse ya que falta información sobre el franquiciatario, revise su información y trate de nuevo.');
+        return redirect()->back()->with('msg', 'Plantilla de contrato no encontrada, contacte al administrador.');
     }
 
     /**
@@ -306,7 +306,7 @@ class ContractsController extends Controller
         $contract = Contract::find($req->id);
         if ($contract) {
             if ($contract->cancelation) {
-                return response(['msg' => 'PDF se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_$req->id.pdf")], 200);
+                return response(['msg' => 'PDF se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_no_$req->id.pdf")], 200);
             } else {
                 $this->make_path('pdf/cancelled');
                 
@@ -319,9 +319,9 @@ class ContractsController extends Controller
                 $pdf = PDF::loadView('contracts.other_documents.cancel_contract', ['contract' => $contract])
                 ->setPaper('letter')
                 ->setWarnings(false)
-                ->save("pdf/cancelled/contrato_$req->id.pdf");
+                ->save("pdf/cancelled/contrato_no_$req->id.pdf");
 
-                return response(['msg' => 'PDF creado, se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_$req->id.pdf")], 200);
+                return response(['msg' => 'PDF creado, se abrirá a continuación', 'status' => 'success', 'url' => url('crm/contracts'), 'reload' => 'table', 'route' => url("pdf/cancelled/contrato_no_$req->id.pdf")], 200);
             }
         }
 
@@ -344,6 +344,8 @@ class ContractsController extends Controller
         $application->status = 2;
 
         $application->save();
+
+        $this->change_office_status($contract->office->id, 1);//Available again!!
 
         return response(['msg' => 'Contrato finalizado', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }

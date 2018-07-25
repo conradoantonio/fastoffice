@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
 
+use App\Models\OfficeTypeCategory;
 use App\Models\Application;
 use App\Models\Contract;
 use App\Models\Office;
@@ -100,7 +101,7 @@ trait GeneralFunctions
 	}
 
 	/**
-     * Check if an office is available.
+     * Change the office status.
      *
      * @return \Illuminate\Http\Response
      */
@@ -111,7 +112,7 @@ trait GeneralFunctions
 	}
 
 	/**
-     * Check if an office is available.
+     * Creates the view path for contracts.
      *
      * @return \Illuminate\Http\Response
      */
@@ -128,8 +129,10 @@ trait GeneralFunctions
 		//Special code for virtual offices
 		if ($contract->office->type->name == 'Virtual') { 
 			$subfolder = 'virtual_office';
-			$subfolder = $subfolder.'.'.$contract->office->type->category->view_name;
-
+	        $aux = OfficeTypeCategory::find($contract->office_type_category_id);
+	        if ($aux) {
+				$subfolder = $subfolder.'.'.$aux->view_name;
+	        }
 		}
 		if ($contract->office->type->name == 'Sala de juntas') { $subfolder = 'meeting_room'; } 
 		if ($contract->office->type->name == 'Sala de conferencias') { $subfolder = 'conference_room'; } 
@@ -147,12 +150,12 @@ trait GeneralFunctions
 	}
 
 	/**
-     * Check if an office is available.
+     * Check if a path exist, if don't, create it.
      *
      * @return \Illuminate\Http\Response
      */
 	public function make_path($path) {
-		if (!File::exists($path)) {//Creates the path
+		if (!File::exists($path)) {
             File::makeDirectory(public_path($path), 0755, true, true);
         }
     }

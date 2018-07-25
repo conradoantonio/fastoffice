@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contrato para oficina física de persona física a persona moral</title>
+	<title>Contrato para oficina virtual premium de persona física a persona moral</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/contracts_pdf.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrapv4.min.css')}}">
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> --}}
@@ -16,7 +16,7 @@
 </div>
 <div class="start-page">
 	@include('contracts.layouts.prefix')
-	
+
 	<br>
 	@include('contracts.layouts.statements')
 
@@ -34,11 +34,11 @@
 	<p class="break justify bold">2. Contraprestaciones:</p>
 	<ul class="b-up-alpha less-li-he justify">
 		<li class="one-line-sp">“EL CLIENTE” se obliga a pagar a “EL PRESTADOR” por concepto de prestación de servicios de este contrato y validando la promoción de pronto pago la cantidad mensual de ${{$contract->office->price}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado la cual será válida realizando el pago el día puntual de la fecha de contratación entre el día {{$contract->payment_range_start}} y {{$contract->payment_range_end}} de cada mes.</li>
-		<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6, A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
+		<li class="one-line-sp">En caso de pagar días posteriores a la fecha estipulada EL CLIENTE se obliga a pagar la cantidad de ${{$contract->office->price * 1.10}} ({{$contract->monthly_payment_str}}) más IVA al valor agregado “EL PRESTADOR” o a quien su derecho represente en la oficina ubicada en la misma dirección. Aumentando anualmente según el índice nacional de precios al consumidor. Dicha cantidad incluye el uso de los servicios mencionados en el inciso “A-1, A-3, A-4, A-5, A-6, A-7, A-8,” de este contrato. Dichos servicios estarán disponibles para “EL CLIENTE” únicamente dentro de los horarios estipulados por “EL PRESTADOR” y conforme a las condiciones de este contrato. (Ver cláusula de pago)</li>
 		
 		<div class="new-page"></div>
 		<br><br>
-		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negada la entrada a la oficina y se cambiará clave de alarma.</li>
+		<li class="one-line-sp">En caso de no cumplir con el pago 15 días posteriores a la fecha estipulada será negado todos los servicios otorgados por “EL PRESTADOR” y será retenida la documentación y/o correspondencia de “EL CLIENTE” hasta contar con el pago total a la fecha de los servicios prestados.</li>
 	</ul>
 
 	<br>
@@ -48,21 +48,22 @@
 			<ul class="no-style no-padding no-margin">
 				<li>“EL PRESTADOR” se obliga a mantener disponibles para “EL CLIENTE” los servicios siguientes:</li>
 				<li><br></li>
-				<li>A-1) oficina amueblada para {{$contract->office->num_people}} personas. </li>
-				<li>A-2) cada persona adicional tiene un costo de $ 580.00 pesos </li>
-				<li>A-3) servicios de energía eléctrica, agua potable, limpieza.</li>
-				<li>A-4) recepción de llamadas, mensajes, correspondencia en horario de (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
-				<li>A-5) sala de juntas ilimitada, previa reservación. (Ver anexo de políticas de sala de juntas)</li>
-				<li>A-6) estación de café</li>
-				<li>A-7) mensajería (costos por paquete de acuerdo a la compañía)</li>
-				<li>A-8) internet inalámbrico</li>
-				<li>A-9) servicio de impresora, copiadora (costo adicional)</li>
+				<li>A-1) Domicilio fiscal. </li>
+				<li>A-2) Control de llamadas y correspondencia. (incluye línea telefónica) </li>
+				<li>A-3) Atención a departamentos gubernamentales con atención personalizada.</li>
+				<li>A-4) Sala de juntas con servicio de proyección (8 horas mensuales de acuerdo a disponibilidad). Las horas de sala de juntas no son acumulables</li>
+				<li>A-5) Estación de café ilimitada</li>
+				<li>A-6) Acceso de instalaciones a cualquier centro de negocios FAST OFFICE en horario de recepción. (lunes a viernes de 9:00 am a 3:00 pm – 4:00 pm a 7:00 pm y sábados 9:00 am a 2:00 pm)</li>
+				<li>A-7) Planes de negocio y desarrollo (Networking).</li>
+				<li>A-8) Línea telefónica</li>
+				<li class="white-space-5">A-8.1. Llamadas nacionales e internacionales ilimitadas.</li>
+				<li class="white-space-5">A-8.2. 50 min a celular.</li>
 				<li><br></li>
 				<li>Cada uno de los anteriores puntos es un servicio prestado por “EL PRESTADOR” de acuerdo al objeto de este contrato.</li>
 			</ul>
 		</li>
 		<li class="one-line-sp">“EL PRESTADOR” otorga en prestación de servicios la oficina ubicada en {{$contract->office->address}} en {{$contract->office->municipality->name.' '.$contract->office->state->name}}.</li>
-		<li class="one-line-sp">El personal que labora para “EL PRESTADOR”, recibirá la correspondencia de “EL CLIENTE” cuando éste se lo solicite. la entrega se hará de forma responsable cuando “EL CLIENTE” recoja oportunamente (previo aviso del personal) su correspondencia.</li>
+		<li class="one-line-sp">El personal que labora para “EL PRESTADOR”, recibirá la correspondencia de “EL CLIENTE” cuando éste se lo solicite. la entrega se hará de forma responsable cuando “EL CLIENTE” recoja oportunamente (previo aviso del personal) su correspondencia</li>
 		<li class="one-line-sp">El servicio de prestación de servicios de oficina, se prestará únicamente a “EL CLIENTE” contratante.</li>
 		<li class="one-line-sp">“EL PRESTADOR” no recibirá ningún paquete superior a 4,5 kg. (10 libras) de peso, 46 cm (18 pulgadas) de cualquier dimensión, 0,03 metros cúbicos (1 pie cubico) del volumen o si contiene cualquier mercaderías peligrosas, vivas o perecederas y EL PRESTADOR tendrá derecho, a su absoluta discreción, para devolver cualquier paquete o negarse a aceptar cualquier cantidad de paquetes que considere irrazonable o ilegal. paquetes de mayor tamaño solo serán aceptados por mutuo acuerdo previo. EL PRESTADOR no garantiza ni asume responsabilidad por cualquiera de los servicios proporcionados.</li>
 		<li class="one-line-sp">EL PRESTADOR se reserva el derecho de suspender inmediatamente los servicios y/o rescindir el contrato si determina que la instalación o la dirección se utiliza en relación con una posible actividad fraudulenta o actividad que pueda constituir una violación de las leyes o regulaciones gubernamentales.</li>
@@ -110,7 +111,7 @@
 	<br><br><br>
 
 	@include('contracts.layouts.clause_9')
-
+	
 	@include('contracts.layouts.signatures')
 
 	<div class="new-page"></div>

@@ -35,13 +35,13 @@ ul.b-up-disc{
 ul.no-style{
 	list-style: none;
 }
-span.white-space-3:before{
+.white-space-3:before{
 	content: "\00a0 \00a0 \00a0";
 }
-span.white-space-4:before{
+.white-space-4:before{
 	content: "\00a0 \00a0 \00a0 \00a0";
 }
-span.white-space-5:before{
+.white-space-5:before{
 	content: "\00a0 \00a0 \00a0 \00a0 \00a0";
 }
 .fixed-top{

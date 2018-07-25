@@ -13,7 +13,7 @@
             @include('helpers.filters', ['index_url' => route('Office'), 'export_url' => null, 'dates' => false])
         </div> --}}
         @endif
-        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
+        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("crm/prospectos")}}" data-refresh="0">
             <a href="{{route('Crm.prospects.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>
             <button class="btn btn-info" data-target="#send-template" data-toggle="modal"><i class="fa fa-paper-plane"></i> Enviar plantilla</button>
             {{-- <a href="{{route('Applications.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a> --}}

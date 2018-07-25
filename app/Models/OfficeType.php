@@ -23,10 +23,10 @@ class OfficeType extends Model
 	];
 
 	/**
-     * Get the possible category associated with the office.
+     * Get the possible categories associated with the office.
      */
     public function category()
     {
-        return $this->hasOne(OfficeTypeCategory::class, 'office_type_id', 'id');
+        return $this->hasMany(OfficeTypeCategory::class, 'office_type_id', 'id');
     }
 }
