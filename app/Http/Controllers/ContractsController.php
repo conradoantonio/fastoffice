@@ -359,4 +359,31 @@ class ContractsController extends Controller
 
         return response(['msg' => 'Contrato finalizado', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }
+
+    public function testing()
+    {
+        /*$payment_range_start = date('d', strtotime($req->start_date_validity));
+        $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));*/
+        $today = date('Y-m-d', strtotime('now'));
+        $year = date('Y');
+        $month = date('m');
+        $contracts = Contract::all();
+        $contracts->each(function($item, $key) use ($year, $month, $today){
+            if ( $today >= date('Y-m-d', strtotime($year.'-'.$month.'-'.$item->payment_range_start)) && $today <= date('Y-m-d', strtotime($year.'-'.$month.'-'.$item->payment_range_end)) ){
+                if (count($item->payment_history)) {
+                    $last_pay = PaymentHistory::where('contract_id', $item->id)->orderBy('id', 'desc')->first();
+                    /*if ($last_pay->created_at >=) {}
+                    dd($last_pay);*/
+                }
+                /*if ( $item->status != 1 ){
+                    $item->status = 0;
+                }*/
+            } elseif ( $today > date('Y-m-d', strtotime($year.'-'.$month.'-'.$item->payment_range_end)) ){
+                $item->status = 2;
+            }
+            $item->save();
+        });
+
+        return $contracts;
+    }
 }

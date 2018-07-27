@@ -19,9 +19,9 @@
 				</div>
 				<div class="col-md-9 col-sm-8">
 					<ul>
-						<li><strong>Nombre: </strong>{{$audit->user->fullname}}</li>
-						<li><strong>Teléfono: </strong>{{$audit->user->phone}}</li>
-						<li><strong>Correo: </strong>{{$audit->user->email}}</li>
+						<li><span class="bold">Nombre: </span>{{$audit->user->fullname}}</li>
+						<li><span class="bold">Teléfono: </span>{{$audit->user->phone}}</li>
+						<li><span class="bold">Correo: </span>{{$audit->user->email}}</li>
 					</ul>
 				</div>
 			</div>
@@ -36,10 +36,18 @@
 				</div>
 				<div class="col-md-9 col-sm-8">
 					<ul>
-						<li><strong>Nombre: </strong>{{$audit->office->name}}</li>
-						<li><strong>Teléfono: </strong>{{$audit->office->phone}}</li>
-						<li><strong>Dirección: </strong>{{$audit->office->address}} {{$audit->office->municipality->name}}, {{$audit->office->state->name}}</li>
-						<li><strong>Estado: </strong>{{$audit->office->status}}</li>
+						<li><span class="bold">Nombre: </span>{{$audit->office->name}}</li>
+						<li><span class="bold">Teléfono: </span>{{$audit->office->phone}}</li>
+						<li><span class="bold">Dirección: </span>{{$audit->office->address}} {{$audit->office->municipality->name}}, {{$audit->office->state->name}}</li>
+						<li><span class="bold">Status: </span>
+							@if($audit->office->status == 0)
+								<span class="label label-danger">Inactivo</span>
+							@elseif($audit->office->status == 1)
+								<span class="label label-success">Disponible</span>
+							@else
+								<span class="label label-info">Rentada</span>
+							@endif
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -56,7 +64,7 @@
 						@endphp
 						<tr>
 							<td colspan="3">
-								<strong>{{$key}}</strong>
+								<span class="bold">{{$key}}</span>
 							</td>
 							<td>
 								{{ $total_questions . '/' . count($auditDetails) }}

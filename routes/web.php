@@ -194,3 +194,5 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('guardar-prospecto', 'ApiController@save_prospect');
 	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
 });
+
+Route::get('testing', 'ContractsController@testing');

@@ -26,7 +26,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:CheckPaymentStatus')->daily();
+        $schedule->command('command:CheckPaymentStatus')
+        //->sendOutputTo(asset('log'))
+        //->everyMinute();
+        ->daily();
 
         $schedule->command('command:CheckNotificationsCalendar')->weekdays()
             ->at('06:00');
