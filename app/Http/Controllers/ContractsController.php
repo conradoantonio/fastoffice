@@ -117,7 +117,12 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        //Virtual office
         $contract->office_type_category_id = $req->office_type_category_id;
+        //Meeting room
+        $contract->start_hour = $req->start_hour;
+        $contract->end_hour = $req->end_hour;
+        $contract->total_hours = $req->total_hours;
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
@@ -186,7 +191,12 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        //Virtual office
         $contract->office_type_category_id = $req->office_type_category_id;
+        //Meeting room
+        $contract->start_hour = $req->start_hour;
+        $contract->end_hour = $req->end_hour;
+        $contract->total_hours = $req->total_hours;
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;

@@ -34,7 +34,7 @@
 				<td>{{$contract->customer->fullname}}</td>
 				<td>{{$contract->customer->email}}</td>
 				<td>{{$contract->customer->phone}}</td>
-				<td>{{$contract->office->name}}</td>
+				<td>{{$contract->office->name}} ({{$contract->office->type->name}})</td>
 				<td>
                     {!!
                         ($contract->status == 0 ? "<span class='label label-warning'>Por pagar</span>" : 
@@ -50,7 +50,7 @@
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price * 1.10}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>
-                <td>{{ $contract->payment_range_start }} y {{ $contract->payment_range_end }} de cada mes</td>
+                <td>{{$contract->office->type->name == 'Física' || $contract->office->type->name == 'Virtual' ? $contract->payment_range_start.' y '.$contract->payment_range_end.' de cada mes' : 'No aplica'}}</td>
 				<td>
 					{{-- <a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a> --}}
 					<a href="{{route('Crm.contracts.form', [$contract->application->id, $contract->id])}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>

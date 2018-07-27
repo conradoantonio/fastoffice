@@ -84,39 +84,70 @@
                     </div>
                 </div>
             @endif
-            <div class="row">
-                <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
-                    <label class="required" for="monthly_payment">Pago mensual $</label>
-                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+            @if($prospect && ($prospect->office->type->name == 'Virtual' || $prospect->office->type->name == 'Física'))
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
+                        <label class="required" for="monthly_payment">Pago mensual $</label>
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
-                    <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price * 1.10) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price * 1.10) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                    </div>
                 </div>
-            </div>
+            @elseif($prospect && ($prospect->office->type->name == 'Sala de juntas'))
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
+                        <label class="required" for="monthly_payment">Pago por hora $</label>
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="monthly_payment_str">Pago por hora (en palabras)</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago por hora (en palabras)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="start_hour">Hora inicio</label>
+                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->start_hour : ''}}" id="start_hour" name="start_hour" data-name="Hora inicio">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="end_hour">Hora fin</label>
+                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->end_hour : ''}}" id="end_hour" name="end_hour" data-name="Hora fin">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="total_hours">Total de horas</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->total_hours : ''}}" id="total_hours" name="total_hours" data-name="Total de horas">
+                    </div>
+                </div>
+            @endif
+
             <hr>
-
-
-
             <h3>Datos del prestador (Franquiciatario)</h3>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
-                    <input type="text" class="form-control not-empty" value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
+                    <input type="text" class="form-control not-empty" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
                 </div>
         	</div>
             <div class="row">
@@ -174,6 +205,12 @@
 
             <hr>
             <h3>Datos del cliente</h3>
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label for="customer_data">Cliente</label>
+                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->fullname : ''}}" id="customer_data" name="customer_data">
+                </div>
+            </div>
             @if ($prospect && $prospect->customer->regime == 'Persona física')
             	<div class="row">
             		<div class="form-group col-sm-12 col-xs-12">

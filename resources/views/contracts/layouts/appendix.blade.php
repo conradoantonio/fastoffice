@@ -30,5 +30,7 @@
 	<li class="one-line-sp">“EL CLIENTE” que reserve la sala y, por razones imprevistas, no harán uso de ella se les ruega que cancelen su solicitud a la mayor brevedad posible.</li>
 	<li class="one-line-sp">Al terminar de usar la sala, “EL CLIENTE” deberá: apagar la luz, aire acondicionado y aparatos electrónicos o todo aquel aparato que esté conectado a la corriente eléctrica, (aplican restricciones) cerrar la puerta,  dar aviso a recepción y devolver el control del clima, y de televisión o pantalla.</li>
 	<li class="one-line-sp">“EL CLIENTE” deberá desocupar sala de juntas exactamente en la hora que específico su finalización cuando hizo la reservación.</li>
-	<li class="one-line-sp">Las reservaciones para sala de juntas únicamente podrán ser por lapsos y/o bloques de 1 hora por cliente, por lo que el “EL CLIENTE” no podrá realizar reservas acumulativas, o por lapsos mayores a este tiempo.</li>
+	@if($contract->office->type->name == 'Física' || $contract->office->type->name == 'Virtual')
+		<li class="one-line-sp">Las reservaciones para sala de juntas únicamente podrán ser por lapsos y/o bloques de 1 hora por cliente, por lo que el “EL CLIENTE” no podrá realizar reservas acumulativas, o por lapsos mayores a este tiempo.</li>
+	@endif
 </ul>

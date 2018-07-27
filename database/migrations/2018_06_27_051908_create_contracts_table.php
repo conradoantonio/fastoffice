@@ -22,12 +22,17 @@ class CreateContractsTable extends Migration
             $table->date('contract_date');
             $table->date('start_date_validity');
             $table->date('end_date_validity');
-            $table->string('monthly_payment_str');
-            $table->integer('payment_range_start');
-            $table->integer('payment_range_end');
-            $table->string('monthly_payment_delay_str');
-            $table->integer('status')->default(1)->comment('0 por pagar, 1 pagado, 2 retrasado');
+            $table->string('monthly_payment_str')->nullable();
+            $table->string('monthly_payment_delay_str')->nullable();
+            $table->integer('payment_range_start')->nullable();
+            $table->integer('payment_range_end')->nullable();
+            $table->integer('status')->default(0)->comment('0 por pagar, 1 pagado, 2 retrasado');
+            //Virtual office
             $table->integer('office_type_category_id')->nullable();
+            //Meeting room
+            $table->time('start_hour')->nullable();
+            $table->time('end_hour')->nullable();
+            $table->integer('total_hours')->nullable();
 
             //Provider fields
             $table->string('provider_name');
