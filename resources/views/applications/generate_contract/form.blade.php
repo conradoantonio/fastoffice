@@ -44,13 +44,13 @@
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="contract_date">Fecha de contrato</label>
-                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
+                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="start_date_validity">Inicio de vigencia del contrato</label>
-                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" id="start_date_validity" name="start_date_validity" data-name="Inicio de vigencia del contrato">
+                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" id="start_date_validity" name="start_date_validity" data-name="Inicio de vigencia del contrato">
                 </div>
             </div>
             <div class="row">
