@@ -17,6 +17,12 @@ class Controller extends BaseController
 
 	function __construct() {
         date_default_timezone_set('America/Mexico_City');
+
+        $this->middleware(function ($request, $next) {
+            $this->log_user = auth()->user();
+
+            return $next($request);
+        });
     }
 
 	public function mail($params){

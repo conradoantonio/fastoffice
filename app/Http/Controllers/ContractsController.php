@@ -25,12 +25,25 @@ class ContractsController extends Controller
      */
     public function index(Request $req)
     {
+        $l_usr = $this->log_user;
         $title = "Contratos de clientes";
         $menu = "CRM";
         $contracts = Contract::whereHas('application', function($query) {//Verify if the contract has an application row
             $query->orderBy('id', 'desc')->where('status', 1);
-        })
-        ->get();
+        });
+
+
+        if ($l_usr->role_id == 2) {
+            $contracts = $contracts->whereHas('office', function($que) use($l_usr) {
+                $que->whereHas('branch', function($q) use($l_usr){
+                    $q->where('user_id', $l_usr->id);
+                });
+            });
+        }
+
+        $contracts = $contracts->get();
+
+        dd($contracts);
 
         if ($req->ajax()) {
             return view('applications.customers_contracts.table', ['contracts' => $contracts]);
@@ -53,9 +66,9 @@ class ContractsController extends Controller
                 ->setPaper('letter')->setWarnings(false);
                 return $pdf->stream('contrato.pdf');//Visualiza el archivo sin descargarlo
             }
+            return redirect()->back()->with('msg', 'Plantilla de contrato no encontrada, contacte al administrador.');
         }
-
-        return redirect()->back()->with('msg', 'Plantilla de contrato no encontrada, contacte al administrador.');
+        return redirect()->back()->with('msg', 'ID de contrato inválido, trate nuevamente.');
     }
 
     /**
@@ -105,13 +118,29 @@ class ContractsController extends Controller
     public function save(Request $req)
     {
         $available = $this->check_office_status($req->office_id);
-        
+        $office = Office::find($req->office_id);
         if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
 
         $contract = New Contract;
 
-        $payment_range_start = date('d', strtotime($req->start_date_validity));
-        $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
+        $initial_day = date('Y-m-d', strtotime($req->start_date_validity));
+
+        $initial_day = date($req->start_date_validity);
+        $initial_day = date_create($initial_day);
+        $total_days = intval($initial_day->format('t'));
+        $day = intval($initial_day->format('d'));
+
+        //if ($office->type->name == 'Sala de juntas' || $office->type->name == 'Sala de conferencias') {
+            if ($day > 24) {
+                $aux = $total_days - $day;
+                $aux ++;
+                $initial_day = date_add($initial_day, date_interval_create_from_date_string($aux.' days'));
+            }
+        //}
+            
+
+        $end_day = clone $initial_day;
+        $end_day = date_add($end_day, date_interval_create_from_date_string('4 days'));
 
         //General contract data
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
@@ -124,14 +153,15 @@ class ContractsController extends Controller
         $contract->end_hour = $req->end_hour;
         $contract->total_hours = $req->total_hours;
         $contract->contract_date = $req->contract_date;
-        $contract->start_date_validity = $req->start_date_validity;
+        $contract->start_date_validity = $initial_day->format('Y-m-d');
         $contract->end_date_validity = $req->end_date_validity;
         $contract->monthly_payment_str = $req->monthly_payment_str;
-        $contract->payment_range_start = $payment_range_start;
-        $contract->payment_range_end = $payment_range_end;
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
-        $contract->actual_pay_date = $req->start_date_validity;//Month to pay
-
+        //Date fields
+        $contract->actual_pay_date = $initial_day->format('Y-m-d');//Month to pay
+        $contract->payment_range_start = $initial_day->format('d');
+        $contract->payment_range_end = $end_day->format('d');
+        
         //Provider
         $contract->provider_name = $req->provider_name;
         $contract->provider_address = $req->provider_address;
@@ -185,9 +215,6 @@ class ContractsController extends Controller
 
         if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 404); }
 
-        $payment_range_start = date('d', strtotime($req->start_date_validity));
-        $payment_range_end = date('d', strtotime($req->start_date_validity. ' + 4 days'));
-
         //General contract data
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
@@ -198,12 +225,11 @@ class ContractsController extends Controller
         $contract->start_hour = $req->start_hour;
         $contract->end_hour = $req->end_hour;
         $contract->total_hours = $req->total_hours;
-        $contract->contract_date = $req->contract_date;
-        $contract->start_date_validity = $req->start_date_validity;
+        //
+        //$contract->contract_date = $req->contract_date;
+        //$contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
         $contract->monthly_payment_str = $req->monthly_payment_str;
-        $contract->payment_range_start = $payment_range_start;
-        $contract->payment_range_end = $payment_range_end;
         $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
 
         //Provider

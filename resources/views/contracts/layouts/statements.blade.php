@@ -1,5 +1,4 @@
 <p class="break bold center">DECLARACIONES:</p>
-<br>
 <p class="break justify">I.<span class="white-space-5">DECLARA “EL PRESTADOR”</span></p>
 @if($contract->office->branch->user->regime == 'Persona moral')
 	<ul class="b-up-alpha justify">

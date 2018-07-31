@@ -47,6 +47,11 @@
                     <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
                 </div>
             </div>
+            @if(!$contract)
+                <div class="alert alert-info">
+                    Si selecciona una fecha mayor al día 24 del mes, en automático se ajustará hacia el día primero del mes siguiente.
+                </div>
+            @endif
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="start_date_validity">Inicio de vigencia del contrato</label>
@@ -109,7 +114,7 @@
                         <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
                     </div>
                 </div>
-            @elseif($prospect && ($prospect->office->type->name == 'Sala de juntas'))
+            @elseif($prospect && ($prospect->office->type->name == 'Sala de juntas' || $prospect->office->type->name == 'Sala de conferencias'))
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago por hora $</label>
