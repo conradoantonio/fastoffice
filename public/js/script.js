@@ -293,9 +293,16 @@ $("#filtrar").on('click',function(){
 	} else {
 		url = url;
 	}
-
 	refreshTable($(this).data('url') +url)
 })
+
+//Filter by branch
+$("#filterv2").on('click',function() {
+    base = $('div.general-info').data('url');
+    url = "/"+$("select[name=branch_id]").val();
+    
+    refreshContent(base+url);
+});
 
 $("#search").on('click', function(){
 	var url = $(this).data('url');

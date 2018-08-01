@@ -6,6 +6,7 @@ use PDF;
 
 use App\Models\User;
 use App\Models\State;
+use App\Models\Branch;
 use App\Models\Office;
 use App\Models\Meeting;
 use App\Models\Contract;
@@ -23,32 +24,15 @@ class ContractsController extends Controller
      * Show the customers contracts.
      *
      */
-    public function index(Request $req)
+    public function index(Request $req, $id = null)
     {
         $l_usr = $this->log_user;
-        $title = "Contratos de clientes";
-        $menu = "CRM";
-        $contracts = Contract::whereHas('application', function($query) {//Verify if the contract has an application row
-            $query->orderBy('id', 'desc')->where('status', 1);
-        });
-
-
-        if ($l_usr->role_id == 2) {
-            $contracts = $contracts->whereHas('office', function($que) use($l_usr) {
-                $que->whereHas('branch', function($q) use($l_usr){
-                    $q->where('user_id', $l_usr->id);
-                });
-            });
-        }
-
-        $contracts = $contracts->get();
-
-        dd($contracts);
-
+        $contracts = Contract::filter_rows($l_usr, 1, $id);
+        $branches = Branch::where('status', 1)->get();
         if ($req->ajax()) {
             return view('applications.customers_contracts.table', ['contracts' => $contracts]);
         }
-        return view('applications.customers_contracts.index', ['contracts' => $contracts, 'menu' => $menu , 'title' => $title]);
+        return view('applications.customers_contracts.index', ['contracts' => $contracts, 'branches' => $branches]);
     }
 
     /**
@@ -320,19 +304,15 @@ class ContractsController extends Controller
      * Show the customers contracts.
      *
      */
-    public function show_finished(Request $req)
+    public function show_finished(Request $req, $id = null)
     {
-        $title = "Contratos finalizados";
-        $menu = "CRM";
-        $contracts = Contract::whereHas('application', function($query) {//Verify if the contract has an application row
-            $query->orderBy('id', 'desc')->where('status', 2);//Finished
-        })
-        ->get();
+        $branches = Branch::where('status', 1)->get();
+        $contracts = Contract::filter_rows($this->log_user, 2);
 
         if ($req->ajax()) {
             return view('applications.contracts_finished.table', ['contracts' => $contracts]);
         }
-        return view('applications.contracts_finished.index', ['contracts' => $contracts, 'menu' => $menu , 'title' => $title]);
+        return view('applications.contracts_finished.index', ['contracts' => $contracts, 'branches' => $branches]);
     }
 
     /**

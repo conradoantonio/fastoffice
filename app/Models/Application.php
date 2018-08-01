@@ -53,4 +53,28 @@ class Application extends Model
     {
         return $this->hasOne(Office::class, 'id', 'office_id');
     }
+
+    /**
+     * Get the applications filtered by the user rol.
+     */
+    static function filter_rows($l_usr, $app_status, $branch_id = null)
+    {
+        $applications = Application::whereHas('office', function($que) use($l_usr, $branch_id) {
+            if ($l_usr->role_id == 3) {//Recepcionista
+                $que->where('user_id', $l_usr->id);
+            }
+            $que->whereHas('branch', function($q) use($l_usr, $branch_id) {
+                if ($branch_id) {
+                    $q->where('id', $branch_id);
+                }
+                if ($l_usr->role_id == 2) {//Franquiciatario
+                    $q->where('user_id', $l_usr->id);
+                }
+            });
+        })
+        ->orderBy('id', 'desc')->where('status', $app_status)
+        ->get();
+
+        return $applications;
+    }
 }

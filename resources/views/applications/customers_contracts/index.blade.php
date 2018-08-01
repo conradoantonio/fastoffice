@@ -12,11 +12,22 @@
             </div>
         @endif
         @if( auth()->user()->role_id == 1 )
-        {{-- <div class="row-fluid">
-            @include('helpers.filters', ['index_url' => route('Office'), 'export_url' => null, 'dates' => false])
-        </div> --}}
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="branch_id">Franquicia</label>
+                    <select class="form-control select2 not-empty" name="branch_id">
+                        <option value="0">Mostrar todas</option>
+                        @foreach($branches as $branch)
+                            <option value="{{$branch->id}}">{{$branch->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary" id="filterv2">Filtrar</button>
+                </div>
+            </div>
         @endif
-        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
+        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("crm/contracts")}}" data-refresh="0">
             <a id="new-link" href="" target="_blank"></a>
             {{-- <a href="{{route('Crm.prospects.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a> --}}
             {{-- <a href="{{route('Applications.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a> --}}
@@ -191,7 +202,6 @@
                     }
                 }).catch(swal.noop);
             });
-
         </script>
     @endpush
 @endsection

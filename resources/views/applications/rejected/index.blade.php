@@ -8,8 +8,24 @@
         <div class="page-title">
             <h1>Listado <span class="semi-bold">Prospectos (Rechazados)</span></h1>
         </div>
+        @if( auth()->user()->role_id == 1 )
+            <div class="row">
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="branch_id">Franquicia</label>
+                    <select class="form-control select2 not-empty" name="branch_id">
+                        <option value="0">Mostrar todas</option>
+                        @foreach($branches as $branch)
+                            <option value="{{$branch->id}}">{{$branch->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-primary" id="filterv2">Filtrar</button>
+                </div>
+            </div>
+        @endif
 
-        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("admin/productos")}}" data-refresh="0">
+        <div class="row-fluid text-left buttons-container general-info" data-url="{{url("crm/prospectos/historial")}}" data-refresh="0">
             {{-- <a href="{{route('Applications.multipleDestroys')}}" class="btn btn-danger multiple-delete-btn disabled" disabled><i class="glyphicon glyphicon-trash"></i> Eliminar múltiple</a> --}}
         </div>
         <div class="row-fluid">

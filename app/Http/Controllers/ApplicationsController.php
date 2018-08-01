@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 
 use App\Models\User;
+use App\Models\Branch;
 use App\Models\Office;
 use App\Models\Meeting;
 use App\Models\Template;
@@ -22,34 +23,34 @@ class ApplicationsController extends Controller
      * Show the main view.
      *
      */
-    public function index(Request $req)
+    public function index(Request $req, $id = null)
     {
-        $title = "Prospectos";
-        $menu = "CRM";
-        $prospects = Application::orderBy('id', 'desc')->where('status', 0)->get();
+        $l_usr = $this->log_user;
+        $prospects = Application::filter_rows($l_usr, 0, $id);
+        $branches = Branch::where('status', 1)->get();
         $templates = Template::where('status',1)->get();
 
         if ($req->ajax()) {
             return view('applications.prospects.table', ['prospects' => $prospects]);
         }
-        return view('applications.prospects.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title, 'templates' => $templates]);
+        return view('applications.prospects.index', ['prospects' => $prospects, 'templates' => $templates, 'branches' => $branches]);
     }
 
     /**
      * Show the rejected applications.
      *
      */
-    public function show_applications_rejected(Request $req)
+    public function show_applications_rejected(Request $req, $id = null)
     {
-        $title = "Prospectos (Rechazados)";
-        $menu = "CRM";
-        $prospects = Application::orderBy('id', 'desc')->where('status', 3)->get();
+        $l_usr = $this->log_user;
+        $prospects = Application::filter_rows($l_usr, 3, $id);
+        $branches = Branch::where('status', 1)->get();
         $templates = Template::where('status',1)->get();
 
         if ($req->ajax()) {
             return view('applications.rejected.table', ['prospects' => $prospects]);
         }
-        return view('applications.rejected.index', ['prospects' => $prospects, 'menu' => $menu , 'title' => $title, 'templates' => $templates]);
+        return view('applications.rejected.index', ['prospects' => $prospects, 'templates' => $templates, 'branches' => $branches]);
     }
 
     /**

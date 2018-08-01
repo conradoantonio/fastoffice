@@ -33,6 +33,7 @@
 					<td>{{$prospect->customer->phone}}</td>
 				@else{{-- Toma los datos directamente de la aplicación --}}
 					<td>{{$prospect->fullname}}</td>
+					<td>{{$prospect->regime}}</td>
 					<td>Sin registrar</td>
 					<td>{{$prospect->email}}</td>
 					<td>{{$prospect->phone}}</td>

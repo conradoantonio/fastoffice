@@ -94,8 +94,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Prospects
 		Route::prefix('crm/prospectos')->group(function () {
-			Route::get('/', 'ApplicationsController@index')->name('Crm.prospects');
-			Route::get('historial', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
+			Route::get('/{id?}', 'ApplicationsController@index')->name('Crm.prospects');
+			Route::get('historial/{id?}', 'ApplicationsController@show_applications_rejected')->name('Crm.prospects.history');
 			Route::get('formulario-prospecto/{id?}', 'ApplicationsController@form_prospect')->name('Crm.prospects.form');
 			Route::post('guardar-prospecto', 'ApplicationsController@save_prospect')->name('Crm.prospects.save');
 			Route::post('actualizar-prospecto', 'ApplicationsController@update_prospect')->name('Crm.prospects.update');
@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Contracts
 		Route::prefix('crm/contracts')->group(function () {
-			Route::get('/', 'ContractsController@index')->name('Crm.contracts');
+			Route::get('/{id?}', 'ContractsController@index')->name('Crm.contracts');
 			Route::get('ver-contrato/{id?}', 'ContractsController@show_contract')->name('Crm.prospects.show_contract');//View contracts
 			Route::get('recibo-de-dinero/{id?}/{pay_type?}/{status?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
 			Route::get('formulario/{app_id?}/{contract_id?}', 'ContractsController@form')->name('Crm.contracts.form');
@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('actualizar', 'ContractsController@update')->name('Crm.contracts.update');
 
 			#Cancelled
-			Route::get('finalizados', 'ContractsController@show_finished')->name('Crm.contracts.finished');
+			Route::get('finalizados/{id?}', 'ContractsController@show_finished')->name('Crm.contracts.finished');
 			Route::post('finalizar-contrato', 'ContractsController@mark_as_finished')->name('Crm.contracts.mark_as_finished');
 			Route::post('ver-cancelacion', 'ContractsController@show_cancelled_pdf')->name('Crm.contracts.show_cancelled_pdf');
 		});

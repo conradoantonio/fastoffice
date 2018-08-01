@@ -92,13 +92,14 @@
 		})
 
 		function fillCalendar(){
+			var b_url = $('meta[name=base-url]').attr('content');
 			var dest =  "/obtener-calendario";
 			if ( typeof url !== 'undefined' ){
 				dest = "/obtener-calendario" + url;
 			}
 			calendar.fullCalendar('removeEvents');
 			$.ajax({
-				url:dest,
+				url: b_url+'/'+dest,
 				method: "GET",
 				type: "GET",
 				beforeSend:function(){
