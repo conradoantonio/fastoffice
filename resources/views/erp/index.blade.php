@@ -10,9 +10,11 @@
 	<div class="page-title">
 		<h1><span class="semi-bold">Ingresos y egresos</span></h1>
 	</div>
-	<div class="row-fluid">
-		@include('helpers.filters', ['index_url' => route('Erp'), 'export_url' => route('Erp.export'), 'dates' => true])
-	</div>
+	@if( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->branch ) )
+		<div class="row-fluid">
+			@include('helpers.filters', ['index_url' => route('Erp'), 'export_url' => route('Erp.export'), 'dates' => true])
+		</div>
+	@endif
 	<div class="row-fluid">
 		<div id="body-content">
 			@include('erp.content')

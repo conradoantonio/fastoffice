@@ -13,42 +13,54 @@ use Excel;
 class ErpController extends Controller
 {
 	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
-		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
-			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
-			} elseif ( auth()->user()->role_id == 3 ){
-				$q->where('id', auth()->user()->office->id);
-			} else{
-				if( $id ){
-					$q->where('branch_id', $id);
+		if ( auth()->user()->branch ){
+			$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
+				if ( auth()->user()->role_id == 2 ){
+					$q->where('branch_id', auth()->user()->branch->id);
+				} elseif ( auth()->user()->role_id == 3 ){
+					$q->where('id', auth()->user()->office->id);
+				} else{
+					if( $id ){
+						$q->where('branch_id', $id);
+					}
 				}
-			}
-		});
-		$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
-			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
-			} else{
-				if( $id ){
-					$q->where('branch_id', $id);
+			});
+			$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
+				if ( auth()->user()->role_id == 2 ){
+					$q->where('branch_id', auth()->user()->branch->id);
+				} else{
+					if( $id ){
+						$q->where('branch_id', $id);
+					}
 				}
+			});
+
+			if ( $start_date ){
+				$earnings->where('created_at','>',$start_date.' 00:00:00');
+				$expenses->where('created_at','>',$start_date.' 00:00:00');
 			}
-		});
+			if( $end_date ){
+				$earnings->where('created_at','<=',$end_date.' 23:59:59');
+				$expenses->where('created_at','<=',$end_date.' 23:59:59');
+			}
 
-
-		if ( $start_date ){
-			$earnings->where('created_at','>',$start_date.' 00:00:00');
-			$expenses->where('created_at','>',$start_date.' 00:00:00');
+			$earnings = $earnings->get();
+			$expenses = $expenses->get();
+		} else {
+			$earnings = $expenses = [];
 		}
-		if( $end_date ){
-			$earnings->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses->where('created_at','<=',$end_date.' 23:59:59');
-		}
-
-		$earnings = $earnings->get();
-		$expenses = $expenses->get();
 
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
-		$offices = Office::pluck('name', 'id')->prepend("Mostrar todas", 0);
+		if ( auth()->user()->role_id == 2 ){
+			if ( auth()->user()->branch  ){
+				$offices = Office::pluck('name', 'id')->where('branch_id', auth()->user()->branch->id)->prepend("Mostrar todas", 0);
+			} else {
+				$offices = [];
+			}
+		} else {
+			$offices = Office::pluck('name', 'id')->prepend("Mostrar todas", 0);
+		}
+
 
 		if ($req->ajax()) {
 			return view('erp.content', compact('earnings', 'expenses'));
