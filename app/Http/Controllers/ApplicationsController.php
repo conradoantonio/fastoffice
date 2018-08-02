@@ -240,7 +240,12 @@ class ApplicationsController extends Controller
             });
         }
 
-        return $query->get();
+        $query = $query->get();
+        
+        foreach ($query as $q) {
+            $q->pictures;
+        }
+        return $query;
     }
 
     /**
