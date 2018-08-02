@@ -16,6 +16,7 @@ class CreateApplicationsDetailsTable extends Migration
         Schema::create('applications_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('application_id');
+            $table->integer('state_id');
             $table->double('badget', 8, 2)->nullable();
             $table->integer('num_people')->nullable();
             $table->integer('office_type_id')->nullable();

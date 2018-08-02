@@ -30,6 +30,7 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->meeting->first('concept')?'has-error':''}}">
 					{{Form::label('concept', 'Concepto', ['class' => 'control-label'])}}
+					<div class="alert alert-info">Coloca la cantidad con un máximo de dos decimales</div>
 					{{Form::text('concept', null, ['class' => 'form-control', 'data-name' => 'Concepto'])}}
 					{{@$errors->meeting->first('concept')}}
 				</div>

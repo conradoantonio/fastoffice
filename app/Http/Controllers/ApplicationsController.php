@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 
 use App\Models\User;
+use App\Models\State;
 use App\Models\Branch;
 use App\Models\Office;
 use App\Models\Meeting;
@@ -60,9 +61,8 @@ class ApplicationsController extends Controller
      */
     public function form_prospect($id = 0)
     {
-        $title = "Formulario";
-        $menu = "Prospectos";
         $prospect = null;
+        $states = State::all();
         $customers = User::where('role_id', 4)->get();
         $officeTypes = OfficeType::all();
         $offices = Office::where('status', 1)->get();//Falta filtrar por disponibilidad y tipo (privilegio) de usuario de sistema
@@ -72,7 +72,7 @@ class ApplicationsController extends Controller
                 $offices = Office::where('id', $prospect->office->id)->where('status', 1)->get();
             }
         }
-        return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'menu' => $menu, 'title' => $title]);
+        return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'states' => $states]);
     }
 
 
@@ -96,14 +96,11 @@ class ApplicationsController extends Controller
         $prospect = Application::find($req->id);
         $user = User::find($req->user_id);
         $office = Office::find($req->office_id);
+        $state = State::find($req->state_id);
 
-        if (!$prospect) {
-            return response(['msg' => 'Prospecto inválido, refresque esta página', 'status' => 'error', 'refresh' => 'none'], 500);
-        }
-
-        if (!$office) {
-            return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400);
-        }
+        if (!$prospect) { return response(['msg' => 'Prospecto inválido, refresque esta página', 'status' => 'error', 'refresh' => 'none'], 500); }
+        if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
+        if (!$state) { return response(['msg' => 'ID de estado no encontrado, porfavor, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
 
         if ($user) {//Comes from a registered user
             $prospect->user_id = $user->id;
@@ -132,6 +129,7 @@ class ApplicationsController extends Controller
             $detail->badget = $req->badget;
             $detail->num_people = $req->num_people;
             $detail->office_type_id = $office->type->id;
+            $detail->state_id = $state->id;
 
             $detail->save();
         }
@@ -229,6 +227,8 @@ class ApplicationsController extends Controller
     public function filter_offices(Request $req)
     {
         $query = Office::where('status', 1);//Available
+
+        if ($req->state_id) { $query = $query->where('state_id', $req->state_id); }
 
         if ($req->badget) { $query = $query->where('price', '<=', $req->badget); }
 

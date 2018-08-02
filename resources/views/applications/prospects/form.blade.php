@@ -35,9 +35,26 @@
 	        	</div>
 	        	<div class="row">
 	        		<div class="form-group col-sm-12 col-xs-12">
+	                    <label class="required" for="state_id">Estado</label>
+		                <select name="state_id" id="state_id" class="form-control not-empty select2" data-name="Estado">
+		                    <option value="" disabled selected>Seleccione una opción</option>
+		                    @if ($prospect)
+		                        @foreach($states as $state)
+		                            <option value="{{$state->id}}" {{$prospect->detail->state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
+		                        @endforeach
+		                    @else
+		                        @foreach($states as $state)
+		                            <option value="{{$state->id}}">{{$state->name}}</option>
+		                        @endforeach
+		                    @endif
+		                </select>
+	                </div>
+	        	</div>
+	        	<div class="row">
+	        		<div class="form-group col-sm-12 col-xs-12">
 	                    <label class="required" for="office_type_id">Tipo de oficina</label>
-		                <select name="office_type_id" id="office_type_id" class="form-control not-empty" data-name="Tipo de oficina">
-		                    <option value="0" disabled selected>Seleccione una opción</option>
+		                <select name="office_type_id" id="office_type_id" class="form-control not-empty select2" data-name="Tipo de oficina">
+		                    <option value="" disabled selected>Seleccione una opción</option>
 		                    @if ($prospect)
 		                        @foreach($officeTypes as $type)
 		                            <option value="{{$type->id}}" {{$prospect->detail->office_type_id == $type->id ? 'selected' : ''}}>{{$type->name}}</option>
@@ -53,8 +70,8 @@
 	        	<div class="row">
 		        	<div class="form-group col-md-12 col-xs-12">
 		                <label class="required" for="office_id">Oficina</label>
-		                <select name="office_id" id="office_id" class="form-control not-empty" data-name="Oficina">
-		                    <option value="0" disabled selected>Seleccione una opción</option>
+		                <select name="office_id" id="office_id" class="form-control not-empty select2" data-name="Oficina">
+		                    <option value="" disabled selected>Seleccione una opción</option>
 		                    @if ($prospect)
 		                        @foreach($offices as $office)
 		                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}} ubicada en {{$office->address}} (Precio: ${{$office->price}})</option>
@@ -152,6 +169,7 @@
                     'badget'         : $('#badget').val(),
                     'num_people'     : $('#num_people').val(),
                     'office_type_id' : $('#office_type_id').val(),
+                    'state_id'		 : $('#state_id').val(),
                     'route'          : "{{route('Crm.prospects.filter_offices')}}",
                     'method'         : 'POST',
                     'callback'       : 'fill_prospect_offices',

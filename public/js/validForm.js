@@ -61,6 +61,23 @@ $(".not-empty").blur(function() {
 	}
 });
 
+/*----- onchange section select2 ----- */
+$(".not-empty.select2").change(function() {
+	if ( $(this).val() || $(this).val() != 0 ) {
+        if ($(this).hasClass('select2')) {//Si es un select2 se remueve un error especial
+            $(this).parent().children('div.select2').children('a.select2-choice').removeClass("select-error");
+        } else {
+            $(this).parent().removeClass('has-error');
+        }
+    } else {
+        if ($(this).hasClass('select2')) {//Si es un select2 se agrega un error especial
+            $(this).parent().children('div.select2').children('a.select2-choice').addClass("select-error");
+        } else {
+            $(this).parent().addClass('has-error');
+        }
+    }
+});
+
 $('.length').blur(function(){
 	if ( $(this).hasClass('not-empty') ){
 		if ( !$(this).parent().hasClass("has-error") ){
@@ -206,12 +223,20 @@ $(".guardar").on('click',function(e){
 				}
 			}
 
-			if ( !$(this).val() || $(this).val() == 0 || $(this).select2('val') == 0 ){
-				$(this).parent().addClass('has-error')
+			if ( !$(this).val() || $(this).val() == 0 || $(this).select2('val') == 0 ) {
+				if ($(this).hasClass('select2')) {//Si es un select2 se agrega un error especial
+		            $(this).parent().children('div.select2').children('a.select2-choice').addClass("select-error");
+		        } else {
+		            $(this).parent().addClass('has-error');
+		        }
 				errors_count += 1;
 				msg = msg +"<li>"+$(this).data('name')+": Campo vacio</li>";
 			} else {
-				$(this).parent().removeClass('has-error')
+				if ($(this).hasClass('select2')) {//Si es un select2 se remueve un error especial
+		            $(this).parent().children('div.select2').children('a.select2-choice').removeClass("select-error");
+		        } else {
+					$(this).parent().removeClass('has-error')
+		        }
 			}
 		}
 

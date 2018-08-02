@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth']], function() {
 	#Usuarios
 	Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
 	Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
-	Route::get('formulatio-usuario/{id?}', 'UsersController@form')->name('User.form');
+	Route::get('formulario-usuario/{type}/{id?}', 'UsersController@form')->name('User.form');
 	Route::post('alta-usuario', 'UsersController@store')->name('User.store');
 	Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
 	Route::patch('status-usuario', 'UsersController@status')->name('User.status');

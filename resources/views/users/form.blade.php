@@ -8,7 +8,7 @@
 	</div>
 	@endif
 	<div class="page-title">
-		<h1>{{$user->id ? 'Actualizar' : 'Crear'}} <span class="semi-bold">usuario de sistema</span></h1>
+		<h1>{{$user->id ? 'Actualizar' : 'Crear'}} <span class="semi-bold">usuario de {{$type == 'sistema' ? 'sistema' : 'aplicación'}}</span></h1>
 	</div>
 	<div class="row-fluid">
 		{{ Form::model($user, ['route' => !$user->id?'User.store':['User.update',$user->id], 'class' => 'form valid', 'id' => 'UserForm' ,'autocomplete' => 'off']) }}
@@ -42,7 +42,8 @@
 					{{@$errors->user->first('password')}}
 				</div>
 			</div>
-			@if( $user->role_id != 2 )
+			@if(!$user->id)
+			{{-- @if( $user->role_id != 2 && $user->role_id != 4) --}}
 				<div class="row">
 					<div class="form-group col-md-12 {{$errors->user->first('role_id')?'has-error':''}}">
 						{{Form::label('role_id', 'Rol', ['class' => 'control-label  required'])}}
@@ -50,7 +51,7 @@
 					</div>
 				</div>
 			@endif
-			<div class="row extra_fran {{ (!$errors->user->first('regime')&&!$errors->user->first('rfc')) && $user->role_id != 2?'hide':''}}">
+			<div class="row extra_fran {{ (!$errors->user->first('regime')&&!$errors->user->first('rfc')) && ($user->role_id != 2 && $user->role_id != 4)?'hide':''}}">
 				<div class="form-group col-md-6 {{$errors->user->first('regime')?'has-error':''}}">
 					{{Form::label('regime', 'Régimen', ['class' => 'control-label required'])}}
 					{{Form::select('regime', [0 => 'Seleccione un régimen', "Persona física" => 'Persona física', "Persona moral" => 'Persona moral'], null,['class' => 'form-control', 'data-name' => "Regimen"])}}
@@ -62,7 +63,7 @@
 				</div>
 			</div>
 			<div class="row buttons-form">
-				<a href="{{route('User.index1')}}" class="btn btn-danger">Regresar</a>
+				<a href="{{route($type == 'sistema' ? 'User.index1' : 'User.index2')}}" class="btn btn-danger">Regresar</a>
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'UserForm'])}}
 			</div>
 		{{ Form::close() }}
@@ -71,7 +72,7 @@
 @push('scripts')
 	<script type="text/javascript">
 		$("#role_id").on('change', function(){
-			if ( $(this).val() == 2 ){
+			if ( $(this).val() == 2 || $(this).val() == 4){
 				$(".extra_fran").removeClass('hide').find('input').addClass('not-empty rfc')
 				$(".extra_fran").find('select').addClass('not-empty')
 			} else {

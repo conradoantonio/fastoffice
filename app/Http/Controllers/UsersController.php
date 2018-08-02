@@ -23,7 +23,7 @@ class UsersController extends Controller
 		if ( Route::currentRouteName() == 'User.index1' ){//System users
 			$roles_id = [1,2,3];
 		} else {//App users
-			$roles_id = [4];
+			$roles_id = [4,5];
 		}
 
 		$users = User::whereIn('role_id',$roles_id)->get();
@@ -41,14 +41,20 @@ class UsersController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function form($id = null){
+	public function form($type, $id = null){
+
+		$roles_ids = array();
+		if ( $type == 'sistema' ) { $roles_ids = [4,5]; }
+		elseif ( $type == 'app' ) { $roles_ids = [1,2,3]; }
+
 		if ( $id ){
 			$user = User::findOrFail($id);
 		} else {
 			$user = new User();
 		}
-		$roles = Role::whereNotIn('id',[4])->pluck('name','id');
-		return view('users.form', compact('user', 'roles'));
+		
+		$roles = Role::whereNotIn('id',$roles_ids)->orderBy('id', 'desc')->pluck('name','id');
+		return view('users.form', compact('user', 'roles', 'type'));
 	}
 
 	/**
@@ -65,8 +71,8 @@ class UsersController extends Controller
 
 		if ($user->save()){
 			$params = array();
-			$params['subject'] = "Nuevo usuario de sistema";
-			$params['title'] = "Accesos al sistema";
+			$params['subject'] = "Nuevo usuario creado";
+			$params['title'] = "Accesos a la plataforma";
 			$params['content']['message'] = "Has sido dado de alta como usuario de sistema de ".env('APP_NAME').", estos son tus accesos para tu cuenta:<br>";
 			$params['content']['email'] = $user->email;
 			$params['content']['password'] = $req->password;
@@ -76,7 +82,7 @@ class UsersController extends Controller
 			/*if ( $this->mail($params) ){
 				return redirect()->route('User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
 			}*/
-			return redirect()->route('User.index1')->with([ 'msg' => 'Administrador creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
+			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Administrador creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 
 		} else {
 			return back()->with([ 'msg' => 'Error al crear el usuario', 'class' => 'alert-danger' ]);
@@ -111,11 +117,11 @@ class UsersController extends Controller
 				$params['view'] = 'mails.credentials';
 
 				if ( $this->mail($params) ){
-					return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);
+					return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with(['msg' => 'Usuario actualizado', 'class' => 'alert-success']);
 				}
-				return redirect()->route('User.index1')->with([ 'msg' => 'Administrador actualizado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
+				return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Usuario actualizado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 			}
-			return redirect()->route('User.index1')->with(['msg' => 'Administrador actualizado', 'class' => 'alert-success']);
+			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with(['msg' => 'Usuario actualizado', 'class' => 'alert-success']);
 		} else {
 			return back()->with([ 'msg' => 'Error al actualizar usuario', 'class' => 'alert-danger' ]);
 		}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use App\Models\State;
 use App\Models\Office;
 use App\Models\OfficeType;
 use App\Models\Application;
@@ -168,10 +169,10 @@ class ApiController extends Controller
     {
         $user = User::find($req->user_id);
         $office = Office::find($req->office_id);
+        $state = State::find($req->state_id);
 
-        if (!$office) {
-            return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400);
-        }
+        if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
+        if (!$state) { return response(['msg' => 'ID de estado inválido, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
 
         $prospect = New Application;
 
@@ -193,6 +194,7 @@ class ApiController extends Controller
         $detail = New ApplicationDetail;
 
         $detail->application_id = $prospect->id;
+        $detail->state_id = $state->id;
         $detail->badget = $req->badget;
         $detail->num_people = $req->num_people;
         $detail->office_type_id = $office->type->id;

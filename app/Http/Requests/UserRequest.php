@@ -32,12 +32,12 @@ class UserRequest extends FormRequest
 				if ( !$this->ajax() ){
 					return [
 						'fullname'  => 'required|regex:/^[\pL\s]+$/u|min:3',
-						'email' => 'required|email|min:8|unique:users',
+						'email' => 'required|email|min:8|unique:users,email',
 						'phone' => 'required|numeric',
 						'password' => 'required|min:8',
 						'regime' => 'sometimes',
 						'rfc' => [
-							'required',
+							'nullable',
 							'unique:users,rfc',
 							'min:12',
 							'max:13',
@@ -61,7 +61,7 @@ class UserRequest extends FormRequest
 						'password' => 'sometimes|nullable|min:8',
 						'regime' => 'sometimes',
 						'rfc' => [
-							'sometimes',
+							'nullable',
 							'unique:users,rfc, '.$this->route('id'),
 							'min:12',
 							'max:13',

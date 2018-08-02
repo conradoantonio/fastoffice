@@ -7,9 +7,9 @@
 			<th>Correo</th>
 			<th>Rol</th>
 			<th>Estatus</th>
-			@if(Route::currentRouteName() == 'User.index1')
+			{{-- @if(Route::currentRouteName() == 'User.index1') --}}
 			<th>Acciones</th>
-			@endif
+			{{-- @endif --}}
 		</thead>
 		<tbody>
 			@foreach($users as $user)
@@ -29,15 +29,15 @@
 						@endif
 					</td>
 
-					@if( Route::currentRouteName() == 'User.index1' )
+					{{-- @if( Route::currentRouteName() == 'User.index1' ) --}}
 						<td>
-							<a class="btn btn-xs btn-mini btn-primary" href="{{route('User.form',$user->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
+							<a class="btn btn-xs btn-mini btn-primary" href="{{route('User.form',['type' => Route::currentRouteName() == 'User.index1' ? 'sistema' : 'app', 'id' => $user->id])}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 							<a href="{{route('User.destroy',$user->id) }}" class="btn btn-xs btn-mini btn-danger delete_row" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash"></i></a>
 							@php
 							/*<a class="btn btn-xs btn-mini btn-default" href="{{route('User.show',$user->id)}}" data-toggle="tooltip" data-placement="top" title="Ver detalle"><i class="fa fa-eye"></i></a>*/
 							@endphp
 						</td>
-					@endif
+					{{-- @endif --}}
 				</tr>
 			@endforeach
 		</tbody>
