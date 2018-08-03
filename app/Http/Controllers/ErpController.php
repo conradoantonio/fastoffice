@@ -111,7 +111,7 @@ class ErpController extends Controller
 		}
 
 		if ( $erp->save() ){
-			$erp->file = '/img/erp/'.$id.'/'.$name;
+			$erp->file = '/img/erp/'.$req->id.'/'.$name;
 			$erp->save();
 			return Redirect()->route('Erp')->with('msg', 'Registro creado');
 		} else {

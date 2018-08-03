@@ -74,7 +74,7 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function form($app_id = 0, $contract_id = 0)
+    public function form($app_id, $contract_id = 0)
     {
         $title = $contract_id ? "Editar contrato" : "Crear contrato";
         $menu = "Prospectos";
@@ -88,8 +88,8 @@ class ContractsController extends Controller
         if ($contract_id) {
             $contract = Contract::find($contract_id);
         }
-
         if ($prospect) { $this->create_user($app_id); }//Creates an application user if is neccesary
+        $prospect = Application::find($app_id);
 
         return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'menu' => $menu, 'title' => $title]);
     }
