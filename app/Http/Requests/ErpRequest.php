@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Category;
 
 class ErpRequest extends FormRequest
 {
@@ -14,6 +15,23 @@ class ErpRequest extends FormRequest
 	public function authorize()
 	{
 		return true;
+	}
+
+	/**
+	 * Get the data of the request and change it.
+	 *
+	 * @return array
+	 */
+	protected function getValidatorInstance()
+	{
+		$input = $this->all();
+		$input['date'] = date("Y-m-d H:i:s", strtotime($input['date']));
+
+		$this->getInputSource()->replace($input);
+
+		/*modify data before send to validator*/
+
+		return parent::getValidatorInstance();
 	}
 
 	/**
@@ -33,7 +51,10 @@ class ErpRequest extends FormRequest
 					'amount' => 'required|numeric',
 					'type' => 'required',
 					'category_id' => 'required',
-					'office_id' => 'required',
+					'office_id' => 'sometimes',
+					'branch_id' => 'sometimes',
+					'date' => 'required',
+					'file' => 'required'
 				];
 			case 'PUT':
 				return [
@@ -41,7 +62,10 @@ class ErpRequest extends FormRequest
 					'amount' => 'required|numeric',
 					'type' => 'required',
 					'category_id' => 'required',
-					'office_id' => 'required',
+					'office_id' => 'sometimes',
+					'branch_id' => 'sometimes',
+					'date' => 'required',
+					'file' => 'sometimes',
 				];
 			default:break;
 		}
@@ -67,12 +91,13 @@ class ErpRequest extends FormRequest
 	public function attributes()
 	{
 		return [
-			'user_id' => 'Usuario',
+			'concept' => 'Concepto',
+			'amount' => 'Cantidad',
+			'type' => 'Tipo',
+			'category_id' => 'Categoría',
 			'office_id' => 'Oficina',
-			'title' => 'Título',
-			'description' => 'Descripción',
-			'datetime_start' => 'Fecha y hora de inicio',
-			'datetime_end' => 'Fecha y hora de término',
+			'branch_id' => 'Franquicia',
+			'file' => 'file',
 		];
 	}
 
@@ -82,8 +107,12 @@ class ErpRequest extends FormRequest
 			return new JsonResponse($errors, 422);
 		}
 
+		$input = $this->all();
+		$categories = Category::where('type', $input['type'])->pluck('name', 'id')->prepend('Seleccione una categoría', 0);
+
 		return $this->redirector->to($this->getRedirectUrl())
 			->withInput()
-			->withErrors($errors, 'meeting');
+			->withErrors($errors, 'erp')
+			->with('categories', $categories);
 	}
 }

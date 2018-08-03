@@ -10,7 +10,7 @@
 			</th>
 			<th>Concepto</th>
 			<th>Cantidad</th>
-			<th>Oficina</th>
+			<th>Lugar</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -25,7 +25,7 @@
 					</td>
 					<td>{{$d->concept}}</td>
 					<td>${{number_format($d->amount,2)}}</td>
-					<td>{{$d->office->name}}</td>
+					<td>{{$d->type==1?$d->office->name:$d->branch->name}}</td>
 					<td>
 						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Erp.form', $d->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 						<a href="{{route('Erp.destroy',$d->id) }}" class="btn btn-xs btn-mini btn-danger delete_row" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash"></i></a>

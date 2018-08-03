@@ -8,12 +8,13 @@ use App\Models\Erp;
 use App\Models\Office;
 use App\Models\Branch;
 use App\Models\Category;
-use Excel;
+use Illuminate\Support\Facades\File;
+use Excel, Image;
 
 class ErpController extends Controller
 {
 	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
-		if ( auth()->user()->branch ){
+		if ( auth()->user()->branch || auth()->user()->role_id == 1 ){
 			$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
 				if ( auth()->user()->role_id == 2 ){
 					$q->where('branch_id', auth()->user()->branch->id);
@@ -25,7 +26,7 @@ class ErpController extends Controller
 					}
 				}
 			});
-			$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
+			$expenses = Erp::where('type', 2)->whereHas('branch', function($q) use($id){
 				if ( auth()->user()->role_id == 2 ){
 					$q->where('branch_id', auth()->user()->branch->id);
 				} else{
@@ -68,23 +69,50 @@ class ErpController extends Controller
 		return view('erp.index', compact('earnings', 'expenses', 'branches', 'offices'));
 	}
 
-	public function form($type, $id = null){
+	public function form($id = null){
 		$erp = new Erp();
-		$offices = Office::where('status', '!=', 0)->pluck('name','id')->prepend("Seleccione una oficina", 0);
+
+		$branches = Branch::all();
+		$offices = Office::all();
+		if ( auth()->user()->role_id == 2 ){
+			$branches = $branches->where('user_id', auth()->user()->id);
+			$offices = $offices->where('branch_id', auth()->user()->branch->id);
+		}
+		$branches = $branches->pluck('name', 'id')->prepend("Seleccione una franquicia", 0);
+		$offices = $offices->pluck('name', 'id')->prepend("Seleccione una oficina", 0);
+
 		$categories = [0 => 'Seleccione una categoría'];
 
 		if ( $id ) {
 			$erp = Erp::findOrFail($id);
-			$categories = Category::where('type', $erp->type_id)->get();
+			$erp->date = date('d M Y', strtotime($erp->date));
+			$categories = Category::where('type', $erp->type)->pluck('name', 'id')->prepend('Seleccione una categoría', 0);
 		}
-		return view('erp.form', compact('erp', 'offices', 'categories'));
+		return view('erp.form', compact('erp', 'offices', 'branches', 'categories'));
 	}
 
 	public function store(ErpRequest $req){
 		$erp = new Erp();
-		$erp->fill($req->all());
+		$erp->fill($req->except('file'));
+
+		$directorio = public_path().'/img/erp/'.$req->id.'/';
+		if (!File::exists($directorio)){
+			File::makeDirectory($directorio, 0777, true, true);
+		}
+		$image = $req->file('file');
+		$name = date("His");
+		$name = $name.'.'.$image->getClientOriginalExtension();
+		$path = $directorio.$name;
+		$erp->file = '';
+		if ( array_search( strtolower($image->getClientOriginalExtension()), ['pdf', 'doc', 'docx', 'xls', 'xlsx'] ) !== false ){
+			$image->move($directorio, $name);
+		} else {
+			Image::make($image)->save($path);
+		}
 
 		if ( $erp->save() ){
+			$erp->file = '/img/erp/'.$id.'/'.$name;
+			$erp->save();
 			return Redirect()->route('Erp')->with('msg', 'Registro creado');
 		} else {
 			return Redirect()->back()->with('msg', 'Error al crear noticia');
@@ -93,9 +121,28 @@ class ErpController extends Controller
 
 	public function update(ErpRequest $req, $id){
 		$erp = Erp::find($id);
-		$erp->fill($req->all());
+		$erp->fill($req->except('file'));
 
 		if ( $erp->save() ){
+			if ( $req->hasFile('file') ){
+				File::cleanDirectory(public_path()."/img/erp/".$id."/");
+				$directorio = public_path().'/img/erp/'.$req->id.'/';
+				if (!File::exists($directorio)){
+					File::makeDirectory($directorio, 0777, true, true);
+				}
+				$image = $req->file('file');
+				$name = date("His");
+				$name = $name.'.'.$image->getClientOriginalExtension();
+				$path = $directorio.$name;
+				$erp->file = '/img/erp/'.$id.'/'.$name;
+				$erp->save();
+				if ( array_search( strtolower($image->getClientOriginalExtension()), ['pdf', 'doc', 'docx', 'xls', 'xlsx'] ) !== false ){
+					$image->move($directorio, $name);
+				} else {
+					Image::make($image)->save($path);
+				}
+			}
+
 			return Redirect()->route('Erp')->with('msg', 'Registro actualizado');
 		} else {
 			return Redirect()->back()->with('msg', 'Error al crear noticia');

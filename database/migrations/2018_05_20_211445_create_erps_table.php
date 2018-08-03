@@ -15,11 +15,14 @@ class CreateErpsTable extends Migration
 	{
 		Schema::create('erps', function (Blueprint $table) {
 			$table->increments('id');
-			$table->integer('office_id');
+			$table->integer('branch_id')->default(0);
+			$table->integer('office_id')->default(0);
 			$table->string('category_id');
 			$table->string('concept')->nullable();
 			$table->float('amount');
 			$table->integer('type')->comment("1 ingreso, 2 egreso");
+			$table->date('date');
+			$table->string('file',200);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 		});
