@@ -32,7 +32,7 @@
 		<li class="list-group-item">
 			<div class="row">
 				<div class="col-md-3 col-sm-4 text-center">
-					<img src="{{@asset($audit->office->pictures->first()->path)}}" data-src="{{@asset($audit->office->pictures->first()->path)}}" alt="Imagen portada" width="60%" class="profile_img">
+					<img src="{{@asset($audit->office->pictures->first()->path?:'img/default_office.png')}}" data-src="{{@asset($audit->office->pictures->first()->path?:'img/default_office.png')}}" alt="Imagen portada" width="60%" class="profile_img">
 				</div>
 				<div class="col-md-9 col-sm-8">
 					<ul>

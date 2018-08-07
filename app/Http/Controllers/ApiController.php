@@ -34,7 +34,8 @@ class ApiController extends Controller
 			}
 			if ( $user->role_id == 4 || $user->role_id == 5 ) {
 				if (password_verify($req->password, $user['password'])) {
-					return response([ 'Usuario' => $user, 'code' => 1], 200);
+					$user->role;
+					return response([ 'Usuario' => $user->setHidden(['password', 'branch_id', 'social', 'created_at', 'updated_at', 'deleted_at', 'remember_token']), 'code' => 1], 200);
 				} else {
 					return response([ 'msg'=>'La contraseña es incorrecta.', 'code' => 0], 200);
 				}
@@ -183,7 +184,7 @@ class ApiController extends Controller
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
             $prospect->regime = $req->regime;
-            $prospect->rfc = $req->rfc;
+            $prospect->rfc = strtoupper($req->rfc);
         }
 
         $prospect->office_id = $office->id;

@@ -308,7 +308,7 @@ function display_application_details(data) {
     if (data.detail.office.pictures.length > 0) {
         $('li.office-photo img').attr('src', b_url.concat('/'+data.detail.office.pictures[0].path));
     } else {
-        $('li.office-photo img').attr('src', b_url.concat('/img/default.jpg'));
+        $('li.office-photo img').attr('src', b_url.concat('/img/default_office.png'));
     }
 
     $('div.load-bar').addClass('hide');

@@ -154,9 +154,84 @@ trait GeneralFunctions
      *
      * @return \Illuminate\Http\Response
      */
-	public function make_path($path) {
+	public function make_path($path) 
+	{
 		if (!File::exists($path)) {
             File::makeDirectory(public_path($path), 0755, true, true);
         }
+    }
+
+    /**
+     * Send a notification to a single user or a group of users.
+     *
+     * @return $name
+     */
+    public function send_notification($type, $app_id, $app_key, $app_icon, $title, $content, $date, $time, $data, $users_id)
+    {
+        $player_ids = array();
+        
+        $header = array(
+            "en" => $title
+        );
+
+        $msg = array(
+            "en" => $content
+        );
+        
+        $fields = array(
+            'app_id' => $app_id,
+            'data' => $data,
+            'headings' => $header,
+            'contents' => $msg,
+            'large_icon' => $app_icon
+        );
+
+        if ($type == 1) {//General notification
+            $fields['included_segments'] = array('All');
+        } 
+
+        else if ($type == 2) {//Individual notification
+            foreach($users_id as $id) {
+                $user = User::find($id);
+                $player_ids [] = $user->player_id;
+            }
+            $fields['include_player_ids'] = $player_ids;
+        }
+
+        if ($date && $time) {
+            $time_zone = $date.' '.$time;
+            $time_zone = $this->summer ? $time_zone.' '.'UTC-0500' : $time_zone.' '.'UTC-0600';
+            $fields['send_after'] = $time_zone;
+        }
+
+        $fields = json_encode($fields);
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                                   "Authorization: Basic $app_key"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        foreach ($users_id as $id) {
+            $user = User::find($id);
+
+            $not = New Notification;
+
+            $not->user_id = $user ? $user->id : 0; 
+			$not->origin = $data['origin'];
+			$not->title = $title;
+			$not->content = $content;
+
+			$not->save();
+        }
+
+        return $response;
     }
 }

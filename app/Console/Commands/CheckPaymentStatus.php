@@ -44,7 +44,7 @@ class CheckPaymentStatus extends Command
         $today = date('Y-m-d', strtotime('now'));
         $year = date('Y');
         $month = date('m');
-        $contracts = Contract::all();
+        $contracts = Contract::all();//Change this for take only valid contracts
 
         $contracts->each(function($item, $key) use ($year, $month, $today) {
             $start_date = date('Y-m-d', strtotime($item->actual_pay_date));
