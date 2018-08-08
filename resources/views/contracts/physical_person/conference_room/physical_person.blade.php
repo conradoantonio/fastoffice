@@ -30,10 +30,7 @@
 	</ul>
 
 	<br>
-	<p class="break justify bold">2. Contraprestaciones:</p>
-	<ul class="b-up-alpha less-li-he justify">
-		<li class="one-line-sp">“EL CLIENTE” se obliga a pagar a “EL PRESTADOR” por concepto de prestación de servicios de este contrato y validando la promoción de pronto pago la cantidad por hora de ${{$contract->office->price}} ({{$contract->monthly_payment_str}}) la cual será válida realizando el pago el día puntual de la fecha de contratación.</li>
-	</ul>
+	@include('contracts.layouts.clause_2')
 
 	<br>
 	<p class="break justify bold">3. Obligaciones de EL PRESTADOR de servicios:</p>
@@ -69,10 +66,7 @@
 		<li class="one-line-sp">“EL CLIENTE” se obliga a conservar el buen estado del inmueble y dar aviso de cualquier situación que pudiera afectar al mismo, de lo contrario se hará responsable de los daños y perjuicios que pudieran ocasionarse por tal motivo</li>
 	</ul>
 
-	<p class="break justify bold">5. Depósito en garantía:</p>
-	<ul class="b-up-alpha less-li-he justify">
-		<li class="one-line-sp">“EL CLIENTE” entrega en este acto la suma de ${{$contract->office->price}} ({{$contract->monthly_payment_str}}), cantidad que “EL PRESTADOR” conservará en depósito hasta la terminación del presente contrato y queda autorizado para aplicar dicha cantidad al pago de saldos insolutos que “EL CLIENTE” pudiera adeudar. En caso de que “EL CLIENTE” no adeude cantidad alguna, la suma depositada en garantía le será devuelta sin necesidad de ningún trámite adicional.</li>
-	</ul>
+	@include('contracts.layouts.clause_5')
 
 	@include('contracts.layouts.clause_6')
 

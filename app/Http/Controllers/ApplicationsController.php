@@ -243,7 +243,10 @@ class ApplicationsController extends Controller
         $query = $query->get();
         
         foreach ($query as $q) {
+            $q->type;
             $q->pictures;
+            $q->municipality->state;
+            $q->setHidden(['state_id', 'user_id', 'municipality_id', 'photo', 'created_at', 'updated_at', 'deleted_at']);
         }
         return $query;
     }
@@ -253,7 +256,8 @@ class ApplicationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function send_template(Request $req){
+    public function send_template(Request $req)
+    {
         $template = Template::find($req->template_id);
         $prospects = Application::with('customer')->whereIn('id', $req->prospects_ids)->get();
         $emails = [];

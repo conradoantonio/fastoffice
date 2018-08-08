@@ -35,10 +35,10 @@
 				<td>{{$contract->customer->phone}}</td>
 				<td>{{$contract->office->name}}</td>
                 <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Finalizado</span>") !!}</td>
-                <td>${{ $contract->status == 2 ? $contract->office->price * 1.10 : $contract->office->price }}</td>
-                <td class="hide">{{$contract->office->price}}</td>
+                <td>${{ $contract->status == 2 ? $contract->office->price : $contract->office->price * 0.90 }}</td>
+                <td class="hide">{{$contract->office->price * 0.90}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
-                <td class="hide">{{$contract->office->price * 1.10}}</td>
+                <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>
                 <td>{{ $contract->payment_range_start }} y {{ $contract->payment_range_end }} de cada mes</td>
 				<td>

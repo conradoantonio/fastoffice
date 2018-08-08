@@ -41,12 +41,15 @@ class CheckPaymentStatus extends Command
 	 */
 	public function handle()
 	{
+        $count = 0;
         $today = date('Y-m-d', strtotime('now'));
-        $year = date('Y');
-        $month = date('m');
-        $contracts = Contract::all();//Change this for take only valid contracts
+        /*$year = date('Y');
+        $month = date('m');*/
+        $contracts = Contract::whereHas('application', function($query){
+            $query->where('status', 1);//Only current contracts
+        })->get();
 
-        $contracts->each(function($item, $key) use ($year, $month, $today) {
+        $contracts->each(function($item, $key) use (/*$year, $month, */$today, &$count) {
             $start_date = date('Y-m-d', strtotime($item->actual_pay_date));
             $end_date = date('Y-m-d', strtotime($start_date. '+ 4 days'));
             $max_date = date('Y-m-d', strtotime($end_date. ' + 15 days'));//En caso de que se haya pagado retrasado
@@ -66,25 +69,30 @@ class CheckPaymentStatus extends Command
                     if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
                         //dd('Se actualiza a pago normal', $item->id);
                         $item->status = 0;
-                    
+                        $count ++;
                     } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
                         //dd('Se actualiza a pago retrasado', $item->id);
                         $item->status = 2;
+                        $count ++;
                     }
                 }
             //Si no tiene historial de pago alguno, se marca como pendiente de pago
             } else {
                 if ( $today >= $start_date && $today <= $end_date ) { //Si está entre el rango de pago normal
                     $item->status = 0;
+                    $count ++;
                     //dd('no tiene historial, pero se pone pendiente de pago normal', $start_date, $end_date, $max_date, $item->id);
                 } elseif ( $today > $end_date ) { //si la fecha de pagos ya pasó...
                     //dd('no tiene historial, pero se pone pendiente de pago atrasado', $start_date, $end_date, $max_date, $item->id);
                     $item->status = 2;
+                    $count ++;
                 }
             }
 
             $item->save();
         });
+
+        \Log::info('Cronjob de checar status de pago ejecutado a las '.date('Y-m-d H:i:s').', se revisaron un total de '.count($contracts).' contratos y se actualizó el status de '.$count.' contratos');
 
         //return $contracts;
     }

@@ -193,6 +193,7 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('filtrar-oficinas', 'ApiController@filter_offices');
 	Route::post('guardar-prospecto', 'ApiController@save_prospect');
 	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
+	Route::post('oficinas-cliente', 'ApiController@offices_by_user');
 });
 
 Route::get('testing', 'ContractsController@testing');

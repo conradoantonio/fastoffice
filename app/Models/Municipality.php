@@ -22,6 +22,13 @@ class Municipality extends Model
 		'name', 'num_head', 'municipal_head', 'state_id'
 	];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['num_head', 'municipal_head', 'created_at', 'updated_at'];
+
 	/**
      * Get the state associated with the municipality.
      */

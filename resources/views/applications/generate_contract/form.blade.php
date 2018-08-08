@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago mensual $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price * 0.90 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
                     </div>
                 </div>
                 <div class="row">
@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price * 1.10) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
                     </div>
                 </div>
                 <div class="row">
@@ -118,7 +118,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago por hora $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price * 0.90 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
                     </div>
                 </div>
                 <div class="row">

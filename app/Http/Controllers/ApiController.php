@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+
 use App\Models\User;
 use App\Models\State;
 use App\Models\Office;
+use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationDetail;
 
-use App\Traits\GeneralFunctions;
-
 use App\Http\Requests\UserRequest;
 
-use Illuminate\Http\Request;
 use Image;
 use Mail;
 
@@ -123,7 +123,7 @@ class ApiController extends Controller
 			$user->contra = $pass;
 			return response([ 'usuario' => $user, 'code' => 1], 200);
 		}
-		return [ 'msg'=>'Ha ocurrido un msg, intente más tarde.', 'code' => 0];
+		return [ 'msg'=>'Ha ocurrido un error, intente más tarde.', 'code' => 0];
 	}
 
 	/**
@@ -235,5 +235,33 @@ class ApiController extends Controller
                 ->from(env('MAIL_USERNAME'), env('APP_NAME'))
                 ->subject(env('APP_NAME').' | '.$params['subject']);
         });
+    }
+
+    /**
+     * Get the offices assoated by the customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function offices_by_user(Request $req)
+    {
+    	$offices = [];
+    	$contracts = Contract::whereHas('application', function($query){
+            $query->where('status', 1);
+    	})
+    	->where('user_id', $req->user_id)
+    	->get();
+
+    	foreach ($contracts as $con) {
+    		$con->office->type;
+            $con->office->pictures;
+            $con->office->municipality->state;
+            $con->office->setHidden(['state_id', 'user_id', 'municipality_id', 'photo', 'created_at', 'updated_at', 'deleted_at']);
+
+    		$offices[] = $con->office;
+    	}
+
+    	if (count($offices) > 0) { return response(['msg' => 'oficinas encontradas', 'code' => 1, 'oficinas' => $offices], 200); }
+
+    	return response(['msg' => 'El cliente no cuenta con oficinas', 'code' => 0], 200);
     }
 }

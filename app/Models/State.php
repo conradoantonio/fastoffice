@@ -22,6 +22,13 @@ class State extends Model
 		'name', 'abreviation', 'country'
 	];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
+
 	/**
      * Get the municipalities related with the state.
      */
