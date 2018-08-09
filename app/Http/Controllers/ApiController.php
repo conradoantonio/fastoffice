@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\State;
 use App\Models\Office;
+use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationDetail;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\MeetingRequest;
 
 use Image;
 use Mail;
@@ -298,5 +300,41 @@ class ApiController extends Controller
     	$account['actual_payment_status'] = ($contract->status == 1 ? 'Pagado' : ($contract->status == 2 ? 'Atrasado' : 'Por pagar'));
 
     	return response(['msg' => 'Estado de cuenta encontrado', 'code' => 1, 'data' => $account], 200);
+    }
+
+    /**
+     * Check if a meeting room is available between the given horary, if so, save the meeting in calendar 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function schedule_in_calendar(MeetingRequest $req)
+    {
+    	$meeting = new Meeting();
+		$meeting->fill($req->all());
+
+		$old = Meeting::
+		where([
+			['datetime_start', '>', $req->datetime_start],
+			['datetime_start', '<', $req->datetime_end]
+		])
+		->orWhere(function($query) use ($req){
+			$query->where('datetime_end', '>', $req->datetime_start);
+			$query->where('datetime_end', '<', $req->datetime_end);
+		})
+		->where('office_id', $req->office_id)
+		->get();
+
+		if ( !$old->isEmpty() ){
+			$meeting->date = date('d M Y', strtotime($meeting->datetime_start));
+			$meeting->hour = date('H:i', strtotime($meeting->datetime_start));
+
+			return response(['msg' => 'Fecha y hora coinciden con otra solicitud, verifique disponibilidad.', 'data' => Input::all(), 'code' => 0], 200);
+		}
+
+		if ( $meeting->save() ){
+			return response(['msg' => 'Sala de juntas agendada correctamente', 'code' => 1], 200);
+		} else {
+			return response(['msg' => 'Ha ocurrido un error agendando la sala de juntas, trate nuevamente', 'code' => 0], 200);
+		}
     }
 }

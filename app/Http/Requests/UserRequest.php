@@ -120,7 +120,7 @@ class UserRequest extends FormRequest
 		}
 
 		return $this->redirector->to($this->getRedirectUrl())
-				->withInput()
-				->withErrors($errors, 'user');
+			->withInput()
+			->withErrors($errors, 'user');
 	}
 }

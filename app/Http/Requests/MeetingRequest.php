@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 
 class MeetingRequest extends FormRequest
 {
@@ -26,6 +27,13 @@ class MeetingRequest extends FormRequest
 		$input = $this->all();
 		$input['datetime_start'] = date("Y-m-d H:i:s", strtotime($input['date'].' '.$input['hour']));
 		$input['datetime_end'] = date("Y-m-d H:i:s", strtotime("+1 hours", strtotime($input['datetime_start'])));
+
+		if(array_key_exists('num_hours', $input)){
+			if ($input['num_hours'] != null && $input['num_hours'] != '') {//Tiene horas
+				$input['num_hours'] = intval($input['num_hours']);
+				$input['datetime_end'] = date("Y-m-d H:i:s", strtotime("+".$input['num_hours']." hours", strtotime($input['datetime_start'])));
+			}
+		} 
 
 		$this->getInputSource()->replace($input);
 
@@ -52,7 +60,8 @@ class MeetingRequest extends FormRequest
 					'datetime_start' => 'date|before:'.$this->datetime_end,
 					'datetime_end' => 'date|after:'.$this->datetime_start,
 					'office_id' => 'required',
-					'user_id' => 'present'
+					'user_id' => 'present',
+					'num_hours' => 'nullable'
 				];
 			case 'PUT':
 				return [
@@ -61,7 +70,8 @@ class MeetingRequest extends FormRequest
 					'datetime_start' => 'date|before:'.$this->datetime_end,
 					'datetime_end' => 'date|after:'.$this->datetime_start,
 					'office_id' => 'required',
-					'user_id' => 'present'
+					'user_id' => 'present',
+					'num_hours' => 'nullable'
 				];
 			default:break;
 		}
@@ -93,12 +103,13 @@ class MeetingRequest extends FormRequest
 			'description' => 'Descripción',
 			'datetime_start' => 'Fecha y hora de inicio',
 			'datetime_end' => 'Fecha y hora de término',
+			'num_hours' => 'Número de horas',
 		];
 	}
 
 	public function response(array $errors)
 	{
-		if ($this->expectsJson()) {
+		if ($this->expectsJson() || $this->ajax()) {
 			return new JsonResponse($errors, 422);
 		}
 

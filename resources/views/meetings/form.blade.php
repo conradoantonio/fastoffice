@@ -23,14 +23,19 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 {{$errors->meeting->first('datetime')?'has-error':''}}">
+				<div class="form-group col-md-4 {{$errors->meeting->first('datetime')?'has-error':''}}">
 					{{Form::label('date', 'Fecha inicio', ['class' => 'control-label required'])}}
 					{{Form::text('date', null, ['class' => 'form-control not-empty input-date', 'data-name' => 'Fecha inicio'])}}
 					{{@$errors->meeting->first('datetime')}}
 				</div>
-				<div class="form-group col-md-6 {{$errors->meeting->first('datetime')?'has-error':''}}">
+				<div class="form-group col-md-4 {{$errors->meeting->first('datetime')?'has-error':''}}">
 					{{Form::label('hour', 'Hora inicio', ['class' => 'control-label required'])}}
 					{{Form::text('hour', null, ['class' => 'form-control clockpicker not-empty', 'data-name' => 'Hora inicio'])}}
+				</div>
+				<div class="form-group col-md-4 {{$errors->meeting->first('num_hours')?'has-error':''}}">
+					{{Form::label('num_hours', 'Número de horas', ['class' => 'control-label'])}}
+					{{Form::text('num_hours', null, ['class' => 'form-control numeric', 'data-name' => 'Número horas'])}}
+					{{@$errors->meeting->first('num_hours')}}
 				</div>
 			</div>
 			<div class="row">
