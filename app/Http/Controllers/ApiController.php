@@ -252,6 +252,7 @@ class ApiController extends Controller
     	->get();
 
     	foreach ($contracts as $con) {
+    		$con->office->contrac_id = $con->id;
     		$con->office->type;
             $con->office->pictures;
             $con->office->municipality->state;
@@ -263,5 +264,39 @@ class ApiController extends Controller
     	if (count($offices) > 0) { return response(['msg' => 'oficinas encontradas', 'code' => 1, 'oficinas' => $offices], 200); }
 
     	return response(['msg' => 'El cliente no cuenta con oficinas', 'code' => 0], 200);
+    }
+
+	/**
+     * Get the information about the payment state of a office
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function office_account_status(Request $req)
+    {
+    	/*Saldo anterior
+		_
+		Saldo actual
+		_
+		Cargo por atraso (esto sale sólo si se atrasa)
+		_
+		Porcentaje de interés adicional 10%
+
+		Total a pagar pues ya el monto chilo
+		Poner el monto en palabras*/
+		$account = [];
+    	$contract = Contract::find($req->contract_id);
+
+    	if (!$contract){ return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'code' => 0], 200);	}
+
+    	//return $contract->payment_history->last()->payment;
+    	$account['last_payment_quantity'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment : '0';
+    	$account['last_payment_string'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment_str : 'Cero pesos 00/100 M.N.';
+    	$account['last_payment_status'] = (count($contract->payment_history) > 0 ? ($contract->payment_history->last()->status == 1 ? 'Normal' : 'Atrasado') : 'Normal');
+    	//Maybe add filter if it is the last payment...
+    	$account['actual_payment_quantity'] =  ($contract->status == 1 ? '0' : ($contract->status == 2 ? $contract->office->price : $contract->office->price * 0.90));
+    	$account['actual_payment_string'] =  ($contract->status == 1 ? 'Cero pesos 00/100 M.N.' : ($contract->status == 2 ? $contract->monthly_payment_delay_str : $contract->monthly_payment_str));
+    	$account['actual_payment_status'] = ($contract->status == 1 ? 'Pagado' : ($contract->status == 2 ? 'Atrasado' : 'Por pagar'));
+
+    	return response(['msg' => 'Estado de cuenta encontrado', 'code' => 1, 'data' => $account], 200);
     }
 }

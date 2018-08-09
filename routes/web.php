@@ -191,6 +191,7 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('recuperar-password', 'ApiController@recovery');
 
 	Route::post('filtrar-oficinas', 'ApiController@filter_offices');
+	Route::post('estado-cuenta-oficina', 'ApiController@office_account_status');
 	Route::post('guardar-prospecto', 'ApiController@save_prospect');
 	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
 	Route::post('oficinas-cliente', 'ApiController@offices_by_user');
