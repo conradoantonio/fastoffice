@@ -17,7 +17,8 @@ class CreateErpsTable extends Migration
 			$table->increments('id');
 			$table->integer('branch_id')->default(0);
 			$table->integer('office_id')->default(0);
-			$table->string('category_id');
+			$table->integer('category_id');
+			$table->integer('egress_type_id')->default(0);
 			$table->string('concept')->nullable();
 			$table->float('amount');
 			$table->integer('type')->comment("1 ingreso, 2 egreso");

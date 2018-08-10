@@ -3,7 +3,10 @@
 		<a href="#earnings" aria-controls="earnings" role="tab" data-toggle="tab">Ingresos</a>
 	</li>
 	<li role="presentation">
-		<a href="#expenses" aria-controls="expenses" role="tab" data-toggle="tab">Egresos</a>
+		<a href="#expenses_fixed" aria-controls="expenses_fixed" role="tab" data-toggle="tab">Egresos Fijos</a>
+	</li>
+	<li role="presentation">
+		<a href="#expenses_variable" aria-controls="expenses_variable" role="tab" data-toggle="tab">Egresos Variables</a>
 	</li>
 </ul>
 
@@ -16,7 +19,10 @@
 
 		@include('erp.table', ['data' => $earnings])
 	</div>
-	<div role="tabpanel" class="tab-pane fade" id="expenses">
-		@include('erp.table', ['data' => $expenses])
+	<div role="tabpanel" class="tab-pane fade" id="expenses_fixed">
+		@include('erp.table', ['data' => $expenses_fixed])
+	</div>
+	<div role="tabpanel" class="tab-pane fade" id="expenses_variable">
+		@include('erp.table', ['data' => $expenses_variable])
 	</div>
 </div>

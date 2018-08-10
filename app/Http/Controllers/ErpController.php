@@ -8,6 +8,7 @@ use App\Models\Erp;
 use App\Models\Office;
 use App\Models\Branch;
 use App\Models\Category;
+use App\Models\EgressType;
 use Illuminate\Support\Facades\File;
 use Excel, Image;
 
@@ -26,7 +27,16 @@ class ErpController extends Controller
 					}
 				}
 			});
-			$expenses = Erp::where('type', 2)->whereHas('branch', function($q) use($id){
+			$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use($id){
+				if ( auth()->user()->role_id == 2 ){
+					$q->where('branch_id', auth()->user()->branch->id);
+				} else{
+					if( $id ){
+						$q->where('branch_id', $id);
+					}
+				}
+			});
+			$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use($id){
 				if ( auth()->user()->role_id == 2 ){
 					$q->where('branch_id', auth()->user()->branch->id);
 				} else{
@@ -38,17 +48,20 @@ class ErpController extends Controller
 
 			if ( $start_date ){
 				$earnings->where('created_at','>',$start_date.' 00:00:00');
-				$expenses->where('created_at','>',$start_date.' 00:00:00');
+				$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
+				$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
 			}
 			if( $end_date ){
 				$earnings->where('created_at','<=',$end_date.' 23:59:59');
-				$expenses->where('created_at','<=',$end_date.' 23:59:59');
+				$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
+				$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
 			}
 
 			$earnings = $earnings->get();
-			$expenses = $expenses->get();
+			$expenses_fixed = $expenses_fixed->get();
+			$expenses_variable = $expenses_variable->get();
 		} else {
-			$earnings = $expenses = [];
+			$earnings = $expenses_fixed = $expenses_variable = [];
 		}
 
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
@@ -64,9 +77,9 @@ class ErpController extends Controller
 
 
 		if ($req->ajax()) {
-			return view('erp.content', compact('earnings', 'expenses'));
+			return view('erp.content', compact('earnings', 'expenses_fixed', 'expenses_variable'));
 		}
-		return view('erp.index', compact('earnings', 'expenses', 'branches', 'offices'));
+		return view('erp.index', compact('earnings', 'expenses_fixed', 'expenses_variable', 'branches', 'offices'));
 	}
 
 	public function form($id = null){
@@ -82,13 +95,14 @@ class ErpController extends Controller
 		$offices = $offices->pluck('name', 'id')->prepend("Seleccione una oficina", 0);
 
 		$categories = [0 => 'Seleccione una categoría'];
+		$egress_types = EgressType::pluck('name', 'id')->prepend('Seleccione un tipo egreso');
 
 		if ( $id ) {
 			$erp = Erp::findOrFail($id);
 			$erp->date = date('d M Y', strtotime($erp->date));
 			$categories = Category::where('type', $erp->type)->pluck('name', 'id')->prepend('Seleccione una categoría', 0);
 		}
-		return view('erp.form', compact('erp', 'offices', 'branches', 'categories'));
+		return view('erp.form', compact('erp', 'offices', 'branches', 'categories', 'egress_types'));
 	}
 
 	public function store(ErpRequest $req){
@@ -173,7 +187,16 @@ class ErpController extends Controller
 				}
 			}
 		});
-		$expenses = Erp::where('type', 2)->whereHas('office', function($q) use($id){
+		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
+				}
+			}
+		});
+		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use($id){
 			if ( auth()->user()->role_id == 2 ){
 				$q->where('branch_id', auth()->user()->branch->id);
 			} else{
@@ -184,22 +207,24 @@ class ErpController extends Controller
 		});
 
 
-		if ( $start_date ) {
+		if ( $start_date ){
 			$earnings->where('created_at','>',$start_date.' 00:00:00');
-			$expenses->where('created_at','>',$start_date.' 00:00:00');
+			$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
+			$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
 		}
-		if( $end_date ) {
+		if( $end_date ){
 			$earnings->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses->where('created_at','<=',$end_date.' 23:59:59');
+			$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
+			$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
 		}
 
 		$earnings = $earnings->get();
-		$expenses = $expenses->get();
+		$expenses_fixed = $expenses_fixed->get();
+		$expenses_variable = $expenses_variable->get();
 
-		$ganancias = [];
-		$gastos = [];
+		$ganancias = $gastos_fijos = $gastos_variables = [];
 
-		foreach ($earnings as $row) {
+		$earnings->each(function($row, $key) use (&$ganancias){
 			$ganancias[] = [
 				'Categoría' => $row->category->name,
 				'Concepto' => $row->concept,
@@ -207,20 +232,28 @@ class ErpController extends Controller
 				'Sucursal' => $row->office->branch->name,
 				'Oficina' => $row->office->name
 			];
-		}
+		});
 
-		foreach ($expenses as $row) {
-			$gastos[] = [
+		$expenses_fixed->each(function($row, $key) use (&$gastos_fijos){
+			$gastos_fijos[] = [
 				'Categoría' => $row->category->name,
 				'Concepto' => $row->concept,
 				'Cantidad' => $row->amount,
-				'Sucursal' => $row->office->branch->name,
-				'Oficina' => $row->office->name
+				'Sucursal' => $row->branch->name
 			];
-		}
+		});
 
-		$excel = Excel::create('Utilidades', function($excel) use($ganancias, $gastos, $id, $start_date, $end_date) {
-			$excel->sheet('Ingresos', function($sheet) use($ganancias, $gastos, $id, $start_date, $end_date) {
+		$expenses_variable->each(function($row, $key) use (&$gastos_variables){
+			$gastos_variables[] = [
+				'Categoría' => $row->category->name,
+				'Concepto' => $row->concept,
+				'Cantidad' => $row->amount,
+				'Sucursal' => $row->branch->name
+			];
+		});
+
+		$excel = Excel::create('Utilidades', function($excel) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
+			$excel->sheet('Ingresos', function($sheet) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
 
 				$sheet->cell('A1', function($cell) use ($ganancias){
 					$cell->setFontWeight('bold');
@@ -228,10 +261,10 @@ class ErpController extends Controller
 					$cell->setValue('Ingresos: $'.number_format(collect($ganancias)->sum('Cantidad'),2));
 				});
 
-				$sheet->cell('B1', function($cell) use ($ganancias, $gastos){
+				$sheet->cell('B1', function($cell) use ($ganancias, $gastos_fijos, $gastos_variables){
 					$cell->setFontWeight('bold');
 					$cell->setFontSize(14);
-					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos)->sum('Cantidad') ),2));
+					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos_fijos)->sum('Cantidad') - collect($gastos_variables)->sum('Cantidad') ),2));
 				});
 
 				$sheet->cell('A2', function($cell) use($start_date, $end_date){
@@ -275,17 +308,17 @@ class ErpController extends Controller
 				$sheet->setAutoFilter('A5:E5');
 			});
 
-			$excel->sheet('Egresos', function($sheet) use($ganancias, $gastos, $id, $start_date, $end_date) {
-				$sheet->cell('A1', function($cell) use ($ganancias, $gastos) {
+			$excel->sheet('Egresos Fijos', function($sheet) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
+				$sheet->cell('A1', function($cell) use ($ganancias, $gastos_fijos, $gastos_variables) {
 					$cell->setFontWeight('bold');
 					$cell->setFontSize(14);
-					$cell->setValue('Egresos: $'.number_format( collect($gastos)->sum('Cantidad') ,2));
+					$cell->setValue('Egresos: $'.number_format( collect($gastos_fijos)->sum('Cantidad') ,2));
 				});
 
-				$sheet->cell('B1', function($cell) use ($ganancias, $gastos) {
+				$sheet->cell('B1', function($cell) use ($ganancias, $gastos_fijos, $gastos_variables) {
 					$cell->setFontWeight('bold');
 					$cell->setFontSize(14);
-					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos)->sum('Cantidad') ),2));
+					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos_fijos)->sum('Cantidad') - collect($gastos_variables)->sum('Cantidad') ),2));
 				});
 
 				$sheet->cell('A2', function($cell) use($start_date, $end_date){
@@ -319,14 +352,68 @@ class ErpController extends Controller
 					$cells->setValignment('center');
 				});
 
-				$sheet->cells('A5:E5', function($cells) {
+				$sheet->cells('A5:D5', function($cells) {
 					$cells->setAlignment('center');
 					$cells->setValignment('center');
 					$cells->setFontWeight('bold');
 					$cells->setFontSize(12);
 				});
-				$sheet->fromArray($gastos, null, 'A5', true);
-				$sheet->setAutoFilter('A5:E5');
+				$sheet->fromArray($gastos_fijos, null, 'A5', true);
+				$sheet->setAutoFilter('A5:D5');
+			});
+
+			$excel->sheet('Egresos Variables', function($sheet) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
+				$sheet->cell('A1', function($cell) use ($ganancias, $gastos_fijos, $gastos_variables) {
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Egresos: $'.number_format( collect($gastos_variables)->sum('Cantidad') ,2));
+				});
+
+				$sheet->cell('B1', function($cell) use ($ganancias, $gastos_fijos, $gastos_variables) {
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Utilidad: $'.number_format( (collect($ganancias)->sum('Cantidad') - collect($gastos_fijos)->sum('Cantidad') - collect($gastos_variables)->sum('Cantidad') ),2));
+				});
+
+				$sheet->cell('A2', function($cell) use($start_date, $end_date){
+					if ( $start_date && $end_date ){
+						$periodo = $start_date.' - '.$end_date;
+					} elseif( $start_date ) {
+						$periodo = "Después del ".$start_date;
+					} elseif ( $end_date ) {
+						$periodo = "Antes del ".$end_date;
+					}
+					else {
+						$periodo = "Todo el tiempo";
+					}
+					$cell->setFontWeight('bold');
+					$cell->setFontSize(14);
+					$cell->setValue('Periodo: '.$periodo);
+				});
+
+				if( $id || auth()->user()->role_id != 1 ){
+					$id = !$id?auth()->user()->id:$id;
+					$sucursal = Branch::find($id);
+					$sheet->cell('A3', function($cell) use ($sucursal){
+						$cell->setFontWeight('bold');
+						$cell->setFontSize(14);
+						$cell->setValue('Sucursal: '.$sucursal->name);
+					});
+				}
+
+				$sheet->cells('A:I', function($cells) {
+					$cells->setAlignment('left');
+					$cells->setValignment('center');
+				});
+
+				$sheet->cells('A5:D5', function($cells) {
+					$cells->setAlignment('center');
+					$cells->setValignment('center');
+					$cells->setFontWeight('bold');
+					$cells->setFontSize(12);
+				});
+				$sheet->fromArray($gastos_variables, null, 'A5', true);
+				$sheet->setAutoFilter('A5:D5');
 			});
 		})->download('xlsx');
 

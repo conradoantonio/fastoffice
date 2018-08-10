@@ -53,6 +53,7 @@ class ErpRequest extends FormRequest
 					'category_id' => 'required',
 					'office_id' => 'sometimes',
 					'branch_id' => 'sometimes',
+					'egress_type_id' => 'sometimes',
 					'date' => 'required',
 					'file' => 'required'
 				];
@@ -64,6 +65,7 @@ class ErpRequest extends FormRequest
 					'category_id' => 'required',
 					'office_id' => 'sometimes',
 					'branch_id' => 'sometimes',
+					'egress_type_id' => 'sometimes',
 					'date' => 'required',
 					'file' => 'sometimes',
 				];

@@ -55,6 +55,13 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-md-12 {{!$erp->branch_id?'hide':''}} branches_row {{$errors->erp->first('branch_id')?'has-error':''}}">
+					{{Form::label('egress_type_id', 'Tipo egreso', ['class' => 'control-label required'])}}
+					{!!Form::select('egress_type_id', $egress_types, null, ['class' => $erp->egress_type_id?'select2 form-control not-empty':'select2 form-control', 'id' => 'egress_type_id', 'name' => 'egress_type_id', 'data-name' => 'Tipo egreso'] )!!}
+					{{@$errors->erp->first('egress_type_id')}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{!$erp->branch_id?'hide':''}} branches_row {{$errors->erp->first('branch_id')?'has-error':''}}">
 					{{Form::label('branch_id', 'Franquicia', ['class' => 'control-label required'])}}
 					{!!Form::select('branch_id', $branches, null, ['class' => $erp->branch_id?'select2 form-control not-empty':'select2 form-control', 'id' => 'branch_id', 'name' => 'branch_id', 'data-name' => 'Franquicia'] )!!}
 					{{@$errors->erp->first('branch_id')}}
