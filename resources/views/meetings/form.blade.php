@@ -23,6 +23,11 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-12 {{$errors->meeting->first('datetime')?'has-error':''}}">
+					<div class="alert alert-info">
+						Si deja el campo número de horas vacío, en automático se toma que la Reunión/junta durará sólo <span class="bold">1 hora</span>.
+					</div>
+				</div>
 				<div class="form-group col-md-4 {{$errors->meeting->first('datetime')?'has-error':''}}">
 					{{Form::label('date', 'Fecha inicio', ['class' => 'control-label required'])}}
 					{{Form::text('date', null, ['class' => 'form-control not-empty input-date', 'data-name' => 'Fecha inicio'])}}

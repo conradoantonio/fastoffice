@@ -196,6 +196,7 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('enviar-correo', 'ApiController@sendEmailCronJob');
 	Route::post('oficinas-cliente', 'ApiController@offices_by_user');
 	Route::post('agendar-en-calendario', 'ApiController@schedule_in_calendar');
+	Route::post('mi-calendario', 'ApiController@customer_calendar');
 
 });
 

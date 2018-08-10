@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 
 use App\Models\User;
 use App\Models\State;
@@ -312,15 +313,7 @@ class ApiController extends Controller
     	$meeting = new Meeting();
 		$meeting->fill($req->all());
 
-		$old = Meeting::
-		where([
-			['datetime_start', '>', $req->datetime_start],
-			['datetime_start', '<', $req->datetime_end]
-		])
-		->orWhere(function($query) use ($req){
-			$query->where('datetime_end', '>', $req->datetime_start);
-			$query->where('datetime_end', '<', $req->datetime_end);
-		})
+		$old = Meeting::whereRaw("((DATE_ADD('".$req->datetime_start."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end) OR (DATE_SUB('".$req->datetime_end."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end))")
 		->where('office_id', $req->office_id)
 		->get();
 
@@ -328,7 +321,7 @@ class ApiController extends Controller
 			$meeting->date = date('d M Y', strtotime($meeting->datetime_start));
 			$meeting->hour = date('H:i', strtotime($meeting->datetime_start));
 
-			return response(['msg' => 'Fecha y hora coinciden con otra solicitud, verifique disponibilidad.', 'data' => Input::all(), 'code' => 0], 200);
+			return response(['msg' => 'Esta fecha y hora no están disponibles de momento, porfavor, trate con diferentes datos.', 'data' => Input::all(), 'code' => 0], 200);
 		}
 
 		if ( $meeting->save() ){
@@ -336,5 +329,21 @@ class ApiController extends Controller
 		} else {
 			return response(['msg' => 'Ha ocurrido un error agendando la sala de juntas, trate nuevamente', 'code' => 0], 200);
 		}
+    }
+
+    /**
+     * Return the calendar of the customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function customer_calendar(Request $req)
+    {
+    	$response = Meeting::where('user_id', $req->user_id)->get();
+
+    	foreach ($response as $meet) {
+    		$meet->setHidden(['created_at', 'updated_at']);
+    	}
+
+    	return $response;
     }
 }

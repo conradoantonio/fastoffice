@@ -134,15 +134,7 @@ class MeetingsController extends Controller
 		$meeting = new Meeting();
 		$meeting->fill($req->all());
 
-		$old = Meeting::
-		where([
-			['datetime_start', '>', $req->datetime_start],
-			['datetime_start', '<', $req->datetime_end]
-		])
-		->orWhere(function($query) use ($req){
-			$query->where('datetime_end', '>', $req->datetime_start);
-			$query->where('datetime_end', '<', $req->datetime_end);
-		})
+		$old = Meeting::whereRaw("((DATE_ADD('".$req->datetime_start."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end) OR (DATE_SUB('".$req->datetime_end."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end))")
 		->where('office_id', $req->office_id)
 		->get();
 
@@ -164,19 +156,11 @@ class MeetingsController extends Controller
 		$meeting = Meeting::find($id);
 		$meeting->fill($req->all());
 
-		$old = Meeting::
-		where([
-			['datetime_start', '>', $req->datetime_start],
-			['datetime_start', '<', $req->datetime_end],
-		])
-		->orWhere(function($query) use ($req){
-			$query->where('datetime_end', '>', $req->datetime_start);
-			$query->where('datetime_end', '<', $req->datetime_end);
-		})
+		$old = Meeting::whereRaw("((DATE_ADD('".$req->datetime_start."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end) OR (DATE_SUB('".$req->datetime_end."', INTERVAL 1 MINUTE) BETWEEN datetime_start AND datetime_end))")
 		->where([
 			['id', '!=', $id],
 			'office_id' => $req->office_id
-		])->get();
+		])->get();		
 
 		if ( !$old->isEmpty() ){
 			$meeting->date = date('d M Y', strtotime($meeting->datetime_start));
