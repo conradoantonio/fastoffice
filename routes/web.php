@@ -189,6 +189,7 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('registro', 'ApiController@register');
 	Route::post('actualizar-perfil', 'ApiController@updateProfile');
 	Route::post('recuperar-password', 'ApiController@recovery');
+	Route::post('mis-notificaciones', 'ApiController@customer_notifications');
 
 	Route::post('filtrar-oficinas', 'ApiController@filter_offices');
 	Route::post('estado-cuenta-oficina', 'ApiController@office_account_status');
@@ -197,6 +198,8 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('oficinas-cliente', 'ApiController@offices_by_user');
 	Route::post('agendar-en-calendario', 'ApiController@schedule_in_calendar');
 	Route::post('mi-calendario', 'ApiController@customer_calendar');
+	Route::get('ver-contrato/{id?}', 'ContractsController@show_contract');//View contracts
+
 
 });
 
