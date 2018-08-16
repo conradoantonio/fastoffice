@@ -13,6 +13,7 @@ use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\Notification;
 use App\Models\ApplicationDetail;
 
 use App\Http\Requests\UserRequest;
@@ -268,6 +269,46 @@ class ApiController extends Controller
 
     	return response(['msg' => 'El cliente no cuenta con oficinas', 'code' => 0], 200);
     }
+
+    /**
+     * Get the notifications assoated by the customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function customer_notifications(Request $req)
+    {
+    	$response = Notification::where('user_id', $req->user_id)->get();
+
+    	foreach ($response as $noti) {
+    		$noti->setHidden(['created_at', 'updated_at']);
+    	}
+
+    	if (count($response) > 0) {
+	    	return response(['msg' => 'Notificaciones encontradas', 'code' => 1, 'data' => $response], 200);
+
+    	}
+	    return response(['msg' => 'El usuario no cuenta con notificaciones aún', 'code' => 0], 200);
+    }
+
+    /**
+     * Mark a notification as read
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mark_notification_as_read(Request $req)
+    {
+    	$notification = Notification::find($req->notificacion_id);
+
+    	if (!$notification) {
+	    	return response(['msg' => 'ID de notificación inválido', 'code' => 0], 200);
+    	}
+
+    	$notification->status = 1;
+    	$notification->save();
+    
+	    return response(['msg' => 'Notificación marcada como leida correctamente', 'code' => 1], 200);
+    }
+    
 
 	/**
      * Get the information about the payment state of a office
