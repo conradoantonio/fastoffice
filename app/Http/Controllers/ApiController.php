@@ -7,13 +7,18 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
 use App\Models\User;
+use App\Models\Audit;
 use App\Models\State;
 use App\Models\Office;
 use App\Models\Meeting;
+use App\Models\Question;
 use App\Models\Contract;
+use App\Models\AuditPhoto;
 use App\Models\OfficeType;
+use App\Models\AuditDetail;
 use App\Models\Application;
 use App\Models\Notification;
+use App\Models\QuestionCategory;
 use App\Models\ApplicationDetail;
 
 use App\Http\Requests\UserRequest;
@@ -386,5 +391,191 @@ class ApiController extends Controller
     	}
 
     	return $response;
+    }
+
+    /**
+     *==============================================================================================================================
+     *=                                    Empiezan las funciones relacionadas a las auditorías                                    =
+     *==============================================================================================================================
+     */
+
+    /**
+     * Get available questions
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_questions(Request $req)
+    {
+    	$rows = QuestionCategory::all();
+    	foreach ($rows as $row) {
+    		$row->questions;
+    	}
+
+    	return response(['msg' => 'Preguntas enlistadas a continuación', 'code' => 1, 'data' => $rows], 200);
+    }
+
+    /**
+     * Get available offices
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_offices(Request $req)
+    {
+    	$rows = Office::where('status', '!=', 0)->get();
+
+    	return response(['msg' => 'Oficinas enlistadas a continuación', 'code' => 1, 'data' => $rows], 200);
+    }
+
+    /**
+     * Initialize an audit
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create_audit(Request $req)
+    {
+    	$office = Office::find($req->office_id);
+    	$user = User::find($req->user_id);
+
+    	if (!$office) { return response(['msg' => 'Officina no encontrada o inválida', 'code' => 0], 200); }
+    	if (!$user) { return response(['msg' => 'Usuario no encontrada o inválido', 'code' => 0], 200); }
+    	
+    	$title = "Auditoria para $office->name";
+
+    	$row = New Audit;
+
+    	$row->office_id = $office->id;
+    	$row->user_id = $user->id;
+    	$row->title = $title;
+    	
+    	$row->save();
+
+    	return response(['msg' => 'Auditoria iniciada correctamente', 'code' => 1, 'data' => $row], 200);
+    }
+
+    /**
+     * Save the answer (detail for a question
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function add_audit_deatil(Request $req)
+    {
+    	$audit = Audit::find($req->audit_id);
+    	$question = Question::find($req->question_id);
+
+    	if (!$audit) { return response(['msg' => 'Auditoría no encontrada o inválida', 'code' => 0], 200); }
+    	if (!$question) { return response(['msg' => 'Pregunta no encontrada o inválida', 'code' => 0], 200); }
+
+    	$exist = AuditDetail::where('audit_id', $audit->id)->where('question_id', $question->id)->first();
+
+    	if ($exist) { return response(['msg' => 'Esta pregunta ya ha sido respondida', 'code' => 0], 200); }
+
+    	$row = New AuditDetail;
+
+    	$row->audit_id = $audit->id;
+    	$row->question_id = $question->id;
+    	$row->answer = $req->answer;
+    	$row->detail = $req->detail;
+
+    	$row->save();
+
+    	return response(['msg' => 'Detalle guardado correctamente', 'code' => 1, 'data' => $row], 200);
+	}
+
+	/**
+     * Save the answer (detail for a question
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function save_question_photo(Request $req)
+    {
+    	$detail = AuditDetail::find($req->audit_detail_id);
+
+    	if (!$detail) { return response(['msg' => 'ID de detalle inválido', 'code' => 0], 200); }
+
+    	if (!is_array($req->fotos)) {
+    		return response(['msg' => 'El parámetro fotos no es un array', 'code' => 0, 'data' => $req->fotos], 200);
+    	}
+
+    	foreach ($req->fotos as $key => $foto) {
+    		$binary_data = base64_decode( $foto );
+	        $path = 'img/audits/'.$detail->audit->id.'/'.$detail->id;
+	        $name = time().$key.$req->extension;
+	        $this->make_path($path);
+	        $result = file_put_contents( $path.'/'.$name, $binary_data );
+
+	    	$row = New AuditPhoto;
+
+	    	$row->audit_detail_id = $detail->id;
+	    	$row->path = $path.'/'.$name;
+
+	    	$row->save();
+    	}
+	        
+
+    	return response(['msg' => 'Fotos almacenada correctamente', 'code' => 1, 'data' => $row], 200);
+    }
+
+    /**
+     * Delete the answer (detail for a question
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_question_photo(Request $req)
+    {
+    	$photo = AuditPhoto::find($req->audit_photo_id);
+    	
+    	if (!$photo) { return response(['msg' => 'ID de foto inválido', 'code' => 0], 200); }
+
+    	$this->delete_path($photo->path);//Delete the photo
+
+    	$photo->delete();
+
+    	return response(['msg' => 'Foto eliminada correctamente', 'code' => 1,], 200);
+    }
+
+    /**
+     * Finalize an audit
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function conclude_audit(Request $req)
+    {
+    	$audit = Audit::find($req->audit_id);
+
+    	if (!$audit) { return response(['msg' => 'Auditoría no encontrada o inválida', 'code' => 0], 200); }
+
+    	$audit->status = 1;//Finalize it
+
+    	$audit->save();
+    	
+    	return response(['msg' => 'Auditoría finalizada correctamente', 'code' => 1, 'data' => $audit], 200);
+    }
+
+    /**
+     * Finalize an audit
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel_audit(Request $req)
+    {
+    	$audit = Audit::find($req->audit_id);
+
+    	if (!$audit) { return response(['msg' => 'Auditoría no encontrada o inválida', 'code' => 0], 200); }
+
+    	$details = AuditDetail::where('audit_id', $audit->id)->get();
+    	foreach ( $details as $detail ) {
+    		if ( $detail->photos->count() ) {
+    			foreach ( $detail->photos as $photo ) {
+    				$photo->delete();
+    			}
+    		}
+    		$detail->delete();
+    	}
+
+    	$audit->delete();
+
+        AuditDetail::where('audit_id', $audit->id)->delete();
+
+    	return response(['msg' => 'Auditoría cancelada correctamente', 'code' => 1, 'data' => $audit], 200);
     }
 }

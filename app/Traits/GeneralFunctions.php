@@ -162,6 +162,20 @@ trait GeneralFunctions
     }
 
     /**
+     * Check if a path exist, and then delete ite it.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function delete_path($path) 
+	{
+		if (File::exists($path)) {
+			File::delete(public_path($path));
+        }
+    }
+
+
+
+    /**
      * Send a notification to a single user or a group of users.
      *
      * @return $name

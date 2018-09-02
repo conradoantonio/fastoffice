@@ -18,7 +18,9 @@ class AuditsController extends Controller
 					$q->where('branch_id', $id);
 				}
 			}
-		})->get();
+		})
+		->where('status', 1)
+		->get();
 
 		$branches = Branch::pluck('name', 'id')->prepend('Mostrar todas', 0);
 		if ( $req->ajax() ) {

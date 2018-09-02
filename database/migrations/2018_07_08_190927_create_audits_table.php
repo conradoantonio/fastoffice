@@ -18,6 +18,7 @@ class CreateAuditsTable extends Migration
             $table->integer('office_id');
             $table->integer('user_id')->comment("Auditor que realiza la auditoría");
             $table->string('title');
+            $table->integer('status')->default(0)->comment("0 = In progress, 1 = Active");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });

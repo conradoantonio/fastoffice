@@ -9,7 +9,7 @@ class Audit extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-		'office_id', 'user_id', 'tittle'
+		'office_id', 'user_id', 'tittle', 'status'
 	];
 
 	public function auditDetail(){

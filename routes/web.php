@@ -182,9 +182,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 #Rutas API
 Route::prefix('apiv1')->group(function () {
-	/*
-	* Webservices básicos
-	*/
+	
+	#Webservices básicos
 	Route::post('login', 'ApiController@login');
 	Route::post('registro', 'ApiController@register');
 	Route::post('actualizar-perfil', 'ApiController@updateProfile');
@@ -200,6 +199,16 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('agendar-en-calendario', 'ApiController@schedule_in_calendar');
 	Route::post('mi-calendario', 'ApiController@customer_calendar');
 	Route::get('ver-contrato/{id?}', 'ContractsController@show_contract');//View contracts
+
+	#Audits webservices
+	Route::post('obtener-oficinas', 'ApiController@get_offices');
+	Route::post('obtener-preguntas', 'ApiController@get_questions');
+	Route::post('crear-auditoria', 'ApiController@create_audit');
+	Route::post('guardar-respuesta', 'ApiController@add_audit_deatil');
+	Route::post('guardar-foto', 'ApiController@save_question_photo');
+	Route::post('eliminar-foto', 'ApiController@delete_question_photo');
+	Route::post('finalizar-auditoria', 'ApiController@conclude_audit');
+	Route::post('cancelar-auditoria', 'ApiController@cancel_audit');
 });
 
 Route::get('testing', 'ContractsController@testing');

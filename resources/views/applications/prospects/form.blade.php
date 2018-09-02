@@ -138,8 +138,8 @@
 	                </select>
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
-                    <label class="required" for="rfc">RFC</label>
-                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty rfc') : 'not-empty rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
+                    <label for="rfc">RFC</label>
+                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'rfc') : 'rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
                 </div>
         	</div>
         	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>

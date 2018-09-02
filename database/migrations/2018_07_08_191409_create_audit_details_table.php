@@ -18,7 +18,7 @@ class CreateAuditDetailsTable extends Migration
             $table->integer('audit_id');
             $table->integer('question_id');
             $table->integer('answer');
-            $table->text('detail');
+            $table->text('detail')->nullable();
         });
     }
 
