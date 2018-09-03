@@ -77,10 +77,12 @@
 							<tr>
 								<td>{{$auditDetail->question->question}}</td>
 								<td>
-									@if( $auditDetail->answer == 1)
+									@if( $auditDetail->answer == 0)
+										No
+									@elseif( $auditDetail->answer == 1)
 										Si
 									@else
-										No
+										N/A
 									@endif
 								</td>
 								<td>

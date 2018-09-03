@@ -205,10 +205,12 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('obtener-preguntas', 'ApiController@get_questions');
 	Route::post('crear-auditoria', 'ApiController@create_audit');
 	Route::post('guardar-respuesta', 'ApiController@add_audit_deatil');
+	Route::post('actualizar-respuesta', 'ApiController@update_audit_deatil');
 	Route::post('guardar-foto', 'ApiController@save_question_photo');
 	Route::post('eliminar-foto', 'ApiController@delete_question_photo');
 	Route::post('finalizar-auditoria', 'ApiController@conclude_audit');
 	Route::post('cancelar-auditoria', 'ApiController@cancel_audit');
+	Route::post('informacion-auditoria', 'ApiController@get_audit_info');
 });
 
 Route::get('testing', 'ContractsController@testing');

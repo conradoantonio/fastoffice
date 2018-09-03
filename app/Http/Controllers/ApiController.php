@@ -406,9 +406,9 @@ class ApiController extends Controller
      */
     public function get_questions(Request $req)
     {
-    	$rows = QuestionCategory::all();
+    	$rows = Question::all();
     	foreach ($rows as $row) {
-    		$row->questions;
+    		$row->category;
     	}
 
     	return response(['msg' => 'Preguntas enlistadas a continuación', 'code' => 1, 'data' => $rows], 200);
@@ -453,7 +453,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Save the answer (detail for a question
+     * Save the answer (detail for a question)
      *
      * @return \Illuminate\Http\Response
      */
@@ -480,6 +480,25 @@ class ApiController extends Controller
 
     	return response(['msg' => 'Detalle guardado correctamente', 'code' => 1, 'data' => $row], 200);
 	}
+
+	/**
+     * Update the answer (detail for a question)
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_audit_deatil(Request $req)
+    {
+    	$row = AuditDetail::find($req->audit_detail_id);
+    	
+    	if (!$row) { return response(['msg' => 'Registro no encontrado', 'code' => 0], 200); }
+
+    	$row->answer = $req->answer;
+    	$row->detail = $req->detail;
+
+    	$row->save();
+
+    	return response(['msg' => 'Respuesta modificada correctamente', 'code' => 1, 'data' => $row], 200);
+    }
 
 	/**
      * Save the answer (detail for a question
@@ -510,7 +529,6 @@ class ApiController extends Controller
 
 	    	$row->save();
     	}
-	        
 
     	return response(['msg' => 'Fotos almacenada correctamente', 'code' => 1, 'data' => $row], 200);
     }
@@ -577,5 +595,32 @@ class ApiController extends Controller
         AuditDetail::where('audit_id', $audit->id)->delete();
 
     	return response(['msg' => 'Auditoría cancelada correctamente', 'code' => 1, 'data' => $audit], 200);
+    }
+
+    /**
+     * Get all the information about an audit
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_audit_info(Request $req)
+    {
+    	$result = [];
+    	$audit = Audit::find($req->audit_id);
+
+    	if (!$audit) { return response(['msg' => 'Auditoría no encontrada o inválida', 'code' => 0], 200); }
+    	
+    	foreach ($audit->auditDetail as $detail) {
+    		$result[] = 
+    			[
+    				'question_id' => $detail->question->id, 
+    				'question' => $detail->question->question, 
+    				'answer' => $detail->answer, 
+    				'detail' => $detail->detail,
+    				'photos' => $detail->photos
+    			];
+    	}
+
+    	return response(['msg' => 'Información de auditoría encontrada', 'code' => 1, 'data' => $result], 200);
+
     }
 }
