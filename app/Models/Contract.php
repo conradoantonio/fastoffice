@@ -80,6 +80,14 @@ class Contract extends Model
     }
 
     /**
+     * Get the charges from a contract.
+     */
+    public function charges()
+    {
+        return $this->hasMany(ChargeContract::class, 'contract_id', 'id');
+    }
+
+    /**
      * Get the contracts filtered by the user rol.
      */
     static function filter_rows($l_usr, $app_status, $branch_id = null)

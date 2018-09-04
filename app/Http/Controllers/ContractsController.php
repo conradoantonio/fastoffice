@@ -12,6 +12,7 @@ use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\ChargeContract;
 use App\Models\PaymentHistory;
 use App\Models\CancelledContract;
 use App\Models\OfficeTypeCategory;
@@ -149,8 +150,8 @@ class ContractsController extends Controller
         $contract->payment_range_end = $end_day->format('d');
 
         //Balance fields
-        $contract->balance = $office->price * 0.90;
-        $contract->balance_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $contract->balance = 0;
+        $contract->balance_str = ucfirst($n_words->format(0))." $this->ext_m";
         
         //Provider
         $contract->provider_name = $req->provider_name;
@@ -180,6 +181,17 @@ class ContractsController extends Controller
         $contract->status = 0;//Pending of payment
 
         $contract->save();
+
+        //Create charge for contract
+        $charge = New ChargeContract;
+
+        $charge->contract_id = $contract->id;
+        $charge->amount = $office->price * 0.90;
+        $charge->amount_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $charge->pay_date = $contract->actual_pay_date;
+        $charge->status = 1;//Pago normal
+
+        $charge->save();
 
         $this->change_office_status($req->office_id, 2);//Rented!!
 
@@ -255,7 +267,7 @@ class ContractsController extends Controller
 
         $this->change_office_status($req->office_id, 2);//Rented!!
 
-        return response(['msg' => 'Contracto modificado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+        return response(['msg' => 'Contrato modificado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }
 
     /**
@@ -268,19 +280,30 @@ class ContractsController extends Controller
         $contract = Contract::find($req->contract_id);
         if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
 
-        //$new_date_payment = date('Y-m-d', strtotime($contract->actual_pay_date. '+ 1 month'));
-        //$contract->actual_pay_date = $new_date_payment;//Month to pay
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+        $debt = $contract->charges->sum('amount') - $contract->balance;
+        $today = New \DateTime(date("Y-m-d"));
+        $contr_p_d = new \DateTime($contract->actual_pay_date);
+        
+        if ($req->payment == $debt ) {//si pagó todo lo que debe, vale
 
-        if ($req->payment == $contract->balance) {
-            $contract->status = 1;//Paid
-            $contract->balance = $contract->balance - $req->payment;//0
-        } elseif ($req->payment > $contract->balance) {
-            return response(['msg' => 'La cantidad a pagar no puede ser mayor al monto de pago', 'status' => 'error'], 400);
-        } elseif ($req->payment < $contract->balance) {//Si la cantidad a pagar es menor al balance
-            //Add code to verify what kind of status keep
-            //$contract->balance = $contract->balance - $req->payment;//0
+            $contract->balance = $contract->balance + $req->payment;//Balance and charges are the same
+            $new_da_pay = date('Y-m-d', strtotime($today->format('Y-m').'-'.$contract->payment_range_start. '+ 1 month'));//En tiempo y forma
+            $contract->actual_pay_date = $new_da_pay;
+
+        } elseif ($req->payment > $debt) {//Si el monto se pasa de la deuda actual
+            return response(['msg' => 'La cantidad a pagar no puede ser mayor al total del monto de pago, por favor, trate con otra cantidad', 'status' => 'error'], 400);
+            //Puede que sea necesario validar que el monto a webo sea mayor al precio de la oficina
+        } else {//Si el monto a pagar es menor a su deuda con la oficina...
+
+            $contract->balance = $contract->balance + $req->payment;//Balance and charges are the same
+            $new_da_pay = date('Y-m-d', strtotime($contract->actual_pay_date. '+ 1 month'));
+            $contract->actual_pay_date = $new_da_pay;
         }
-        $contract->balance - $req->payment;
+
+        //Updates balance string
+        $contract->balance_str = ucfirst($n_words->format($contract->balance))." $this->ext_m";
+    
         $contract->save();
 
         //Create a new payment history
@@ -289,7 +312,7 @@ class ContractsController extends Controller
         $row->contract_id = $req->contract_id;
         $row->payment_method = $req->payment_method;
         $row->status = $req->type;
-        $row->payment_str = $req->payment_str;//Maybe can be neccesary remove it
+        $row->payment_str = ucfirst($n_words->format($req->payment))." $this->ext_m";
         $row->payment = $req->payment;
 
         $row->save();
@@ -397,43 +420,84 @@ class ContractsController extends Controller
         $contracts = Contract::all();
 
         $contracts->each(function($item, $key) use ($year, $month, $today) {
+            $cus_st_da = new \DateTime($year.'-'.$month.'-'.$item->payment_range_start);
+            dd($cus_st_da);
             $start_date = date('Y-m-d', strtotime($item->actual_pay_date));
             $end_date = date('Y-m-d', strtotime($start_date. '+ 4 days'));
+            $delay_date = date('Y-m-d', strtotime($start_date. '+ 5 days'));
             $max_date = date('Y-m-d', strtotime($end_date. ' + 15 days'));//En caso de que se haya pagado retrasado
+            $last_charge = $item->charges->last();
 
-            //Si tiene historial de pagos
-            if (count($item->payment_history)) {
-
+            if (count($item->payment_history)) {//Ya ha pagado antes
                 $last_pay = PaymentHistory::where('contract_id', $item->id)->orderBy('id', 'desc')->first();
-                $pay_date = $last_pay->created_at->format('Y-m-d');
-                
-                //Si el contrato tiene historial de pago pero NO dentro de su rango de fecha actual, marcar como pendiente de pago normal, si no, ignorar
-                if ( ($pay_date >= $start_date && $pay_date <= $end_date) || ($pay_date >= $start_date && $pay_date <= $max_date) ) {
-                    //No necesita actualizarse, se entiende que ya se pagó
-                    //dd('NO necesita actualizarse', $item->id);
-                } else { //Se actualiza
-                    
-                    if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
-                        //dd('Se actualiza a pago normal', $item->id);
-                        $item->status = 0;
-                    
-                    } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
-                        //dd('Se actualiza a pago retrasado', $item->id);
-                        $item->status = 2;
-                    }
-                }
-            //Si no tiene historial de pago alguno, se marca como pendiente de pago
-            } else {
-                if ( $today >= $start_date && $today <= $end_date ) { //Si está entre el rango de pago normal
-                    $item->status = 0;
-                    //dd('no tiene historial, pero se pone pendiente de pago normal', $start_date, $end_date, $max_date, $item->id);
-                } elseif ( $today > $end_date ) { //si la fecha de pagos ya pasó...
-                    //dd('no tiene historial, pero se pone pendiente de pago atrasado', $start_date, $end_date, $max_date, $item->id);
-                    $item->status = 2;
-                }
-            }
+                $last_pay_date = $last_pay->created_at->format('Y-m-d');
 
-            $item->save();
+                if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
+                    if ($today == $start_date) {//Si hoy es el primer día de paga, se hace un cargo normal
+                        $charge = New ChargeContract;
+
+                        $charge->contract_id = $item->id;
+                        $charge->amount = $item->$office->price * 0.90;//Add the 90% of the office
+                        $charge->amount_str = ucfirst($n_words->format($item->$office->price * 0.90))." $this->ext_m";
+                        $charge->pay_date = $item->actual_pay_date;
+                        $charge->status = 1;//Pago normal
+
+                        $charge->save();
+                        dd('Se realizó cargo normal porque no se ha pagado actualmente');
+                    }
+                } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
+                    if ($last_pay_date < $start_date && $today == $delay_date) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional y es el primer día de retraso
+                        $charge = New ChargeContract;
+
+                        $charge->contract_id = $item->id;
+                        $charge->amount = $item->$office->price * 0.10;//Add the 10% of the office
+                        $charge->amount_str = ucfirst($n_words->format($item->$office->price * 0.10))." $this->ext_m";
+                        $charge->pay_date = $item->actual_pay_date;
+                        $charge->status = 2;//Pago atrasado
+
+                        $charge->save();
+                        dd('Se realizó cargo extra porque no se pagó en el rango de días normal');
+                    }
+                    //Validar si el monto a pagar rebasa el atraso
+                }
+
+
+            } else {//Si nunca ha pagado
+                if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
+                    dd($last_charge->pay_date, $start_date);
+                    if ($last_charge->pay_date == $start_date) {//Si ya existe un cargo en esta fecha, se omite, si no, se agrega un nuevo cargo
+                        $exist = ChargeContract::where('contract_id', $item->id)->where('pay_date', $item->actual_pay_date)->get();
+                        if (!count($exist)) {//
+                            $charge = New ChargeContract;
+
+                            $charge->contract_id = $item->id;
+                            $charge->amount = $item->$office->price * 0.90;//Add the 90% of the office
+                            $charge->amount_str = ucfirst($n_words->format($item->$office->price * 0.90))." $this->ext_m";
+                            $charge->pay_date = $item->actual_pay_date;
+                            $charge->status = 1;//Pago normal
+
+                            $charge->save();
+                            dd('Se realizó cargo normal sin tener historial de pago');
+                        } 
+                        //Nothing to do
+                    } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
+                        if ($today == $delay_date) {//Si es el primer día de retraso, crear cargo por retraso
+                            $charge = New ChargeContract;
+
+                            $charge->contract_id = $item->id;
+                            $charge->amount = $item->$office->price * 0.10;//Add the 10% of the office
+                            $charge->amount_str = ucfirst($n_words->format($item->$office->price * 0.10))." $this->ext_m";
+                            $charge->pay_date = $item->actual_pay_date;
+                            $charge->status = 2;//Pago atrasado
+
+                            $charge->save();
+                            dd('Se realizó cargo extra sin tener historial de pago');
+
+                        }
+                    }
+                } 
+            }
+            dd('no necesita de acciones');
         });
 
         //return $contracts;

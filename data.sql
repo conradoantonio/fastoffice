@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.63 
-MySQL - 5.5.5-10.1.32-MariaDB : Database - fastoffice
+MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
 *********************************************************************
 */
 
@@ -50,7 +50,7 @@ CREATE TABLE `applications` (
 
 /*Data for the table `applications` */
 
-insert  into `applications`(`id`,`user_id`,`office_id`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,9,3,NULL,NULL,NULL,NULL,NULL,1,NULL,'2018-09-04 00:20:58','2018-09-04 00:21:44');
+insert  into `applications`(`id`,`user_id`,`office_id`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,9,1,NULL,NULL,NULL,NULL,NULL,1,NULL,'2018-09-04 13:34:21','2018-09-04 13:34:58');
 
 /*Table structure for table `applications_comments` */
 
@@ -85,7 +85,7 @@ CREATE TABLE `applications_details` (
 
 /*Data for the table `applications_details` */
 
-insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,2000.00,10,1,'2018-09-04 00:20:58','2018-09-04 00:20:58');
+insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,3000.00,10,1,'2018-09-04 13:34:21','2018-09-04 13:34:21');
 
 /*Table structure for table `attachments` */
 
@@ -237,6 +237,26 @@ CREATE TABLE `categories` (
 
 insert  into `categories`(`id`,`name`,`status`,`type`,`deleted_at`) values (1,'Luz (CFE)',1,2,NULL),(2,'Pago de renta',1,1,NULL);
 
+/*Table structure for table `charges_contracts` */
+
+DROP TABLE IF EXISTS `charges_contracts`;
+
+CREATE TABLE `charges_contracts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contract_id` int(11) NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `amount_str` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pay_date` date NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `charges_contracts` */
+
+insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,90.00,'Noventa','2018-09-04',1,'2018-09-04 13:34:58','2018-09-04 16:17:32');
+
 /*Table structure for table `companies` */
 
 DROP TABLE IF EXISTS `companies`;
@@ -307,7 +327,7 @@ CREATE TABLE `contracts` (
 
 /*Data for the table `contracts` */
 
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`contract_date`,`start_date_validity`,`end_date_validity`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_address`,`provider_ine_number`,`provider_act_number`,`provider_notary_number`,`provider_notary_state_id`,`provider_notary_name`,`customer_address`,`customer_ine_number`,`customer_activity`,`customer_company`,`customer_act_number`,`customer_notary_number`,`customer_notary_state_id`,`customer_notary_name`,`customer_deed_number`,`customer_deed_date`,`customer_social_object`,`created_at`,`updated_at`) values (1,9,1,3,'2018-09-04','2018-09-04','2019-09-04','Mil ochocientos pesos 00/100 M.N.','Dos mil pesos 00/100 M.N.','2018-09-04',1800.00,'Mil ochocientos pesos 00/100 M.N.',4,8,0,NULL,NULL,NULL,NULL,'Franquisatario físico','Dirección del prestador','316253162321',NULL,NULL,NULL,NULL,'Dirección del cliente','37231237123782','MArketing digital',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-09-04 00:21:44','2018-09-04 00:21:44');
+insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`contract_date`,`start_date_validity`,`end_date_validity`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_address`,`provider_ine_number`,`provider_act_number`,`provider_notary_number`,`provider_notary_state_id`,`provider_notary_name`,`customer_address`,`customer_ine_number`,`customer_activity`,`customer_company`,`customer_act_number`,`customer_notary_number`,`customer_notary_state_id`,`customer_notary_name`,`customer_deed_number`,`customer_deed_date`,`customer_social_object`,`created_at`,`updated_at`) values (1,9,1,1,'2018-09-04','2018-09-04','2019-09-04','Noventa pesos 00/100 M.N.','Cien pesos 00/100 M.N.','2018-10-04',0.00,'Cero pesos 00/100 M.N.',4,8,0,NULL,NULL,NULL,NULL,'Franquisatario físico','Dirección del prestador','32781637823',NULL,NULL,NULL,NULL,'Dirección del cliente','47863278162378','Marketing digital',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-09-04 13:34:58','2018-09-04 15:07:33');
 
 /*Table structure for table `egress_types` */
 
@@ -529,7 +549,7 @@ CREATE TABLE `offices` (
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',100.00,10,'The office is big.',NULL,2,'2018-07-12 12:13:19','2018-09-04 00:12:44',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,2,'2018-07-18 12:49:46','2018-09-04 00:21:44',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',100.00,10,'The office is big.',NULL,2,'2018-07-12 12:13:19','2018-09-04 13:34:58',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
 
 /*Table structure for table `password_resets` */
 
