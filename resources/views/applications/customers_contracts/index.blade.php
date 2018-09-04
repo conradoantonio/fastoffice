@@ -103,12 +103,19 @@
                 $('#mark-as-paid select[name=type]').append(
                     '<option value="">Seleccione una opción</option>'+
                     '<option value="1" quantity="'+normal_price+'" money-str="'+normal_price_str+'">Normal</option>'+
-                    '<option value="2" quantity="'+delay_price+'" money-str="'+delay_price_str+'">Atrasado</option>');
+                    '<option value="1" quantity="'+delay_price+'" money-str="'+delay_price_str+'">Atrasado</option>'+
+                    '<option value="3" quantity="" money-str="">Esporádico</option>');
                 $('div#mark-as-paid').modal('show');
             });
 
             //Code to load input content for the payment
             $('body').delegate('#mark-as-paid select[name=type]', 'change', function() {
+
+                if ($(this).val() == 3) {//Esporádico
+                    $('input[name=payment], input[name=payment_str]').attr('readonly', false);
+                } else {
+                    $('input[name=payment], input[name=payment_str]').attr('readonly', true);
+                }
                 var price = $('option:selected', this).attr('quantity');
                 var str = $('option:selected', this).attr('money-str');
 

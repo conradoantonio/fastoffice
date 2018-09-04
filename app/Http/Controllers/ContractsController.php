@@ -91,7 +91,7 @@ class ContractsController extends Controller
         if ($prospect) { $this->create_user($app_id); }//Creates an application user if is neccesary
         $prospect = Application::find($app_id);
 
-        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'menu' => $menu, 'title' => $title]);
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'n_ext' => $this->ext_m, 'menu' => $menu, 'title' => $title]);
     }
 
     /**
@@ -104,6 +104,8 @@ class ContractsController extends Controller
         $available = $this->check_office_status($req->office_id);
         $office = Office::find($req->office_id);
         if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
+
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
         $contract = New Contract;
 
@@ -139,12 +141,16 @@ class ContractsController extends Controller
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $initial_day->format('Y-m-d');
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = $req->monthly_payment_str;
-        $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
+        $contract->monthly_payment_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
         //Date fields
         $contract->actual_pay_date = $initial_day->format('Y-m-d');//Month to pay
         $contract->payment_range_start = $initial_day->format('d');
         $contract->payment_range_end = $end_day->format('d');
+
+        //Balance fields
+        $contract->balance = $office->price * 0.90;
+        $contract->balance_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
         
         //Provider
         $contract->provider_name = $req->provider_name;
@@ -196,8 +202,11 @@ class ContractsController extends Controller
     public function update(Request $req)
     {
         $contract = Contract::find($req->id);
+        $office = Office::find($req->office_id);
 
         if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 404); }
+
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
         //General contract data
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
@@ -213,8 +222,8 @@ class ContractsController extends Controller
         //$contract->contract_date = $req->contract_date;
         //$contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = $req->monthly_payment_str;
-        $contract->monthly_payment_delay_str = $req->monthly_payment_delay_str;
+        $contract->monthly_payment_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
 
         //Provider
         $contract->provider_name = $req->provider_name;
@@ -259,20 +268,31 @@ class ContractsController extends Controller
         $contract = Contract::find($req->contract_id);
         if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
 
+        //$new_date_payment = date('Y-m-d', strtotime($contract->actual_pay_date. '+ 1 month'));
+        //$contract->actual_pay_date = $new_date_payment;//Month to pay
+
+        if ($req->payment == $contract->balance) {
+            $contract->status = 1;//Paid
+            $contract->balance = $contract->balance - $req->payment;//0
+        } elseif ($req->payment > $contract->balance) {
+            return response(['msg' => 'La cantidad a pagar no puede ser mayor al monto de pago', 'status' => 'error'], 400);
+        } elseif ($req->payment < $contract->balance) {//Si la cantidad a pagar es menor al balance
+            //Add code to verify what kind of status keep
+            //$contract->balance = $contract->balance - $req->payment;//0
+        }
+        $contract->balance - $req->payment;
+        $contract->save();
+
+        //Create a new payment history
         $row = New PaymentHistory;
 
         $row->contract_id = $req->contract_id;
         $row->payment_method = $req->payment_method;
         $row->status = $req->type;
-        $row->payment_str = $req->payment_str;
+        $row->payment_str = $req->payment_str;//Maybe can be neccesary remove it
         $row->payment = $req->payment;
 
         $row->save();
-
-        $new_date_payment = date('Y-m-d', strtotime($contract->actual_pay_date. '+ 1 month'));
-        $contract->actual_pay_date = $new_date_payment;//Month to pay
-        $contract->status = 1;
-        $contract->save();
 
         return response(['msg' => 'Pago registrado correctamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }

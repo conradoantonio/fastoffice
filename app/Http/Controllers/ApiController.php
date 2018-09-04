@@ -612,6 +612,7 @@ class ApiController extends Controller
     	foreach ($audit->auditDetail as $detail) {
     		$result[] = 
     			[
+                    'audit_detail_id' => $detail->id,
     				'question_id' => $detail->question->id, 
     				'question' => $detail->question->question, 
     				'answer' => $detail->answer, 

@@ -76,6 +76,7 @@
                             <option value="">Seleccione una opción</option>
                             <option value="1">Pago normal</option>
                             <option value="2">Pago atrasado</option>
+                            <option value="3">Pago esporádico</option>
                         </select>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="label-title">Marcar como pagado</h4>
+                <h4 class="modal-title" id="label-title">Realizar pagado</h4>
             </div>
             <form id="form-data" class="valid ajax-plus" action="{{route('Crm.contracts.make_payment')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form-modal" data-column="0" data-refresh="table" data-redirect="0" data-table_id="rows" data-container_id="table-container">
                 <div class="modal-body">
@@ -118,6 +119,7 @@
                                 <option value="">Seleccione una opción</option>
                                 <option value="Pago normal">Pago normal</option>
                                 <option value="Pago atrasado">Pago atrasado</option>
+                                <option value="Pago esporádico">Pago esporádico</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-xs-12">

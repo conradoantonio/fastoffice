@@ -24,7 +24,11 @@ class CreateContractsTable extends Migration
             $table->date('end_date_validity');
             $table->string('monthly_payment_str')->nullable();
             $table->string('monthly_payment_delay_str')->nullable();
-            $table->date('actual_pay_date')->nullable();//Only for paymentstatus cronjob
+            //Only for paymentstatus cronjob
+            $table->date('actual_pay_date')->nullable();
+            $table->float('balance')->nullable()->comment("Amount for pay");
+            $table->string('balance_str')->nullable()->comment("Amount for pay in string");
+            //End Only for paymentstatus cronjob
             $table->integer('payment_range_start')->nullable();
             $table->integer('payment_range_end')->nullable();
             $table->integer('status')->default(0)->comment('0 por pagar, 1 pagado, 2 retrasado');

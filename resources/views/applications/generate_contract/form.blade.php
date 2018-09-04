@@ -96,24 +96,28 @@
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price * 0.90 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                @if($contract)
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
+                            <input type="text" class="form-control not-empty" value="{{$contract->monthly_payment_str}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_delay_str : ''}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                @if($contract)
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
+                            <input type="text" class="form-control not-empty" readonly value="{{$contract->monthly_payment_delay_str}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                        </div>
                     </div>
-                </div>
+                @endif
             @elseif($prospect && ($prospect->office->type->name == 'Sala de juntas' || $prospect->office->type->name == 'Sala de conferencias'))
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
@@ -121,12 +125,14 @@
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price * 0.90 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="monthly_payment_str">Pago por hora (en palabras)</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->monthly_payment_str : ''}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago por hora (en palabras)">
+                @if($contract)
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="required" for="monthly_payment_str">Pago por hora (en palabras)</label>
+                            <input type="text" class="form-control not-empty" value="{{$contract->monthly_payment_str}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago por hora (en palabras)">
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="start_hour">Hora inicio</label>

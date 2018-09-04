@@ -19,6 +19,7 @@
 		<br><br><br>
 
 		<span class="break justify uppercase">RECIBÍ DE: <span class="bold">{{$contract->customer->fullname}}</span> </span>
+		{{-- Corregir esta cantidad --}}
 		<span class="break justify uppercase">LA CANTIDAD DE <span class="bold">${{$status == 2 ? $contract->office->price * 1.10 : $contract->office->price}} ({{$status == 2 ? $contract->monthly_payment_delay_str : $contract->monthly_payment_str}}) </span> </span>
 		<span class="break justify uppercase">EN: {{$type_payment}}</span>
 		<span class="break justify uppercase">POR CONCEPTO DE:  RENTA DE OFICINA {{$contract->office->name}} </span>
