@@ -480,7 +480,7 @@ class ApiController extends Controller
 
     	$exist = AuditDetail::where('audit_id', $audit->id)->where('question_id', $question->id)->first();
 
-    	if ($exist) { return response(['msg' => 'Esta pregunta ya ha sido respondida', 'code' => 0], 200); }
+    	if ($exist) { return response(['msg' => 'Esta pregunta ya ha sido respondida', 'code' => 0, 'audit_detail_id' => $exist->id], 200); }
 
     	$row = New AuditDetail;
 
