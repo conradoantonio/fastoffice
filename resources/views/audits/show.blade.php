@@ -70,7 +70,7 @@
 								{{ $total_questions . '/' . count($auditDetails) }}
 							</td>
 							<td>
-								{{ 100 * $total_questions / count($auditDetails) . "%"}}
+								{{ round((100 * $total_questions / count($auditDetails)),2)}}%
 							</td>
 						</tr>
 						@foreach( $auditDetails as $auditDetail)
