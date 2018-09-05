@@ -30,8 +30,8 @@
 					<td>{{$office->name}}</td>
 					<td>{{$office->branch->name}}</td>
 					<td>{{$office->user?$office->user->fullname : 'No asignado'}}</td>
-					<td>{{$office->state->name}}</td>
-					<td>{{$office->municipality->name}}</td>
+					<td>{{$office->state?$office->state->name:'Sin especificar'}}</td>
+					<td>{{$office->municipality?$office->municipality->name:'Sin especificar'}}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status == 0)
