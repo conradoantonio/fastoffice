@@ -178,7 +178,7 @@ class ApiController extends Controller
     public function save_prospect(Request $req)
     {
         $user = User::find($req->user_id);
-        $office = Office::find($req->office_id);
+        $office = Office::where('id', $req->office_id)->where('status', 1)->first();//Office available
         $state = State::find($req->state_id);
 
         if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
@@ -211,7 +211,7 @@ class ApiController extends Controller
 
         $detail->save();
 
-        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'code' => 1, 'url' => url('crm/prospectos')], 200);
     }
 
     /**
@@ -334,17 +334,30 @@ class ApiController extends Controller
 		Poner el monto en palabras*/
 		$account = [];
     	$contract = Contract::find($req->contract_id);
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
     	if (!$contract){ return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'code' => 0], 200);	}
 
     	//return $contract->payment_history->last()->payment;
     	$account['last_payment_quantity'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment : '0';
     	$account['last_payment_string'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment_str : 'Cero pesos 00/100 M.N.';
-    	$account['last_payment_status'] = (count($contract->payment_history) > 0 ? ($contract->payment_history->last()->status == 1 ? 'Normal' : 'Atrasado') : 'Normal');
+    	
+        if (count($contract->payment_history)) {
+            if ($contract->payment_history->last()->payment ==  $contract->office->price * 0.90) {//Pagó el precio normal de la oficina
+                $account['last_payment_status'] = 'Normal';
+            } else if ($contract->payment_history->last()->payment >  $contract->office->price * 0.90) {//Pagó atrasado
+                $account['last_payment_status'] = 'Atrasado';
+            } else {//pagó menos, pero supondremos fue normal
+                $account['last_payment_status'] = 'Esporádico';
+            }
+        } else {
+            $account['last_payment_status'] = 'Normal';
+        }
     	//Maybe add filter if it is the last payment...
-    	$account['actual_payment_quantity'] =  ($contract->status == 1 ? '0' : ($contract->status == 2 ? $contract->office->price : $contract->office->price * 0.90));
-    	$account['actual_payment_string'] =  ($contract->status == 1 ? 'Cero pesos 00/100 M.N.' : ($contract->status == 2 ? $contract->monthly_payment_delay_str : $contract->monthly_payment_str));
-    	$account['actual_payment_status'] = ($contract->status == 1 ? 'Pagado' : ($contract->status == 2 ? 'Atrasado' : 'Por pagar'));
+        $total_pay = $contract->charges->sum('amount') - $contract->balance;
+        $account['actual_payment_quantity'] = $total_pay;
+        $account['actual_payment_string'] = ucfirst($n_words->format($total_pay))." $this->ext_m";
+        $account['actual_payment_status'] = ($total_pay == 0 ? 'Pagado' : ( $total_pay > ($contract->office->price * 0.90) ? 'Atrasado' : 'Por pagar' ));
 
     	return response(['msg' => 'Estado de cuenta encontrado', 'code' => 1, 'data' => $account], 200);
     }

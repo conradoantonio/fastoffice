@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.63 
-MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
+MySQL - 5.5.5-10.1.32-MariaDB : Database - fastoffice
 *********************************************************************
 */
 
@@ -46,11 +46,9 @@ CREATE TABLE `applications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications` */
-
-insert  into `applications`(`id`,`user_id`,`office_id`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,9,1,NULL,NULL,NULL,NULL,NULL,1,NULL,'2018-09-04 13:34:21','2018-09-04 13:34:58');
 
 /*Table structure for table `applications_comments` */
 
@@ -81,11 +79,9 @@ CREATE TABLE `applications_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications_details` */
-
-insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,3000.00,10,1,'2018-09-04 13:34:21','2018-09-04 13:34:21');
 
 /*Table structure for table `attachments` */
 
@@ -112,11 +108,9 @@ CREATE TABLE `audit_details` (
   `answer` int(11) NOT NULL,
   `detail` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audit_details` */
-
-insert  into `audit_details`(`id`,`audit_id`,`question_id`,`answer`,`detail`) values (1,1,1,1,'Todo en orden'),(2,1,2,0,'qweqweqweqweqweqw'),(3,1,3,1,'qweqweqweqweqweqw'),(4,1,7,1,'qweqweqweqweqweqw'),(5,1,8,2,'qweqweqweqweqweqw');
 
 /*Table structure for table `audit_photos` */
 
@@ -127,11 +121,9 @@ CREATE TABLE `audit_photos` (
   `audit_detail_id` int(11) NOT NULL,
   `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audit_photos` */
-
-insert  into `audit_photos`(`id`,`audit_detail_id`,`path`) values (1,1,'/img/profiles/avatar.jpg'),(2,1,'/img/profiles/avatar.jpg'),(3,1,'/img/profiles/avatar.jpg'),(4,4,'/img/profiles/avatar.jpg'),(5,4,'/img/profiles/avatar.jpg');
 
 /*Table structure for table `audits` */
 
@@ -146,11 +138,9 @@ CREATE TABLE `audits` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audits` */
-
-insert  into `audits`(`id`,`office_id`,`user_id`,`title`,`status`,`created_at`,`updated_at`) values (1,1,4,'qweqweqwe',1,'2018-07-17 22:06:16','2018-09-02 16:59:16');
 
 /*Table structure for table `banners` */
 
@@ -251,11 +241,9 @@ CREATE TABLE `charges_contracts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `charges_contracts` */
-
-insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,90.00,'Noventa','2018-09-04',1,'2018-09-04 13:34:58','2018-09-04 16:17:32');
 
 /*Table structure for table `companies` */
 
@@ -323,11 +311,9 @@ CREATE TABLE `contracts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `contracts` */
-
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`contract_date`,`start_date_validity`,`end_date_validity`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_address`,`provider_ine_number`,`provider_act_number`,`provider_notary_number`,`provider_notary_state_id`,`provider_notary_name`,`customer_address`,`customer_ine_number`,`customer_activity`,`customer_company`,`customer_act_number`,`customer_notary_number`,`customer_notary_state_id`,`customer_notary_name`,`customer_deed_number`,`customer_deed_date`,`customer_social_object`,`created_at`,`updated_at`) values (1,9,1,1,'2018-09-04','2018-09-04','2019-09-04','Noventa pesos 00/100 M.N.','Cien pesos 00/100 M.N.','2018-10-04',0.00,'Cero pesos 00/100 M.N.',4,8,0,NULL,NULL,NULL,NULL,'Franquisatario físico','Dirección del prestador','32781637823',NULL,NULL,NULL,NULL,'Dirección del cliente','47863278162378','Marketing digital',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-09-04 13:34:58','2018-09-04 15:07:33');
 
 /*Table structure for table `egress_types` */
 
@@ -549,7 +535,7 @@ CREATE TABLE `offices` (
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',100.00,10,'The office is big.',NULL,2,'2018-07-12 12:13:19','2018-09-04 13:34:58',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',100.00,10,'The office is big.',NULL,1,'2018-07-12 12:13:19','2018-09-05 01:12:45',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
 
 /*Table structure for table `password_resets` */
 

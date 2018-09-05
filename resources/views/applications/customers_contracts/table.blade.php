@@ -13,7 +13,7 @@
 		<th>Oficina rentada</th>
 		<th>Status de pago</th>
 		{{-- <th>Status de contrato</th> --}}
-		<th>Monto de pago</th>
+		<th>Monto a pagar</th>
 		<th class="hide">Monto de pago normal</th>
 		<th class="hide">Monto de pago normal cadena</th>
 		<th class="hide">Monto de pago por atraso cadena</th>
@@ -45,7 +45,7 @@
                     !!}
                 </td>
                 {{-- <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Normal</span>") !!}</td> --}}
-                <td>${{ $contract->charges->sum('amount') }}</td>
+                <td>${{ ($contract->charges->sum('amount') - $contract->balance) }}</td>
                 <td class="hide">{{$contract->office->price * 0.90}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
