@@ -84,7 +84,7 @@ class ApplicationsController extends Controller
     public function save_prospect(Request $req)
     {
         $user = User::find($req->user_id);
-        $office = Office::find($req->office_id);
+        $office = Office::where('id', $req->office_id)->where('status', 1)->first();//Office available
         $state = State::find($req->state_id);
 
         if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
