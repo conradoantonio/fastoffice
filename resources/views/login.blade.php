@@ -17,6 +17,24 @@
 		<link href="{{asset('/css/custom-icon-set.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('/css/plugins/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+		 <style type="text/css">
+            /* Change the white to any color ;) */
+            input:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+            }
+            body{
+                background: url({{asset('img/background_login.jpg')}});
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center bottom;
+            }
+            .opacity {
+                opacity: 0.9;
+            }
+            .login-panel h6 {
+                padding: 0 15px 10px;
+            }
+        </style>
 	</head>
 	<body>
 		<div class="container">
