@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        #commands\CheckUserStatus::class,
+        Commands\CheckUserStatus::class,
         Commands\CheckNotificationsCalendar::class,
         Commands\CheckPaymentStatus::class
     ];
@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('command:CheckNotificationsCalendar')->weekdays()
             ->at('06:00');
+
+        $schedule->command('command:CheckUserStatus')->dailyAt('07:00');
     }
 
     /**

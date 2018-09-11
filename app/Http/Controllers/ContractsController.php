@@ -104,7 +104,9 @@ class ContractsController extends Controller
     {
         $available = $this->check_office_status($req->office_id);
         $office = Office::find($req->office_id);
+        $user = User::find($req->office_id);
         if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
+        if (!$user) { return response(['msg' => 'ID de cliente inválido', 'status' => 'error'], 400); }
 
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
@@ -202,6 +204,15 @@ class ContractsController extends Controller
                 $app->save();
             }
         }
+
+        $params = array();
+        $params['subject'] = 'Oficina rentada';
+        $params['title'] = 'Oficina rentada';
+        $params['content']['message'] = 'Felicidades, tu contrato con fastoffice ha sido llevado a cabo, ahora podrás ver su estado de cuenta desde nuestra app';
+        $params['email'] = $user->email;
+        $params['view'] = 'mails.general';
+
+        $this->mail($params);
 
         return response(['msg' => 'Contrato generado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }

@@ -20,7 +20,7 @@ class CheckUserStatus extends Command
      *
      * @var string
      */
-    protected $description = 'Verificar el status de prospectos para mandar cierto tipo de plantilla';
+    protected $description = 'Enviar plantillas automaticas en secuencia a los prospectos';
 
     /**
      * Create a new command instance.
@@ -40,9 +40,49 @@ class CheckUserStatus extends Command
      */
     public function handle()
     {
-        /*$prospectos = Application::all();
-        $prospectos->each(function(){
+        $prospectos = Application::where('status',0)->get();
+        $automaticTemplates = Template::where(['user_status_id' => 0, 'type_id' => 2])->get();
+        if ( $automaticTemplates->isEmpty() ) { return; }
 
-        });*/
+        $prospectos->each(function($prospecto, $key) use ($automaticTemplates) {
+            $find = $automaticTemplates->where('id', $prospecto->sendHistoryTemplate->template_id)->first();
+
+            if ( !$find ){
+                $next = $automaticTemplates->first();
+                $prospecto->sendHistoryTemplate->template_id = $next->id;
+                $prospecto->sendHistoryTemplate->save();
+            } else {
+                $next = $automaticTemplates->where('id', '>', $prospecto->sendHistoryTemplate->template_id)->first();
+
+                if ( $next ){
+                    $prospecto->sendHistoryTemplate->template_id = $next->id;
+                    $prospecto->sendHistoryTemplate->save();
+                } else {
+                    return;
+                }
+            }
+
+            $fields = array(
+                'subject' => 'Información Fast Office',
+                'title' => $next->name,
+                'content' => ['message' => $next->content, 'attachments' => $next->attachments],
+                'email' => $prospecto->email?$prospecto->email:$prospecto->customer->email,
+                'view' => 'mails.templates'
+            );
+
+            $fields = json_encode($fields);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://fastoffice.bsmx.tech/apiv1/enviar-correo");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
+            curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+        });
     }
 }

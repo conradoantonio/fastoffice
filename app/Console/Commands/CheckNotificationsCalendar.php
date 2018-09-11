@@ -60,7 +60,8 @@ class CheckNotificationsCalendar extends Command
 					'title' => 'Tareas pendientes para el día de hoy',
 					'content' => $content,
 					'reminders' => $tr,
-					'email' => $user->email
+					'email' => $user->email,
+					'view' => 'mails.reminder'
 				);
 
 				$fields = json_encode($fields);

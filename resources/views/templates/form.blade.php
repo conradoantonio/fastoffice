@@ -28,6 +28,12 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-12 {{$template->type_id!=2?'hide':''}}">
+					{{Form::label('type_id', 'Envío de la plantilla', ['class' => 'control-label required'])}}
+					{!!Form::select('type_id', ['Seleccionar tipo', 'Manual', 'Automático'], null, ['class' => 'select2 form-control', 'id' => 'type_id', 'name' => 'type_id', 'data-name' => 'Envío de la plantilla'] )!!}
+				</div>
+			</div>
+			<div class="row">
 				<div class="form-group col-md-12">
 					{{Form::label('content', 'Contenido', ['class' => !$template->id?'label-controlrequired':'label-control'])}}
 					{{Form::textarea ('content', null, ['class' => 'form-control not-empty', 'data-name' => 'Contenido'])}}
@@ -107,6 +113,16 @@
 				myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
 			})
 	    }
+	})
+
+	$("#user_status_id").on('change', function(){
+		if ( $(this).val() == 1 ){
+			$("#type_id").parent().removeClass('hide')
+			$("#type_id").addClass('not-empty')
+		} else {
+			$("#type_id").parent().addClass('hide')
+			$("#type_id").removeClass('not-empty')
+		}
 	})
 </script>
 @endpush

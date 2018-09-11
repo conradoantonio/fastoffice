@@ -141,6 +141,15 @@ Route::group(['middleware' => ['auth']], function() {
 		#Auditorias
 		Route::get('auditorias/{id?}', 'AuditsController@index')->name('Audit');
 		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
+
+		#Cuestionario auditoría
+		Route::prefix('questionario/auditoria')->group(function () {
+			Route::get('/', 'QuestionaryController@index')->name('Questionary');
+			Route::get('form/{id?}', 'QuestionaryController@form')->name('Questionary.form');
+			Route::post('guardar', 'QuestionaryController@save')->name('Questionary.save');
+			Route::post('actualizar', 'QuestionaryController@update')->name('Questionary.update');
+			Route::post('eliminar', 'QuestionaryController@change_status')->name('Questionary.change_status');
+		});
 	});
 
 	#Usuarios

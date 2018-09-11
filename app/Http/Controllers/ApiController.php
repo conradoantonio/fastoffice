@@ -236,14 +236,21 @@ class ApiController extends Controller
         $params['subject'] = $req->subject;
         $params['title'] = $req->title;
         $params['content'] = $req->content;
-        $params['reminders'] = $req->reminders;
         $params['email'] = $req->email;
+        $params['view'] = $req->view;
 
-        Mail::send('mails.reminder', ['title' => $params['title'], 'content' => $params['content'], 'reminders' => $params['reminders']], function ($mail) use ($params) {
-            $mail->to($params['email'])
-                ->from(env('MAIL_USERNAME'), env('APP_NAME'))
-                ->subject(env('APP_NAME').' | '.$params['subject']);
-        });
+        if ( $params['view'] == 'mails.reminder' ){
+            $params['reminders'] = $req->reminders;
+
+            Mail::send($params['view'], ['title' => $params['title'], 'content' => $params['content'], 'reminders' => $params['reminders']], function ($mail) use ($params) {
+                $mail->to($params['email'])
+                    ->from(env('MAIL_USERNAME'), env('APP_NAME'))
+                    ->subject(env('APP_NAME').' | '.$params['subject']);
+            });
+        } else {
+            $this->mail($params);
+        }
+
     }
 
     /**
@@ -419,7 +426,7 @@ class ApiController extends Controller
      */
     public function get_questions(Request $req)
     {
-    	$rows = Question::all();
+    	$rows = Question::where('status', 1)->get();
     	foreach ($rows as $row) {
     		$row->category;
     	}
