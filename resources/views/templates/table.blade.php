@@ -10,6 +10,7 @@
 			</th>
 			<th>Nombre</th>
 			<th>Estatus de prospecto</th>
+			<th>Tipo de plantilla</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>
@@ -33,6 +34,13 @@
 							Concretado
 						@else
 							No concretado
+						@endif
+					</td>
+					<td>
+						@if( $template->type_id == 1 )
+							Manual
+						@else
+							Automática
 						@endif
 					</td>
 					<td>

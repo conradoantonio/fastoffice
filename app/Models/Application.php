@@ -12,7 +12,7 @@ class Application extends Model
      * @var string
      */
     protected $table = 'applications';
-    
+
     /**
 	 * The attributes that are mass assignable.
 	 *
@@ -52,6 +52,14 @@ class Application extends Model
     public function office()
     {
         return $this->hasOne(Office::class, 'id', 'office_id');
+    }
+
+    /**
+     * Get the send history template associated with the application.
+     */
+    public function SendHistoryTemplate()
+    {
+        return $this->hasOne(SendHistoryTemplate::class, 'prospect_id', 'id');
     }
 
     /**

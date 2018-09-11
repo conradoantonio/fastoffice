@@ -16,6 +16,7 @@ class CreateTemplatesTable extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_status_id');
+            $table->integer('type_id')->comment('1 Manual, 2 Automático');
             $table->string('name');
             $table->text('content');
             $table->integer('status')->default(1);
