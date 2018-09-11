@@ -15,6 +15,7 @@ use App\Models\OfficeType;
 use App\Models\Application;
 use App\Models\ApplicationComment;
 use App\Models\ApplicationDetail;
+use App\Models\SendHistoryTemplate;
 
 use Illuminate\Http\Request;
 
@@ -105,6 +106,7 @@ class ApplicationsController extends Controller
         $prospect->office_id = $office->id;
 
         $prospect->save();
+        $prospect->sendHistoryTemplate()->save(new SendHistoryTemplate);
 
         #Details
         $detail = New ApplicationDetail;
@@ -230,7 +232,7 @@ class ApplicationsController extends Controller
             $time = $row->created_at;
             $row->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
         }
-        
+
         return $rows;
     }
 
@@ -242,7 +244,7 @@ class ApplicationsController extends Controller
     public function get_application_info(Request $req)
     {
         $application = Application::find($req->id);
-        
+
         $time = $application->created_at;
         $application->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
 
@@ -275,7 +277,7 @@ class ApplicationsController extends Controller
         }
 
         $query = $query->get();
-        
+
         foreach ($query as $q) {
             $q->type;
             $q->pictures;

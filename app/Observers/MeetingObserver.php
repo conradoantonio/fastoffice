@@ -7,9 +7,9 @@ use App\Models\Meeting;
 class MeetingObserver
 {
 	/**
-	 * Listen to the User created event.
+	 * Listen to the Meeting created event.
 	 *
-	 * @param  \App\User  $user
+	 * @param  \App\Meeting  $meeting
 	 * @return void
 	 */
 	public function saved(Meeting $meeting)
@@ -25,9 +25,9 @@ class MeetingObserver
 	}
 
 	/**
-	 * Listen to the User deleting event.
+	 * Listen to the Meeting deleting event.
 	 *
-	 * @param  \App\User  $user
+	 * @param  \App\Meeting  $meeting
 	 * @return void
 	 */
 	public function deleted(Meeting $meeting)

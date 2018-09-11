@@ -169,7 +169,7 @@ class ApiController extends Controller
 			return [ 'msg' => "Este correo no se encuentra en el sistema", 'code' => 0];
 		}
 	}
-	
+
     /**
      * Save a new application and validates if is a registered user.
      *
@@ -223,7 +223,7 @@ class ApiController extends Controller
     {
         return app('App\Http\Controllers\ApplicationsController')->filter_offices($req);
     }
-    
+
 
     /**
      * Send mails for schedule task.
@@ -317,10 +317,10 @@ class ApiController extends Controller
 
     	$notification->status = 1;
     	$notification->save();
-    
+
 	    return response(['msg' => 'Notificación marcada como leida correctamente', 'code' => 1], 200);
     }
-    
+
 
 	/**
      * Get the information about the payment state of a office
@@ -348,7 +348,7 @@ class ApiController extends Controller
     	//return $contract->payment_history->last()->payment;
     	$account['last_payment_quantity'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment : '0';
     	$account['last_payment_string'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment_str : 'Cero pesos 00/100 M.N.';
-    	
+
         if (count($contract->payment_history)) {
             if ($contract->payment_history->last()->payment ==  $contract->office->price * 0.90) {//Pagó el precio normal de la oficina
                 $account['last_payment_status'] = 'Normal';
@@ -370,7 +370,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Check if a meeting room is available between the given horary, if so, save the meeting in calendar 
+     * Check if a meeting room is available between the given horary, if so, save the meeting in calendar
      *
      * @return \Illuminate\Http\Response
      */
@@ -458,7 +458,7 @@ class ApiController extends Controller
 
     	if (!$office) { return response(['msg' => 'Officina no encontrada o inválida', 'code' => 0], 200); }
     	if (!$user) { return response(['msg' => 'Usuario no encontrada o inválido', 'code' => 0], 200); }
-    	
+
     	$title = "Auditoria para $office->name";
 
     	$row = New Audit;
@@ -466,7 +466,7 @@ class ApiController extends Controller
     	$row->office_id = $office->id;
     	$row->user_id = $user->id;
     	$row->title = $title;
-    	
+
     	$row->save();
 
     	return response(['msg' => 'Auditoria iniciada correctamente', 'code' => 1, 'data' => $row], 200);
@@ -509,7 +509,7 @@ class ApiController extends Controller
     public function update_audit_deatil(Request $req)
     {
     	$row = AuditDetail::find($req->audit_detail_id);
-    	
+
     	if (!$row) { return response(['msg' => 'Registro no encontrado', 'code' => 0], 200); }
 
     	$row->answer = $req->answer;
@@ -561,7 +561,7 @@ class ApiController extends Controller
     public function delete_question_photo(Request $req)
     {
     	$photo = AuditPhoto::find($req->audit_photo_id);
-    	
+
     	if (!$photo) { return response(['msg' => 'ID de foto inválido', 'code' => 0], 200); }
 
     	$this->delete_path($photo->path);//Delete the photo
@@ -585,7 +585,7 @@ class ApiController extends Controller
     	$audit->status = 1;//Finalize it
 
     	$audit->save();
-    	
+
     	return response(['msg' => 'Auditoría finalizada correctamente', 'code' => 1, 'data' => $audit], 200);
     }
 
@@ -628,14 +628,14 @@ class ApiController extends Controller
     	$audit = Audit::find($req->audit_id);
 
     	if (!$audit) { return response(['msg' => 'Auditoría no encontrada o inválida', 'code' => 0], 200); }
-    	
+
     	foreach ($audit->auditDetail as $detail) {
-    		$result[] = 
+    		$result[] =
     			[
                     'audit_detail_id' => $detail->id,
-    				'question_id' => $detail->question->id, 
-    				'question' => $detail->question->question, 
-    				'answer' => $detail->answer, 
+    				'question_id' => $detail->question->id,
+    				'question' => $detail->question->question,
+    				'answer' => $detail->answer,
     				'detail' => $detail->detail,
     				'photos' => $detail->photos
     			];

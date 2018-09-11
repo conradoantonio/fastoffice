@@ -29,7 +29,8 @@ class TemplatesController extends Controller
 
 	public function store(Request $req){
 		$template = new Template();
-		$template->fill($req->except('user_status_id'));
+		$template->fill($req->except('user_status_id', 'type_id'));
+		$template->type_id  = !$req->type_id?1:$req->type_id;
 		$template->user_status_id  = $req->user_status_id - 1;
 
 		if ( $template->save() ){
@@ -42,7 +43,8 @@ class TemplatesController extends Controller
 	public function update(Request $req, $id){
 		$aux = 0;
 		$template = Template::find($id);
-		$template->fill($req->except(['file', 'user_status_id']));
+		$template->fill($req->except(['file', 'user_status_id', 'type_id']));
+		$template->type_id  = !$req->type_id?1:$req->type_id;
 		$template->user_status_id  = $req->user_status_id - 1;
 
 		if ( $req->hasFile('file') ){
@@ -81,7 +83,9 @@ class TemplatesController extends Controller
 
 	public function destroy($id){
 		if ( Template::destroy($id) ){
-			File::deleteDirectory(public_path()."/img/templates/".$id."/");
+			if ( File::deleteDirectory(public_path()."/img/templates/".$id."/") ){
+
+			}
 			return ["delete" => "true"];
 		}
 		return ["delete" => "false"];
