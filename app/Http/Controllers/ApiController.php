@@ -153,7 +153,7 @@ class ApiController extends Controller
 			if ( $user->save() ){
 				$params = array();
 				$params['subject'] = "Usuario de sistema modificado";
-				$params['content']['message'] = "Saludos ".$user->fullname.", se ha restablecido su contraseña:<br>";
+				$params['content']['message'] = "Saludos ".$user->fullname.", se ha restablecido su contraseña:";
 				$params['content']['email'] = $user->email;
 				$params['content']['password'] = $pass;
 				$params['title'] = "Accesos al sistema";
@@ -248,9 +248,13 @@ class ApiController extends Controller
                     ->subject(env('APP_NAME').' | '.$params['subject']);
             });
         } else {
-            $this->mail($params);
+            //$this->mail($params);
+            Mail::send('mails.templates', ['title' => $params['title'], 'content' => $params['content']], function ($mail) use ($params) {
+                $mail->to($params['email'])
+                    ->from(env('MAIL_USERNAME'), env('APP_NAME'))
+                    ->subject(env('APP_NAME').' | '.$params['subject']);
+            });
         }
-
     }
 
     /**

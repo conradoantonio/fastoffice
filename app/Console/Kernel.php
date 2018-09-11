@@ -34,7 +34,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:CheckNotificationsCalendar')->weekdays()
             ->at('06:00');
 
-        $schedule->command('command:CheckUserStatus')->dailyAt('07:00');
+        $schedule->command('command:CheckUserStatus')
+        ->dailyAt('07:00');
     }
 
     /**

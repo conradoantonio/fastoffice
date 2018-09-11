@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use Mail;
 
 use App\Models\User;
 use App\Models\State;
@@ -104,7 +105,7 @@ class ContractsController extends Controller
     {
         $available = $this->check_office_status($req->office_id);
         $office = Office::find($req->office_id);
-        $user = User::find($req->office_id);
+        $user = User::find($req->user_id);
         if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
         if (!$user) { return response(['msg' => 'ID de cliente inválido', 'status' => 'error'], 400); }
 
@@ -205,16 +206,21 @@ class ContractsController extends Controller
             }
         }
 
-        $params = array();
-        $params['subject'] = 'Oficina rentada';
-        $params['title'] = 'Oficina rentada';
-        $params['content']['message'] = 'Felicidades, tu contrato con fastoffice ha sido llevado a cabo, ahora podrás ver su estado de cuenta desde nuestra app';
-        $params['email'] = $user->email;
-        $params['view'] = 'mails.general';
+        $to = $user->email;
+        $subject = "Fastoffice | Contrato concedido";
 
-        $this->mail($params);
+        Mail::send('mails.general', ['title' => 'Nuevo contrato conseguido', 'content' => 'Felicidades, ha rentado una nueva oficina, podrá ver su estado de cuenta desde nuestra aplicación en cualquier momento'], function ($message)  use ($to, $subject)
+        {
+            $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+            $message->to($to);
+            $message->subject($subject);
+        });
 
-        return response(['msg' => 'Contrato generado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+        if ( !Mail::failures() ){
+            return response(['msg' => 'Contrato generado exitósamente, se ha enviado un correo al cliente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+        } else {
+            return response(['msg' => 'Contrato generado exitósamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+        }
     }
 
     /**
@@ -413,104 +419,22 @@ class ContractsController extends Controller
         return response(['msg' => 'Contrato finalizado', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }
 
-    public function testing()
+    public function testing(Request $req)
     {
-        $count = 0;
-        $today = date('Y-m-d', strtotime('now'));
-        $year = date('Y');
-        $month = date('m');
-        $contracts = Contract::all();
-        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+        $subject = "Fastoffice | Contrato concedido";
+        $to = $req->mail;
 
-
-        $contracts->each(function($item, $key) use ($year, $month, $today, $n_words, &$count) {
-            $cus_st_da = new \DateTime($year.'-'.$month.'-'.$item->payment_range_start);//Real one date
-            //dd($cus_st_da);
-            //$start_date = date('Y-m-d', strtotime($item->actual_pay_date));
-            $start_date = $cus_st_da->format('Y-m-d');
-            $end_date = date('Y-m-d', strtotime($start_date. '+ 4 days'));
-            $delay_date = date('Y-m-d', strtotime($start_date. '+ 5 days'));
-            $last_charge = $item->charges->last();
-
-            if (count($item->payment_history)) {//Ya ha pagado antes
-                $last_pay = PaymentHistory::where('contract_id', $item->id)->orderBy('id', 'desc')->first();
-                $last_pay_date = $last_pay->created_at->format('Y-m-d');
-
-                if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
-                    if ($last_pay_date < $start_date) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional
-                        if ($today == $start_date) {//Si hoy es el primer día de paga, se hace un cargo normal
-                            $charge = New ChargeContract;
-
-                            $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price * 0.90;//Add the 90% of the office
-                            $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.90))." $this->ext_m";
-                            $charge->pay_date = $start_date;
-                            $charge->status = 1;//Pago normal
-
-                            $charge->save();
-                            $count ++;
-                            //dd('Se realizó cargo normal porque no se ha pagado actualmente');
-                        }
-                    }
-                        
-                } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
-                    if ($last_pay_date < $start_date && $today == $delay_date) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional y es el primer día de retraso
-                        $charge = New ChargeContract;
-
-                        $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price * 0.10;//Add the 10% of the office
-                        $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.10))." $this->ext_m";
-                        $charge->pay_date = $start_date;
-                        $charge->status = 2;//Pago atrasado
-
-                        $charge->save();
-                        $count ++;
-                        //dd('Se realizó cargo extra porque no se pagó en el rango de días normal');
-                    }
-                    //Validar si el monto a pagar rebasa el atraso
-                }
-
-            } else {//Si nunca ha pagado
-                if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
-                    if ($today == $start_date) {//Si hoy es el primer día de pago...
-                        $exist = ChargeContract::where('contract_id', $item->id)->where('pay_date', $start_date)->get();
-                        if (!count($exist)) {//Si existe un cargo ya realizado (puede ser que no pagó el primer mes..) se crea un cargo normal
-                            $charge = New ChargeContract;
-
-                            $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price * 0.90;//Add the 90% of the office
-                            $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.90))." $this->ext_m";
-                            $charge->pay_date = $start_date;
-                            $charge->status = 1;//Pago normal
-
-                            $charge->save();
-                            $count ++;
-                            //dd('Se realizó cargo normal sin tener historial de pago');
-                        } 
-                        //Nothing to do
-                    }
-                } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
-                    if ($today == $delay_date) {//Si es el primer día de retraso, crear cargo por retraso
-                        $charge = New ChargeContract;
-
-                        $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price * 0.10;//Add the 10% of the office
-                        $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.10))." $this->ext_m";
-                        $charge->pay_date = $start_date;
-                        $charge->status = 2;//Pago atrasado
-
-                        $charge->save();
-                        $count ++;
-                        //dd('Se realizó cargo extra sin tener historial de pago');
-
-                    }
-                }
-            }
-            //dd('no necesita de acciones');
+        Mail::send('mails.general', ['title' => 'Nuevo contrato conseguido', 'content' => 'Felicidades, ha rentado una nueva oficina, podrá ver su estado de cuenta desde nuestra aplicación en cualquier momento'], function ($message)  use ($to, $subject)
+        {
+            $messate->from(env('MAIL_USERNAME'), env('APP_NAME'));
+            $message->to($to);
+            $message->subject($subject);
         });
-        
-        \Log::info('Cronjob de checar status de pago ejecutado a las '.date('Y-m-d H:i:s').', se revisaron un total de '.count($contracts).' contratos y se generaron cargos para '.$count.' contratos');
 
-        //return $contracts;
+        if (!Mail::failures()) {
+            return response(['msg' => 'Correo enviado exitósamente', 'status' => 'ok'], 200);
+        } else {
+            return response(['msg' => 'Error al envíar el correo, porfavor, trate nuevamente', 'status' => 'error'], 200);
+        }
     }
 }
