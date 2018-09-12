@@ -209,6 +209,56 @@
                     }
                 }).catch(swal.noop);
             });
+
+            //Open modal for view the suggested price
+            $('body').delegate('.view-new-price','click', function() {
+                contract_id = $(this).data('parent-id');
+                price = $(this).data('price');
+                receptionist = $(this).data('receptionist');
+                office = $(this).data('office');
+
+                $('#view-new-price').find('span.contract-id').text(contract_id);
+                $('#view-new-price').find('span.office').text(office);
+                $('#view-new-price').find('span.receptionist').text(receptionist);
+                $('#view-new-price').find('span.new-price').text(price);
+                
+                $('#view-new-price').modal('show');
+            });
+
+            $('body').delegate('.accept-price, .reject-price','click', function() {
+                contract_id = $('#view-new-price').find('span.contract-id').text();
+                price = $('#view-new-price').find('span.new-price').text();
+
+                status = sw_msg = null;
+                if ($(this).hasClass('accept-price')) {
+                    status = 1;
+                    sw_msg = 'Aceptar';
+                } else {
+                    status = 0;
+                    sw_msg = 'Rechazar';
+                }
+                swal({
+                    title: '¿Realmente quiere '+ sw_msg +' el precio sugerido?',
+                    text: '¡Esta acción NO podrá deshacerse!',
+                    icon: 'warning',
+                    buttons:["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                }).then((accept) => {
+                    if (accept) {
+                        config = {
+                            'id'        : contract_id,
+                            'price'     : price,
+                            'status'    : status,
+                            'route'     : "{{route('Crm.contracts.verify_new_price')}}",
+                            'method'    : 'POST',
+                            'refresh'   : 'table',
+                        }
+
+                        loadAnimation('Espere un momento...');
+                        ajaxSimple(config);
+                    }
+                }).catch(swal.noop);
+            });
         </script>
     @endpush
 @endsection

@@ -110,6 +110,17 @@
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
                     </div>
                 </div>
+                @if(auth()->user()->role->name == 'Recepcionista')
+                    <div class="alert alert-info">
+                        Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un franquisatario.
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="" for="new_price">Sugerir precio</label>
+                            <input type="text" class="form-control decimals" value="{{$contract && $contract->new_office_price ? $contract->new_office_price->price : ''}}" name="new_price" data-name="Precio sugerido">
+                        </div>
+                    </div>
+                @endif
                 @if($contract)
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
@@ -211,8 +222,6 @@
                     </div>
                 </div>
             @endif
-
-
 
             <hr>
             <h3>Datos del cliente</h3>

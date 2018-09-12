@@ -20,7 +20,6 @@
 	<br>
 	@include('contracts.layouts.statements')
 
-	<br>
 	<p class="bold center">CLÁUSULAS</p>
 	<p class="break justify bold">1. Duración:</p>
 	<ul class="b-up-alpha less-li-he justify">

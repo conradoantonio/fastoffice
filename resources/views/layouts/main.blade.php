@@ -220,15 +220,19 @@
 				<li class="start {{ ( Route::currentRouteName()== 'Dashboard' ) ? 'active open' : '' }}">
 					<a href="{{route('Dashboard')}}"> <i class="fa fa-line-chart"></i> <span class="title">Dashboard</span> <span class="selected"></span></a>
 				</li>
-				<li class="{{ in_array(Route::currentRouteName(), ['User.index1', 'User.index2', 'User.form'] ) ? 'active' : '' }}">
-					<a href="#!">
-						<i class="fa fa-users"></i> <span class="title">Usuarios</span> <span class="selected"></span> <span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="{{ ( in_array(Route::currentRouteName(), ['User.index1', 'User.form']) ) ? 'active' : '' }}"> <a href="{{route('User.index1')}}"> Sistema </a> </li>
-						<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}"> <a href="{{route('User.index2')}}"> Aplicación</a> </li>
-					</ul>
-				</li>
+				@if(auth()->user()->role->name == 'Administrador' || auth()->user()->role->name == 'Franquisatario')
+					<li class="{{ in_array(Route::currentRouteName(), ['User.index1', 'User.index2', 'User.form'] ) ? 'active' : '' }}">
+						<a href="#!">
+							<i class="fa fa-users"></i> <span class="title">Usuarios</span> <span class="selected"></span> <span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							<li class="{{ ( in_array(Route::currentRouteName(), ['User.index1', 'User.form']) ) ? 'active' : '' }}"> <a href="{{route('User.index1')}}"> Sistema </a> </li>
+							@if(auth()->user()->role->name == 'Administrador')
+								<li class="{{ ( Route::currentRouteName() == 'User.index2' ) ? 'active' : '' }}"> <a href="{{route('User.index2')}}"> Aplicación</a> </li>
+							@endif
+						</ul>
+					</li>
+				@endif
 				<?php /*
 					<li class="start {{ ( Route::currentRouteName()== 'Company' ) ? 'active' : '' }}">
 						<a href="{{route('Company')}}"> <i class="fa fa-info-circle"></i> <span class="title">Empresa</span> <span class="selected"></span></a>
@@ -271,28 +275,30 @@
 					</a>
 					<ul class="sub-menu">
 						@if(auth()->user()->role->name == 'Administrador')
-						<li class="{{ ( in_array(Route::currentRouteName(),['Category', 'Category.form']) ) ? 'active' : '' }}">
-							<a href="{{route('Category')}}"> Categorías </a>
-						</li>
-						@endif
-						<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
-							<a href="{{route('Erp')}}"> Ingresos y egresos </a>
-						</li>
-						@if(auth()->user()->role->name == 'Administrador')
-							<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
-								<a href="{{route('Branch')}}"> Franquicias </a>
+							<li class="{{ ( in_array(Route::currentRouteName(),['Category', 'Category.form']) ) ? 'active' : '' }}">
+								<a href="{{route('Category')}}"> Categorías </a>
 							</li>
-						@endif
-						@if( auth()->user()->role_id != 3 )
-						<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
-							<a href="{{route('Office')}}"> Oficinas </a>
-						</li>
-						<li class="{{ in_array(Route::currentRouteName(), ['Audit', 'Audit.show'] ) ? 'active' : '' }}">
-							<a href="{{route('Audit')}}"> Auditorías </a>
-						</li>
-						<li class="{{ in_array(Route::currentRouteName(), ['Questionary', 'Questionary.form'] ) ? 'active' : '' }}">
-							<a href="{{route('Questionary')}}"> Questionario auditoría </a>
-						</li>
+							@endif
+							<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
+								<a href="{{route('Erp')}}"> Ingresos y egresos </a>
+							</li>
+							@if(auth()->user()->role->name == 'Administrador')
+								<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
+									<a href="{{route('Branch')}}"> Franquicias </a>
+								</li>
+							@endif
+							@if( auth()->user()->role_id != 3 )
+							<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
+								<a href="{{route('Office')}}"> Oficinas </a>
+							</li>
+							<li class="{{ in_array(Route::currentRouteName(), ['Audit', 'Audit.show'] ) ? 'active' : '' }}">
+								<a href="{{route('Audit')}}"> Auditorías </a>
+							</li>
+							@if(auth()->user()->role->name == 'Administrador')
+								<li class="{{ in_array(Route::currentRouteName(), ['Questionary', 'Questionary.form'] ) ? 'active' : '' }}">
+									<a href="{{route('Questionary')}}"> Cuestionario auditoría </a>
+								</li>
+							@endif
 						@endif
 					</ul>
 				</li>

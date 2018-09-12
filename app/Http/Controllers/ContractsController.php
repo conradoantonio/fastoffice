@@ -13,6 +13,7 @@ use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\SuggestedPrice;
 use App\Models\ChargeContract;
 use App\Models\PaymentHistory;
 use App\Models\CancelledContract;
@@ -206,6 +207,18 @@ class ContractsController extends Controller
             }
         }
 
+        //Lets check if a new price has been suggested
+        if ($req->new_price) {
+            $n_price = New SuggestedPrice;
+
+            $n_price->contract_id = $contract->id;
+            $n_price->user_id = $this->log_user->id;
+            $n_price->office_id = $office->id;
+            $n_price->new_price = $req->new_price;
+
+            $n_price->save();
+        }
+
         $to = $user->email;
         $subject = "Fastoffice | Contrato concedido";
 
@@ -326,6 +339,36 @@ class ContractsController extends Controller
 
         return response(['msg' => 'Pago registrado correctamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
     }
+
+    /**
+     * Verify if the new price is valid
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function verify_new_price(Request $req)
+    {
+        $contract = Contract::find($req->id);
+        if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
+        
+        if ($req->status == 1) {//Se aceptó el nuevo precio, probablemente validar en un futuro que el cambio se haga sólo si está dentro del primer mes del contrato
+            $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+            
+            $contract->monthly_payment_str = ucfirst($n_words->format($req->price * 0.90))." $this->ext_m";
+            $contract->monthly_payment_delay_str = ucfirst($n_words->format($req->price))." $this->ext_m";//Puede ser que cambiemos esto en un futuro
+
+            $contract->save();
+
+            $office = Office::find($contract->office->id);
+            $office->price = $req->price;
+            $office->save();
+        }
+            
+
+        //Eliminar el registro de precio sugerido
+        $contract->suggested_price->delete();
+        return response(['msg' => 'Precio validado correctamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+    }
+    
 
     /**
      * Get all the payment history from a contract

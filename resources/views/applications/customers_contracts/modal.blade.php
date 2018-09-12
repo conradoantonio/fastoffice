@@ -141,3 +141,36 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="label-title" id="view-new-price">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="label-title">Recibo de pago</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row text-left details-content">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item active">Datos generales</li>
+                            <li class="list-group-item"><span class="label_show">ID Contrato: <span class="contract-id"></span></span></li>
+                            <li class="list-group-item"><span class="label_show">Oficina: <span class="office"></span></span></li>
+                            <li class="list-group-item"><span class="label_show">Nombre de recepcionista: <span class="receptionist"></span></span></li>
+                            <li class="list-group-item" style="color: #01579b;"><span class="label_show">Nuevo precio: $<span class="new-price"></span></span></li>
+                        </ul>
+                        <ul class="list-group">
+                            <li class="list-group-item active">Nota:</li>
+                            <li class="list-group-item"><span class="label_show">En caso de aceptar el nuevo monto de la oficina, el nuevo precio se verá reflejado hasta la fecha de corte siguiente sin afectar el precio de la oficina del periodo anterior.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary accept-price">Aceptar nuevo precio</button>
+                <button type="submit" class="btn btn-danger reject-price">Rechazar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

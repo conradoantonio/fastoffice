@@ -152,9 +152,13 @@ $(".rfc").blur(function() {
 });
 
 $('.decimals').blur(function() {
-	if(!regDecimals.test($(this).val())) {
-		if ( !$(this).parent().hasClass("has-error") ){
-			$(this).parent().addClass('has-error')
+	if ( $(this).val() ){
+		if(!regDecimals.test($(this).val())) {
+			if ( !$(this).parent().hasClass("has-error") ){
+				$(this).parent().addClass('has-error')
+			}
+		} else {
+			$(this).parent().removeClass('has-error')
 		}
 	} else {
 		$(this).parent().removeClass('has-error')
@@ -324,11 +328,18 @@ $(".guardar").on('click',function(e){
 		}
 
 		if ( $(this).hasClass('decimals') ) {
-			if(!regDecimals.test($(this).val())) {
-				if ( !$(this).parent().hasClass("has-error") ){
-					$(this).parent().addClass('has-error')
+			if ( $(this).val() ){
+				if(!(regDecimals.test($(this).val()))) {
+					console.log('valor inválido');
+					if ( !$(this).parent().hasClass("has-error") ){
+						$(this).parent().addClass('has-error')
+					}
+					//Sólo aparecerá este mensaje aunque tenga el not-empty, por eso el segundo if
 					errors_count += 1;
 					msg = msg +"<li>"+$(this).data('name')+": Valor entero o decimal requerido</li>";
+				} else {
+					console.log('valor válido');
+					$(this).parent().removeClass('has-error')
 				}
 			} else {
 				$(this).parent().removeClass('has-error')

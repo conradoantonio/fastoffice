@@ -56,6 +56,14 @@ class Contract extends Model
     }
 
     /**
+     * Get the possible suggested price of the office's contract.
+     */
+    public function suggested_price()
+    {
+        return $this->hasOne(SuggestedPrice::class, 'contract_id', 'id');
+    }
+
+    /**
      * Get the municipality of the provider notary.
      */
     public function customer_notary_state()

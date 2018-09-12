@@ -57,6 +57,15 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
 		Route::delete('eliminar-franquicia-imagen', 'BranchesController@deleteBranchPicture')->name('Branch.destroyImage');
 
+		#Cuestionario auditoría
+		Route::prefix('cuestionario/auditoria')->group(function () {
+			Route::get('/', 'QuestionaryController@index')->name('Questionary');
+			Route::get('form/{id?}', 'QuestionaryController@form')->name('Questionary.form');
+			Route::post('guardar', 'QuestionaryController@save')->name('Questionary.save');
+			Route::post('actualizar', 'QuestionaryController@update')->name('Questionary.update');
+			Route::post('eliminar', 'QuestionaryController@change_status')->name('Questionary.change_status');
+		});
+
 		#Templates
 		Route::get('plantillas', 'TemplatesController@index')->name('Template');
 		Route::get('formulario-plantilla/{id?}', 'TemplatesController@form')->name('Template.form');
@@ -114,6 +123,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::get('recibo-de-dinero/{id?}/{pay_type?}/{status?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
 			Route::get('formulario/{app_id}/{contract_id?}', 'ContractsController@form')->name('Crm.contracts.form');
 			Route::post('obtener-historial-pagos', 'ContractsController@get_payment_history')->name('Crm.contracts.get_payment_history');
+			Route::post('verificar-precio', 'ContractsController@verify_new_price')->name('Crm.contracts.verify_new_price');
 			Route::post('pagar', 'ContractsController@make_payment')->name('Crm.contracts.make_payment');
 			Route::post('guardar', 'ContractsController@save')->name('Crm.contracts.save');
 			Route::post('actualizar', 'ContractsController@update')->name('Crm.contracts.update');
@@ -141,25 +151,18 @@ Route::group(['middleware' => ['auth']], function() {
 		#Auditorias
 		Route::get('auditorias/{id?}', 'AuditsController@index')->name('Audit');
 		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
-
-		#Cuestionario auditoría
-		Route::prefix('questionario/auditoria')->group(function () {
-			Route::get('/', 'QuestionaryController@index')->name('Questionary');
-			Route::get('form/{id?}', 'QuestionaryController@form')->name('Questionary.form');
-			Route::post('guardar', 'QuestionaryController@save')->name('Questionary.save');
-			Route::post('actualizar', 'QuestionaryController@update')->name('Questionary.update');
-			Route::post('eliminar', 'QuestionaryController@change_status')->name('Questionary.change_status');
-		});
 	});
-
-	#Usuarios
-	Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
-	Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
-	Route::get('formulario-usuario/{type}/{id?}', 'UsersController@form')->name('User.form');
-	Route::post('alta-usuario', 'UsersController@store')->name('User.store');
-	Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
-	Route::patch('status-usuario', 'UsersController@status')->name('User.status');
-	Route::delete('eliminar-usuario/{id}', 'UsersController@destroy')->name('User.destroy');
+	
+	Route::group(['middleware' => 'role:Administrador,Franquisatario'], function() {
+		#Usuarios
+		Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
+		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
+		Route::get('formulario-usuario/{type}/{id?}', 'UsersController@form')->name('User.form');
+		Route::post('alta-usuario', 'UsersController@store')->name('User.store');
+		Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
+		Route::patch('status-usuario', 'UsersController@status')->name('User.status');
+		Route::delete('eliminar-usuario/{id}', 'UsersController@destroy')->name('User.destroy');
+	});
 
 	#Noticias
 	Route::get('noticias', 'NewsController@index')->name('News');

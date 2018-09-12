@@ -213,6 +213,14 @@ div#notifications > div.popover{
 	color: white;
 	background-color: #000000;
 }
+.btn-review{
+	color: white;
+	background-color: #66bb6a;
+}
+.btn-review:hover{
+	color: white;
+	background-color: #66bb6a;
+}
 .fancybox-close{
 	top: -3px !important;
 	right: -4px !important;
