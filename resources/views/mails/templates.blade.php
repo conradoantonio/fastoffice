@@ -3,7 +3,7 @@
 	<body>
 		<div>
 			<!-- Cambiar el nombre del header -->
-			<img src="{{asset('img/mail/mailheader.png')}}" style='width: 100%;'>
+			<img src="{{asset('img/mail/mailheader.jpg')}}" style='width: 100%;'>
 		</div>
 		<div style="text-align: justify; padding: 2% 10%;background: whitesmoke;">
 			<h1 style="margin-top: 0px;">{{$title}}</h1>
