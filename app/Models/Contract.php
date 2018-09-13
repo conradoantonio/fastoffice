@@ -104,7 +104,7 @@ class Contract extends Model
             $query->orderBy('id', 'desc')->where('status', $app_status);
         })->whereHas('office', function($que) use($l_usr, $branch_id) {
             if ($l_usr->role_id == 3) {//Recepcionista
-                $que->where('user_id', $l_usr->id);
+                //$que->where('user_id', $l_usr->id);
             }
             $que->whereHas('branch', function($q) use($l_usr, $branch_id) {
                 if ($branch_id) {

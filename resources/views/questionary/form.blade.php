@@ -11,7 +11,7 @@
 		<h1>{{$question ? 'Actualizar' : 'Crear'}} <span class="semi-bold">pregunta</span></h1>
 	</div>
 	<div class="row-fluid">
-        <form id="form-data" class="valid ajax-plus" action="{{url('questionario/auditoria')}}/{{$question ? 'actualizar' : 'guardar'}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
+        <form id="form-data" class="valid ajax-plus" action="{{url('cuestionario/auditoria')}}/{{$question ? 'actualizar' : 'guardar'}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form" data-column="0" data-refresh="0" data-redirect="1" data-table_id="example3" data-container_id="table-container">
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label class="required" for="id">ID</label>

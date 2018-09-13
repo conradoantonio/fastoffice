@@ -54,7 +54,7 @@ class QuestionaryController extends Controller
 
     	$row->save();
 
-        return response(['msg' => 'Pregunta guardada correctamente', 'status' => 'success', 'url' => url('questionario/auditoria')]);
+        return response(['msg' => 'Pregunta guardada correctamente', 'status' => 'success', 'url' => url('cuestionario/auditoria')]);
     }
 
     /**
@@ -73,7 +73,7 @@ class QuestionaryController extends Controller
 
     	$row->save();
 
-        return response(['msg' => 'Pregunta actualizada correctamente', 'status' => 'success', 'url' => url('questionario/auditoria')]);
+        return response(['msg' => 'Pregunta actualizada correctamente', 'status' => 'success', 'url' => url('cuestionario/auditoria')]);
     }
 
     /**
@@ -91,6 +91,6 @@ class QuestionaryController extends Controller
 
     	$row->save();
 
-        return response(['msg' => 'Pregunta eliminada correctamente', 'status' => 'success', 'url' => url('questionario/auditoria')]);
+        return response(['msg' => 'Pregunta eliminada correctamente', 'status' => 'success', 'url' => url('cuestionario/auditoria')]);
     }
 }
