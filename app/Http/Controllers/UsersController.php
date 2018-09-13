@@ -19,14 +19,19 @@ class UsersController extends Controller
 	 */
 	public function index(Request $req)
 	{
-		$roles_id = [];
-		if ( Route::currentRouteName() == 'User.index1' ){//System users
-			$roles_id = [1,2,3];
-		} else {//App users
-			$roles_id = [4,5];
+		if ( auth()->user()->role_id == 1 ){
+			$roles_id = [];
+			if ( Route::currentRouteName() == 'User.index1' ){//System users
+				$roles_id = [1,2,3];
+			} else {//App users
+				$roles_id = [4,5];
+			}
+
+			$users = User::whereIn('role_id',$roles_id)->get();
+		} else {
+			$users = User::where('branch_id', auth()->user()->branch->id)->get();
 		}
 
-		$users = User::whereIn('role_id',$roles_id)->get();
 		$roles = Role::all()->pluck('name','id')->prepend('Todos los roles', 0)->except(['id', '4']);
 
 		if ($req->ajax()) {
@@ -52,7 +57,7 @@ class UsersController extends Controller
 		} else {
 			$user = new User();
 		}
-		
+
 		$roles = Role::whereNotIn('id',$roles_ids)->orderBy('id', 'desc')->pluck('name','id');
 		return view('users.form', compact('user', 'roles', 'type'));
 	}

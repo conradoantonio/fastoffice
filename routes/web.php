@@ -77,6 +77,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Attachment
 		Route::delete('eliminar-adjunto', 'AttachmentsController@delete')->name('Attachment.delete');
+
+		#Usuarios
+		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
@@ -152,11 +155,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('auditorias/{id?}', 'AuditsController@index')->name('Audit');
 		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
 	});
-	
+
 	Route::group(['middleware' => 'role:Administrador,Franquisatario'], function() {
 		#Usuarios
 		Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
-		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
 		Route::get('formulario-usuario/{type}/{id?}', 'UsersController@form')->name('User.form');
 		Route::post('alta-usuario', 'UsersController@store')->name('User.store');
 		Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
@@ -194,7 +196,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 #Rutas API
 Route::prefix('apiv1')->group(function () {
-	
+
 	#Webservices básicos
 	Route::post('login', 'ApiController@login');
 	Route::post('registro', 'ApiController@register');
