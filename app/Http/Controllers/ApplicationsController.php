@@ -288,6 +288,20 @@ class ApplicationsController extends Controller
     }
 
     /**
+     * Show only the form for save prospects
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function only_form(Request $req)
+    {
+        $states = State::all();
+
+        $officeTypes = OfficeType::all();
+
+        return view('applications.prospects.only_form', ['officeTypes' => $officeTypes, 'states' => $states]);
+    
+    }
+    /**
      * Send a specific template to selected prospects
      *
      * @return \Illuminate\Http\Response

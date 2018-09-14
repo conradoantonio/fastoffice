@@ -230,3 +230,6 @@ Route::prefix('apiv1')->group(function () {
 });
 
 Route::get('testing', 'ContractsController@testing');
+
+#Formulario para wordpress
+Route::get('formulario-prospecto', 'ApplicationsController@only_form');
