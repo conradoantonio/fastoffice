@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.63 
-MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
+MySQL - 5.5.5-10.1.32-MariaDB : Database - fastoffice
 *********************************************************************
 */
 
@@ -46,11 +46,9 @@ CREATE TABLE `applications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications` */
-
-insert  into `applications`(`id`,`user_id`,`office_id`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,9,1,NULL,NULL,NULL,NULL,NULL,1,NULL,'2018-09-12 10:24:46','2018-09-12 12:10:56');
 
 /*Table structure for table `applications_comments` */
 
@@ -81,11 +79,9 @@ CREATE TABLE `applications_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications_details` */
-
-insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,3000.00,10,1,'2018-09-12 10:24:46','2018-09-12 10:24:46');
 
 /*Table structure for table `attachments` */
 
@@ -245,11 +241,9 @@ CREATE TABLE `charges_contracts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `charges_contracts` */
-
-insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,90.00,'Noventa pesos 00/100 M.N.','2018-09-12',1,'2018-09-12 12:10:56','2018-09-12 12:10:56');
 
 /*Table structure for table `companies` */
 
@@ -317,11 +311,9 @@ CREATE TABLE `contracts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `contracts` */
-
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`contract_date`,`start_date_validity`,`end_date_validity`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_address`,`provider_ine_number`,`provider_act_number`,`provider_notary_number`,`provider_notary_state_id`,`provider_notary_name`,`customer_address`,`customer_ine_number`,`customer_activity`,`customer_company`,`customer_act_number`,`customer_notary_number`,`customer_notary_state_id`,`customer_notary_name`,`customer_deed_number`,`customer_deed_date`,`customer_social_object`,`created_at`,`updated_at`) values (1,9,1,1,'2018-09-12','2018-09-12','2019-09-12','Novecientos pesos 00/100 M.N.','Mil pesos 00/100 M.N.','2018-09-12',0.00,'Cero pesos 00/100 M.N.',12,16,0,NULL,NULL,NULL,NULL,'Franquisatario físico','Dirección del prestador','23871273832',NULL,NULL,NULL,NULL,'Dirección del cliente','123823656126','Marketing digital',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-09-12 12:10:56','2018-09-12 15:40:11');
 
 /*Table structure for table `egress_types` */
 
@@ -331,9 +323,11 @@ CREATE TABLE `egress_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `egress_types` */
+
+insert  into `egress_types`(`id`,`name`) values (1,'Fijo'),(2,'Variable');
 
 /*Table structure for table `erps` */
 
@@ -543,7 +537,7 @@ CREATE TABLE `offices` (
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',1000.00,10,'The office is big.',NULL,2,'2018-07-12 12:13:19','2018-09-12 15:40:11',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',100.00,10,'The office is big.',NULL,1,'2018-07-12 12:13:19','2018-09-05 01:12:45',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
 
 /*Table structure for table `password_resets` */
 
@@ -633,11 +627,9 @@ CREATE TABLE `send_history_templates` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `send_history_templates` */
-
-insert  into `send_history_templates`(`id`,`prospect_id`,`template_id`,`created_at`,`updated_at`) values (1,1,0,'2018-09-12 10:24:46','2018-09-12 10:24:46');
 
 /*Table structure for table `states` */
 
@@ -670,7 +662,7 @@ CREATE TABLE `suggested_prices` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `suggested_prices` */
 
@@ -716,7 +708,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`regime`,`rfc`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'Jorge Enrique Benard Solorzano','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','2CCShkYRtdZ68GsIC3H6wuBh7xIxiOUet6YpCZcAZGaCgzGBkE1Xyu80NTUH','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-07-12 12:13:19','2018-09-12 16:38:15',NULL),(2,0,'Franquisatario físico','franquisatario@hotmail.com','$2y$10$QOi6BNRxgKQf4d1O6NRD.OayZ9gkGMcDZShpqspjbJ1TMb7LQiGdy','JGINoclN3XSS0Hi5pjyIV5LYEDhe8D0WZkSHgmQsTQ9QCHHvRc6aKdelsmOZ','3310980989','Persona física','CACR880326HLO','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-12 12:13:19','2018-09-12 16:49:40',NULL),(3,1,'Recepcionista','recepcion@hotmail.com','$2y$10$k/iym61dWEtRB7Lin3K.8uQAuc1JSJhMfhvDnPOIAm.awue3M35pa','k9gTMiluNHTZhszh6F9gzlp1a00CDMUtYNGTmcuh4J6BD8VFwgc6a5FKG0xq','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',3,NULL,0,1,'2018-07-12 12:13:19','2018-09-12 16:38:58',NULL),(4,0,'Juan josé','usuario@hotmail.com','$2y$10$85.WGS.DrQ5KR.hgwipx2O/Vea2ccKRSdguw8VyikcmV7I5NwoMKm',NULL,'3310980989','Persona física','VECJ880326RGT','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:13:19','2018-07-12 12:13:19',NULL),(5,0,'Miguel Ángel','lupra@gmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy',NULL,'9801010','Persona moral','VECJ880326KLJ','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:47:18','2018-07-18 12:43:10',NULL),(6,0,'Franquiciatario moral','franquisiatario.2@fastoffice.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','wGGZAwjWIEXLQgV9pVxx7rTD9SCSs6yhMcFSp1UDoK94t3Z3o99TTJpT2iZx','6696354569','Persona moral','BST150602618','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-16 12:27:06','2018-08-01 10:26:10',NULL),(8,0,'Edgard','edgard@gmail.com','$2y$10$6xvHL47lrulGXu/k77wQ1uZVqDOvubRuyUxhVR3XoPe1.qxVMULL6',NULL,'6699333627','Persona moral','VAFE920827JAA','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:29:13','2018-08-03 16:29:13',NULL),(9,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$KZSDSTK4L3ichLIy8Q3lq.FtZDON2DWcAHIwyrk.kr8dMl.p8Sp8m',NULL,'9801010','Persona física','CARC941219MC1','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:30:51','2018-08-03 16:30:51',NULL),(10,0,'Jesús Alexis Gamboa Chiw','alexis.chiw@gmail.com','$2y$10$aCYGC7HWX2cY6gLe4KmHUe/JHtDOctrTMXZAjX0cU4LVJ2TXEmP8q',NULL,'6695333469','0',NULL,'/img/profiles/avatar.jpg',5,NULL,0,1,'2018-09-02 13:11:33','2018-09-02 13:11:33',NULL);
+insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`regime`,`rfc`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'Jorge Enrique Benard Solorzano','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','f52Euolr8yQjax9XNNPCZrVoSRALA2uYkFVFYpldjXpZPUsdLfywzs7GUiMz','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-07-12 12:13:19','2018-09-05 02:07:46',NULL),(2,0,'Franquisatario físico','franquisatario@hotmail.com','$2y$10$QOi6BNRxgKQf4d1O6NRD.OayZ9gkGMcDZShpqspjbJ1TMb7LQiGdy',NULL,'3310980989','Persona física','CACR880326HLO','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-12 12:13:19','2018-07-18 12:42:15',NULL),(3,1,'Recepcionista','recepcion@hotmail.com','$2y$10$k/iym61dWEtRB7Lin3K.8uQAuc1JSJhMfhvDnPOIAm.awue3M35pa','4NkeXNhuE3zdahzxXGnpJa6dOmm8RGFgKXP3iasEI5egR68HaNxOWz3mhKQ1','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',3,NULL,0,1,'2018-07-12 12:13:19','2018-08-01 10:59:18',NULL),(4,0,'Juan josé','usuario@hotmail.com','$2y$10$85.WGS.DrQ5KR.hgwipx2O/Vea2ccKRSdguw8VyikcmV7I5NwoMKm',NULL,'3310980989','Persona física','VECJ880326RGT','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:13:19','2018-07-12 12:13:19',NULL),(5,0,'Miguel Ángel','lupra@gmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy',NULL,'9801010','Persona moral','VECJ880326KLJ','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:47:18','2018-07-18 12:43:10',NULL),(6,0,'Franquiciatario moral','franquisiatario.2@fastoffice.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','wGGZAwjWIEXLQgV9pVxx7rTD9SCSs6yhMcFSp1UDoK94t3Z3o99TTJpT2iZx','6696354569','Persona moral','BST150602618','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-16 12:27:06','2018-08-01 10:26:10',NULL),(8,0,'Edgard','edgard@gmail.com','$2y$10$6xvHL47lrulGXu/k77wQ1uZVqDOvubRuyUxhVR3XoPe1.qxVMULL6',NULL,'6699333627','Persona moral','VAFE920827JAA','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:29:13','2018-08-03 16:29:13',NULL),(9,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$KZSDSTK4L3ichLIy8Q3lq.FtZDON2DWcAHIwyrk.kr8dMl.p8Sp8m',NULL,'9801010','Persona física','CARC941219MC1','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:30:51','2018-08-03 16:30:51',NULL),(10,0,'Jesús Alexis Gamboa Chiw','alexis.chiw@gmail.com','$2y$10$aCYGC7HWX2cY6gLe4KmHUe/JHtDOctrTMXZAjX0cU4LVJ2TXEmP8q',NULL,'6695333469','0',NULL,'/img/profiles/avatar.jpg',5,NULL,0,1,'2018-09-02 13:11:33','2018-09-02 13:11:33',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

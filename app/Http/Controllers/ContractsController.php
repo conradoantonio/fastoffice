@@ -469,7 +469,7 @@ class ContractsController extends Controller
 
         Mail::send('mails.general', ['title' => 'Nuevo contrato conseguido', 'content' => 'Felicidades, ha rentado una nueva oficina, podrá ver su estado de cuenta desde nuestra aplicación en cualquier momento'], function ($message)  use ($to, $subject)
         {
-            $messate->from(env('MAIL_USERNAME'), env('APP_NAME'));
+            $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
             $message->to($to);
             $message->subject($subject);
         });

@@ -225,6 +225,8 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('finalizar-auditoria', 'ApiController@conclude_audit');
 	Route::post('cancelar-auditoria', 'ApiController@cancel_audit');
 	Route::post('informacion-auditoria', 'ApiController@get_audit_info');
+	Route::post('test-mail', 'ContractsController@testing');
+
 });
 
 Route::get('testing', 'ContractsController@testing');
