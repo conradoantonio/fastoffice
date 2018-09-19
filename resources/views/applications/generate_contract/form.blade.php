@@ -112,7 +112,7 @@
                 </div>
                 @if(auth()->user()->role->name == 'Recepcionista')
                     <div class="alert alert-info">
-                        Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un franquisatario.
+                        Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un Franquiciatario.
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">

@@ -13,7 +13,7 @@ class RolesTableSeeder extends Seeder
 	{
 		$roles = [
 			['name' => "Administrador", 'env' => "Sistema"],
-			['name' => "Franquisatario", 'env' => "Sistema"],
+			['name' => "Franquiciatario", 'env' => "Sistema"],
 			['name' => "Recepcionista", 'env' => "Sistema"],
 			['name' => "Usuario", 'env' => "App"],
 			['name' => "Auditor", 'env' => "App"],

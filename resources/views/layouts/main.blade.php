@@ -220,7 +220,7 @@
 				<li class="start {{ ( Route::currentRouteName()== 'Dashboard' ) ? 'active open' : '' }}">
 					<a href="{{route('Dashboard')}}"> <i class="fa fa-line-chart"></i> <span class="title">Dashboard</span> <span class="selected"></span></a>
 				</li>
-				@if(auth()->user()->role->name == 'Administrador' || auth()->user()->role->name == 'Franquisatario')
+				@if(auth()->user()->role->name == 'Administrador' || auth()->user()->role->name == 'Franquiciatario')
 					<li class="{{ in_array(Route::currentRouteName(), ['User.index1', 'User.index2', 'User.form'] ) ? 'active' : '' }}">
 						<a href="#!">
 							<i class="fa fa-users"></i> <span class="title">Usuarios</span> <span class="selected"></span> <span class="arrow"></span>
@@ -264,9 +264,11 @@
 						<li class="{{ ( in_array(Route::currentRouteName(),['Crm.contracts.finished']) ) ? 'active open' : '' }}">
 							<a href="{{route('Crm.contracts.finished')}}"> Contratos finalizados </a>
 						</li>
-						<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
-							<a href="{{route('Template')}}"> Plantillas </a>
-						</li>
+						@if(auth()->user()->role->name == 'Administrador')
+							<li class="{{ ( in_array(Route::currentRouteName(),['Template', 'Template.form']) ) ? 'active open' : '' }}">
+								<a href="{{route('Template')}}"> Plantillas </a>
+							</li>
+						@endif
 					</ul>
 				</li>
 				<li class="{{ in_array(Route::currentRouteName(), ['Erp', 'Erp.form', 'Office', 'Office.form', 'Branch', 'Branch.form', 'Category', 'Category.form', 'Audit', 'Audit.show', 'Questionary', 'Questionary.form'] ) ? 'active open' : '' }}">

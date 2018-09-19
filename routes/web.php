@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
 	});
 
-	Route::group(['middleware' => 'role:Administrador,Franquisatario,Recepcionista'], function() {
+	Route::group(['middleware' => 'role:Administrador,Franquiciatario,Recepcionista'], function() {
 		#Meetings
 		Route::get('reuniones/{id?}/{start_date?}/{end_date?}', 'MeetingsController@index')->name('Meeting');
 		Route::get('formulario-reunion/{id?}', 'MeetingsController@form')->name('Meeting.form');
@@ -156,7 +156,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
 	});
 
-	Route::group(['middleware' => 'role:Administrador,Franquisatario'], function() {
+	Route::group(['middleware' => 'role:Administrador,Franquiciatario'], function() {
 		#Usuarios
 		Route::get('usuarios-sistema', 'UsersController@index')->name('User.index1');
 		Route::get('formulario-usuario/{type}/{id?}', 'UsersController@form')->name('User.form');
