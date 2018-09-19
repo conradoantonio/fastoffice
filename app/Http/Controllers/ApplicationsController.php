@@ -123,7 +123,8 @@ class ApplicationsController extends Controller
         $params['subject'] = "¡Nuevo prospecto registrado!";
         $params['title'] = "Nuevo prospecto";
         $params['content'] = $req->fullname." ha enviado sus datos de contacto para contratar una oficina, por favor, ingrese al módulo de prospectos para más información.";
-        $params['email'] = "jorgebenard@gmail.com";
+        $params['email'] = "info@fastoffice.mx";
+        $params['cc'] = "ventas@fastoffice.mx";
         $params['view'] = 'mails.general';
 
         $this->mail($params);
