@@ -177,41 +177,7 @@ class ApiController extends Controller
      */
     public function save_prospect(Request $req)
     {
-        $user = User::find($req->user_id);
-        $office = Office::where('id', $req->office_id)->where('status', 1)->first();//Office available
-        $state = State::find($req->state_id);
-
-        if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
-        if (!$state) { return response(['msg' => 'ID de estado inválido, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
-
-        $prospect = New Application;
-
-    	if ($user) {//Comes from a registered user
-    		$prospect->user_id = $user->id;
-    	} else {
-            $prospect->fullname = $req->fullname;
-            $prospect->email = $req->email;
-            $prospect->phone = $req->phone;
-            $prospect->regime = $req->regime;
-            $prospect->rfc = strtoupper($req->rfc);
-        }
-
-        $prospect->office_id = $office->id;
-
-        $prospect->save();
-
-        #Details
-        $detail = New ApplicationDetail;
-
-        $detail->application_id = $prospect->id;
-        $detail->state_id = $state->id;
-        $detail->badget = $req->badget;
-        $detail->num_people = $req->num_people;
-        $detail->office_type_id = $office->type->id;
-
-        $detail->save();
-
-        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'code' => 1, 'url' => url('crm/prospectos')], 200);
+        return app('App\Http\Controllers\ApplicationsController')->save_prospect($req);
     }
 
     /**

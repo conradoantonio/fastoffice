@@ -119,7 +119,16 @@ class ApplicationsController extends Controller
 
         $detail->save();
 
-        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+        $params = array();
+        $params['subject'] = "¡Nuevo prospecto registrado!";
+        $params['title'] = "Nuevo prospecto";
+        $params['content'] = $req->fullname." ha enviado sus datos de contacto para contratar una oficina, por favor, ingrese al módulo de prospectos para más información.";
+        $params['email'] = "jorgebenard@gmail.com";
+        $params['view'] = 'mails.general';
+
+        $this->mail($params);
+
+        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'code' => 1, 'url' => url('crm/prospectos')], 200);
     }
 
     /**
