@@ -78,15 +78,15 @@ class UsersController extends Controller
 			$params = array();
 			$params['subject'] = "Nuevo usuario creado";
 			$params['title'] = "Accesos a la plataforma";
-			$params['content']['message'] = "Has sido dado de alta como usuario de sistema de ".env('APP_NAME').", estos son tus accesos para tu cuenta:<br>";
+			$params['content']['message'] = "Has sido dado de alta como usuario de sistema de ".env('APP_NAME').", estos son tus accesos para tu cuenta:";
 			$params['content']['email'] = $user->email;
 			$params['content']['password'] = $req->password;
 			$params['email'] = $user->email;
 			$params['view'] = 'mails.credentials';
 
-			/*if ( $this->mail($params) ){
-				return redirect()->route('User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
-			}*/
+			if ( $this->mail($params) ){
+				return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
+			}
 			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Administrador creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 
 		} else {
@@ -114,7 +114,7 @@ class UsersController extends Controller
 			if ( $pass ){
 				$params = array();
 				$params['subject'] = "Usuario de sistema modificado";
-				$params['content']['message'] = "Tu contraseña ha sido modificada, este es tu nuevo acceso:<br>";
+				$params['content']['message'] = "Tu contraseña ha sido modificada, este es tu nuevo acceso:";
 				$params['content']['email'] = $user->email;
 				$params['content']['password'] = $req->password;
 				$params['title'] = "Accesos al sistema";
