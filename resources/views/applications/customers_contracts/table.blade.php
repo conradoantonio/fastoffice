@@ -65,7 +65,7 @@
 					@else
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-times"></i></a>
 					@endif
-					@if ($contract->suggested_price)
+					@if (auth()->user()->role_id == 2 && $contract->suggested_price){{-- Branch user --}}
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-review view-new-price" data-office="{{$contract->office->name}}" data-receptionist="{{$contract->suggested_price->user->fullname}}" data-price="{{$contract->suggested_price->new_price}}" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver precio sugerido"><i class="fa fa-dollar"></i></a>
 					@endif
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-cancel finish-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Finalizar contrato"><i class="fa fa-flag-checkered"></i></a>

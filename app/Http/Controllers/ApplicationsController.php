@@ -249,8 +249,9 @@ class ApplicationsController extends Controller
         $application->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
 
         $application->customer;
-        $application->detail->office->type;
-        $application->detail->office->pictures;
+        $application->detail;
+        $application->office->type;
+        $application->office->pictures;
         $application->comments;
         return $application;
     }
@@ -262,7 +263,7 @@ class ApplicationsController extends Controller
      */
     public function filter_offices(Request $req)
     {
-        $query = Office::where('status', 1);//Available
+        $query = Office::has('branch')->where('status', 1);//Available
 
         if ($req->state_id) { $query = $query->where('state_id', $req->state_id); }
 

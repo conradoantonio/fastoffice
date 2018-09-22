@@ -87,7 +87,7 @@ class UsersController extends Controller
 			/*if ( $this->mail($params) ){
 				return redirect()->route('User.index1')->with(['msg' => 'Administrdor creado', 'class' => 'alert-success']);
 			}*/
-			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Administrador creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
+			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Usuario creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
 
 		} else {
 			return back()->with([ 'msg' => 'Error al crear el usuario', 'class' => 'alert-danger' ]);

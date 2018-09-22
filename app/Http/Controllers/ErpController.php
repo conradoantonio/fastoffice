@@ -15,54 +15,54 @@ use Excel, Image;
 class ErpController extends Controller
 {
 	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
-		if ( auth()->user()->branch || auth()->user()->role_id == 1 ){
-			$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
-				if ( auth()->user()->role_id == 2 ){
-					$q->where('branch_id', auth()->user()->branch->id);
-				} elseif ( auth()->user()->role_id == 3 ){
-					$q->where('id', auth()->user()->office->id);
-				} else{
-					if( $id ){
-						$q->where('branch_id', $id);
-					}
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('branch_id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				if( $id ){
+					$q->where('branch_id', $id);
 				}
-			});
-			$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use($id){
-				if ( auth()->user()->role_id == 2 ){
-					$q->where('branch_id', auth()->user()->branch->id);
-				} else{
-					if( $id ){
-						$q->where('branch_id', $id);
-					}
-				}
-			});
-			$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use($id){
-				if ( auth()->user()->role_id == 2 ){
-					$q->where('branch_id', auth()->user()->branch->id);
-				} else{
-					if( $id ){
-						$q->where('branch_id', $id);
-					}
-				}
-			});
-
-			if ( $start_date ){
-				$earnings->where('created_at','>',$start_date.' 00:00:00');
-				$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
-				$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
 			}
-			if( $end_date ){
-				$earnings->where('created_at','<=',$end_date.' 23:59:59');
-				$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
-				$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
+		});
+		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('id', auth()->user()->branch_id);
+			} else {
+				if( $id ){
+					$q->where('id', $id);
+				}
 			}
+		});
+		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id){
+			if ( auth()->user()->role_id == 2 ){
+				$q->where('id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('id', auth()->user()->branch_id);
+			} else {
+				if( $id ){
+					$q->where('id', $id);
+				}
+			}
+		});
 
-			$earnings = $earnings->get();
-			$expenses_fixed = $expenses_fixed->get();
-			$expenses_variable = $expenses_variable->get();
-		} else {
-			$earnings = $expenses_fixed = $expenses_variable = [];
+		if ( $start_date ){
+			$earnings->where('created_at','>',$start_date.' 00:00:00');
+			$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
+			$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
 		}
+		if( $end_date ){
+			$earnings->where('created_at','<=',$end_date.' 23:59:59');
+			$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
+			$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
+		}
+
+		$earnings = $earnings->get();
+		$expenses_fixed = $expenses_fixed->get();
+		$expenses_variable = $expenses_variable->get();
 
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
 		if ( auth()->user()->role_id == 2 ){
@@ -91,6 +91,10 @@ class ErpController extends Controller
 			$branches = $branches->where('user_id', auth()->user()->id);
 			$offices = $offices->where('branch_id', auth()->user()->branch->id);
 		}
+		if ( auth()->user()->role_id == 3 ){
+			$branches = $branches->where('user_id', auth()->user()->belongsBranch->user->id);
+			$offices = $offices->where('branch_id', auth()->user()->branch_id);
+		}	
 		$branches = $branches->pluck('name', 'id')->prepend("Seleccione una franquicia", 0);
 		$offices = $offices->pluck('name', 'id')->prepend("Seleccione una oficina", 0);
 
@@ -176,7 +180,7 @@ class ErpController extends Controller
 	}
 
 	public function export($id, $start_date, $end_date){
-		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use($id){
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ) {
 				$q->where('branch_id', auth()->user()->branch->id);
 			} elseif ( auth()->user()->role_id == 3 ) {
@@ -187,18 +191,22 @@ class ErpController extends Controller
 				}
 			}
 		});
-		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use($id){
+		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
 				$q->where('branch_id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('id', auth()->user()->branch_id);
 			} else{
 				if( $id ){
 					$q->where('branch_id', $id);
 				}
 			}
 		});
-		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use($id){
+		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
 				$q->where('branch_id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$q->where('id', auth()->user()->branch_id);
 			} else{
 				if( $id ){
 					$q->where('branch_id', $id);
@@ -252,7 +260,7 @@ class ErpController extends Controller
 			];
 		});
 
-		$excel = Excel::create('Utilidades', function($excel) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
+		$excel = Excel::create('Utilidades', function($excel) use ($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
 			$excel->sheet('Ingresos', function($sheet) use($ganancias, $gastos_fijos, $gastos_variables, $id, $start_date, $end_date) {
 
 				$sheet->cell('A1', function($cell) use ($ganancias){

@@ -99,8 +99,9 @@ class OfficesController extends Controller
 	}
 
 	public function destroy($id){
+		$office = Office::find($id);
 		if ( Office::destroy($id) ) {
-			#File::deleteDirectory(public_path()."/img/offices/".$id."/");
+			User::destroy($office->user_id);
 			return ['delete' => 'true'];
 		} else {
 			return ['delete' => 'false'];
@@ -108,10 +109,9 @@ class OfficesController extends Controller
 	}
 
 	public function multipleDestroys(Request $req){
+		$users_ids = Office::whereIn('id', $req->ids)->pluck('user_id');
 		if ( Office::destroy($req->ids) ){
-			/*foreach ($req->ids as $id) {
-				File::deleteDirectory(public_path()."/img/offices/".$id."/");
-			}*/
+			User::destroy($users_ids);
 			return ["delete" => "true"];
 		}
 		return ['delete' => 'false'];

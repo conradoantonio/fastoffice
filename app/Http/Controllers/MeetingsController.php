@@ -23,7 +23,7 @@ class MeetingsController extends Controller
 				if( $id ){
 					$q->where('id', $id);
 				} else {
-					$q->where('id', auth()->user()->office->id);
+					$q->where('branch_id', auth()->user()->branch_id);
 				}
 			} else {
 				if( $id ){

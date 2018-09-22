@@ -15,12 +15,16 @@ class MeetingObserver
 	public function saved(Meeting $meeting)
 	{
 		if ( auth()->check() && auth()->user()->role_id = 3 ){
-			if ( auth()->user()->office ){
-				session()->forget('reminders');
-				$today = date('Y-m-d');
-				$meetings = Meeting::with(['office', 'user'])->where('datetime_start', '>=', $today.' 00:00:00')->where('datetime_start', '<=', $today.' 23:59:59')->where('status', '1')->where('office_id', auth()->user()->office->id)->get();
-				session(['reminders' => $meetings]);
-			}
+			session()->forget('reminders');
+			$today = date('Y-m-d');
+			$meetings = Meeting::with(['office', 'user'])
+				->where('datetime_start', '>=', $today.' 00:00:00')
+				->where('datetime_start', '<=', $today.' 23:59:59')
+				->where('status', '1')
+				->whereHas('office', function($q){
+					$q->where('branch_id', auth()->user()->branch_id);
+				})->get();
+			session(['reminders' => $meetings]);
 		}
 	}
 
@@ -33,12 +37,15 @@ class MeetingObserver
 	public function deleted(Meeting $meeting)
 	{
 		if ( auth()->check() && auth()->user()->role_id = 3 ){
-			if ( auth()->user()->office ){
-				session()->forget('reminders');
-				$today = date('Y-m-d');
-				$meetings = Meeting::with(['office', 'user'])->where('datetime_start', '>=', $today.' 00:00:00')->where('datetime_start', '<=', $today.' 23:59:59')->where('status', '1')->where('office_id', auth()->user()->office->id)->get();
-				session(['reminders' => $meetings]);
-			}
+			session()->forget('reminders');
+			$today = date('Y-m-d');
+			$meetings = Meeting::with(['office', 'user'])
+				->where('datetime_start', '>=', $today.' 00:00:00')
+				->where('datetime_start', '<=', $today.' 23:59:59')
+				->whereHas('office', function($q){
+					$q->where('branch_id', auth()->user()->branch_id);
+				});
+			session(['reminders' => $meetings]);
 		}
 	}
 }

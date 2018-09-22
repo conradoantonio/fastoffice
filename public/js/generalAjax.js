@@ -290,7 +290,7 @@ function display_application_details(data) {
     var b_url = $('meta[name="base-url"]').attr('content');
     fill_text(data, null, true);
     fill_text(data.detail, null);
-    fill_text(data.detail.office, null);
+    fill_text(data.office, null);
 
     if (data.customer) {
         fill_text(data.customer, null);
@@ -302,11 +302,11 @@ function display_application_details(data) {
     /*Custom code*/
     $('span#application-id').text(data.id);
     $('span.capacity_people').text(data.detail.num_people);
-    $('span.office_type').text(data.detail.office.type.name);
+    $('span.office_type').text(data.office.type.name);
     $('span.created_at_date').text(data.new_time);
 
-    if (data.detail.office.pictures.length > 0) {
-        $('li.office-photo img').attr('src', b_url.concat('/'+data.detail.office.pictures[0].path));
+    if (data.office.pictures.length > 0) {
+        $('li.office-photo img').attr('src', b_url.concat('/'+data.office.pictures[0].path));
     } else {
         $('li.office-photo img').attr('src', b_url.concat('/img/default_office.png'));
     }

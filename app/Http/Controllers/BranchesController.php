@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\BranchPicture;
+use App\Models\Office;
 use Image;
 use Excel;
 
@@ -92,8 +93,16 @@ class BranchesController extends Controller
 	}
 
 	public function destroy($id){
-		if ( Branch::destroy($id) ) {
-			#File::deleteDirectory(public_path()."/img/branches/".$id."/");
+		$branch = Branch::find($id);
+		if ( $branch ) {
+			$user_recepcionist = User::where('branch_id', $branch->id)->pluck('id');
+			$offices = $branch->offices->pluck('id');
+			User::destroy($branch->user_id);
+			User::destroy($user_recepcionist);
+			foreach ($offices as $of_id) {
+				Office::destroy($of_id);
+			}
+			Branch::destroy($id);
 			return ['delete' => 'true'];
 		} else {
 			return ['delete' => 'false'];
@@ -101,10 +110,17 @@ class BranchesController extends Controller
 	}
 
 	public function multipleDestroys(Request $req){
-		if ( Branch::destroy($req->ids) ){
-			/*foreach ($req->ids as $id) {
-				File::deleteDirectory(public_path()."/img/branches/".$id."/");
-			}*/
+		$users_ids = Branch::whereIn('id', $req->ids)->pluck('user_id');
+		$branches = Branch::whereIn('id', $req->ids)->get();
+		if ( $branches ){
+			$branches->each(function($branch, $key){
+				$branch->office->each(function($office, $key){
+					Office::destroy($office->id);
+				});
+			});
+			User::destroy($branch->user_id);
+			User::destroy($users_ids);
+			Branch::destroy($req->ids)
 			return ["delete" => "true"];
 		}
 		return ['delete' => 'false'];
