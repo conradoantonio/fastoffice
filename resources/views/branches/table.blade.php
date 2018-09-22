@@ -9,7 +9,7 @@
 				</div>
 			</th>
 			<th>Nombre</th>
-			<th>Franquisatario</th>
+			<th>Franquiciatario</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
 		</thead>

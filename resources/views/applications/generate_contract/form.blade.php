@@ -111,9 +111,19 @@
                     </div>
                 </div>
                 @if(auth()->user()->role->name == 'Recepcionista')
+<<<<<<< HEAD
                     @if(!$contract){{-- Creating the contract --}}
                         <div class="alert alert-info">
                             Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un franquisatario.
+=======
+                    <div class="alert alert-info">
+                        Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un Franquiciatario.
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="" for="new_price">Sugerir precio</label>
+                            <input type="text" class="form-control decimals" value="{{$contract && $contract->new_office_price ? $contract->new_office_price->price : ''}}" name="new_price" data-name="Precio sugerido">
+>>>>>>> b4afb631800a2d4b1e2ecbd0812153cb9cddb5f6
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-xs-12">

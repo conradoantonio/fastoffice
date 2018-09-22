@@ -23,8 +23,8 @@ class UsersTableSeeder extends Seeder
 				'role_id' => 1,
 			],
 			[
-				'fullname' => "Franquisatario",
-				'email' => 'franquisatario@hotmail.com',
+				'fullname' => "Franquiciatario",
+				'email' => 'Franquiciatario@hotmail.com',
 				'password' => bcrypt('contra'),
 				'phone' => 3310980989,
 				'regime' => 'Persona física',

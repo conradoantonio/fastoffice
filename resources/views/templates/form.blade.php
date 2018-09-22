@@ -110,7 +110,7 @@
 	    	$.each(data, function(key, value){
 				var mockFile = { name: value.path, size: value.size};
 				myDropzone.options.addedfile.call(myDropzone, mockFile);
-				myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
+				myDropzone.options.thumbnail.call(myDropzone, mockFile, "{{asset('')}}/"+value.path);
 			})
 	    }
 	})

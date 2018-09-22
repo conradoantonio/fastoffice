@@ -48,10 +48,11 @@ class TemplatesController extends Controller
 		$template->user_status_id  = $req->user_status_id - 1;
 
 		if ( $req->hasFile('file') ){
-			$directorio = public_path().'/img/templates/'.$req->id.'/';
+			$directorio = public_path('img/templates/'.$req->id.'/');
 			if (!File::exists($directorio)){
 				File::makeDirectory($directorio, 0777, true, true);
 			}
+			sleep(1);
 			$image = $req->file('file');
 			$name = date("His");
 			$last = Attachment::orderBy('id', 'desc')->first();
@@ -61,7 +62,7 @@ class TemplatesController extends Controller
 
 			if ( $image ) {
 				$attachment = new Attachment();
-				$attachment->path = '/img/templates/'.$id.'/'.$name;
+				$attachment->path = 'img/templates/'.$id.'/'.$name;
 				$attachment->size = $image->getClientSize();
 				$template->attachments()->save($attachment);
 
@@ -83,7 +84,7 @@ class TemplatesController extends Controller
 
 	public function destroy($id){
 		if ( Template::destroy($id) ){
-			if ( File::deleteDirectory(public_path()."/img/templates/".$id."/") ){
+			if ( File::deleteDirectory(public_path("img/templates/".$id."/")) ){
 
 			}
 			return ["delete" => "true"];
@@ -94,7 +95,7 @@ class TemplatesController extends Controller
 	public function multipleDestroys(Request $req){
 		if ( Template::destroy($req->ids) ){
 			foreach ($req->ids as $id) {
-				File::deleteDirectory(public_path()."/img/templates/".$id."/");
+				File::deleteDirectory(public_path("img/templates/".$id."/"));
 			}
 			return ["delete" => "true"];
 		}

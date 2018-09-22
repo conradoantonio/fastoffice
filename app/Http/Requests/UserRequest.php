@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
 			case 'POST':
 				if ( !$this->ajax() ){
 					return [
-						'fullname'  => 'required|regex:/^[\pL\s]+$/u|min:3',
+						'fullname'  => 'required|min:3',
 						'email' => 'required|email|min:8|unique:users,email',
 						'phone' => 'required|numeric',
 						'password' => 'required|min:8',
@@ -46,7 +46,7 @@ class UserRequest extends FormRequest
 					];
 				} else {
 					return [
-						'fullname'  => 'required|regex:/^[\pL\s]+$/u|min:3',
+						'fullname'  => 'required|min:3',
 						'phone' => 'required|numeric',
 						'email' => 'required|email|unique:users',
 						'password' => 'required|min:8',
@@ -55,7 +55,7 @@ class UserRequest extends FormRequest
 			case 'PUT':
 				if ( !$this->ajax() ){
 					return [
-						'fullname' => 'required|regex:/^[\pL\s]+$/u|min:3',
+						'fullname' => 'required|min:3',
 						'email' => 'required|email|unique:users,email, '.$this->route('id'),
 						'phone' => 'required|numeric',
 						'password' => 'sometimes|nullable|min:8',
@@ -70,7 +70,7 @@ class UserRequest extends FormRequest
 					];
 				} else {
 					return [
-						'fullname' => 'required|regex:/^[\pL\s]+$/u|min:3',
+						'fullname' => 'required|min:3',
 						'phone' => 'required|numeric',
 						'email' => 'required|email|unique:users,email, '.$this->route('id'),
 						'password' => 'sometimes|min:8',

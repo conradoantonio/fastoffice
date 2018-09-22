@@ -119,7 +119,17 @@ class ApplicationsController extends Controller
 
         $detail->save();
 
-        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'url' => url('crm/prospectos')], 200);
+        $params = array();
+        $params['subject'] = "¡Nuevo prospecto registrado!";
+        $params['title'] = "Nuevo prospecto";
+        $params['content'] = $req->fullname." ha enviado sus datos de contacto para contratar una oficina, por favor, ingrese al módulo de prospectos para más información.";
+        $params['email'] = "info@fastoffice.mx";
+        $params['cc'] = "ventas@fastoffice.mx";
+        $params['view'] = 'mails.general';
+
+        $this->mail($params);
+
+        return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'code' => 1, 'url' => url('crm/prospectos')], 200);
     }
 
     /**
@@ -288,6 +298,20 @@ class ApplicationsController extends Controller
         return $query;
     }
 
+    /**
+     * Show only the form for save prospects
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function only_form(Request $req)
+    {
+        $states = State::all();
+
+        $officeTypes = OfficeType::all();
+
+        return view('applications.prospects.only_form', ['officeTypes' => $officeTypes, 'states' => $states]);
+    
+    }
     /**
      * Send a specific template to selected prospects
      *

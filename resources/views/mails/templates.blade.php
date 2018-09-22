@@ -7,7 +7,7 @@
 		</div>
 		<div style="text-align: justify; padding: 2% 10%;background: whitesmoke;">
 			<h1 style="margin-top: 0px;">{{$title}}</h1>
-			<p>{{$content['message']}}</p>
+			<p>{!! nl2br(e($content['message'])) !!}</p>
 			@if( $content['attachments'] )
 				<div >
 					@foreach( $content['attachments'] as $attachment )

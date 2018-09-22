@@ -25,6 +25,9 @@ trait GeneralFunctions
 		$params['view'] = @$params['view']?$params['view']:'mails.general';
 		Mail::send($params['view'], ['title' => $params['title'], 'content' => $params['content']], function ($message) use($params)
 		{
+			if (array_key_exists('cc', $params)) {
+				$message->cc($params['cc']);
+			}
 			$message->to($params['email']);
 			$message->from(env('MAIL_USERNAME'), env('APP_NAME'));
 			$message->subject(env('APP_NAME').' | '.$params['subject']);
