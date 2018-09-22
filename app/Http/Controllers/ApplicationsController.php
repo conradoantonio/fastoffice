@@ -310,8 +310,8 @@ class ApplicationsController extends Controller
         $officeTypes = OfficeType::all();
 
         return view('applications.prospects.only_form', ['officeTypes' => $officeTypes, 'states' => $states]);
-    
     }
+    
     /**
      * Send a specific template to selected prospects
      *
