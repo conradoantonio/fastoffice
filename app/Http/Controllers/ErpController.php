@@ -67,7 +67,9 @@ class ErpController extends Controller
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
 		if ( auth()->user()->role_id == 2 ){
 			if ( auth()->user()->branch  ){
-				$offices = Office::pluck('name', 'id')->where('branch_id', auth()->user()->branch->id)->prepend("Mostrar todas", 0);
+				$offices = Office::whereHas('branch', function($q){
+					$q->where('id', auth()->user()->branch->id);
+				})->pluck('name', 'id')->prepend("Mostrar todas", 0);
 			} else {
 				$offices = [];
 			}
@@ -292,7 +294,7 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->id:$id;
+					$id = !$id?auth()->user()->branch->id:$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
@@ -346,7 +348,7 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->id:$id;
+					$id = !$id?auth()->user()->branch->id:$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
@@ -400,7 +402,7 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->id:$id;
+					$id = !$id?auth()->user()->branch->id:$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
