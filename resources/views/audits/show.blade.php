@@ -60,17 +60,18 @@
 				<tbody>
 					@foreach( $details as $key => $auditDetails )
 						@php
-							$total_questions = count(collect($auditDetails)->where('answer', 1));
+							$approved_questions = count(collect($auditDetails)->where('answer', 1));
+							$na_questions = count(collect($auditDetails)->where('answer', 2));
 						@endphp
 						<tr>
 							<td colspan="3">
 								<span class="bold">{{$key}}</span>
 							</td>
 							<td>
-								{{ $total_questions . '/' . count($auditDetails) }}
+								{{ ($approved_questions + $na_questions) . '/' . count($auditDetails) }}
 							</td>
 							<td>
-								{{ round((100 * $total_questions / count($auditDetails)),2)}}%
+								{{ round((100 * ($approved_questions + $na_questions) / count($auditDetails)),2)}}%
 							</td>
 						</tr>
 						@foreach( $auditDetails as $auditDetail)

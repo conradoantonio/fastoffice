@@ -17,8 +17,11 @@ class LoginController extends Controller
 		if ( Auth::attempt(['email' => $req->email, 'password' => $req->password, 'status' => 1])){
 				if ( auth()->user()->role_id == 4 ){
 					$this->logout();
-				}
-				if ( auth()->user()->role_id == 3 ){
+				} elseif ( auth()->user()->role_id == 2 && !auth()->user()->branch ) {
+					auth()->logout();
+					$msg = [ 'status' => 'No tienes una franquicia asignada'];
+					return back()->withErrors($msg);
+				} elseif ( auth()->user()->role_id == 3 ) {
 				    if ( auth()->user()->belongsBranch ) {
 						$today = date('Y-m-d');
 						$meetings = Meeting::with(['office', 'user'])
@@ -33,7 +36,7 @@ class LoginController extends Controller
 						$msg = [ 'status' => 'Tu cuenta de recepcionista no está asociada a ninguna franquicia'];
 						return back()->withErrors($msg);
 					}
-					session(['reminders' => $meetings]);	
+					session(['reminders' => $meetings]);
 				}
 				return redirect('/dashboard');
 		} else {

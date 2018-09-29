@@ -64,12 +64,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 {{$errors->office->first('branch_id')?'has-error':''}}">
+				<div class="form-group col-md-12 {{$errors->office->first('branch_id')?'has-error':''}}">
 					{{Form::label('branch_id', 'Sucursal (Franquicia)', ['class' => 'control-label required'])}}
 					{!!Form::select('branch_id', $offices, $office->id?$office->branch_id:null, ['class' => 'select2 form-control not-empty', 'id' => 'branch_id', 'name' => 'branch_id', 'data-name' => 'Sucursal (Franquicia)'] )!!}
 					{{@$errors->office->first('branch_id')}}
 				</div>
-				<div class="form-group col-md-6 {{$errors->office->first('user_id')?'has-error':''}}">
+				<div class="form-group col-md-6 hide {{$errors->office->first('user_id')?'has-error':''}}">
 					{{Form::label('user_id', 'Recepcionista', ['class' => 'control-label'])}}
 					{!!Form::select('user_id', $users, $office->id?$office->user_id:null, ['class' => 'select2 form-control', 'id' => 'user_id', 'name' => 'user_id', 'data-name' => 'Recepcionista'] )!!}
 					{{@$errors->office->first('user_id')}}
