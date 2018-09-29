@@ -120,7 +120,13 @@ class MeetingsController extends Controller
 	public function form($id = null){
 		$meeting = new Meeting();
 		$users = User::where(['role_id' => 4, 'status' => 1])->pluck('fullname', 'id')->prepend("Usuario no registrado", 0);
-		$offices = Office::where('status', 1)->pluck('name','id')->prepend("Seleccione una oficina", 0);
+		$offices = Office::whereHas('branch',function($query){
+			if ( auth()->user()->role_id == 2 ) {
+				$query->where('branch_id', auth()->user()->branch->id);
+			} elseif ( auth()->user()->role_id == 3 ){
+				$query->where('branch_id', auth()->user()->branch_id);	
+			}
+		})->pluck('name','id')->prepend("Seleccione una oficina", 0);
 
 		if ( $id ) {
 			$meeting = Meeting::findOrFail($id);

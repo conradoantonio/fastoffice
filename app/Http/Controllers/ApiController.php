@@ -448,6 +448,7 @@ class ApiController extends Controller
      */
     public function add_audit_deatil(Request $req)
     {
+        $set_ans = 0;
     	$audit = Audit::find($req->audit_id);
     	$question = Question::find($req->question_id);
 
@@ -455,6 +456,9 @@ class ApiController extends Controller
     	if (!$question) { return response(['msg' => 'Pregunta no encontrada o inválida', 'code' => 0], 200); }
 
     	$exist = AuditDetail::where('audit_id', $audit->id)->where('question_id', $question->id)->first();
+        if ($req->answer == 0) {$set_ans = 1;}
+        elseif ($req->answer == 1) {$set_ans = 0;}
+        elseif ($req->answer == 2) {$set_ans = 2;}
 
     	if ($exist) { return response(['msg' => 'Esta pregunta ya ha sido respondida', 'code' => 0, 'audit_detail_id' => $exist->id], 200); }
 
@@ -462,7 +466,7 @@ class ApiController extends Controller
 
     	$row->audit_id = $audit->id;
     	$row->question_id = $question->id;
-    	$row->answer = $req->answer;
+    	$row->answer = $set_ans;
     	$row->detail = $req->detail;
 
     	$row->save();
@@ -477,11 +481,16 @@ class ApiController extends Controller
      */
     public function update_audit_deatil(Request $req)
     {
+        $set_ans = 0;
     	$row = AuditDetail::find($req->audit_detail_id);
 
     	if (!$row) { return response(['msg' => 'Registro no encontrado', 'code' => 0], 200); }
 
-    	$row->answer = $req->answer;
+        if ($req->answer == 0) {$set_ans = 1;}
+        elseif ($req->answer == 1) {$set_ans = 0;}
+        elseif ($req->answer == 2) {$set_ans = 2;}
+
+    	$row->answer = $set_ans;
     	$row->detail = $req->detail;
 
     	$row->save();
