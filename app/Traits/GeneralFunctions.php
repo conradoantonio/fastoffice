@@ -62,10 +62,11 @@ trait GeneralFunctions
 
 			} else {//Create new user
 				$u_app = New User;
+				$pass = str_random(6);
 
 				$u_app->fullname = $row->fullname; 
 				$u_app->email = $row->email;
-				$u_app->password = bcrypt($row->email);
+				$u_app->password = bcrypt($pass);
 				$u_app->phone = $row->phone;
 				$u_app->regime = $row->regime;
 				$u_app->rfc = $row->rfc;
@@ -74,6 +75,19 @@ trait GeneralFunctions
 				$u_app->save();
 
 				$row->user_id = $u_app->id;//Update the application row with the created user
+
+				$params = array();
+				$params['subject'] = "Acceso a la aplicación Fastoffice";
+				$params['content']['message'] = "Saludos ".$u_app->fullname.", a continuación se muestran sus credenciales para aaceder a nuestra app y realizar consultas sobre sus contratos de oficinas, notificaciones y demás.";
+				$params['content']['email'] = $u_app->email;
+				$params['content']['password'] = $pass;
+				$params['title'] = "Credenciales de acceso a la aplicación";
+				$params['email'] = $u_app->email;
+				$params['view'] = 'mails.credentials';
+
+				if ( @$this->mail($params) ){
+					//return response(['msg' => 'Se ha enviado un correo', 'code' => 1],200);
+				}
 			}
 
 			//Updates the application row
