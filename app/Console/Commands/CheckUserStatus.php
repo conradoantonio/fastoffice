@@ -45,6 +45,9 @@ class CheckUserStatus extends Command
         if ( $automaticTemplates->isEmpty() ) { return; }
 
         $prospectos->each(function($prospecto, $key) use ($automaticTemplates) {
+            if ( !$prospecto->sendHistoryTemplate ){
+                return;
+            }
             $find = $automaticTemplates->where('id', $prospecto->sendHistoryTemplate->template_id)->first();
 
             if ( !$find ){
