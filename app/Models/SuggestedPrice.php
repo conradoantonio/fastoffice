@@ -42,7 +42,7 @@ class SuggestedPrice extends Model
      */
     public function office()
     {
-        return $this->belongsTo(Office::class);
+        return $this->belongsTo(Office::class)->withTrashed();
     }
 
     /**
@@ -50,6 +50,6 @@ class SuggestedPrice extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 }
