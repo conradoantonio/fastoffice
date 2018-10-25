@@ -72,9 +72,11 @@ class CheckUserStatus extends Command
                 'email' => $prospecto->email?$prospecto->email:$prospecto->customer->email,
                 'view' => 'mails.templates'
             );
-
+            
             $fields = json_encode($fields);
-
+            
+            \Log::info('Estos son los parámetros de plantilla automática '.$fields);
+            
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://fastoffice.app/apiv1/enviar-correo");
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
@@ -86,8 +88,8 @@ class CheckUserStatus extends Command
 
             $response = curl_exec($ch);
             curl_close($ch);
-
-            \Log::info('Se ejecuto el curl para enviar plantilla automática');
+            
+            #\Log::info('Se ejecuto el curl para enviar plantilla automática');
         });
     }
 }
