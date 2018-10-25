@@ -17,7 +17,7 @@ class ErpController extends Controller
 	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
 		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
 				$q->where('branch_id', auth()->user()->branch_id);
 			} else{
@@ -28,7 +28,7 @@ class ErpController extends Controller
 		});
 		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('id', auth()->user()->branch->id);
+				$q->whereIn('id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
 				$q->where('id', auth()->user()->branch_id);
 			} else {
@@ -39,7 +39,7 @@ class ErpController extends Controller
 		});
 		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('id', auth()->user()->branch->id);
+				$q->whereIn('id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
 				$q->where('id', auth()->user()->branch_id);
 			} else {
@@ -66,9 +66,9 @@ class ErpController extends Controller
 
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
 		if ( auth()->user()->role_id == 2 ){
-			if ( auth()->user()->branch  ){
+			if ( auth()->user()->branches  ){
 				$offices = Office::whereHas('branch', function($q){
-					$q->where('id', auth()->user()->branch->id);
+					$q->whereIn('id', auth()->user()->branches->pluck('id'));
 				})->pluck('name', 'id')->prepend("Mostrar todas", 0);
 			} else {
 				$offices = [];
@@ -76,7 +76,6 @@ class ErpController extends Controller
 		} else {
 			$offices = Office::pluck('name', 'id')->prepend("Mostrar todas", 0);
 		}
-
 
 		if ($req->ajax()) {
 			return view('erp.content', compact('earnings', 'expenses_fixed', 'expenses_variable'));
@@ -91,12 +90,12 @@ class ErpController extends Controller
 		$offices = Office::all();
 		if ( auth()->user()->role_id == 2 ){
 			$branches = $branches->where('user_id', auth()->user()->id);
-			$offices = $offices->where('branch_id', auth()->user()->branch->id);
+			$offices = $offices->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 		}
 		if ( auth()->user()->role_id == 3 ){
-			$branches = $branches->where('user_id', auth()->user()->belongsBranch->user->id);
+			$branches = $branches->where('id', auth()->user()->office->branch_id);
 			$offices = $offices->where('branch_id', auth()->user()->branch_id);
-		}	
+		}
 		$branches = $branches->pluck('name', 'id')->prepend("Seleccione una franquicia", 0);
 		$offices = $offices->pluck('name', 'id')->prepend("Seleccione una oficina", 0);
 
@@ -184,7 +183,7 @@ class ErpController extends Controller
 	public function export($id, $start_date, $end_date){
 		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ) {
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ) {
 				$q->where('id', auth()->user()->office->id);
 			} else {
@@ -195,7 +194,7 @@ class ErpController extends Controller
 		});
 		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
 				$q->where('id', auth()->user()->branch_id);
 			} else{
@@ -206,7 +205,7 @@ class ErpController extends Controller
 		});
 		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
 				$q->where('id', auth()->user()->branch_id);
 			} else{
@@ -294,12 +293,16 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->branch->id:$id;
+					$id = !$id?auth()->user()->branches->pluck('id'):$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						$cell->setValue('Sucursal: '.$sucursal->name);
+						if ( count($sucursal) > 1 ){
+							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
+						} else {
+							$cell->setValue('Sucursal: '.$sucursal->name);
+						}
 					});
 				}
 
@@ -348,12 +351,16 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->branch->id:$id;
+					$id = !$id?auth()->user()->branches->pluck('id'):$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						$cell->setValue('Sucursal: '.$sucursal->name);
+						if ( count($sucursal) > 1 ){
+							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
+						} else {
+							$cell->setValue('Sucursal: '.$sucursal->name);
+						}
 					});
 				}
 
@@ -402,12 +409,16 @@ class ErpController extends Controller
 				});
 
 				if( $id || auth()->user()->role_id != 1 ){
-					$id = !$id?auth()->user()->branch->id:$id;
+					$id = !$id?auth()->user()->branches->pluck('id'):$id;
 					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						$cell->setValue('Sucursal: '.$sucursal->name);
+						if ( count($sucursal) > 1 ){
+							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
+						} else {
+							$cell->setValue('Sucursal: '.$sucursal->name);
+						}
 					});
 				}
 

@@ -15,37 +15,37 @@ class LoginController extends Controller
 	public function login(Request $req)
 	{
 		if ( Auth::attempt(['email' => $req->email, 'password' => $req->password, 'status' => 1])){
-				if ( auth()->user()->role_id == 4 ){
-					$this->logout();
-				} elseif ( auth()->user()->role_id == 2 && !auth()->user()->branch ) {
+			if ( auth()->user()->role_id == 4 ){
+				$this->logout();
+			} elseif ( auth()->user()->role_id == 2 && auth()->user()->branches->isEmpty() ) {
+				auth()->logout();
+				$msg = [ 'status' => 'No tienes una franquicia asignada'];
+				return back()->withErrors($msg);
+			} elseif ( auth()->user()->role_id == 3 ) {
+			    if ( auth()->user()->belongsBranch ) {
+					$today = date('Y-m-d');
+					$meetings = Meeting::with(['office', 'user'])
+						->where('datetime_start', '>=', $today.' 00:00:00')
+						->where('datetime_start', '<=', $today.' 23:59:59')
+						->where('status', '1')
+						->whereHas('office', function($q){
+							$q->where('branch_id', auth()->user()->branch_id);
+						})->get();
+				} else {
 					auth()->logout();
-					$msg = [ 'status' => 'No tienes una franquicia asignada'];
+					$msg = [ 'status' => 'Tu cuenta de recepcionista no está asociada a ninguna franquicia'];
 					return back()->withErrors($msg);
-				} elseif ( auth()->user()->role_id == 3 ) {
-				    if ( auth()->user()->belongsBranch ) {
-						$today = date('Y-m-d');
-						$meetings = Meeting::with(['office', 'user'])
-							->where('datetime_start', '>=', $today.' 00:00:00')
-							->where('datetime_start', '<=', $today.' 23:59:59')
-							->where('status', '1')
-							->whereHas('office', function($q){
-								$q->where('branch_id', auth()->user()->branch_id);
-							})->get();
-					} else {
-						auth()->logout();
-						$msg = [ 'status' => 'Tu cuenta de recepcionista no está asociada a ninguna franquicia'];
-						return back()->withErrors($msg);
-					}
-					session(['reminders' => $meetings]);
 				}
-				return redirect('/dashboard');
+				session(['reminders' => $meetings]);
+			}
+			return redirect('/dashboard');
 		} else {
 			$exist = DB::table('users')->where('email', $req->email)->first();
 			if ( !$exist ) {
 				session()->forget('account');
 				$msg = [ 'email' => 'No hay ningun usuario registrado con este correo'];
 			} else {
-				if ( !$exist->status ) {
+				if ( !$exist->status || $exist->deleted_at ) {
 					$msg = [ 'status' => 'No tienes acceso al panel'];
 					session(['account' => $req->email]);
 				} elseif( $exist->role_id == 4){

@@ -12,7 +12,7 @@ class AuditsController extends Controller
 	public function index(Request $req, $id = null){
 		$audits = Audit::with('office', 'user')->whereHas('office', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} else{
 				if( $id ){
 					$q->where('branch_id', $id);

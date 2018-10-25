@@ -15,7 +15,7 @@ class MeetingsController extends Controller
 	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
 		$meetings = Meeting::whereHas('office', function($q) use($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 				if( $id ){
 					$q->where('id', $id);
 				}
@@ -67,7 +67,7 @@ class MeetingsController extends Controller
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
 		$offices = Office::get();
 		if ( auth()->user()->role_id == 2 ){
-			$offices = $offices->where('branch_id', auth()->user()->branch->id);
+			$offices = $offices->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 		}
 		$offices = $offices->pluck('name', 'id')->prepend("Mostrar todas", 0);
 
@@ -80,7 +80,7 @@ class MeetingsController extends Controller
 	public function events(Request $req, $id = null, $start_date = null, $end_date = null){
 		$meetings = Meeting::whereHas('office', function($q) use($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->where('branch_id', auth()->user()->branch->id);
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} else{
 				if( $id ){
 					$q->where('branch_id', $id);
@@ -122,9 +122,9 @@ class MeetingsController extends Controller
 		$users = User::where(['role_id' => 4, 'status' => 1])->pluck('fullname', 'id')->prepend("Usuario no registrado", 0);
 		$offices = Office::whereHas('branch',function($query){
 			if ( auth()->user()->role_id == 2 ) {
-				$query->where('branch_id', auth()->user()->branch->id);
+				$query->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ){
-				$query->where('branch_id', auth()->user()->branch_id);	
+				$query->where('branch_id', auth()->user()->branch_id);
 			}
 		})->pluck('name','id')->prepend("Seleccione una oficina", 0);
 
@@ -166,7 +166,7 @@ class MeetingsController extends Controller
 		->where([
 			['id', '!=', $id],
 			'office_id' => $req->office_id
-		])->get();		
+		])->get();
 
 		if ( !$old->isEmpty() ){
 			$meeting->date = date('d M Y', strtotime($meeting->datetime_start));

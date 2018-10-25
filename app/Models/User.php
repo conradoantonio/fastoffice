@@ -54,8 +54,8 @@ class User extends Authenticatable
 		return $this->belongsTo(Role::class);
 	}
 
-	public function branch(){
-		return $this->hasOne(Branch::class, 'user_id');
+	public function branches(){
+		return $this->hasMany(Branch::class, 'user_id');
 	}
 
 	public function office(){
@@ -63,7 +63,7 @@ class User extends Authenticatable
 	}
 
 	public function belongsBranch(){
-		return $this->belongsTo(Branch::class, 'branch_id');
+		return $this->belongsTo(Branch::class, 'branch_id', 'id');
 	}
 
 	public function calendars(){
