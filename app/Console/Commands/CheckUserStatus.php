@@ -76,7 +76,7 @@ class CheckUserStatus extends Command
             $fields = json_encode($fields);
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://fastoffice.bsmx.tech/apiv1/enviar-correo");
+            curl_setopt($ch, CURLOPT_URL, "http://fastoffice.app/apiv1/enviar-correo");
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -86,6 +86,8 @@ class CheckUserStatus extends Command
 
             $response = curl_exec($ch);
             curl_close($ch);
+
+            \Log::info('Se ejecuto el curl para enviar plantilla automática');
         });
     }
 }

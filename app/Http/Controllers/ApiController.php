@@ -213,12 +213,15 @@ class ApiController extends Controller
                     ->from(env('MAIL_USERNAME'), env('APP_NAME'))
                     ->subject(env('APP_NAME').' | '.$params['subject']);
             });
+
+            \Log::info('Se envió plantilla de recordario al correo '.$params['email']);
         } else {
             Mail::send('mails.templates', ['title' => $params['title'], 'content' => $params['content']], function ($mail) use ($params) {
                 $mail->to($params['email'])
                     ->from(env('MAIL_USERNAME'), env('APP_NAME'))
                     ->subject(env('APP_NAME').' | '.$params['subject']);
             });
+            \Log::info('Se envió plantilla automática al correo '.$params['email']);
         }
     }
 

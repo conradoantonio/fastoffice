@@ -67,7 +67,7 @@ class CheckNotificationsCalendar extends Command
 				$fields = json_encode($fields);
 
 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, "http://fastoffice.bsmx.tech/apiv1/enviar-correo");
+				curl_setopt($ch, CURLOPT_URL, "http://fastoffice.app/apiv1/enviar-correo");
 				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 				curl_setopt($ch, CURLOPT_HEADER, FALSE);
