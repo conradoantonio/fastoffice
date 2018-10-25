@@ -44,7 +44,7 @@ class CheckNotificationsCalendar extends Command
 	public function handle()
 	{
 		$today = date('Y-m-d', strtotime('now'));
-		$users = User::where('role_id', 3)->get();
+		$users = User::has('office')->get();
 		$users->each(function($user, $key) use($today){
 			$content = $tr = "";
 			$tasks = $user->office->tasks->where('datetime_start', '>=', $today.' 00:00:00')->where('datetime_start', '<=', $today.' 23:59:59');
