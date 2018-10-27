@@ -29,7 +29,7 @@ class UsersController extends Controller
 
 			$users = User::whereIn('role_id',$roles_id)->get();
 		} else {
-			$users = User::where('branch_id', auth()->user()->branches->id)->get();
+			$users = User::where('branch_id', auth()->user()->branches->pluck('id'))->get();
 		}
 
 		$roles = Role::all()->pluck('name','id')->prepend('Todos los roles', 0)->except(['id', '4']);

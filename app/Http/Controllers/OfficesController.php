@@ -39,7 +39,11 @@ class OfficesController extends Controller
 		$office = new Office();
 		$types = OfficeType::pluck('name', 'id')->prepend("Seleccione un tipo", 0);
 		$users = [0 => "Seleccione un usuario"];
-		$offices = Branch::where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
+		if ( auth()->user()->role_id == 1 ){//Admin
+			$offices = Branch::where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
+		} else {
+			$offices = Branch::where('user_id', auth()->user()->id)->where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
+		}
 		$states = State::pluck('name', 'id')->prepend('Selecciona un estado', 0);
 		$municipalities = [0 => 'Seleccione un municipio'];
 

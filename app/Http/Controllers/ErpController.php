@@ -93,7 +93,7 @@ class ErpController extends Controller
 			$offices = $offices->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 		}
 		if ( auth()->user()->role_id == 3 ){
-			$branches = $branches->where('id', auth()->user()->office->branch_id);
+			$branches = $branches->where('id', auth()->user()->branch_id);
 			$offices = $offices->where('branch_id', auth()->user()->branch_id);
 		}
 		$branches = $branches->pluck('name', 'id')->prepend("Seleccione una franquicia", 0);
@@ -292,16 +292,18 @@ class ErpController extends Controller
 					$cell->setValue('Periodo: '.$periodo);
 				});
 
-				if( $id || auth()->user()->role_id != 1 ){
+				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					$sucursal = Branch::find($id);
-					$sheet->cell('A3', function($cell) use ($sucursal){
+					
+					$sucursal = Office::find($id);
+					$sheet->cell('A3', function($cell) use ($sucursal, $id){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
+						
 						if ( count($sucursal) > 1 ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							$cell->setValue('Sucursal: '.$sucursal->name);
+							//$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}
@@ -350,16 +352,16 @@ class ErpController extends Controller
 					$cell->setValue('Periodo: '.$periodo);
 				});
 
-				if( $id || auth()->user()->role_id != 1 ){
+				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					$sucursal = Branch::find($id);
+					$sucursal = Office::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
 						if ( count($sucursal) > 1 ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							$cell->setValue('Sucursal: '.$sucursal->name);
+							//$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}
@@ -408,16 +410,16 @@ class ErpController extends Controller
 					$cell->setValue('Periodo: '.$periodo);
 				});
 
-				if( $id || auth()->user()->role_id != 1 ){
+				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					$sucursal = Branch::find($id);
+					$sucursal = Office::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
 						if ( count($sucursal) > 1 ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							$cell->setValue('Sucursal: '.$sucursal->name);
+							//$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}
