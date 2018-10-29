@@ -67,14 +67,12 @@ class ErpController extends Controller
 		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
 		if ( auth()->user()->role_id == 2 ){
 			if ( auth()->user()->branches  ){
-				$offices = Office::whereHas('branch', function($q){
-					$q->whereIn('id', auth()->user()->branches->pluck('id'));
+				$branches = Branch::whereHas('user', function($q){
+					$q->where('id', auth()->user()->id);
 				})->pluck('name', 'id')->prepend("Mostrar todas", 0);
 			} else {
-				$offices = [];
+				$branches = [];
 			}
-		} else {
-			$offices = Office::pluck('name', 'id')->prepend("Mostrar todas", 0);
 		}
 
 		if ($req->ajax()) {
@@ -294,16 +292,16 @@ class ErpController extends Controller
 
 				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					
-					$sucursal = Office::find($id);
+
+					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal, $id){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						
-						if ( count($sucursal) > 1 ){
+
+						if ( is_a($sucursal, 'Illuminate\Database\Eloquent\Collection') ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							//$cell->setValue('Sucursal: '.$sucursal->name);
+							$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}
@@ -354,14 +352,14 @@ class ErpController extends Controller
 
 				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					$sucursal = Office::find($id);
+					$sucursal = Branch::find($id);
 					$sheet->cell('A3', function($cell) use ($sucursal){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						if ( count($sucursal) > 1 ){
+						if ( is_a($sucursal, 'Illuminate\Database\Eloquent\Collection') ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							//$cell->setValue('Sucursal: '.$sucursal->name);
+							$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}
@@ -412,14 +410,14 @@ class ErpController extends Controller
 
 				if( $id || auth()->user()->role_id != 1 ){//Is not admin
 					$id = !$id?auth()->user()->branches->pluck('id'):$id;
-					$sucursal = Office::find($id);
-					$sheet->cell('A3', function($cell) use ($sucursal){
+					$sucursal = Branch::find($id);
+					$sheet->cell('A3', function($cell) use ($sucursal, $id){
 						$cell->setFontWeight('bold');
 						$cell->setFontSize(14);
-						if ( count($sucursal) > 1 ){
+						if ( is_a($sucursal, 'Illuminate\Database\Eloquent\Collection') ){
 							$cell->setValue('Sucursal: '.$sucursal->implode('name', ', '));
 						} else {
-							//$cell->setValue('Sucursal: '.$sucursal->name);
+							$cell->setValue('Sucursal: '.$sucursal->name);
 						}
 					});
 				}

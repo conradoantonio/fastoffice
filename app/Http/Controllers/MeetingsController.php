@@ -81,7 +81,16 @@ class MeetingsController extends Controller
 		$meetings = Meeting::whereHas('office', function($q) use($id){
 			if ( auth()->user()->role_id == 2 ){
 				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
-			} else{
+				if( $id ){
+					$q->where('id', $id);
+				}
+			} elseif ( auth()->user()->role_id == 3 ){
+				if( $id ){
+					$q->where('id', $id);
+				} else {
+					$q->where('branch_id', auth()->user()->branch_id);
+				}
+			} else {
 				if( $id ){
 					$q->where('branch_id', $id);
 				}

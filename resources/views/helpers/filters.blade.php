@@ -6,10 +6,17 @@
 		</div>
 	@endif
 	@if( auth()->user()->role_id == 2 )
-		<div class="form-group col-md-{{$dates?4:12}} {{auth()->user()->role_id!=2?'hide':''}}">
-			{{Form::label('office_id', 'Oficina', ['class' => 'control-label required'])}}
-			{!!Form::select('office_id', $offices, null, ['class' => ' form-control not-empty select2 col-md-12', 'id' => 'byField', 'name' => 'office_id', 'data-name' => 'Oficina'] )!!}
-		</div>
+		@if( Route::currentRouteName() == "Erp" )
+			<div class="form-group col-md-{{$dates?4:12}}">
+				{{Form::label('branch_id', 'Franquicia', ['class' => 'control-label required'])}}
+				{!!Form::select('branch_id', $branches, null, ['class' => ' form-control not-empty select2 col-md-12', 'id' => 'byField', 'name' => 'branch_id', 'data-name' => 'Franquicia'] )!!}
+			</div>
+		@else
+			<div class="form-group col-md-{{$dates?4:12}} {{auth()->user()->role_id!=2?'hide':''}}">
+				{{Form::label('office_id', 'Oficina', ['class' => 'control-label required'])}}
+				{!!Form::select('office_id', $offices, null, ['class' => ' form-control not-empty select2 col-md-12', 'id' => 'byField', 'name' => 'office_id', 'data-name' => 'Oficina'] )!!}
+			</div>
+		@endif
 	@endif
 	@if( $dates )
 	<div class="form-group col-md-{{auth()->user()->role_id==1||auth()->user()->role_id==2?4:6}}">

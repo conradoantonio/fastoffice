@@ -8,7 +8,7 @@
 	</div>
 	@endif
 	<div class="page-title">
-		<h1>Listado <span class="semi-bold">Oficinas</span></h1>
+		<h1>Listado <span class="semi-bold">Auditorías</span></h1>
 	</div>
 	@if( auth()->user()->role_id == 1 )
 	<div class="row-fluid">

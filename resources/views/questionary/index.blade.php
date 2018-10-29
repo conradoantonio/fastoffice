@@ -4,7 +4,7 @@
 
     <div class="container-fluid content-body">
         <div class="page-title">
-            <h1>Listado de preguntas para el questionario de<span class="semi-bold"> auditoría.</span></h1>
+            <h1>Listado de preguntas para el cuestionario de<span class="semi-bold"> auditoría.</span></h1>
         </div>
         <div class="row-fluid text-left buttons-container general-info" data-url="{{url("questionario/auditoria")}}" data-refresh="0">
             <a href="{{route('Questionary.form')}}" class="btn btn-success new-row"><i class="glyphicon glyphicon-plus"></i> Nuevo registro</a>

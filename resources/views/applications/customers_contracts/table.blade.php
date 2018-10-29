@@ -37,9 +37,9 @@
 				<td>{{$contract->office->name}} ({{$contract->office->type->name}})</td>
 				<td>
                     {!!
-                        ($contract->charges->sum('amount') == $contract->balance ? "<span class='label label-success'>Pagado</span>" : 
-                            (($contract->charges->sum('amount') - $contract->balance) <= $contract->office->price * 0.90 ? "<span class='label label-warning'>Por pagar</span>" : 
-                                ($contract->charges->sum('amount') >= $contract->office->price * 0.90  ? "<span class='label label-danger'>Pago retrasado</span>" : "<span class='label label-info'>Desconocido</span>")
+                        ($contract->charges->sum('amount') == $contract->balance ? "<span class='label label-success'>Pagado</span>" :
+                            (($contract->charges->sum('amount') - $contract->balance) <= $contract->office->price * 0.90 ? "<span class='label label-warning'>Por pagar</span>" :
+                                ($contract->charges->sum('amount') >= $contract->office->price * 0.90  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
                             )
                         )
                     !!}
@@ -60,7 +60,7 @@
 					@if ((($contract->charges->sum('amount')-$contract->balance)>0))
 						<a class="btn btn-xs btn-mini btn-success mark-as-paid" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Realizar pago"><i class="fa fa-check"></i></a>
 					@endif
-					@if ($contract->cancelation)	
+					@if ($contract->cancelation)
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-cancelled="1" data-placement="top" title="Ver doc. de cancelación"><i class="fa fa-eye"></i></a>
 					@else
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-times"></i></a>
