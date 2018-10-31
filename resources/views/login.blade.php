@@ -11,6 +11,7 @@
 		<!-- END CORE CSS FRAMEWORK -->
 
 		<!-- BEGIN CSS TEMPLATE -->
+		<link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
 		<link href="{{asset('/css/themes/coporate/style.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('/css/themes/coporate/responsive.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('/css/custom-icon-set.css')}}" rel="stylesheet" type="text/css"/>
