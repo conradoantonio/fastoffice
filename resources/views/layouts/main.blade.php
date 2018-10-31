@@ -86,7 +86,7 @@
 				<li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" > <div class="iconset top-menu-toggle-white"></div> </a> </li>
 			</ul>
 			<!-- BEGIN LOGO -->
-			<a href="{{url('/home')}}"><img src="{{asset('/img/logo.png')}}" class="logo" alt=""  data-src="{{asset('/img/logo.png')}}" data-src-retina="{{asset('/img/logo.png')}}" width="27%" height="21"/></a>
+			<a href="{{url('/home')}}"><img src="{{asset('/img/logo.png')}}" class="logo" alt=""  data-src="{{asset('/img/logo.png')}}" data-src-retina="{{asset('/img/logo.png')}}" width="130" height="30"/></a>
 			<!-- END LOGO -->
 			<div class="pull-right">
 				<ul class="nav pull-right notifcation-center">

@@ -571,7 +571,7 @@ body.modal-open .chat-window-wrapper {
   list-style: none;
   clear: both;
   margin: 0px;
-  background-color: #3c3c41;
+  background-color: #0f5c87;/*Adapted*/
   padding: 8px 0px 10px 0px;
 }
 .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li {

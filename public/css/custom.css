@@ -1,3 +1,76 @@
+/*Clases para estilizar el sitio personalizadamente*/
+/*Left header (Logo containter)*/
+.header .header-seperation {
+	background-color: #15517a!important;
+}
+
+/*Right header*/
+.header .header-quick-nav {
+	background-color: #15517a!important;
+}
+
+/*Setting icon*/
+.header .nav > li.quicklinks > a {
+	background-color: #15517a!important;
+}
+
+/*Expand and collaps menu*/
+.header .nav > li.quicklinks i {
+	color: white!important;
+}
+
+/*Menu section*/
+.page-sidebar .page-sidebar-wrapper {
+	background-color: #126fa2!important;
+}
+
+/*Li selected color*/
+.scroll-content > ul > li.active > a{
+	background-color: #0f5c87!important;
+	color: #FFFFFF!important;
+}
+
+/*Li hover color*/
+.scroll-content > ul > li:hover > a{
+	background-color: #0f5c87!important;
+	color: #FFFFFF!important;
+}
+
+/*Submenu ul background*/
+.scroll-content > ul > li > ul.sub-menu{
+	background-color: #126fa2!important;
+	color: #FFFFFF!important;
+}
+
+/*Submenu ul background active*/
+.scroll-content > ul > li > ul.sub-menu li.active{
+	background-color: #0f5c87!important;
+	color: #FFFFFF!important;
+}
+
+/*Submenu ul background hover*/
+.page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > a:hover {
+	background-color: #0f5c87!important;
+	color: #FFFFFF!important;
+}
+
+
+.page-sidebar .page-sidebar-wrapper > ul > li.open > a {
+	background-color: #0f5c87!important;
+	color: #FFFFFF!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* CLASES USADAS DENTRO DEL CMS */
 .logo{
 	margin-left: 10%;
