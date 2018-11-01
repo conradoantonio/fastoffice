@@ -62,11 +62,20 @@ class ContractsController extends Controller
      * Show the pdf contract.
      *
      */
-    public function show_money_receipt($contract_id, $type_payment, $status)
+    public function show_money_receipt($contract_id, $type_payment, $status, $sporadic_payment = null)
     {
+        $amount_str = 'No definido';
+        $amount_num = 0;
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+
         $contract = Contract::find($contract_id);
+
         if ($contract) {
-            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'status' => $status])
+            if ($status == 1) { $amount_str = $n_words->format($contract->office->price * 0.90)." $this->ext_m"; $amount_num = $contract->office->price * 0.90; }
+            elseif ($status == 2) { $amount_str = $n_words->format($contract->office->price)." $this->ext_m"; $amount_num = $contract->office->price; }
+            elseif ($status == 3) { $amount_str = $n_words->format($sporadic_payment)." $this->ext_m"; $amount_num = $sporadic_payment; }
+            
+            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'amount_str' => $amount_str, 'amount_num' => $amount_num])
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('recibo_de_pago.pdf');//Visualiza el archivo sin descargarlo
         }

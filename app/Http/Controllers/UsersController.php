@@ -49,8 +49,14 @@ class UsersController extends Controller
 	public function form($type, $id = null){
 
 		$roles_ids = array();
-		if ( $type == 'sistema' ) { $roles_ids = [4,5]; }
-		elseif ( $type == 'app' ) { $roles_ids = [1,2,3]; }
+		if ( $type == 'sistema' ) { 
+			if ( auth()->user()->role_id == 1 ) { $roles_ids = [4,5]; }//Admin
+			elseif ( auth()->user()->role_id == 2 ) { $roles_ids = [1,2,4,5]; }//Branch allowed only to create receptionist users
+		}
+		elseif ( $type == 'app' ) { 
+			if ( auth()->user()->role_id == 1 ) { $roles_ids = [1,2,3]; }//Admin
+			elseif ( auth()->user()->role_id == 2 ) { $roles_ids = [1,2,3,4,5]; } //Branch is not allowed to create app users
+		}
 
 		if ( $id ){
 			$user = User::findOrFail($id);

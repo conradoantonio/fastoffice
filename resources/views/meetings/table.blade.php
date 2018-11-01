@@ -12,6 +12,7 @@
 			<th>Oficina</th>
 			<th>Fecha inicio</th>
 			<th>Fecha término</th>
+			<th>Comentario</th>
 			<th>Estatus</th>
 			<th>Progreso</th>
 			<th>Acciones</th>
@@ -30,6 +31,7 @@
 					<td>{{$meeting->office->name}}</td>
 					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_start)))}}</td>
 					<td>{{ucwords(strftime('%d %B %Y %H:%M', strtotime($meeting->datetime_end)))}}</td>
+					<td>{{$meeting->description}}</td>
 					<td>
 						@if($meeting->status)
 						<span class="label label-success status" data-url="{{route('Meeting.status')}}" data-id="{{$meeting->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>

@@ -64,6 +64,8 @@
             $('body').delegate('.show-money-receipt','click', function() {
                 $('#form-payment-receipt select[name=payment_type]').val(0);//Reset select
                 $('#form-payment-receipt input.form-control').val('');//Reset select
+                $('#form-payment-receipt input[name=sporadic_payment]').removeClass('not-empty');
+                $('#form-payment-receipt input[name=sporadic_payment]').parent().addClass('hide');
 
                 var id = $(this).parent().siblings("td:nth-child(1)").text();
 
@@ -121,6 +123,19 @@
 
                 $('#mark-as-paid input[name=payment]').val(price);
                 $('#mark-as-paid input[name=payment_str]').val(str);
+            });
+
+            //Code to load input content for the payment recepit pdf
+            $('body').delegate('#form-payment-receipt select[name=status]', 'change', function() {
+
+                if ($(this).val() == 3) {//Esporádico
+                    $('input[name=sporadic_payment]').parent().removeClass('hide');
+                    $('input[name=sporadic_payment]').addClass('not-empty');
+                } else {
+                    $('input[name=sporadic_payment]').parent().addClass('hide');
+                    $('input[name=sporadic_payment]').removeClass('not-empty');
+                }
+                
             });
 
             //Load payments history

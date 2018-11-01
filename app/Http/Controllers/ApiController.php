@@ -144,10 +144,10 @@ class ApiController extends Controller
 	{
 		$user = User::where(['email' => $req->email])->first();
 		if ( $user ){
-			if ( $user->role_id != 3 && $user->role_id != 4 ){
+			if ( $user->role_id != 4 && $user->role_id != 5 ){
 				return [ 'msg' => "Esta correo no pertenece a un usuario/auditor de la aplicación", 'code' => 0];
 			}
-			$pass = str_random(10);
+			$pass = str_random(6);
 			$user->password = bcrypt($pass);
 
 			if ( $user->save() ){

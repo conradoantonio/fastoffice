@@ -79,6 +79,10 @@
                             <option value="3">Pago esporádico</option>
                         </select>
                     </div>
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="sporadic_payment">Cantidad pagada</label>
+                        <input type="text" class="form-control numeric" name="sporadic_payment" data-name="Cantidad pagada">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -147,7 +151,7 @@
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="label-title">Recibo de pago</h4>
+                <h4 class="modal-title" id="label-title">Nuevo precio de oficina</h4>
             </div>
             <div class="modal-body">
                 <div class="row text-left details-content">
