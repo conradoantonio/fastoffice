@@ -62,7 +62,7 @@
 
             //Show the form to generate a new pdf of money receipt
             $('body').delegate('.show-money-receipt','click', function() {
-                $('#form-payment-receipt select[name=payment_type]').val(0);//Reset select
+                $('#form-payment-receipt select[name=payment_type], #form-payment-receipt select[name=status]').val(0);//Reset select
                 $('#form-payment-receipt input.form-control').val('');//Reset select
                 $('#form-payment-receipt input[name=sporadic_payment]').removeClass('not-empty');
                 $('#form-payment-receipt input[name=sporadic_payment]').parent().addClass('hide');
