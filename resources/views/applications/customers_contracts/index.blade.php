@@ -78,6 +78,7 @@
                 type = $('#form-payment-receipt select[name=payment_type]').val();
                 id = $('#form-payment-receipt input[name=id]').val();
                 status = $('#form-payment-receipt select[name=status]').val();
+                sporadic_pay = $('#form-payment-receipt input[name=sporadic_payment]').val();
 
                 if (!type || !id || !status) {
                     swal({
@@ -85,7 +86,7 @@
                         icon: 'error',
                     }).catch(swal.noop);
                 } else {
-                    href = '{{route('Crm.contracts.show_money_receipt')}}/'+id+'/'+type+'/'+status;
+                    href = '{{route('Crm.contracts.show_money_receipt')}}/'+id+'/'+type+'/'+status+'/'+sporadic_pay;
 
                     $("a#new-link").attr('href', href);
                     $("a#new-link")[0].click();
