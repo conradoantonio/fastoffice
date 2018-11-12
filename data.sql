@@ -1,3 +1,17 @@
+/*
+SQLyog Ultimate v9.63 
+MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`fastoffice` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `fastoffice`;
@@ -98,9 +112,11 @@ CREATE TABLE `audit_details` (
   `answer` int(11) NOT NULL,
   `detail` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audit_details` */
+
+insert  into `audit_details`(`id`,`audit_id`,`question_id`,`answer`,`detail`) values (1,1,1,1,NULL);
 
 /*Table structure for table `audit_photos` */
 
@@ -121,16 +137,18 @@ DROP TABLE IF EXISTS `audits`;
 
 CREATE TABLE `audits` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `office_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL COMMENT 'Auditor que realiza la auditoría',
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = In progress, 1 = Active',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audits` */
+
+insert  into `audits`(`id`,`branch_id`,`user_id`,`title`,`status`,`created_at`,`updated_at`) values (1,1,10,'Auditoria para Franquicia 1',1,'2018-11-12 17:19:57','2018-11-12 17:20:22');
 
 /*Table structure for table `banners` */
 
@@ -709,4 +727,3 @@ insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_to
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
->>>>>>> b4afb631800a2d4b1e2ecbd0812153cb9cddb5f6

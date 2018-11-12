@@ -215,6 +215,7 @@ Route::prefix('apiv1')->group(function () {
 	Route::get('ver-contrato/{id?}', 'ContractsController@show_contract');//View contracts
 
 	#Audits webservices
+	Route::post('obtener-franquicias', 'ApiController@get_branches');
 	Route::post('obtener-oficinas', 'ApiController@get_offices');
 	Route::post('obtener-preguntas', 'ApiController@get_questions');
 	Route::post('crear-auditoria', 'ApiController@create_audit');

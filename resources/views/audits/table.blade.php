@@ -3,7 +3,7 @@
 		<thead>
 			<th class="hide">ID</th>
 			<th>Titulo</th>
-			<th>Oficina</th>
+			<th>Franquicia (Sucursal)</th>
 			<th>Auditor</th>
 			<th>Total</th>
 			<th>Porcentaje</th>
@@ -14,7 +14,7 @@
 				<tr>
 					<td class="hide">{{$audit->id}}</td>
 					<td>{{$audit->title}}</td>
-					<td>{{$audit->office->name}}</td>
+					<td>{{$audit->branch->name}}</td>
 					<td>{{$audit->user->fullname}}</td>
 					<td>{{$audit->auditDetail->where('answer', '!=' , 0)->count().'/'.$audit->auditDetail->count()}}</td>
 					<td>{{round($audit->auditDetail->where('answer', '!=' , 0)->count()*100/$audit->auditDetail->count(), 2)}}%</td>

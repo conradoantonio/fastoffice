@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Audit;
 use App\Models\State;
 use App\Models\Office;
+use App\Models\Branch;
 use App\Models\Meeting;
 use App\Models\Question;
 use App\Models\Contract;
@@ -419,23 +420,39 @@ class ApiController extends Controller
     }
 
     /**
+     * Get available branches
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_branches(Request $req)
+    {
+        $rows = Branch::where('status', '!=', 0)->get();
+
+        foreach ( $rows as $row ) {
+            $row->pictures;
+        }
+
+        return response(['msg' => 'Franquicias (sucursales) enlistadas a continuación', 'code' => 1, 'data' => $rows], 200);
+    }
+
+    /**
      * Initialize an audit
      *
      * @return \Illuminate\Http\Response
      */
     public function create_audit(Request $req)
     {
-    	$office = Office::find($req->office_id);
+    	$branch = Branch::find($req->branch_id);
     	$user = User::find($req->user_id);
 
-    	if (!$office) { return response(['msg' => 'Officina no encontrada o inválida', 'code' => 0], 200); }
+    	if (!$branch) { return response(['msg' => 'Franquicia (Sucursal) no encontrada o inválida', 'code' => 0], 200); }
     	if (!$user) { return response(['msg' => 'Usuario no encontrada o inválido', 'code' => 0], 200); }
 
-    	$title = "Auditoria para $office->name";
+    	$title = "Auditoria para $branch->name";
 
     	$row = New Audit;
 
-    	$row->office_id = $office->id;
+    	$row->branch_id = $branch->id;
     	$row->user_id = $user->id;
     	$row->title = $title;
 

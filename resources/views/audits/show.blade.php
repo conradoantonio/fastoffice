@@ -28,24 +28,24 @@
 		</li>
 	</ul>
 	<ul class="list-group">
-		<li class="list-group-item active">Datos de la oficina</li>
+		<li class="list-group-item active">Datos de la franquicia (sucursal)</li>
 		<li class="list-group-item">
 			<div class="row">
 				<div class="col-md-3 col-sm-4 text-center">
-					<img src="{{@asset($audit->office->pictures->first()->path?:'img/default_office.png')}}" data-src="{{@asset($audit->office->pictures->first()->path?:'img/default_office.png')}}" alt="Imagen portada" width="60%" class="profile_img">
+					<img src="{{@asset($audit->branch->pictures->first()->path?:'img/default_office.png')}}" data-src="{{@asset($audit->branch->pictures->first()->path?:'img/default_office.png')}}" alt="Imagen portada" width="60%" class="profile_img">
 				</div>
 				<div class="col-md-9 col-sm-8">
 					<ul>
-						<li><span class="bold">Nombre: </span>{{$audit->office->name}}</li>
-						<li><span class="bold">Teléfono: </span>{{$audit->office->phone}}</li>
-						<li><span class="bold">Dirección: </span>{{$audit->office->address}} {{$audit->office->municipality->name}}, {{$audit->office->state->name}}</li>
+						<li><span class="bold">Nombre: </span>{{$audit->branch->name}}</li>
+						<li><span class="bold">Teléfono: </span>{{$audit->branch->phone}}</li>
+						<li><span class="bold">Dirección: </span>{{$audit->branch->address}}, {{$audit->branch->locality}}</li>
 						<li><span class="bold">Status: </span>
-							@if($audit->office->status == 0)
-								<span class="label label-danger">Inactivo</span>
-							@elseif($audit->office->status == 1)
-								<span class="label label-success">Disponible</span>
+							@if($audit->branch->status == 0)
+								<span class="label label-danger">Deshabilitada</span>
+							@elseif($audit->branch->status == 1)
+								<span class="label label-success">Habilitada</span>
 							@else
-								<span class="label label-info">Rentada</span>
+								<span class="label label-info">Desconocido</span>
 							@endif
 						</li>
 					</ul>

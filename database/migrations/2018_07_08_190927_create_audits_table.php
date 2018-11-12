@@ -15,7 +15,7 @@ class CreateAuditsTable extends Migration
     {
         Schema::create('audits', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('office_id');
+            $table->integer('branch_id');
             $table->integer('user_id')->comment("Auditor que realiza la auditoría");
             $table->string('title');
             $table->integer('status')->default(0)->comment("0 = In progress, 1 = Active");

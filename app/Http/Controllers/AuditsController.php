@@ -10,12 +10,12 @@ use App\Models\AuditDetail;
 class AuditsController extends Controller
 {
 	public function index(Request $req, $id = null){
-		$audits = Audit::with('office', 'user')->whereHas('office', function($q) use ($id){
+		$audits = Audit::with('branch', 'user')->whereHas('branch', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ){
-				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+				$q->whereIn('id', auth()->user()->branches->pluck('id'));
 			} else{
 				if( $id ){
-					$q->where('branch_id', $id);
+					$q->where('id', $id);
 				}
 			}
 		})
