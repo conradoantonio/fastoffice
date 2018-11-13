@@ -292,7 +292,7 @@ class ApplicationsController extends Controller
         foreach ($query as $q) {
             $q->type;
             $q->pictures;
-            $q->municipality->state;
+            $q->municipality ? $q->municipality->state : '';
             $q->setHidden(['state_id', 'user_id', 'municipality_id', 'photo', 'created_at', 'updated_at', 'deleted_at']);
         }
         return $query;
