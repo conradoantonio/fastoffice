@@ -100,8 +100,16 @@ class BranchesController extends Controller
 		if ( $branch ) {
 			$user_recepcionist = User::where('branch_id', $branch->id)->pluck('id');
 			$offices = $branch->offices->pluck('id');
-			User::destroy($branch->user_id);
-			User::destroy($user_recepcionist);
+			//User::destroy($branch->user_id);
+			$recepcionists = User::find($user_recepcionist);
+
+			#Lets detach branch from recepcinist
+			if (count($recepcionists)) {
+				foreach ($recepcionists as $recepc) {
+					$recepc->branch_id = 0;
+					$recepc->save();
+				}
+			}
 			foreach ($offices as $of_id) {
 				Office::destroy($of_id);
 			}
