@@ -121,16 +121,26 @@ class BranchesController extends Controller
 	}
 
 	public function multipleDestroys(Request $req){
-		$users_ids = Branch::whereIn('id', $req->ids)->pluck('user_id');
+		$recepcionists = User::whereIn('branch_id', $req->ids)->get();
 		$branches = Branch::whereIn('id', $req->ids)->get();
 		if ( $branches ){
 			$branches->each(function($branch, $key){
-				$branch->office->each(function($office, $key){
-					Office::destroy($office->id);
-				});
+				if ( $branch->office ){
+					$branch->office->each(function($office, $key){
+						Office::destroy($office->id);
+					});
+				}
 			});
-			User::destroy($branch->user_id);
-			User::destroy($users_ids);
+
+			#Lets detach branch from recepcinist
+			if (count($recepcionists)) {
+				foreach ($recepcionists as $recepc) {
+					$recepc->branch_id = 0;
+					$recepc->save();
+				}
+			}
+			#User::destroy($branch->user_id);
+			#User::destroy($users_ids);
 			Branch::destroy($req->ids);
 			return ["delete" => "true"];
 		}
