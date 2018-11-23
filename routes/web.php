@@ -196,6 +196,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 #Rutas API
 Route::prefix('apiv1')->group(function () {
+	#Webservice para exportar clientes
+	Route::post('importar-clientes', 'UsersController@import_customers');
 
 	#Webservices básicos
 	Route::post('login', 'ApiController@login');

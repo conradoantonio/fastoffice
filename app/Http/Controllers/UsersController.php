@@ -90,7 +90,7 @@ class UsersController extends Controller
 			$params['email'] = $user->email;
 			$params['view'] = 'mails.credentials';
 
-			if ( $this->mail($params) ){
+			if ( $this->mail( $params ) ){
 				return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with(['msg' => 'Usuario creado', 'class' => 'alert-success']);
 			}
 			return redirect()->route($user->role->env ==  'App' ? 'User.index2' : 'User.index1')->with([ 'msg' => 'Usuario creado, ocurrió un problema al enviar el correo', 'class' => 'alert-warning' ]);
@@ -197,4 +197,58 @@ class UsersController extends Controller
 		}
 		return redirect()->back();
 	}
+
+	/**
+     * Use Excel instance to import many customers at once.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function import_customers(Request $req)
+    {
+        $file = $req->excel_file;
+        if( $file ) {
+            $path = $file->getRealPath();
+            $extension = $file->getClientOriginalExtension();
+            if ( $extension == 'xlsx' || $extension == 'xls' ) {
+                $data = Excel::load($path, function($reader) {
+                    $reader->setDateFormat('Y-m-d');
+                })->get();
+
+                if ( !empty( $data ) && $data->count() ) {
+                    foreach ( $data as $key => $value ) {
+                        $category = Category::where('name', $value->categoria)->first();
+                        $business = Business::where('name', $value->comercio)->first();
+
+                        #If the given category wasn't found, then skip this product
+                        if (!$category)
+                            continue;
+
+                        if ($this->current_user->role->name == 'Comercio') {
+                            if ( $this->current_user->id != $business->user_id ) 
+                                continue;                       
+                        }
+
+                        $insert = [
+                            'fullname' => $value->fullname,
+                            'email' => $value->email,
+                            'password' => bcrypt( $value->password ),
+                            'phone' => $value->phone,
+                            'regime' => ( strtolower( $value->regime ) == "persona física" ? "Persona física" : ( strtolower( $value->regime ) == "persona moral" ? "Persona moral" : "Persona física" ) ),
+                            'rfc' => $value->rfc,
+                            'role' => 4, #customer
+                        ];
+
+                        User::updateOrCreate([
+                            'fullname' => $insert['fullname'],
+                            'email' => $insert['email'],
+                            'rfc' => $insert['rfc']
+                        ], $insert);
+                    }
+                }//End data count if
+                return response(['msg' => 'Registros validados correctamente', 'status' => 'success'], 200);
+            }//End of extension if
+        } else {
+            return response(['msg' => 'No hay archivo para verificar', 'status' => 'error'], 404);
+        }
+    }
 }
