@@ -221,8 +221,8 @@ class UsersController extends Controller
                     foreach ( $data as $key => $value ) {
 
                         $insert = [
-                            'fullname' => strtoupper( $value->fullname ),
-                            'email' => strtolower( $value->email ),
+                            'fullname' => mb_strtoupper( $value->fullname ),
+                            'email' => mb_strtolower( $value->email ),
                             'password' => bcrypt( $value->password ),
                             'phone' => $value->phone,
                             'regime' => ( strtolower( $value->regime ) == "persona física" ? "Persona física" : ( strtolower( $value->regime ) == "persona moral" ? "Persona moral" : "Persona física" ) ),
