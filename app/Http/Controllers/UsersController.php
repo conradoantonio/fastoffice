@@ -10,6 +10,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\Role;
 
+use Excel;
+
 class UsersController extends Controller
 {
 	/**
@@ -205,6 +207,7 @@ class UsersController extends Controller
      */
     public function import_customers(Request $req)
     {
+    	set_time_limit(0);
         $file = $req->excel_file;
         if( $file ) {
             $path = $file->getRealPath();
@@ -216,26 +219,15 @@ class UsersController extends Controller
 
                 if ( !empty( $data ) && $data->count() ) {
                     foreach ( $data as $key => $value ) {
-                        $category = Category::where('name', $value->categoria)->first();
-                        $business = Business::where('name', $value->comercio)->first();
-
-                        #If the given category wasn't found, then skip this product
-                        if (!$category)
-                            continue;
-
-                        if ($this->current_user->role->name == 'Comercio') {
-                            if ( $this->current_user->id != $business->user_id ) 
-                                continue;                       
-                        }
 
                         $insert = [
-                            'fullname' => $value->fullname,
-                            'email' => $value->email,
+                            'fullname' => strtoupper( $value->fullname ),
+                            'email' => strtolower( $value->email ),
                             'password' => bcrypt( $value->password ),
                             'phone' => $value->phone,
                             'regime' => ( strtolower( $value->regime ) == "persona física" ? "Persona física" : ( strtolower( $value->regime ) == "persona moral" ? "Persona moral" : "Persona física" ) ),
-                            'rfc' => $value->rfc,
-                            'role' => 4, #customer
+                            'rfc' => strtoupper( $value->rfc ),
+                            'role_id' => 4, #customer
                         ];
 
                         User::updateOrCreate([

@@ -96,15 +96,15 @@
         	<div class="row">
 	        	<div class="form-group col-md-12 col-xs-12">
 	                <label class="" for="user_id">Cliente</label>
-	                <select name="user_id" id="user_id" class="form-control" data-name="Cliente">
+	                <select name="user_id" id="user_id" class="form-control select2" data-name="Cliente">
 	                    <option value="0" selected>Seleccione una opción</option>
 	                    @if ($prospect)
 	                        @foreach($customers as $customer)
-	                            <option value="{{$customer->id}}" {{$prospect->user_id == $customer->id ? 'selected' : ''}}>{{$customer->fullname}}</option>
+	                            <option value="{{$customer->id}}" {{$prospect->user_id == $customer->id ? 'selected' : ''}}>{{$customer->fullname}} ({{$customer->email}} - {{$customer->rfc}})</option>
 	                        @endforeach
 	                    @else
 	                        @foreach($customers as $customer)
-	                            <option value="{{$customer->id}}">{{$customer->fullname}}</option>
+	                            <option value="{{$customer->id}}">{{$customer->fullname}} ({{$customer->email}} - {{$customer->rfc}})</option>
 	                        @endforeach
 	                    @endif
 	                </select>

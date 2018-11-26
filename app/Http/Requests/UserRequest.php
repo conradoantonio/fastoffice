@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
 						'regime' => 'sometimes',
 						'rfc' => [
 							'nullable',
-							'unique:users,rfc',
+							#'unique:users,rfc',
 							'min:12',
 							'max:13',
 							'regex:/^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/'
@@ -62,7 +62,7 @@ class UserRequest extends FormRequest
 						'regime' => 'sometimes',
 						'rfc' => [
 							'nullable',
-							'unique:users,rfc, '.$this->route('id'),
+							#'unique:users,rfc, '.$this->route('id'),
 							'min:12',
 							'max:13',
 							'regex:/^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/'
