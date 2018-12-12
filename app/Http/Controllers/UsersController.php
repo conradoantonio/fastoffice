@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Template;
 
 use Excel;
 
@@ -35,11 +36,12 @@ class UsersController extends Controller
 		}
 
 		$roles = Role::all()->pluck('name','id')->prepend('Todos los roles', 0)->except(['id', '4']);
+		$templates = Template::where('status',1)->get();
 
 		if ($req->ajax()) {
 			return view('users.table',compact('users'))->render();
 		}
-		return view('users.index',compact('users', 'roles'));
+		return view('users.index',compact('users', 'roles', 'templates'));
 	}
 
 	/**
@@ -242,5 +244,34 @@ class UsersController extends Controller
         } else {
             return response(['msg' => 'No hay archivo para verificar', 'status' => 'error'], 404);
         }
+    }
+
+    /**
+     * Send a specific template to selected prospects
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function send_template(Request $req)
+    {
+        $template = Template::find($req->template_id);
+        $users = User::whereIn('id', $req->users_ids)->get();
+        $emails = [];
+
+        $users->each(function($user, $key) use (&$emails){
+            $emails[] = $user->email;
+        });
+
+        $params = array();
+        $params['subject'] = "Información Fast Office";
+        $params['title'] = $template->name;
+        $params['content']['message'] = $template->content;
+        $params['content']['attachments'] = $template->attachments;
+        $params['email'] = $emails;
+        $params['view'] = 'mails.templates';
+
+        if ( $this->mail($params) ){
+            return response(['msg' => 'Plantilla enviada', 'status' => 'success'], 200);
+        }
+        return response(['msg' => 'Error al enviar la plantilla', 'status' => 'error'], 404);
     }
 }

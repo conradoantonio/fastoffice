@@ -2,6 +2,12 @@
 	<table class="table table-hover table-condense datatable">
 		<thead>
 			<th class="hide">ID</th>
+			<th>
+	            <div class="checkbox check-success  ">
+	                <input id="checkboxParent" type="checkbox">
+	                <label for="checkboxParent"></label>
+	            </div>
+	        </th>
 			<th>Foto de perfil</th>
 			<th>Nombre</th>
 			<th>Correo</th>
@@ -15,6 +21,12 @@
 			@foreach($users as $user)
 				<tr>
 					<td class="hide">{{$user->id}}</td>
+					<td>
+                    <div class="checkbox check-success">
+                        <input id="checkbox{{$user->id}}" class="multiple-delete" type="checkbox" value="{{$user->id}}">
+                        <label for="checkbox{{$user->id}}"></label>
+                    </div>
+                </td>
 					<td width="15%">
 						<img src="{{asset($user->photo)}}" alt="Foto de perfil" style="width:50%;border-radius: 100px;">
 					</td>

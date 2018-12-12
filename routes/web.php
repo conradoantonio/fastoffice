@@ -164,6 +164,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::put('actualizar-usuario/{id}', 'UsersController@update')->name('User.update');
 		Route::patch('status-usuario', 'UsersController@status')->name('User.status');
 		Route::delete('eliminar-usuario/{id}', 'UsersController@destroy')->name('User.destroy');
+		Route::post('enviar-plantilla-usuarios', 'UsersController@send_template')->name('User.send_template');
 	});
 
 	#Noticias
