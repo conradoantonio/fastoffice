@@ -42,7 +42,7 @@
 				@endif
 			</div>
 		</div>
-		<div style="text-align:center; background:#017EFF; font-size:15px; font-weight:900; padding:6px 0px; color: floralwhite">
+		<div style="text-align:center; background:#3d3d3d; font-size:15px; font-weight:900; padding:6px 0px; color: floralwhite">
 			<span>Desarrollado por Bridge Studio</span>
 		</div>
 	</body>
