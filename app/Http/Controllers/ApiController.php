@@ -642,4 +642,24 @@ class ApiController extends Controller
     	return response(['msg' => 'Información de auditoría encontrada', 'code' => 1, 'data' => $result], 200);
 
     }
+
+    /**
+     * Webservice para invitar a un amigo
+     *
+     * @return Mensaje de exito o msg al enviar correo
+     */
+    public function invite_a_friend(Request $req)
+    {
+        $params = array();
+        $params['subject'] = "¡Renta con fastoffice!";
+        $params['title'] = "Renta con fastoffice";
+        $params['content'] = "Hola ".$req->name.", atrévete a rentar con fastoffice, hoy mismo puedes puedes conocer tu nueva oficina para lograr mejores resultados mañana. <br> Encuentranos en la appstore y playstore como fastoffice.";
+        $params['email'] = $req->email;
+        $params['view'] = 'mails.general';
+
+        if ( $this->mail($params) ) {
+            return response(['msg' => 'Se ha enviado un correo', 'code' => 1], 200);
+        }
+        return response([ 'msg' => "Algo salió mal... intente nuevamente", 'code' => 0], 200);
+    }
 }

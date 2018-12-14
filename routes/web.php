@@ -207,6 +207,8 @@ Route::prefix('apiv1')->group(function () {
 	Route::post('recuperar-password', 'ApiController@recovery');
 	Route::post('mis-notificaciones', 'ApiController@customer_notifications');
 	Route::post('leer-notificacion', 'ApiController@mark_notification_as_read');
+	Route::post('invitar-a-un-amigo', 'ApiController@invite_a_friend');
+
 
 	Route::post('filtrar-oficinas', 'ApiController@filter_offices');
 	Route::post('estado-cuenta-oficina', 'ApiController@office_account_status');
