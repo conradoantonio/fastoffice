@@ -235,6 +235,9 @@ class ApiController extends Controller
     {
     	$offices = [];
     	$contracts = Contract::whereHas('application', function($query){
+            $query->whereHas('office', function($que) {
+                $que->where('status', 2);
+            });
             $query->where('status', 1);
     	})
     	->where('user_id', $req->user_id)
