@@ -131,7 +131,8 @@ class OfficesController extends Controller
 		}
 	}
 
-	public function import(Request $req){
+	public function import(Request $req)
+	{
 		if ($req->hasFile('archivo-excel')) {
 			$path = $req->file('archivo-excel')->getRealPath();
 			$extension = $req->file('archivo-excel')->getClientOriginalExtension();
@@ -143,9 +144,14 @@ class OfficesController extends Controller
 
 			if (!empty($data) && $data->count()) {
 				foreach ($data as $value) {
-					$branch = Branch::where('name', $value->sucursal)->first();
-					$state = State::where('name', $value->estado)->first();
-					$municipality = Municipality::where('name', $value->municipio)->first();
+					$branch = Branch::where('name', $value->franchise)->first();
+					if (! $branch ) continue ;
+					if (! $value->name ) continue ;#If name is not defined...
+					if (! $value->address ) continue ;#If address is not defined...
+					if (! $value->price ) continue ;#If price is not defined...
+					if (! $value->phone ) continue ;#If phone is not defined...
+					$state = State::where('name', $value->state)->first();
+					$municipality = Municipality::where('name', $value->municipality)->first();
 					$type = 0;
 					if ( $value->type == 'Física' ) {
 						$type = 1;
@@ -158,7 +164,7 @@ class OfficesController extends Controller
 					}
 
 					$office = Office::firstOrCreate(
-						['name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
+						['branch_id' => @$branch->id, 'name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
 						[
 							'branch_id' => $branch?$branch->id:0,
 							'state_id' => $state?$state->id:0,
@@ -179,7 +185,7 @@ class OfficesController extends Controller
 			return ['status' => true, 'msg' => 'Se han importado los regitros del excel'];
 		}
 		else {
-			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel"];
+			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel, contacte al administrador"];
 		}
 	}
 
