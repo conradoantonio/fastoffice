@@ -30,7 +30,7 @@ class OfficeRequest extends FormRequest
 				return [];
 			case 'POST':
 				return [
-					'name'  => 'required|unique:offices,name',
+					'name'  => 'required',
 					'address' => 'required',
 					'price' => 'required|numeric',
 					'phone' => 'required|numeric',
@@ -47,7 +47,7 @@ class OfficeRequest extends FormRequest
 					];
 				}
 				return [
-					'name'  => 'required|unique:offices,name,'.$this->route('id'),
+					'name'  => 'required',
 					'address' => 'required',
 					'price' => 'required|numeric',
 					'phone' => 'required|numeric',
