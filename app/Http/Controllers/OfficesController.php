@@ -145,23 +145,16 @@ class OfficesController extends Controller
 			if (!empty($data) && $data->count()) {
 				foreach ($data as $value) {
 					$branch = Branch::where('name', $value->franchise)->first();
+					$type = OfficeType::where('name', $value->type)->first();
+					
 					if (! $branch ) continue ;
 					if (! $value->name ) continue ;#If name is not defined...
 					if (! $value->address ) continue ;#If address is not defined...
 					if (! $value->price ) continue ;#If price is not defined...
 					if (! $value->phone ) continue ;#If phone is not defined...
+					
 					$state = State::where('name', $value->state)->first();
 					$municipality = Municipality::where('name', $value->municipality)->first();
-					$type = 0;
-					if ( $value->type == 'Física' ) {
-						$type = 1;
-					} elseif ( $value->type == 'Virtual' ) {
-						$type = 2;
-					} elseif ( $value->type == 'Sala de juntas' ) {
-						$type = 3;
-					} else {
-						$type = 4;
-					}
 
 					$office = Office::firstOrCreate(
 						['branch_id' => @$branch->id, 'name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
@@ -174,18 +167,18 @@ class OfficesController extends Controller
 							'phone' => $value->phone,
 							'price' => $value->price,
 							'num_people' => $value->people,
-							'office_type_id' => $type,
+							'office_type_id' => $type?$type->id:1,
 							'description' => $value->description
 						]
 					);
 				}
 			} else {
-				return ['status' => false, 'msg' => 'El excel esta vació'];
+				return ['status' => false, 'msg' => 'El excel esta vaci車'];
 			}
 			return ['status' => true, 'msg' => 'Se han importado los regitros del excel'];
 		}
 		else {
-			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel, contacte al administrador"];
+			return ['status' => false, 'msg' => "Ocurri車 un problema para leer el excel, contacte al administrador"];
 		}
 	}
 
