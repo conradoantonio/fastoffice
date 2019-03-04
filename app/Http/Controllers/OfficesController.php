@@ -152,6 +152,7 @@ class OfficesController extends Controller
 					if (! $value->address ) continue ;#If address is not defined...
 					if (! $value->price ) continue ;#If price is not defined...
 					if (! $value->phone ) continue ;#If phone is not defined...
+					if (! $value->people ) continue ;#If people is not defined...
 					
 					$state = State::where('name', $value->state)->first();
 					$municipality = Municipality::where('name', $value->municipality)->first();
@@ -173,12 +174,12 @@ class OfficesController extends Controller
 					);
 				}
 			} else {
-				return ['status' => false, 'msg' => 'El excel esta vaci車'];
+				return ['status' => false, 'msg' => 'El excel esta vacío'];
 			}
-			return ['status' => true, 'msg' => 'Se han importado los regitros del excel'];
+			return ['status' => true, 'msg' => 'Se han importado los registros del excel'];
 		}
 		else {
-			return ['status' => false, 'msg' => "Ocurri車 un problema para leer el excel, contacte al administrador"];
+			return ['status' => false, 'msg' => "Ocurrió un problema para leer el excel, contacte al administrador"];
 		}
 	}
 
