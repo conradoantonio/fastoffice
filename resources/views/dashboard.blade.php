@@ -20,29 +20,39 @@
 			<a href="{{route('Meeting')}}"><img class="img-responsive" src="{{asset('img/dashboard/calendario.png')}}"></a>
 		</div>
 		
-		<div class="col-md-3 col-sm-6">
-			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/egreso.png')}}"></a>
-		</div>
+		@if(auth()->user()->role->name != 'Recepcionista')
+			<div class="col-md-3 col-sm-6">
+				<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/egreso.png')}}"></a>
+			</div>
+		@endif
 	</div>
 
 	<div class="row" style="padding-top: 5%;">
-		<div class="col-md-3 col-sm-6">
-			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/ingreso.png')}}"></a>
-		</div>
+		@if(auth()->user()->role->name != 'Recepcionista')
+			<div class="col-md-3 col-sm-6">
+				<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/ingreso.png')}}"></a>
+			</div>
+		@endif
 		
-		<div class="col-md-3 col-sm-6">
-			<a href="{{route('Branch')}}"><img class="img-responsive" src="{{asset('img/dashboard/franquicias.png')}}"></a>
-		</div>
-		
-		<div class="col-md-3 col-sm-6">
-			<a href="{{route('Office')}}"><img class="img-responsive" src="{{asset('img/dashboard/oficinas.png')}}"></a>
-		</div>
+		@if(auth()->user()->role->name == 'Administrador')
+			<div class="col-md-3 col-sm-6">
+				<a href="{{route('Branch')}}"><img class="img-responsive" src="{{asset('img/dashboard/franquicias.png')}}"></a>
+			</div>
+		@endif
+
+		@if(auth()->user()->role->name != 'Recepcionista')
+			<div class="col-md-3 col-sm-6">
+				<a href="{{route('Office')}}"><img class="img-responsive" src="{{asset('img/dashboard/oficinas.png')}}"></a>
+			</div>
+		@endif
 	</div>
 
 	<div class="row" style="padding-top: 5%;">
-		<div class="col-md-3 col-sm-6">
-			<a href="{{route('Audit')}}"><img class="img-responsive" src="{{asset('img/dashboard/auditorias.png')}}"></a>
-		</div>
+		@if(auth()->user()->role->name == 'Administrador')
+			<div class="col-md-3 col-sm-6">
+				<a href="{{route('Audit')}}"><img class="img-responsive" src="{{asset('img/dashboard/auditorias.png')}}"></a>
+			</div>
+		@endif
 		<div class="col-md-3 col-sm-6">
 			<button data-url="{{route('Crm.prospects.history')}}" class="btn btn-block btn-danger buts-red">Prospectos descartados</button>
 			<button data-url="{{route('Crm.contracts')}}" class="btn btn-block btn-success">Contratos clientes</button>

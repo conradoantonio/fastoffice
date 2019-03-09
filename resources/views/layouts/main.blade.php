@@ -283,16 +283,16 @@
 							<li class="{{ ( in_array(Route::currentRouteName(),['Category', 'Category.form']) ) ? 'active' : '' }}">
 								<a href="{{route('Category')}}"> Categorías </a>
 							</li>
-							@endif
-							<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
-								<a href="{{route('Erp')}}"> Ingresos y egresos </a>
+						@endif
+						<li class="{{ ( in_array(Route::currentRouteName(),['Erp', 'Erp.form']) ) ? 'active' : '' }}">
+							<a href="{{route('Erp')}}"> Ingresos y egresos </a>
+						</li>
+						@if(auth()->user()->role->name == 'Administrador')
+							<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
+								<a href="{{route('Branch')}}"> Franquicias </a>
 							</li>
-							@if(auth()->user()->role->name == 'Administrador')
-								<li class="{{ in_array(Route::currentRouteName(), ['Branch', 'Branch.form'] ) ? 'active' : '' }}">
-									<a href="{{route('Branch')}}"> Franquicias </a>
-								</li>
-							@endif
-							@if( auth()->user()->role_id != 3 )
+						@endif
+						@if( auth()->user()->role_id != 3 ){{-- If auth user is not recepcionist --}}
 							<li class="{{ in_array(Route::currentRouteName(), ['Office', 'Office.form'] ) ? 'active' : '' }}">
 								<a href="{{route('Office')}}"> Oficinas </a>
 							</li>
