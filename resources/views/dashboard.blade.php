@@ -11,111 +11,50 @@
 	<div class="page-title">
 	<h1><span class="semi-bold">Dashboard</span></h1>
 	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 col-vgl-6 col-sm-6">
-			<div class="tiles blue m-b-10">
-				<div class="tiles-body">
-					<div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
-					<div class="tiles-title text-white">Bloque 1</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Total</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Activos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats ">
-						<div class="wrapper last">
-							<span class="item-title">Inactivos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="progress transparent progress-small no-radius m-t-20" style="width:90%">
-						<div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%" ></div>
-					</div>
-				</div>
-			</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Crm.prospects')}}"><img class="img-responsive" src="{{asset('img/dashboard/prospectos.png')}}"></a>
 		</div>
-		<div class="col-md-6 col-vgl-6 col-sm-6">
-			<div class="tiles blue m-b-10">
-				<div class="tiles-body">
-					<div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
-					<div class="tiles-title text-white">Bloque 1</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Total</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Activos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats ">
-						<div class="wrapper last">
-							<span class="item-title">Inactivos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="progress transparent progress-small no-radius m-t-20" style="width:90%">
-						<div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%" ></div>
-					</div>
-				</div>
-			</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Meeting')}}"><img class="img-responsive" src="{{asset('img/dashboard/calendario.png')}}"></a>
 		</div>
-		<div class="col-md-6 col-vgl-6 col-sm-6">
-			<div class="tiles blue m-b-10">
-				<div class="tiles-body">
-					<div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
-					<div class="tiles-title text-white">Bloque 1</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Total</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Activos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats ">
-						<div class="wrapper last">
-							<span class="item-title">Inactivos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="progress transparent progress-small no-radius m-t-20" style="width:90%">
-						<div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%" ></div>
-					</div>
-				</div>
-			</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/egreso.png')}}"></a>
 		</div>
-		<div class="col-md-6 col-vgl-6 col-sm-6">
-			<div class="tiles blue m-b-10">
-				<div class="tiles-body">
-					<div class="controller"> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
-					<div class="tiles-title text-white">Bloque 1</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Total</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats">
-						<div class="wrapper transparent">
-							<span class="item-title">Activos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="widget-stats ">
-						<div class="wrapper last">
-							<span class="item-title">Inactivos</span> <span class="item-count animate-number semi-bold" data-value="0" data-animation-duration="10">0</span>
-						</div>
-					</div>
-					<div class="progress transparent progress-small no-radius m-t-20" style="width:90%">
-						<div class="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%" ></div>
-					</div>
-				</div>
-			</div>
+	</div>
+
+	<div class="row" style="padding-top: 5%;">
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/ingreso.png')}}"></a>
+		</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Branch')}}"><img class="img-responsive" src="{{asset('img/dashboard/franquicias.png')}}"></a>
+		</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Office')}}"><img class="img-responsive" src="{{asset('img/dashboard/oficinas.png')}}"></a>
+		</div>
+	</div>
+
+	<div class="row" style="padding-top: 5%;">
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Audit')}}"><img class="img-responsive" src="{{asset('img/dashboard/auditorias.png')}}"></a>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<button data-url="{{route('Crm.prospects.history')}}" class="btn btn-block btn-danger buts-red">Prospectos descartados</button>
+			<button data-url="{{route('Crm.contracts')}}" class="btn btn-block btn-success">Contratos clientes</button>
+			<button data-url="{{route('Crm.contracts.finished')}}" class="btn btn-block btn-info">Contratos finalizados</button>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	$(".buts-red").on('click',function(e) {
+		window.location.href = $(this).data('url');
+	})
+
+</script>
+	
 @endsection
