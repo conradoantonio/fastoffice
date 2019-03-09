@@ -508,9 +508,10 @@ class ApiController extends Controller
     	$row = AuditDetail::find($req->audit_detail_id);
 
     	if (!$row) { return response(['msg' => 'Registro no encontrado', 'code' => 0], 200); }
-
-        if ($req->answer == 0) {$set_ans = 1;}
-        elseif ($req->answer == 1) {$set_ans = 0;}
+        #This was changed to 1, but was omitted now
+        if ($req->answer == 0) {$set_ans = 0;}
+        #This was changed to 0, but was omitted now
+        elseif ($req->answer == 1) {$set_ans = 1;}
         elseif ($req->answer == 2) {$set_ans = 2;}
 
     	$row->answer = $set_ans;
