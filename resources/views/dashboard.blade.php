@@ -55,8 +55,8 @@
 		@endif
 		<div class="col-md-3 col-sm-6">
 			<button data-url="{{route('Crm.prospects.history')}}" class="btn btn-block btn-danger buts-red">Prospectos descartados</button>
-			<button data-url="{{route('Crm.contracts')}}" class="btn btn-block btn-success">Contratos clientes</button>
-			<button data-url="{{route('Crm.contracts.finished')}}" class="btn btn-block btn-info">Contratos finalizados</button>
+			<button data-url="{{route('Crm.contracts')}}" class="btn btn-block btn-success buts-red">Contratos clientes</button>
+			<button data-url="{{route('Crm.contracts.finished')}}" class="btn btn-block btn-info buts-red">Contratos finalizados</button>
 		</div>
 	</div>
 </div>
