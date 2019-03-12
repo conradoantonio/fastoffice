@@ -38,15 +38,15 @@
 				<td>
                     {!!
                         ($contract->charges->sum('amount') == $contract->balance ? "<span class='label label-success'>Pagado</span>" :
-                            (($contract->charges->sum('amount') - $contract->balance) <= $contract->office->price * 0.90 ? "<span class='label label-warning'>Por pagar</span>" :
-                                ($contract->charges->sum('amount') >= $contract->office->price * 0.90  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
+                            (($contract->charges->sum('amount') - $contract->balance) <= $contract->office->price / 1.10 ? "<span class='label label-warning'>Por pagar</span>" :
+                                ($contract->charges->sum('amount') >= $contract->office->price / 1.10  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
                             )
                         )
                     !!}
                 </td>
                 {{-- <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Normal</span>") !!}</td> --}}
                 <td>${{ ($contract->charges->sum('amount') - $contract->balance) }}</td>
-                <td class="hide">{{$contract->office->price * 0.90}}</td>
+                <td class="hide">{{$contract->office->price / 1.10}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>

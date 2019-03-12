@@ -325,10 +325,10 @@ class ApiController extends Controller
     	$account['last_payment_quantity'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment : '0';
     	$account['last_payment_string'] = count($contract->payment_history) > 0 ? $contract->payment_history->last()->payment_str : 'Cero pesos 00/100 M.N.';
 
-        if (count($contract->payment_history)) {
-            if ($contract->payment_history->last()->payment ==  $contract->office->price * 0.90) {//Pagó el precio normal de la oficina
+        if ( count( $contract->payment_history ) ) {
+            if ( $contract->payment_history->last()->payment == $contract->office->price / 1.10 ) {//Pagó el precio normal de la oficina
                 $account['last_payment_status'] = 'Normal';
-            } else if ($contract->payment_history->last()->payment >  $contract->office->price * 0.90) {//Pagó atrasado
+            } else if ( $contract->payment_history->last()->payment > $contract->office->price / 1.10 ) {//Pagó atrasado
                 $account['last_payment_status'] = 'Atrasado';
             } else {//pagó menos, pero supondremos fue normal
                 $account['last_payment_status'] = 'Esporádico';
@@ -340,7 +340,7 @@ class ApiController extends Controller
         $total_pay = $contract->charges->sum('amount') - $contract->balance;
         $account['actual_payment_quantity'] = $total_pay;
         $account['actual_payment_string'] = ucfirst($n_words->format($total_pay))." $this->ext_m";
-        $account['actual_payment_status'] = ($total_pay == 0 ? 'Pagado' : ( $total_pay > ($contract->office->price * 0.90) ? 'Atrasado' : 'Por pagar' ));
+        $account['actual_payment_status'] = ($total_pay == 0 ? 'Pagado' : ( $total_pay > ( $contract->office->price / 1.10 ) ? 'Atrasado' : 'Por pagar' ));
 
     	return response(['msg' => 'Estado de cuenta encontrado', 'code' => 1, 'data' => $account], 200);
     }

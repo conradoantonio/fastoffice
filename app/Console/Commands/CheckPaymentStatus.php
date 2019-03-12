@@ -71,8 +71,8 @@ class CheckPaymentStatus extends Command
                             $charge = New ChargeContract;
 
                             $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price * 0.90;//Add the 90% of the office
-                            $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.90))." $ext_m";
+                            $charge->amount = $item->office->price / 1.10;//Add the 90% of the office
+                            $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
                             $charge->pay_date = $start_date;
                             $charge->status = 1;//Pago normal
 
@@ -87,8 +87,8 @@ class CheckPaymentStatus extends Command
                         $charge = New ChargeContract;
 
                         $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price * 0.10;//Add the 10% of the office
-                        $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.10))." $ext_m";
+                        $charge->amount = $item->office->price - ( $item->office->price / 1.10 );//Only add the 10% of total price office
+                        $charge->amount_str = ucfirst( $n_words->format( $item->office->price - ( $item->office->price / 1.10 ) ) )." $ext_m";
                         $charge->pay_date = $start_date;
                         $charge->status = 2;//Pago atrasado
 
@@ -101,14 +101,14 @@ class CheckPaymentStatus extends Command
 
             } else {//Si nunca ha pagado
                 if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
-                    if ($today == $start_date) {//Si hoy es el primer día de pago...
+                    if ( $today == $start_date ) {//Si hoy es el primer día de pago...
                         $exist = ChargeContract::where('contract_id', $item->id)->where('pay_date', $start_date)->get();
-                        if (!count($exist)) {//Si existe un cargo ya realizado (puede ser que no pagó el primer mes..) se crea un cargo normal
+                        if (! count( $exist ) ) {//Si existe un cargo ya realizado (puede ser que no pagó el primer mes..) se crea un cargo normal
                             $charge = New ChargeContract;
 
                             $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price * 0.90;//Add the 90% of the office
-                            $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.90))." $ext_m";
+                            $charge->amount = $item->office->price / 1.10;//Add the 90% of the office
+                            $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
                             $charge->pay_date = $start_date;
                             $charge->status = 1;//Pago normal
 
@@ -123,8 +123,8 @@ class CheckPaymentStatus extends Command
                         $charge = New ChargeContract;
 
                         $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price * 0.10;//Add the 10% of the office
-                        $charge->amount_str = ucfirst($n_words->format($item->office->price * 0.10))." $ext_m";
+                        $charge->amount = $item->office->price - ( $item->office->price / 1.10 );//Only add the 10% of total price office
+                        $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
                         $charge->pay_date = $start_date;
                         $charge->status = 2;//Pago atrasado
 

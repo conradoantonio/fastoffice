@@ -164,7 +164,7 @@
                             <li class="list-group-item fill-containers"><span class="label_show">Tipo: <span class="office_type"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Dirección: <span class="address"></span></span></li>
                             <li class="list-group-item fill-containers"><span class="label_show">Capacidad de personas: <span class="capacity_people"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Precio: $<span class="price"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Precio de lista: $<span class="price"></span></span></li>
                             <li class="list-group-item office-photo">
                                 <span class="label_show">Foto: </span><br>
                                 <img width="300px;" src="" id="photo">

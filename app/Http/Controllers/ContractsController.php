@@ -71,7 +71,7 @@ class ContractsController extends Controller
         $contract = Contract::find($contract_id);
 
         if ($contract) {
-            if ($status == 1) { $amount_str = $n_words->format($contract->office->price * 0.90)." $this->ext_m"; $amount_num = $contract->office->price * 0.90; }
+            if ($status == 1) { $amount_str = $n_words->format($contract->office->price / 1.10)." $this->ext_m"; $amount_num = $contract->office->price / 1.10; }
             elseif ($status == 2) { $amount_str = $n_words->format($contract->office->price)." $this->ext_m"; $amount_num = $contract->office->price; }
             elseif ($status == 3) { $amount_str = $n_words->format($sporadic_payment)." $this->ext_m"; $amount_num = $sporadic_payment; }
             
@@ -155,7 +155,7 @@ class ContractsController extends Controller
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $initial_day->format('Y-m-d');
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $contract->monthly_payment_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
         $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
         //Date fields
         $contract->actual_pay_date = $initial_day->format('Y-m-d');//Month to pay
@@ -199,8 +199,8 @@ class ContractsController extends Controller
         $charge = New ChargeContract;
 
         $charge->contract_id = $contract->id;
-        $charge->amount = $office->price * 0.90;
-        $charge->amount_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $charge->amount = $office->price / 1.10;
+        $charge->amount_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
         $charge->pay_date = $contract->actual_pay_date;
         $charge->status = 1;//Pago normal
 
@@ -273,7 +273,7 @@ class ContractsController extends Controller
         //$contract->contract_date = $req->contract_date;
         //$contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst($n_words->format($office->price * 0.90))." $this->ext_m";
+        $contract->monthly_payment_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
         $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
 
         //Provider
@@ -362,7 +362,7 @@ class ContractsController extends Controller
         if ($req->status == 1) {//Se aceptó el nuevo precio, probablemente validar en un futuro que el cambio se haga sólo si está dentro del primer mes del contrato
             $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
             
-            $contract->monthly_payment_str = ucfirst($n_words->format($req->price * 0.90))." $this->ext_m";
+            $contract->monthly_payment_str = ucfirst($n_words->format($req->price / 1.10))." $this->ext_m";
             $contract->monthly_payment_delay_str = ucfirst($n_words->format($req->price))." $this->ext_m";//Puede ser que cambiemos esto en un futuro
 
             $contract->save();
