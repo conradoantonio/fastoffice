@@ -38,8 +38,8 @@
 				<td>
                     {!!
                         ($contract->charges->sum('amount') == $contract->balance ? "<span class='label label-success'>Pagado</span>" :
-                            (($contract->charges->sum('amount') - $contract->balance) <= $contract->office->price / 1.10 ? "<span class='label label-warning'>Por pagar</span>" :
-                                ($contract->charges->sum('amount') >= $contract->office->price / 1.10  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
+                            (($contract->charges->sum('amount') - $contract->balance) <= round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ? "<span class='label label-warning'>Por pagar</span>" :
+                                ($contract->charges->sum('amount') >= round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 )  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
                             )
                         )
                     !!}

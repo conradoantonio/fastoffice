@@ -71,9 +71,9 @@ class ContractsController extends Controller
         $contract = Contract::find($contract_id);
 
         if ($contract) {
-            if ($status == 1) { $amount_str = $n_words->format($contract->office->price / 1.10)." $this->ext_m"; $amount_num = $contract->office->price / 1.10; }
-            elseif ($status == 2) { $amount_str = $n_words->format($contract->office->price)." $this->ext_m"; $amount_num = $contract->office->price; }
-            elseif ($status == 3) { $amount_str = $n_words->format($sporadic_payment)." $this->ext_m"; $amount_num = $sporadic_payment; }
+            if ($status == 1) { $amount_str = $n_words->format( round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ); }
+            elseif ($status == 2) { $amount_str = $n_words->format( round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ); }
+            elseif ($status == 3) { $amount_str = $n_words->format( round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ); }
             
             $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'amount_str' => $amount_str, 'amount_num' => $amount_num])
             ->setPaper('letter')->setWarnings(false);
@@ -155,8 +155,8 @@ class ContractsController extends Controller
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $initial_day->format('Y-m-d');
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
-        $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
+        $contract->monthly_payment_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
+        $contract->monthly_payment_delay_str = ucfirst( $n_words->format( round( $office->price, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
         //Date fields
         $contract->actual_pay_date = $initial_day->format('Y-m-d');//Month to pay
         $contract->payment_range_start = $initial_day->format('d');
@@ -200,7 +200,7 @@ class ContractsController extends Controller
 
         $charge->contract_id = $contract->id;
         $charge->amount = $office->price / 1.10;
-        $charge->amount_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
+        $charge->amount_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
         $charge->pay_date = $contract->actual_pay_date;
         $charge->status = 1;//Pago normal
 
@@ -273,8 +273,8 @@ class ContractsController extends Controller
         //$contract->contract_date = $req->contract_date;
         //$contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst($n_words->format($office->price / 1.10))." $this->ext_m";
-        $contract->monthly_payment_delay_str = ucfirst($n_words->format($office->price))." $this->ext_m";
+        $contract->monthly_payment_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
+        $contract->monthly_payment_delay_str = ucfirst( $n_words->format( round( $office->price, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
 
         //Provider
         $contract->provider_name = $req->provider_name;

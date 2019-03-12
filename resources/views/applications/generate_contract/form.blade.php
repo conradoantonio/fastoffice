@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago mensual $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price / 1.10 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? round( $prospect->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
                     </div>
                 </div>
                 @if($contract)
@@ -135,7 +135,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago por hora $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->price / 1.10 : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? round( $prospect->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
                     </div>
                 </div>
                 @if($contract)

@@ -71,8 +71,8 @@ class CheckPaymentStatus extends Command
                             $charge = New ChargeContract;
 
                             $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price / 1.10;//Add the 90% of the office
-                            $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
+                            $charge->amount = round ( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 );//Add the 90% of the office
+                            $charge->amount_str = ucfirst( $n_words->format( round ( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
                             $charge->pay_date = $start_date;
                             $charge->status = 1;//Pago normal
 
@@ -87,8 +87,8 @@ class CheckPaymentStatus extends Command
                         $charge = New ChargeContract;
 
                         $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price - ( $item->office->price / 1.10 );//Only add the 10% of total price office
-                        $charge->amount_str = ucfirst( $n_words->format( $item->office->price - ( $item->office->price / 1.10 ) ) )." $ext_m";
+                        $charge->amount = round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 );//Only add the 10% of total price office
+                        $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
                         $charge->pay_date = $start_date;
                         $charge->status = 2;//Pago atrasado
 
@@ -107,8 +107,8 @@ class CheckPaymentStatus extends Command
                             $charge = New ChargeContract;
 
                             $charge->contract_id = $item->id;
-                            $charge->amount = $item->office->price / 1.10;//Add the 90% of the office
-                            $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
+                            $charge->amount = round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 );//Add the 90% of the office
+                            $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
                             $charge->pay_date = $start_date;
                             $charge->status = 1;//Pago normal
 
@@ -123,8 +123,8 @@ class CheckPaymentStatus extends Command
                         $charge = New ChargeContract;
 
                         $charge->contract_id = $item->id;
-                        $charge->amount = $item->office->price - ( $item->office->price / 1.10 );//Only add the 10% of total price office
-                        $charge->amount_str = ucfirst( $n_words->format( $item->office->price / 1.10 ) )." $ext_m";
+                        $charge->amount = round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 );//Only add the 10% of total price office
+                        $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
                         $charge->pay_date = $start_date;
                         $charge->status = 2;//Pago atrasado
 

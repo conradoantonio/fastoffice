@@ -127,7 +127,7 @@ class ApplicationsController extends Controller
         $params['cc'] = "ventas@fastoffice.mx";
         $params['view'] = 'mails.general';
 
-        #$this->mail($params);
+        $this->mail($params);
 
         return response(['msg' => 'Prospecto registrado correctamente', 'status' => 'success', 'code' => 1, 'url' => url('crm/prospectos')], 200);
     }

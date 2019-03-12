@@ -35,7 +35,7 @@
 				<td>{{$contract->customer->phone}}</td>
 				<td>{{$contract->office->name}}</td>
                 <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Finalizado</span>") !!}</td>
-                <td>${{ $contract->status == 2 ? $contract->office->price : $contract->office->price / 1.10 }}</td>
+                <td>${{ $contract->status == 2 ? $contract->office->price : round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) }}</td>
                 <td class="hide">{{$contract->office->price / 1.10}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>

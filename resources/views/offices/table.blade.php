@@ -13,6 +13,7 @@
 			<th>Recepcionista</th>
 			<th>Estado</th>
 			<th>Municipio</th>
+			<th>Precio de lista</th>
 			<th>Tipo</th>
 			<th>Estatus</th>
 			<th>Acciones</th>
@@ -32,6 +33,7 @@
 					<td>{{$office->user?$office->user->fullname : 'No asignado'}}</td>
 					<td>{{$office->state?$office->state->name:'Sin especificar'}}</td>
 					<td>{{$office->municipality?$office->municipality->name:'Sin especificar'}}</td>
+					<td>${{$office->price}}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status == 0)
