@@ -52,14 +52,30 @@
 				</div>
 			@endif
 			<div class="row extra_fran {{ (!$errors->user->first('regime')&&!$errors->user->first('rfc')) && ($user->role_id != 2 && $user->role_id != 4)?'hide':''}}">
-				<div class="form-group col-md-6 {{$errors->user->first('regime')?'has-error':''}}">
-					{{Form::label('regime', 'Régimen', ['class' => 'control-label required'])}}
-					{{Form::select('regime', [0 => 'Seleccione un régimen', "Persona física" => 'Persona física', "Persona moral" => 'Persona moral'], null,['class' => 'form-control', 'data-name' => "Regimen"])}}
-				</div>
 				<div class="form-group col-md-6 {{$errors->user->first('rfc')?'has-error':''}}">
 					{{Form::label('rfc', 'RFC', ['class' => 'control-label required'])}}
 					{{Form::text('rfc', null, ['class' => 'form-control', 'data-name' => 'RFC'])}}
 					{{@$errors->user->first('rfc')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->user->first('business_activity')?'has-error':''}}">
+					{{Form::label('business_activity', 'Giro empresarial', ['class' => 'control-label required'])}}
+					{{Form::text('business_activity', null, ['class' => 'form-control', 'data-name' => 'Giro empresarial'])}}
+					{{@$errors->user->first('business_activity')}}
+				</div>
+				<div class="form-group col-md-12 {{$errors->user->first('address')?'has-error':''}}">
+					{{Form::label('address', 'Dirección', ['class' => 'control-label required'])}}
+					{{Form::text('address', null, ['class' => 'form-control', 'data-name' => 'Dirección'])}}
+					{{@$errors->user->first('address')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->user->first('identification_type')?'has-error':''}}">
+					{{Form::label('identification_type', 'Tipo de identificación', ['class' => 'control-label required'])}}
+					{{Form::text('identification_type', null, ['class' => 'form-control', 'data-name' => 'Tipo de identificación'])}}
+					{{@$errors->user->first('identification_type')}}
+				</div>
+				<div class="form-group col-md-6 {{$errors->user->first('identification_num')?'has-error':''}}">
+					{{Form::label('identification_num', 'Número de identificación', ['class' => 'control-label required'])}}
+					{{Form::text('identification_num', null, ['class' => 'form-control', 'data-name' => 'Número de identificación'])}}
+					{{@$errors->user->first('identification_num')}}
 				</div>
 			</div>
 			<div class="row buttons-form">
@@ -72,12 +88,15 @@
 @push('scripts')
 	<script type="text/javascript">
 		$("#role_id").on('change', function(){
-			if ( $(this).val() == 2 || $(this).val() == 4){
-				$(".extra_fran").removeClass('hide').find('input').addClass('not-empty rfc')
-				$(".extra_fran").find('select').addClass('not-empty')
+			//If user to create is franchise, show rfc field
+			if ( $(this).val() == 2) {
+				if ( $(this).val() == 4 ) {
+					$(".extra_fran").removeClass('hide').find('input').addClass('not-empty');
+				}
+				$(".extra_fran").removeClass('hide').find('input[name="rfc"]').addClass('rfc');
 			} else {
-				$(".extra_fran").addClass('hide').find('input').removeClass('not-empty rfc')
-				$(".extra_fran").find('select').removeClass('not-empty')
+				$(".extra_fran").addClass('hide').find('input').removeClass('not-empty');
+				$(".extra_fran").addClass('hide').find('input[name="rfc"]').removeClass('rfc');
 			}
 		})
 	</script>

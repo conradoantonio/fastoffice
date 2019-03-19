@@ -40,17 +40,15 @@ CREATE TABLE `applications` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `regime` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rfc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 Prospecto, 1 Cliente (está contratado), 2 Concretado (Fue cliente pero terminó contrato), 3 No concretado (Describir razón)',
   `comment` text COLLATE utf8mb4_unicode_ci COMMENT 'La razón por la que NO se cerró el contrato',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications` */
-
-insert  into `applications`(`id`,`user_id`,`office_id`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,9,1,NULL,NULL,NULL,NULL,NULL,1,NULL,'2018-09-12 10:24:46','2018-09-12 12:10:56'),(2,9,2,NULL,NULL,NULL,NULL,NULL,0,NULL,'2018-09-13 17:03:16','2018-09-13 17:03:16'),(3,0,3,'cristo','cristofer@gmail.com','Persona física','VECJ880326KJL','9801010',0,NULL,'2018-09-14 11:06:30','2018-09-14 11:06:30');
 
 /*Table structure for table `applications_comments` */
 
@@ -81,11 +79,9 @@ CREATE TABLE `applications_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications_details` */
-
-insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,3000.00,10,1,'2018-09-12 10:24:46','2018-09-12 10:24:46'),(2,2,14,5000.00,8,1,'2018-09-13 17:03:17','2018-09-13 17:03:17'),(3,3,14,5000.00,5,1,'2018-09-14 11:06:31','2018-09-14 11:06:31');
 
 /*Table structure for table `attachments` */
 
@@ -97,9 +93,11 @@ CREATE TABLE `attachments` (
   `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `size` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `attachments` */
+
+insert  into `attachments`(`id`,`template_id`,`path`,`size`) values (1,2,'img/templates/2/1210040.jpg','204937'),(2,2,'img/templates/2/1211041.pdf','1372182'),(3,3,'img/templates/3/1221222.jpg','1153815'),(4,4,'img/templates/4/1228173.jpg','1851900'),(5,5,'img/templates/5/1231344.jpg','872258'),(6,6,'img/templates/6/1235555.JPG','119961'),(7,7,'img/templates/7/1134016.pdf','607340'),(8,8,'img/templates/8/2009127.PNG','230413'),(9,9,'img/templates/9/0552348.JPG','257474'),(10,9,'img/templates/9/0554039.JPG','257474');
 
 /*Table structure for table `audit_details` */
 
@@ -112,11 +110,9 @@ CREATE TABLE `audit_details` (
   `answer` int(11) NOT NULL,
   `detail` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audit_details` */
-
-insert  into `audit_details`(`id`,`audit_id`,`question_id`,`answer`,`detail`) values (1,1,1,1,NULL);
 
 /*Table structure for table `audit_photos` */
 
@@ -144,11 +140,9 @@ CREATE TABLE `audits` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `audits` */
-
-insert  into `audits`(`id`,`branch_id`,`user_id`,`title`,`status`,`created_at`,`updated_at`) values (1,1,10,'Auditoria para Franquicia 1',1,'2018-11-12 17:19:57','2018-11-12 17:20:22');
 
 /*Table structure for table `banners` */
 
@@ -198,11 +192,9 @@ CREATE TABLE `branches` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `branches` */
-
-insert  into `branches`(`id`,`user_id`,`name`,`address`,`phone`,`website`,`zip_code`,`locality`,`description`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,2,'Franquicia 1','Simon Bolivar 594','6691505087','www.google.com','44900','Guadalajara','The bulding its\'s blue.',1,'2018-07-12 12:13:19','2018-07-18 12:57:24',NULL),(2,6,'Franquicia Ma. Ot.','Av. Mariano Otero','6699896532','www.fastoffice.com','87956','Jalisco','Franquicia con más de 10 oficinas',1,'2018-07-16 12:49:06','2018-07-16 12:49:06',NULL);
 
 /*Table structure for table `cancelled_contracts` */
 
@@ -229,11 +221,11 @@ CREATE TABLE `categories` (
   `type` int(11) NOT NULL COMMENT '1 Ingreso, 2 Egreso',
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `categories` */
 
-insert  into `categories`(`id`,`name`,`status`,`type`,`deleted_at`) values (1,'Luz (CFE)',1,2,NULL),(2,'Pago de renta',1,1,NULL);
+insert  into `categories`(`id`,`name`,`status`,`type`,`deleted_at`) values (1,'Luz (CFE)',1,2,NULL),(2,'Renta de Local',1,2,NULL),(3,'Servicio de sala de juntas',1,1,NULL),(4,'Servicio de agua potable y alcantarillado',1,2,NULL),(5,'Telefonía e internet TELMEX',1,2,NULL),(6,'Telefonía e internet AXTEL',1,2,NULL),(7,'Telefonía e internet TotalPlay',1,2,NULL),(8,'Telefonía e internet Megacable',1,2,NULL),(9,'Internet dedicado',1,2,NULL),(10,'Servicio de limpieza',1,2,NULL),(11,'Servicio de copias y escaneo',1,1,NULL),(12,'Consumibles varios',1,2,NULL),(13,'Pintura sucursal',1,2,NULL),(14,'Fontanería',1,2,NULL),(15,'Albańileria',1,2,NULL),(16,'Tabla roca',1,2,NULL),(17,'Silla ejecutiva',1,2,NULL),(18,'Silla de visitante',1,2,NULL),(19,'Escritorio',1,2,NULL),(20,'Sala de juntas',1,2,NULL),(21,'Pintaron de cristal',1,2,NULL),(22,'Directorio de cristal',1,2,NULL),(23,'Papelería en general',1,2,NULL),(24,'Tazas FAST OFFICE',1,2,NULL),(25,'Tapete FAST OFFICE',1,2,NULL),(26,'Electricidad mano de obra',1,2,NULL),(27,'Recepcionista (sueldo mensual)',1,2,NULL),(28,'Bono mensual recepcionista',1,2,NULL),(29,'Comisión por oficina rentada',1,2,NULL),(30,'Letrero FAST OFFICE',1,2,NULL),(31,'Estación de café',1,2,NULL),(32,'Comedor para cocina',1,2,NULL),(33,'Vynil esmerilado',1,2,NULL),(34,'Pantalla TV  para sala de juntas',1,2,NULL),(35,'Impuestos',1,2,NULL),(36,'Sistema fastoffice.app',1,2,NULL),(37,'Administración de sucursal',1,2,NULL),(38,'Regalías FAST OFFICE',1,2,NULL),(39,'Contabilidad',1,2,NULL),(40,'Aguinaldo',1,2,NULL),(41,'Mantenimiento del Local',1,2,NULL),(42,'Equipo e instalación  aire acondicionado',1,2,NULL),(43,'Cafetera',1,2,NULL),(44,'Vasos(s) de cristal',1,2,NULL),(45,'Banca o sillón de espera',1,2,NULL),(46,'Despachador de toallas de mano',1,2,NULL),(47,'Despachador de jabón',1,2,NULL),(48,'Despachador de papel de bańo',1,2,NULL),(49,'Bote(s) de basura',1,2,NULL),(50,'Alarma sistema de seguridad',1,2,NULL),(51,'Repetidor de seńal de internet',1,2,NULL),(52,'Cuadro(s) para decoración',1,2,NULL),(53,'Planta(s) para decoración',1,2,NULL),(54,'Trabajos de aluminio y vidrio',1,2,NULL),(55,'Licencia municipal',1,2,NULL),(56,'Sindicato',1,2,NULL),(57,'Cámaras de seguridad',1,2,NULL),(58,'Seńalizaciones FAST OFFICE varios',1,2,NULL),(59,'Tarjetas de presentación',1,2,NULL),(60,'Despachador de agua',1,2,NULL),(61,'Depósito en garantía para renta de Local',1,2,NULL),(62,'Apartado de oficina',1,1,NULL),(63,'Artículos de cocina en general',1,2,NULL),(64,'Oficina fisica',1,1,'2019-02-05 11:24:00'),(65,'Jardineria',1,2,NULL),(66,'Basura recoleccion',1,2,NULL),(67,'Toner impresora',1,2,NULL),(68,'Limpieza aseo sucursal',1,2,'2019-02-05 11:12:31'),(69,'Cerrajeria',1,2,NULL),(70,'Estacionamiento',1,2,NULL),(71,'Colonos',1,2,NULL),(72,'Agua garrafones',1,2,NULL),(73,'Mensajeria',1,2,NULL),(74,'Anuncio luminoso',1,2,NULL),(75,'Servicio de reparacion anuncio luminoso',1,2,NULL),(76,'Telefonia e internet IZZY',1,2,NULL),(77,'Uniforme FAST OFFICE',1,2,NULL),(78,'Servicio de proyector',1,1,NULL),(79,'Oficina virtual',1,1,'2019-02-05 11:23:02'),(80,'Escritorio FAST OFFICE',1,1,NULL),(81,'Silla ejecutiva',1,1,NULL),(82,'Silla de visitante',1,1,NULL),(83,'Deposito de oficina',1,1,NULL),(84,'Servicio de oficina',1,1,NULL),(85,'Salon de conferencias',1,1,NULL),(86,'Sistema FASTOFFICE.APP',1,1,NULL),(87,'Pintura',1,2,NULL),(88,'Publicidad FAST OFFICE',1,2,NULL),(89,'Publicidad FAST OFFICE',1,1,NULL),(90,'Renta de equipo de computo',1,2,NULL),(91,'Uniformes FAST OFFICE',1,1,NULL),(92,'Piso e instalacion de piso (ceramico, porcelanato, laminado o cualquier material)',1,2,NULL),(93,'Regalias FAST OFFICE',1,1,NULL),(94,'Sistema FASTOFFICE.APP (sofware)',1,2,NULL),(95,'Tazas FAST OFFICE',1,1,NULL),(96,'Juridico recupacion de pagos',1,2,NULL),(97,'Reclutamiento RH',1,2,NULL);
 
 /*Table structure for table `charges_contracts` */
 
@@ -249,11 +241,9 @@ CREATE TABLE `charges_contracts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `charges_contracts` */
-
-insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,90.00,'Noventa pesos 00/100 M.N.','2018-09-12',1,'2018-09-12 12:10:56','2018-09-12 12:10:56');
 
 /*Table structure for table `companies` */
 
@@ -274,7 +264,7 @@ CREATE TABLE `companies` (
 
 /*Data for the table `companies` */
 
-insert  into `companies`(`id`,`name`,`description`,`philosophy`,`privacy`,`terms_conditions`,`picture`,`created_at`,`updated_at`) values (1,'skeleton',NULL,NULL,NULL,NULL,NULL,'2018-08-12 20:43:08','2018-08-12 20:43:08');
+insert  into `companies`(`id`,`name`,`description`,`philosophy`,`privacy`,`terms_conditions`,`picture`,`created_at`,`updated_at`) values (1,'skeleton',NULL,NULL,NULL,NULL,NULL,'2018-08-12 19:43:08','2018-08-12 19:43:08');
 
 /*Table structure for table `contracts` */
 
@@ -321,11 +311,9 @@ CREATE TABLE `contracts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `contracts` */
-
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`contract_date`,`start_date_validity`,`end_date_validity`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_address`,`provider_ine_number`,`provider_act_number`,`provider_notary_number`,`provider_notary_state_id`,`provider_notary_name`,`customer_address`,`customer_ine_number`,`customer_activity`,`customer_company`,`customer_act_number`,`customer_notary_number`,`customer_notary_state_id`,`customer_notary_name`,`customer_deed_number`,`customer_deed_date`,`customer_social_object`,`created_at`,`updated_at`) values (1,9,1,1,'2018-09-12','2018-09-12','2019-09-12','Novecientos pesos 00/100 M.N.','Mil pesos 00/100 M.N.','2018-09-12',0.00,'Cero pesos 00/100 M.N.',12,16,0,NULL,NULL,NULL,NULL,'Franquisatario físico','Dirección del prestador','23871273832',NULL,NULL,NULL,NULL,'Dirección del cliente','123823656126','Marketing digital',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2018-09-12 12:10:56','2018-09-12 15:40:11');
 
 /*Table structure for table `egress_types` */
 
@@ -335,9 +323,11 @@ CREATE TABLE `egress_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `egress_types` */
+
+insert  into `egress_types`(`id`,`name`) values (1,'Fijo'),(2,'Variable');
 
 /*Table structure for table `erps` */
 
@@ -377,7 +367,7 @@ CREATE TABLE `faqs` (
 
 /*Data for the table `faqs` */
 
-insert  into `faqs`(`id`,`question`,`answer`,`status`,`created_at`,`updated_at`) values (1,'Dolor magni delectus hic ea dicta quam.','Id maiores velit doloremque a. Praesentium culpa aut sunt nihil blanditiis. Harum sapiente in laudantium ducimus est dolor.',1,'2018-08-12 20:43:07','2018-08-12 20:43:07'),(2,'Voluptatum sunt harum vel praesentium.','Sit eaque quia aut ab quia voluptate fugiat. Sit recusandae aut quae hic ut voluptas. Magnam cupiditate tenetur incidunt voluptatem.',1,'2018-08-12 20:43:07','2018-08-12 20:43:07'),(3,'Est doloribus aut temporibus nam repellendus expedita.','Sit dolorum minus commodi quos. Nam natus odit quia qui qui. Voluptatem est ullam accusamus.',1,'2018-08-12 20:43:07','2018-08-12 20:43:07');
+insert  into `faqs`(`id`,`question`,`answer`,`status`,`created_at`,`updated_at`) values (1,'Dolor magni delectus hic ea dicta quam.','Id maiores velit doloremque a. Praesentium culpa aut sunt nihil blanditiis. Harum sapiente in laudantium ducimus est dolor.',1,'2018-08-12 19:43:07','2018-08-12 19:43:07'),(2,'Voluptatum sunt harum vel praesentium.','Sit eaque quia aut ab quia voluptate fugiat. Sit recusandae aut quae hic ut voluptas. Magnam cupiditate tenetur incidunt voluptatem.',1,'2018-08-12 19:43:07','2018-08-12 19:43:07'),(3,'Est doloribus aut temporibus nam repellendus expedita.','Sit dolorum minus commodi quos. Nam natus odit quia qui qui. Voluptatem est ullam accusamus.',1,'2018-08-12 19:43:07','2018-08-12 19:43:07');
 
 /*Table structure for table `meetings` */
 
@@ -466,11 +456,11 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `notifications` */
 
-insert  into `notifications`(`id`,`user_id`,`origin`,`title`,`content`,`status`,`created_at`,`updated_at`) values (1,4,'System','Pago de oficina ','Se le recuerda que tiene un saldo pendiente de $500 por la oficina',1,'2018-08-16 01:26:29','2018-08-16 01:35:57');
+insert  into `notifications`(`id`,`user_id`,`origin`,`title`,`content`,`status`,`created_at`,`updated_at`) values (1,4,'System','Pago de oficina ','Se le recuerda que tiene un saldo pendiente de $500 por la oficina',1,'2018-08-16 00:26:29','2018-08-16 00:35:57'),(2,9,'System','Pago de oficina','Se le recuerda tiene un pago pendiente por realizar, revise sus estados de cuenta',1,'2018-10-08 22:46:34','2018-10-08 23:50:45');
 
 /*Table structure for table `office_pictures` */
 
@@ -480,11 +470,13 @@ CREATE TABLE `office_pictures` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `office_id` int(11) NOT NULL,
   `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` double(8,2) NOT NULL,
+  `size` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `office_pictures` */
+
+insert  into `office_pictures`(`id`,`office_id`,`path`,`size`) values (1,10,'/img/offices/10/1024410.jpg','163599.00'),(2,147,'/img/offices/147/0857140.JPG','87707.00'),(3,147,'/img/offices/147/0857141.JPG','54515.00'),(4,147,'/img/offices/147/0857152.JPG','84984.00'),(5,147,'/img/offices/147/0857153.JPG','53907.00'),(6,147,'/img/offices/147/0857164.JPG','54979.00'),(7,143,'/img/offices/143/0909070.JPG','54614.00'),(8,132,'/img/offices/132/0956360.JPG','240646'),(14,652,'/img/offices/652/1101214.jpeg','131686'),(15,652,'/img/offices/652/1102381.jpg','1428293'),(16,652,'/img/offices/652/1102412.jpg','178995'),(17,652,'/img/offices/652/1102433.jpg','50973'),(18,652,'/img/offices/652/1102434.jpg','40508'),(19,1246,'/img/offices/1246/1117070.jpeg','85000'),(20,1246,'/img/offices/1246/1117191.jpeg','63071'),(21,1246,'/img/offices/1246/1117202.jpeg','59261'),(23,1246,'/img/offices/1246/1117224.jpeg','56789'),(25,1246,'/img/offices/1246/1418054.JPG','2103667'),(26,1246,'/img/offices/1246/1418195.JPG','2184798'),(27,90,'/img/offices/90/1608400.JPG','1642865'),(28,90,'/img/offices/90/1608551.JPG','1897418'),(29,90,'/img/offices/90/1609562.JPG','151259'),(30,90,'/img/offices/90/1610333.JPG','35617'),(31,90,'/img/offices/90/1610454.JPG','104165'),(32,90,'/img/offices/90/1610535.JPG','56330'),(33,517,'/img/offices/517/1614280.JPG','142551'),(34,517,'/img/offices/517/1614431.JPG','56330'),(35,517,'/img/offices/517/1614502.JPG','193425'),(36,517,'/img/offices/517/1614563.JPG','154435'),(37,517,'/img/offices/517/1615054.JPG','151340'),(38,517,'/img/offices/517/1615165.JPG','47458'),(39,1343,'/img/offices/1343/1343420.jpg','872258');
 
 /*Table structure for table `office_type_categories` */
 
@@ -502,7 +494,7 @@ CREATE TABLE `office_type_categories` (
 
 /*Data for the table `office_type_categories` */
 
-insert  into `office_type_categories`(`id`,`office_type_id`,`name`,`view_name`,`created_at`,`updated_at`) values (1,2,'Avanzado','advance','2018-08-12 20:43:09','2018-08-12 20:43:09'),(2,2,'Intermedio','intermediate','2018-08-12 20:43:09','2018-08-12 20:43:09'),(3,2,'Platino estación de cómputo','platinum_computer_station','2018-08-12 20:43:09','2018-08-12 20:43:09'),(4,2,'Platino línea de teléfono','platinum_telephone_line','2018-08-12 20:43:09','2018-08-12 20:43:09'),(5,2,'Premium','premium','2018-08-12 20:43:09','2018-08-12 20:43:09');
+insert  into `office_type_categories`(`id`,`office_type_id`,`name`,`view_name`,`created_at`,`updated_at`) values (1,2,'Avanzado','advance','2018-08-12 19:43:09','2018-08-12 19:43:09'),(2,2,'Intermedio','intermediate','2018-08-12 19:43:09','2018-08-12 19:43:09'),(3,2,'Platino estación de cómputo','platinum_computer_station','2018-08-12 19:43:09','2018-08-12 19:43:09'),(4,2,'Platino línea de teléfono','platinum_telephone_line','2018-08-12 19:43:09','2018-08-12 19:43:09'),(5,2,'Premium','premium','2018-08-12 19:43:09','2018-08-12 19:43:09');
 
 /*Table structure for table `office_types` */
 
@@ -536,18 +528,16 @@ CREATE TABLE `offices` (
   `phone` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) NOT NULL,
   `num_people` int(11) NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0 Inactiva, 1 Disponible, 2 Rentada',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1344 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `offices` */
-
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`state_id`,`municipality_id`,`name`,`address`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,3,1,14,941,'Oficina 1','Simon Bolivar 594','9801010',1000.00,10,'The office is big.',NULL,2,'2018-07-12 12:13:19','2018-09-12 15:40:11',NULL),(2,2,0,1,14,1804,'Oficina en Mariano Otero','Av. Mariano Otero #3621 Col. La Calma C.P. 45070','36310935',1000.00,15,'Oficina en excelentes condiciones.',NULL,1,'2018-07-16 13:01:37','2018-09-03 23:49:31',NULL),(3,1,0,1,14,941,'Oficina en chapalita','12 de Diciembre #1377 (casi Gpe.) Col. Chapalita. C.P. 45040','31216503',2000.00,20,'Oficina ideal para empresas medianas y chicas',NULL,1,'2018-07-18 12:49:46','2018-09-04 13:34:11',NULL),(4,2,0,1,14,1804,'Oficina 1 copérnico','Enrique ladrón de guevara #1805 Col. Paseos del sol C.P. 45079','36310301',1500.00,15,'Oficina ideal para agencias de desarollo.',NULL,1,'2018-07-18 12:56:49','2018-07-25 15:54:14',NULL),(5,2,0,2,14,1804,'Oficina virtual 1 copernico','Nicolas copérnico #231 Colonia Paseos del sol','9801010',700.00,10,'Oficina virtual avanzada',NULL,1,'2018-07-24 11:51:45','2018-07-25 15:54:14',NULL),(6,1,0,2,14,941,'Oficina virtual 2','Dirección de oficina virtual 2','6633659821',500.00,15,'Oficina con franquiciatario físico',NULL,1,'2018-07-24 12:01:57','2018-09-03 23:49:31',NULL),(7,1,0,3,14,941,'Sala de juntas','José María Vigil #3150 Col. Providencia C.P. 44670','15911731',200.00,15,'Sala de juntas con capacidad de 15 personas, buena ubicación y precio.',NULL,1,'2018-07-27 10:23:24','2018-07-31 10:28:26',NULL),(8,1,0,4,25,356,'Sala Isla','Av. Delfín #6303 Fraccionamiento Marina','6699335487',800.00,300,'Gran sala para conferencias grandes.',NULL,1,'2018-07-31 15:44:40','2018-09-03 23:49:33',NULL);
 
 /*Table structure for table `password_resets` */
 
@@ -605,11 +595,11 @@ CREATE TABLE `questions` (
   `category_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `questions` */
 
-insert  into `questions`(`id`,`question`,`category_id`,`status`) values (1,'¿LA FACHADA SE ENCUENTRA PINTADA ADECUADAMENTE?','1',1),(2,'¿EL LETRERO DE FAST OFFICE SE ENCUENTRA EN BUENAS CONDICIONES Y PRENDIDO?','1',1),(3,'¿LAS LUCES EXTERIORES SE ENCUENTRAN APAGADAS DURANTE EL DÍA?','1',1),(4,'¿EL ESTACIONAMIENTO CUENTA CON SEÑALIZACIÓN PARA LUGARES EXCLUSIVOS?','1',1),(5,'¿LOS AUTOS SE ENCUENTRAN CORRECTAMENTE ESTACIONADOS?','1',1),(6,'¿LA SUCURSAL CUENTA CON VIDEO PORTERO FUNCIONANDO?','1',1),(7,'¿LA COCINA CUENTA CON 30 TAZAS?','2',1),(8,'¿LA COCINA CUENTA 12 VASOS DE VIDRIO Y 1 JARRA DE AGUA?','2',1),(9,'¿EL CAFÉ ESTÁ DISPONIBLE Y LISTO PARA SERVIRSE?','2',1),(10,'¿LA COCINA CUENTA CON AZÚCAR, SPLENDA Y CREMA?','2',1),(11,'¿LA COCINA CUENTA CON LOS LETREROS DE \"MANTENER LIMPIO ESTA ÁREA\"?','2',1),(12,'¿LA COCINA SE ENCUENTRA LIMPIA (LAVABO, COMEDOR, SILLAS)?','2',1),(13,'¿LOS CONSUMIBLES: PAPEL DE BAÑO, MANOS, JABÓN, CAFÉ, AZÚCAR, SPLENDA, SE ENCUENTRAN NUMERADOS PARA INVENTARIO Y EN LUGAR SEGURO CON LLAVE?','2',1),(14,'¿LOS BAÑOS ESTAN ESTABLECIDOS CON PAPEL DE BAÑO?','3',1),(15,'¿LOS BAÑOS ESTAN ABASTECIDOS CON JABÓN?','3',1),(16,'¿LOS BAÑOS ESTÁN ABASTECIDOS CON PAPEL PARA MANOS?','3',1),(17,'¿LOS BAÑOS ESTÁN ABASTECIDOS CON DESODORANTES?','3',1),(18,'¿LOS BAÑOS SE ENCUENTRAN LIMPIOS?','3',1),(19,'¿LA SALA DE JUNTAS CUENTA CON SILLAS COMPLETAS 6 U 8?','4',1),(20,'¿LA SALA DE JUNTAS SE ENCUENTRA LIMPIA Y ORDENADA?','4',1),(21,'¿LA CERRADURA DE SALA DE JUNTAS SE ENCUENTRA EN BUEN ESTADO?','4',1),(22,'¿EL PINTARRÓN ESTA LIMPIO?','4',1),(23,'¿EL PINTARRÓN CUENTA CON 3 PLUMONES Y UN BORRADOR?','4',1),(24,'¿LA CLAVE DE WIFI SE ENCUENTRA EN EL PINTARRÓN?','4',1),(25,'¿LA SALA DE JUNTAS CUENTA CON EL REGLAMENTO A LA VISTA?','4',1),(26,'¿LA SALA DE JUNTAS CUENTA CON LA DISPONIBILIDAD A LA VISTA?','4',1),(27,'¿LOS PASSILLOS DE LA SUCURSAL SE ENCUENTRA EN BUEN ESTADO PINTADOS?','5',1),(28,'¿LOS PASSILLOS CUENTAN CON ADORNOS CON CUADROS?','5',1),(29,'¿LOS PASSILLOS SE ENCUENTRAN BIEN ILUMINADOS?','5',1),(30,'¿LAS OFCINAS SE ENCUENTRAN BIEN PINTADAS?','6',1),(31,'¿LAS PARTAS Y CERRADURAS DE OFICINAS SE ENCUENTRAN EN BUEN ESTADO?','6',1),(32,'¿TODAS LAS OFICINAS CUENTAN CON LLAVES EN RECEPCIÓN?','6',1),(33,'¿LAS OFICINAS QUE NO SE ENCUENTRA EL CLIENTE EN ESE MOMENTO ESTA DEBIDAMENTE CERRADA CON LLAVE?','6',1),(34,'¿EL MOBILIARIO DE LAS OFICINAS SE ENCUENTRA EN BUEN ESTADO?','6',1),(35,'¿LAS OFICINAS CUENTAN CON NÚMERO EXTERIOR EN LA ENTRDA?','6',1),(36,'¿LA ALARMA FUNCIONA CORRECTAMENTE?','7',1),(37,'¿LAS CLAVES DE ALARMA SE ACTUALIZARON HACE MENOS DE 6 MESES?','7',1),(38,'¿EL TECLADO CUENTA CON NUMEROS DE RECEPCIONISTA PARA CUALQUIER DUDA O ACLARACIÓN?','7',1),(39,'¿TODOS LOS CLIENTES CUENTA CON CLAVE DE ACCESO?','7',1),(40,'¿RECEPCIÓN TIENE UN CÓDIGO INDEPENDIENTE Y CONFIDENCIAL?','7',1),(41,'¿LAS REDES DE INTERNET FUNCIONAN CORRECTAMENTE?','8',1),(42,'¿LOS APARATOS TELEFÓNICOS ESTÁN ADECUADOS Y FUNCIONANDO PERFECTO?','8',1),(43,'¿LOS SERVICIOS DE AGUA Y LUZ ESTÁN PAGADOS PUNTUALMENTE?','8',1),(44,'¿LAS CANTIDADES DE LOS RECIBOS DE SERVICIOS ESTÁN DE ACUERDO A LO QUE SE PAGA EN PROMEDIO?','8',1),(45,'¿LAS RECEPCIONISTA REFLEJA BUENA IMAGEN? (PEINADA, MAQUILLADA, UÑAS CORTADAS Y LIMPIAS, MANOS LIMPIAS, CONRIENTE)','9',1),(46,'¿LA RECEPCIONISTA PORTA EL UNIFORME?','9',1),(47,'¿LA RECEPCIONISTA VISTE TACONES?','9',1),(48,'¿LA RECEPCIÓN CUENTA CON EL LIBRETO DE REGISTRO DE VISITANTES?','9',1),(49,'¿LA RECEPCIÓN ESTA ABASTECIDA CON TARJETAS DE PRESENTACIÓN FAST OFFICE?','9',1),(50,'¿LOS CONTRATOS DE CLIENTES SE ENCUENTRAN EN EL ARCHIVERO BAJO LLAVE?','9',1),(51,'¿LAS LLAVES DE OFICINA SE ENCUENTRAN SEGURAS DENTRO DEL CAJÓN DE LLAVES?','9',1),(52,'¿LA RECEPCIÓN SE ENCUENTRA LIMPIA Y ORDENADA?','9',1),(53,'¿lA RECEPCIONISTA TIENE ALIMENTOS SOBRE EL ÁREA DE RECEPCIÓN?','9',1),(54,'¿LA ATENCIÓN DE LA RECEPCIONISTA ES AMABLE Y DE EXCELENTE SERVICIO?','9',1),(55,'¿EL RELOJ CHECADOR SE ENCUENTRA FUNCIONANDO Y CONECTADO A COMPUTADORA?','9',1),(56,'¿LA CÁMARA DE SEGURIDAD SE ENCUENTRA LIMPIA Y VIENDO HACIA ÁREA DE RECEPCIÓN?','9',1),(57,'¿LA COMPUTADORA SE ENCUENTRA TRABAJAND BIEN? (SIN VIRUS, SIN TRABAS)','9',1),(58,'¿LA RECEPCIÓN SE ENCUENTRA ABASTECIDA DE HOJAS BLANCAS, PLUMAS AZULES Y NEGRAS, LÁPICES, ENGRAPADORA?','9',1),(59,'¿EL MULTINACIONAL SE ENCUENTRA TRABAJAND CORRECTAMENTE?','9',1),(60,'¿EL DIRECTORIO DE EMPRESAS SE ENCUENTRA ACTUALIZADO Y LLENO?','9',1),(61,'¿LA RECEPCIÓN CUENTA CON UN COMPROBANTE DE DOMICILIO VIGENTE DE LA SUCURSAL? (3 MESES COMO MÁXIMO DE ANTIGÜEDAD)','10',1),(62,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON CONTRATO FIRMADO VIGENTE Y ACTUALIZADO?','10',1),(63,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON LA HOJA DE REGISTRO?','10',1),(64,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON EL COMPROBANTE DE DOMICILIO DEL CLIENTE?','10',1),(65,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON IDENTIFICACIÓN OFICIAL DEL REPRESENTANTE LEGAL DE LA EMPRESA?','10',1),(66,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON EL ACTA CONSTITUTIVA DE LA EMPRESA?','10',1),(67,'¿DE TODOS LOS CLIENTES: EXISTE ALGÚN CONTRATO QUE ESTE POR VENCER?','11',1),(68,'¿DE LOS CONTRATOS POR VENCER: YA SE ENVIÓ LA RENOVACIÓN CON 30 DÍAS DE ANTICIPACIÓN?','11',1),(69,'¿LOS CONTRATOS DE LOS CLIENTES SE ENCUENTRANEN FOLDERS INDEPENDIENTES Y MARCADOS EN LAS PESTAÑAS PARA SU RÁPIDA BÚSQUEDA?','11',1);
+insert  into `questions`(`id`,`question`,`category_id`,`status`) values (1,'¿LA FACHADA SE ENCUENTRA PINTADA ADECUADAMENTE?','1',1),(2,'¿EL LETRERO DE FAST OFFICE SE ENCUENTRA EN BUENAS CONDICIONES Y PRENDIDO?','1',1),(3,'¿LAS LUCES EXTERIORES SE ENCUENTRAN APAGADAS DURANTE EL DÍA?','1',1),(4,'¿EL ESTACIONAMIENTO CUENTA CON SEÑALIZACIÓN PARA LUGARES EXCLUSIVOS?','1',1),(5,'¿LOS AUTOS SE ENCUENTRAN CORRECTAMENTE ESTACIONADOS?','1',1),(6,'¿LA SUCURSAL CUENTA CON VIDEO PORTERO FUNCIONANDO?','1',1),(7,'¿LA COCINA CUENTA CON 30 TAZAS?','2',1),(8,'¿LA COCINA CUENTA 12 VASOS DE VIDRIO Y 1 JARRA DE AGUA?','2',1),(9,'¿EL CAFÉ ESTÁ DISPONIBLE Y LISTO PARA SERVIRSE?','2',1),(10,'¿LA COCINA CUENTA CON AZÚCAR, SPLENDA Y CREMA?','2',1),(11,'¿LA COCINA CUENTA CON LOS LETREROS DE \"MANTENER LIMPIO ESTA ÁREA\"?','2',1),(12,'¿LA COCINA SE ENCUENTRA LIMPIA (LAVABO, COMEDOR, SILLAS)?','2',1),(13,'¿LOS CONSUMIBLES: PAPEL DE BAÑO, MANOS, JABÓN, CAFÉ, AZÚCAR, SPLENDA, SE ENCUENTRAN NUMERADOS PARA INVENTARIO Y EN LUGAR SEGURO CON LLAVE?','2',1),(14,'¿LOS BAÑOS ESTAN ESTABLECIDOS CON PAPEL DE BAÑO?','3',1),(15,'¿LOS BAÑOS ESTAN ABASTECIDOS CON JABÓN?','3',1),(16,'¿LOS BAÑOS ESTÁN ABASTECIDOS CON PAPEL PARA MANOS?','3',1),(17,'¿LOS BAÑOS ESTÁN ABASTECIDOS CON DESODORANTES?','3',1),(18,'¿LOS BAÑOS SE ENCUENTRAN LIMPIOS?','3',1),(19,'¿LA SALA DE JUNTAS CUENTA CON SILLAS COMPLETAS 6 U 8?','4',1),(20,'¿LA SALA DE JUNTAS SE ENCUENTRA LIMPIA Y ORDENADA?','4',1),(21,'¿LA CERRADURA DE SALA DE JUNTAS SE ENCUENTRA EN BUEN ESTADO?','4',1),(22,'¿EL PINTARRÓN ESTA LIMPIO?','4',1),(23,'¿EL PINTARRÓN CUENTA CON 3 PLUMONES Y UN BORRADOR?','4',1),(24,'¿LA CLAVE DE WIFI SE ENCUENTRA EN EL PINTARRÓN?','4',1),(25,'¿LA SALA DE JUNTAS CUENTA CON EL REGLAMENTO A LA VISTA?','4',1),(26,'¿LA SALA DE JUNTAS CUENTA CON LA DISPONIBILIDAD A LA VISTA?','4',1),(27,'¿LOS PASSILLOS DE LA SUCURSAL SE ENCUENTRA EN BUEN ESTADO PINTADOS?','5',1),(28,'¿LOS PASSILLOS CUENTAN CON ADORNOS CON CUADROS?','5',1),(29,'¿LOS PASSILLOS SE ENCUENTRAN BIEN ILUMINADOS?','5',1),(30,'¿LAS OFCINAS SE ENCUENTRAN BIEN PINTADAS?','6',1),(31,'¿LAS PARTAS Y CERRADURAS DE OFICINAS SE ENCUENTRAN EN BUEN ESTADO?','6',1),(32,'¿TODAS LAS OFICINAS CUENTAN CON LLAVES EN RECEPCIÓN?','6',1),(33,'¿LAS OFICINAS QUE NO SE ENCUENTRA EL CLIENTE EN ESE MOMENTO ESTA DEBIDAMENTE CERRADA CON LLAVE?','6',1),(34,'¿EL MOBILIARIO DE LAS OFICINAS SE ENCUENTRA EN BUEN ESTADO?','6',1),(35,'¿LAS OFICINAS CUENTAN CON NÚMERO EXTERIOR EN LA ENTRDA?','6',1),(36,'¿LA ALARMA FUNCIONA CORRECTAMENTE?','7',1),(37,'¿LAS CLAVES DE ALARMA SE ACTUALIZARON HACE MENOS DE 6 MESES?','7',1),(38,'¿EL TECLADO CUENTA CON NUMEROS DE RECEPCIONISTA PARA CUALQUIER DUDA O ACLARACIÓN?','7',1),(39,'¿TODOS LOS CLIENTES CUENTA CON CLAVE DE ACCESO?','7',1),(40,'¿RECEPCIÓN TIENE UN CÓDIGO INDEPENDIENTE Y CONFIDENCIAL?','7',1),(41,'¿LAS REDES DE INTERNET FUNCIONAN CORRECTAMENTE?','8',1),(42,'¿LOS APARATOS TELEFÓNICOS ESTÁN ADECUADOS Y FUNCIONANDO PERFECTO?','8',1),(43,'¿LOS SERVICIOS DE AGUA Y LUZ ESTÁN PAGADOS PUNTUALMENTE?','8',1),(44,'¿LAS CANTIDADES DE LOS RECIBOS DE SERVICIOS ESTÁN DE ACUERDO A LO QUE SE PAGA EN PROMEDIO?','8',1),(45,'¿LAS RECEPCIONISTA REFLEJA BUENA IMAGEN? (PEINADA, MAQUILLADA, UÑAS CORTADAS Y LIMPIAS, MANOS LIMPIAS, CONRIENTE)','9',1),(46,'¿LA RECEPCIONISTA PORTA EL UNIFORME?','9',1),(47,'¿LA RECEPCIONISTA VISTE TACONES?','9',1),(48,'¿LA RECEPCIÓN CUENTA CON EL LIBRETO DE REGISTRO DE VISITANTES?','9',1),(49,'¿LA RECEPCIÓN ESTA ABASTECIDA CON TARJETAS DE PRESENTACIÓN FAST OFFICE?','9',1),(50,'¿LOS CONTRATOS DE CLIENTES SE ENCUENTRAN EN EL ARCHIVERO BAJO LLAVE?','9',1),(51,'¿LAS LLAVES DE OFICINA SE ENCUENTRAN SEGURAS DENTRO DEL CAJÓN DE LLAVES?','9',1),(52,'¿LA RECEPCIÓN SE ENCUENTRA LIMPIA Y ORDENADA?','9',1),(53,'¿lA RECEPCIONISTA TIENE ALIMENTOS SOBRE EL ÁREA DE RECEPCIÓN?','9',1),(54,'¿LA ATENCIÓN DE LA RECEPCIONISTA ES AMABLE Y DE EXCELENTE SERVICIO?','9',1),(55,'¿EL RELOJ CHECADOR SE ENCUENTRA FUNCIONANDO Y CONECTADO A COMPUTADORA?','9',1),(56,'¿LA CÁMARA DE SEGURIDAD SE ENCUENTRA LIMPIA Y VIENDO HACIA ÁREA DE RECEPCIÓN?','9',1),(57,'¿LA COMPUTADORA SE ENCUENTRA TRABAJAND BIEN? (SIN VIRUS, SIN TRABAS)','9',1),(58,'¿LA RECEPCIÓN SE ENCUENTRA ABASTECIDA DE HOJAS BLANCAS, PLUMAS AZULES Y NEGRAS, LÁPICES, ENGRAPADORA?','9',1),(59,'¿EL MULTINACIONAL SE ENCUENTRA TRABAJAND CORRECTAMENTE?','9',1),(60,'¿EL DIRECTORIO DE EMPRESAS SE ENCUENTRA ACTUALIZADO Y LLENO?','9',1),(61,'¿LA RECEPCIÓN CUENTA CON UN COMPROBANTE DE DOMICILIO VIGENTE DE LA SUCURSAL? (3 MESES COMO MÁXIMO DE ANTIGÜEDAD)','10',1),(62,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON CONTRATO FIRMADO VIGENTE Y ACTUALIZADO?','10',1),(63,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON LA HOJA DE REGISTRO?','10',1),(64,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON EL COMPROBANTE DE DOMICILIO DEL CLIENTE?','10',1),(65,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON IDENTIFICACIÓN OFICIAL DEL REPRESENTANTE LEGAL DE LA EMPRESA?','10',1),(66,'¿EN 3 CLIENTES AL AZAR, LA RECEPCIÓN CUENTA CON EL ACTA CONSTITUTIVA DE LA EMPRESA?','10',1),(67,'¿DE TODOS LOS CLIENTES: EXISTE ALGÚN CONTRATO QUE ESTE POR VENCER?','11',1),(68,'¿DE LOS CONTRATOS POR VENCER: YA SE ENVIÓ LA RENOVACIÓN CON 30 DÍAS DE ANTICIPACIÓN?','11',1),(69,'¿LOS CONTRATOS DE LOS CLIENTES SE ENCUENTRANEN FOLDERS INDEPENDIENTES Y MARCADOS EN LAS PESTAÑAS PARA SU RÁPIDA BÚSQUEDA?','11',1),(70,'LA LICENCIA MUNICIPAL SE ENCUENTRA VIGENTE ?','10',1);
 
 /*Table structure for table `roles` */
 
@@ -637,11 +627,9 @@ CREATE TABLE `send_history_templates` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `send_history_templates` */
-
-insert  into `send_history_templates`(`id`,`prospect_id`,`template_id`,`created_at`,`updated_at`) values (1,1,0,'2018-09-12 10:24:46','2018-09-12 10:24:46'),(2,2,0,'2018-09-13 17:03:17','2018-09-13 17:03:17');
 
 /*Table structure for table `states` */
 
@@ -690,9 +678,11 @@ CREATE TABLE `templates` (
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `templates` */
+
+insert  into `templates`(`id`,`user_status_id`,`type_id`,`name`,`content`,`status`) values (1,0,1,'Plantilla 1','Contenido 1',1),(2,0,2,'OFICINAS QUE TE HACEN CRECER!','Buen dia, gracias por contactarnos, si estas en busqueda de una OFICINA, haz encontrato el lugar mas adecuado.\r\nFAST OFFICE lo tiene todo para ti, con multiple BENEFICIOS y todo lo que necesitas para realmente trabajar en lo que importa: HACER CRECER TU EMPRESA.\r\n\r\nEn FAST OFFICE contamos con:\r\n1. OFICINAS COMPLETAMENTE EQUIPADAS (amuebladas y con todos los servicios)\r\n2. SALA DE JUNTAS \r\n3. OFICINAS VIRTUALES\r\n4. OFICINAS PARA TODOS LOS PRESUPUESTOS.\r\n5. DIVERSAS UBICACIONES.\r\n6. CONTRATACION Y ACCESO INMEDIATO.\r\n\r\nContrata tu OFICINA INTELIGENTE y decide gozar de los multiples BENEFICIOS de una OFICINA FAST OFFICE',1),(3,0,2,'9 BENEFICIOS AL RENTAR OFICINA EN FAST OFFICE','9 BENEFICIOS AL CONTRATAR UNA OFICINA CON FAST OFFICE\r\n\r\n1. Reduce costos operativos y administrativos.\r\n2. Contratacion inmediata de tu oficina.\r\n3. Imagen corporativa para tu empresa.\r\n4. Acceso a todas las salas de juntas FAST OFFICE.\r\n5. Amplia y/o reduce tu oficina en la misma ubicacion.\r\n6. Accesa 24hrs a tu oficina.\r\n7. Deduce 100% tu renta.\r\n8. Recibe mensajes, llamadas, paqueteria sin tu presencia.\r\n9. Recibe notificaciones de tu empresa de todas las dependencias.\r\n\r\nOFICINAS QUE TE HACEN CRECER\r\nFAST OFFICE.',1),(4,0,2,'HOY PUEDES RENOVAR TU OFICINA','Decidete a renovar tu oficina, cambiate a una oficina inteligente FAST OFFICE.\r\n\r\n*OFICINAS MODERNAS CON MOBILIARIO NUEVO.\r\n*ELIMINA GASTOS DE OPERACION Y ADMINISTRATIVOS.\r\n*FEXIBILIZA TU EMPRESA Y EMPLEA TU TIEMPO EN LO QUE SI IMPORTA.\r\n\r\nHoy puedes conocer tu nueva oficina para logar mejores resultados mañana.\r\nVisita o agenda tu cita para conocer la mejor opcion en oficinas inteligentes para tu empresa.\r\n\r\nFAST OFFICE.\r\nOFICINAS QUE TE HACEN CRECER.',1),(5,0,2,'4 PASOS PARA CONTRATAR TU OFICINA','OFICINAS AL INSTANTE CON CONTRATACION EN 4 SIMPLES PASOS.\r\n\r\n1. COMPLETA LOS REQUISITOS (no requieres aval)\r\n2. FIRMA CONTRATO.\r\n3. ENTREGA DEPOSITO Y RENTA.\r\n4. INGRESA A TU OFICINA COMPLETAMENTE EQUIPADA.\r\n\r\n*Contrata e ingresa a tu oficina el mismo dia.\r\n\r\nFAST OFFICE\r\nOFICINAS QUE TE HACEN CRECER.',1),(6,0,2,'¿NECESITAS UNA OFICINA VIRTUAL?','OFICINAS VIRTUALES DESDE $ 812.00 PESOS.\r\n\r\nCon todos los beneficios de una oficina tradicional.\r\n\r\n1. RECEPCIONISTA PARA ATENDER TU EMPRESA.\r\n2. RECEPCION DE LLAMADAS, MENSAJERIA, PAQUETERIA.\r\n3. ACCESO A SALA DE JUNTAS.\r\n4. CAFETERIA ILIMITADA.\r\n5. IMAGEN CORPORATIVA.\r\n\r\nElige el paquete que mas te se adapte a tus necesidades y contrata tu oficina al instante.\r\n\r\nFAST OFFICE\r\nOFICINAS QUE TE HACEN CRECER.',1),(7,1,1,'MEMORANDUM FAST OFFICE ESTACIONAMIENTO','ESTACIONAMIENTO',1),(8,1,1,'1 MES GRATIS DE OFICINA EN NUEVAS SUCURSALES','Conoce las nuevas sucurales FAST OFFICE y obten 1 mes GRATIS en la contratacion de tu oficina\r\n(flayer adjunto)',1),(9,1,1,'Llegamos a Aguascalientes','Haz negocios en la ciudad con mayor crecimiento de MÉXICO\r\nAguascalientes es la ciudad con mayor crecimiento en el PIB  con un 5.3%\r\n\r\nFAST OFFICE se complace de invitarte a conocer su nueva sucursal en esta Ciudad de Aguascalientes.\r\nOficinas completamente equipadas con todos los servicios, par que puedas instalar tus oficinas al instante.\r\n\r\n\r\n\r\n\r\n\r\nResponsable de la protección de sus datos personales FAST OFFICE & BENS (FAST OFFICE) Usted puede conocer los términos y alcances de nuestro Aviso de Privacidad integral en: http://ap.prodato.mx/180551410 Si después de haber ejercido sus Derechos de Protección de Datos ante FAST OFFICE & BENS por medio de los mecanismos establecidos en este Aviso de Privacidad, considera que su derecho de protección de datos personales ha sido lesionado por alguna conducta u omisión de nuestra parte; o cuenta con evidencia de que en el tratamiento de sus datos personales existe alguna violación a las disposiciones previstas en la LFPDPPP, le invitamos a ponerse en contacto nuevamente con nosotros para agotar todos los procedimientos internos a efecto de satisfacer plenamente su solicitud. De no ser el caso, usted podrá interponer la queja correspondiente ante el IFAI. Para mayor información visite: www.ifai.org.mx',1);
 
 /*Table structure for table `users` */
 
@@ -705,9 +695,12 @@ CREATE TABLE `users` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `regime` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rfc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `business_activity` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identification_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identification_num` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '/img/profiles/avatar.jpg',
   `role_id` int(11) NOT NULL,
   `player_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -717,11 +710,11 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`regime`,`rfc`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'Jorge Enrique Benard Solorzano','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','By0u5Z8J5QMEPk1nQER2yJkhz9G5FNqvk8x9LFTxPDURYFcQI0A3V07eNRuf','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-07-12 12:13:19','2018-09-13 16:58:30',NULL),(2,0,'Franquisatario físico','franquisatario@hotmail.com','$2y$10$QOi6BNRxgKQf4d1O6NRD.OayZ9gkGMcDZShpqspjbJ1TMb7LQiGdy','JGINoclN3XSS0Hi5pjyIV5LYEDhe8D0WZkSHgmQsTQ9QCHHvRc6aKdelsmOZ','3310980989','Persona física','CACR880326HLO','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-12 12:13:19','2018-09-12 16:49:40',NULL),(3,1,'Recepcionista','recepcion@hotmail.com','$2y$10$k/iym61dWEtRB7Lin3K.8uQAuc1JSJhMfhvDnPOIAm.awue3M35pa','k9gTMiluNHTZhszh6F9gzlp1a00CDMUtYNGTmcuh4J6BD8VFwgc6a5FKG0xq','3310980989',NULL,NULL,'/img/profiles/avatar.jpg',3,NULL,0,1,'2018-07-12 12:13:19','2018-09-12 16:38:58',NULL),(4,0,'Juan josé','usuario@hotmail.com','$2y$10$85.WGS.DrQ5KR.hgwipx2O/Vea2ccKRSdguw8VyikcmV7I5NwoMKm',NULL,'3310980989','Persona física','VECJ880326RGT','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:13:19','2018-07-12 12:13:19',NULL),(5,0,'Miguel Ángel','lupra@gmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy',NULL,'9801010','Persona moral','VECJ880326KLJ','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-07-12 12:47:18','2018-07-18 12:43:10',NULL),(6,0,'Franquiciatario moral','franquisiatario.2@fastoffice.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','wGGZAwjWIEXLQgV9pVxx7rTD9SCSs6yhMcFSp1UDoK94t3Z3o99TTJpT2iZx','6696354569','Persona moral','BST150602618','/img/profiles/avatar.jpg',2,NULL,0,1,'2018-07-16 12:27:06','2018-08-01 10:26:10',NULL),(8,0,'Edgard','edgard@gmail.com','$2y$10$6xvHL47lrulGXu/k77wQ1uZVqDOvubRuyUxhVR3XoPe1.qxVMULL6',NULL,'6699333627','Persona moral','VAFE920827JAA','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:29:13','2018-08-03 16:29:13',NULL),(9,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$KZSDSTK4L3ichLIy8Q3lq.FtZDON2DWcAHIwyrk.kr8dMl.p8Sp8m',NULL,'9801010','Persona física','CARC941219MC1','/img/profiles/avatar.jpg',4,NULL,0,1,'2018-08-03 16:30:51','2018-08-03 16:30:51',NULL),(10,0,'Jesús Alexis Gamboa Chiw','alexis.chiw@gmail.com','$2y$10$aCYGC7HWX2cY6gLe4KmHUe/JHtDOctrTMXZAjX0cU4LVJ2TXEmP8q',NULL,'6695333469','0',NULL,'/img/profiles/avatar.jpg',5,NULL,0,1,'2018-09-02 13:11:33','2018-09-02 13:11:33',NULL);
+insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'FAST OFFICE CEO','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','19M9TdKAsfVPrnJ715DRDubZlPmfcUA5QptaC6msbFXGX4FsXGy6Iycx7Ego','3331911863',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-09-18 16:39:03','2019-03-19 11:54:16',NULL),(2,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$1xMSuXNIe28OP8bzjvmsb.AFfJq/EHMQ1SHR6wF6OxfmSfjSoqz.W',NULL,'6691293591','CARC941219MC1','Avenida Patria 182','Marketing digital','INE','5645412132148768','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-03-19 16:07:21','2019-03-19 16:07:21',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
