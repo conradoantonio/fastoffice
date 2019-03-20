@@ -180,21 +180,25 @@ DROP TABLE IF EXISTS `branches`;
 CREATE TABLE `branches` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
+  `state_id` int(11) NOT NULL DEFAULT '0',
+  `municipality_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `colony` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zip_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `website` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zip_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `locality` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `branches` */
+
+insert  into `branches`(`id`,`user_id`,`state_id`,`municipality_id`,`name`,`address`,`colony`,`zip_code`,`phone`,`website`,`description`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,2,14,941,'18 CIUDAD GRANJA','Ciudad granja # 12312','Ciudad granja','98546','9801010','www.google.com','Lorem ipsum',1,'2019-03-20 14:05:50','2019-03-20 16:17:16',NULL);
 
 /*Table structure for table `cancelled_contracts` */
 
@@ -521,10 +525,8 @@ CREATE TABLE `offices` (
   `branch_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `office_type_id` int(11) NOT NULL,
-  `state_id` int(11) NOT NULL,
-  `municipality_id` int(11) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `num_int` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Int number',
   `phone` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) NOT NULL,
   `num_people` int(11) NOT NULL,
@@ -535,9 +537,11 @@ CREATE TABLE `offices` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1344 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `offices` */
+
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'Oficina 1','458','9801010',4950.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-03-20 17:00:36',NULL);
 
 /*Table structure for table `password_resets` */
 
@@ -710,11 +714,11 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'FAST OFFICE CEO','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','19M9TdKAsfVPrnJ715DRDubZlPmfcUA5QptaC6msbFXGX4FsXGy6Iycx7Ego','3331911863',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-09-18 16:39:03','2019-03-19 11:54:16',NULL),(2,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$1xMSuXNIe28OP8bzjvmsb.AFfJq/EHMQ1SHR6wF6OxfmSfjSoqz.W',NULL,'6691293591','CARC941219MC1','Avenida Patria 182','Marketing digital','INE','5645412132148768','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-03-19 16:07:21','2019-03-19 16:07:21',NULL);
+insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'FAST OFFICE CEO','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','19M9TdKAsfVPrnJ715DRDubZlPmfcUA5QptaC6msbFXGX4FsXGy6Iycx7Ego','3331911863',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-09-18 16:39:03','2019-03-19 11:54:16',NULL),(2,0,'Edgard José Vargas Flores','franchise@hotmail.com','$2y$10$ZpHfk1KCuivRIOZvNAcH9eJDbigrvQWgPuB1/GoeAz9yQ.CbH.D3y',NULL,'9801010','FOA141110901',NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',2,NULL,0,1,'2019-03-20 12:13:21','2019-03-20 12:13:39',NULL),(3,0,'Conrado Antonio Carrillo Rosales','anton_con@hotmail.com','$2y$10$bz5snCEZetzKLQJjcOxqRO7dumbYHcWoUICCbXsYCjN/OqCG3qkAi',NULL,'9801010','CARC941219MC1','Dirección real','Desarrollo web','INE','786543154','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-03-20 12:21:17','2019-03-20 12:21:17',NULL),(4,0,'Karla Joselyn Vicente Rodríguez','recepcionist@hotmail.com','$2y$10$od2XW6.M5d0MwC60.EUEs.7I3bxw7TuB1t0HHiurI3nqj5Dw.KyhC',NULL,'9801010',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',3,NULL,0,1,'2019-03-20 12:24:07','2019-03-20 16:10:20',NULL),(5,0,'Miguel Ángel Lupercio Basulto','auditor@hotmail.com','$2y$10$eMqlBaBr7KHaA7P1YUBL7.mQ6jOXel5niNdeb2JJoUDl0y6qgzFwm',NULL,'9801010',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',5,NULL,0,1,'2019-03-20 12:27:11','2019-03-20 12:27:11',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

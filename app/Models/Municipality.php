@@ -36,4 +36,12 @@ class Municipality extends Model
     {
         return $this->belongsTo(State::class, 'state_id', 'id');
     }
+
+    /**
+     * Get the branchs related with the model.
+     */
+    public function branchs()
+    {
+        return $this->hasMany(Branch::class);
+    }
 }

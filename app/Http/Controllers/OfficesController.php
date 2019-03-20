@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OfficeRequest;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use App\Models\State;
+use App\Models\Branch;
 use App\Models\Office;
 use App\Models\OfficeType;
-use App\Models\Branch;
 use App\Models\OfficePicture;
-use App\Models\State;
 use App\Models\Municipality;
+
 use Image;
 use Excel;
 
@@ -44,17 +45,13 @@ class OfficesController extends Controller
 		} else {
 			$offices = Branch::where('user_id', auth()->user()->id)->where('status', 1)->pluck('name','id')->prepend("Seleccione una sucursal", 0);
 		}
-		$states = State::pluck('name', 'id')->prepend('Selecciona un estado', 0);
-		$municipalities = [0 => 'Seleccione un municipio'];
 
 		if ( $id ) {
 			$office = Office::findOrFail($id);
 			$users = User::where(['role_id' => 3, 'branch_id' => $office->branch_id])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
-			$municipalities = Municipality::whereHas('state', function($query) use ($office){
-				$query->where('id', $office->state_id);
-			})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);
+			
 		}
-		return view('offices.form', compact('office', 'users', 'offices', 'types', 'states', 'municipalities'));
+		return view('offices.form', compact('office', 'users', 'offices', 'types'));
 	}
 
 	public function store(OfficeRequest $req){
@@ -147,9 +144,8 @@ class OfficesController extends Controller
 					$branch = Branch::where('name', $value->franchise)->first();
 					$type = OfficeType::where('name', $value->type)->first();
 					
-					if (! $branch ) continue ;
+					if (! $branch ) continue ;#If branch is not defined...
 					if (! $value->name ) continue ;#If name is not defined...
-					if (! $value->address ) continue ;#If address is not defined...
 					if (! $value->price ) continue ;#If price is not defined...
 					if (! $value->phone ) continue ;#If phone is not defined...
 					if (! $value->people ) continue ;#If people is not defined...
@@ -158,17 +154,17 @@ class OfficesController extends Controller
 					$municipality = Municipality::where('name', $value->municipality)->first();
 
 					$office = Office::firstOrCreate(
-						['branch_id' => @$branch->id, 'name' => $value->name, 'address' => $value->address, 'phone' => $value->phone],
+						['branch_id' => $branch->id, 'name' => $value->name, 'phone' => $value->phone],
 						[
-							'branch_id' => $branch?$branch->id:0,
-							'state_id' => $state?$state->id:0,
-							'municipality_id' => $municipality?$municipality->id:0,
+							'branch_id' => $branch ? $branch->id : 0,
+							'state_id' => $state ? $state->id : 0,
+							'municipality_id' => $municipality ? $municipality->id : 0,
 							'name' => $value->name,
-							'address' => $value->address,
+							'num_int' => $value->num_int,
 							'phone' => $value->phone,
 							'price' => $value->price,
 							'num_people' => $value->people,
-							'office_type_id' => $type?$type->id:1,
+							'office_type_id' => $type ? $type->id : 1,
 							'description' => $value->description
 						]
 					);

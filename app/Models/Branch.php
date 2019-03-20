@@ -10,8 +10,16 @@ class Branch extends Model
 	use SoftDeletes;
 
 	protected $fillable = [
-		'user_id', 'name', 'address', 'phone', 'website', 'zip_code', 'locality', 'description', 'status'
+		'user_id', 'state_id', 'municipality_id', 'name', 'address', 'colony', 'zip_code', 'phone', 'website', 'description', 'status'
 	];
+
+	public function state(){
+		return $this->belongsTo(State::class);
+	}
+
+	public function municipality(){
+		return $this->belongsTo(Municipality::class);
+	}
 
 	public function user(){
 		return $this->belongsTo(User::class);

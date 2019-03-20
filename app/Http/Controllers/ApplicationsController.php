@@ -273,15 +273,16 @@ class ApplicationsController extends Controller
      */
     public function filter_offices(Request $req)
     {
-        $query = Office::has('branch')->where('status', 1);//Available
+        $query = Office::whereHas('branch', function( $que ) use ($req) {
+            if ( $req->state_id ) { $query = $que->where('state_id', $req->state_id); }
+        })
+        ->where('status', 1);//Office available
 
-        if ($req->state_id) { $query = $query->where('state_id', $req->state_id); }
+        if ( $req->badget ) { $query = $query->where('price', '<=', $req->badget); }
 
-        if ($req->badget) { $query = $query->where('price', '<=', $req->badget); }
+        if ( $req->num_people ) { $query = $query->where('num_people', '>=', $req->num_people); }
 
-        if ($req->num_people) { $query = $query->where('num_people', '>=', $req->num_people); }
-
-        if ($req->office_type_id) {
+        if ( $req->office_type_id ) {
             $query = $query->whereHas('type', function($q) use($req) {
                 $q->where('id', $req->office_type_id);
             });
@@ -289,10 +290,10 @@ class ApplicationsController extends Controller
 
         $query = $query->get();
 
-        foreach ($query as $q) {
+        foreach ( $query as $q ) {
             $q->type;
             $q->pictures;
-            $q->municipality ? $q->municipality->state : '';
+            $q->branch->municipality ? $q->branch->municipality->state : '';
             $q->setHidden(['state_id', 'user_id', 'municipality_id', 'photo', 'created_at', 'updated_at', 'deleted_at']);
         }
         return $query;

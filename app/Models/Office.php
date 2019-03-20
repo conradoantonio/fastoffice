@@ -10,7 +10,7 @@ class Office extends Model
 	use SoftDeletes;
 
 	protected $fillable = [
-		'branch_id', 'user_id', 'office_type_id', 'name', 'address', 'phone', 'price', 'num_people', 'description', 'state_id', 'municipality_id'
+		'branch_id', 'user_id', 'office_type_id', 'name', 'num_int', 'phone', 'price', 'num_people', 'description'
 	];
 
 	public function type(){
@@ -33,11 +33,11 @@ class Office extends Model
 		return $this->hasMany(Meeting::class, 'office_id');
 	}
 
-	public function state(){
+	/*public function state(){
 		return $this->belongsTo(State::class);
 	}
 
 	public function municipality(){
 		return $this->belongsTo(Municipality::class);
-	}
+	}*/
 }

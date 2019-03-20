@@ -50,14 +50,16 @@ class ErpController extends Controller
 		});
 
 		if ( $start_date ){
-			$earnings->where('created_at','>',$start_date.' 00:00:00');
-			$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
-			$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
+			#If required, add 00:00:00 to start_date variable
+			$earnings->where('date','>',$start_date);
+			$expenses_fixed->where('date','>',$start_date);
+			$expenses_variable->where('date','>',$start_date);
 		}
 		if( $end_date ){
-			$earnings->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
+			#If required, add 23:59:59 to end_date variable
+			$earnings->where('date','<=',$end_date);
+			$expenses_fixed->where('date','<=',$end_date);
+			$expenses_variable->where('date','<=',$end_date);
 		}
 
 		$earnings = $earnings->get();
@@ -215,14 +217,16 @@ class ErpController extends Controller
 
 
 		if ( $start_date ){
-			$earnings->where('created_at','>',$start_date.' 00:00:00');
-			$expenses_fixed->where('created_at','>',$start_date.' 00:00:00');
-			$expenses_variable->where('created_at','>',$start_date.' 00:00:00');
+			#If required, add 00:00:00 to start_date variable
+			$earnings->where('date','>',$start_date);
+			$expenses_fixed->where('date','>',$start_date);
+			$expenses_variable->where('date','>',$start_date);
 		}
 		if( $end_date ){
-			$earnings->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses_fixed->where('created_at','<=',$end_date.' 23:59:59');
-			$expenses_variable->where('created_at','<=',$end_date.' 23:59:59');
+			#If required, add 23:59:59 to end_date variable
+			$earnings->where('date','<=',$end_date);
+			$expenses_fixed->where('date','<=',$end_date);
+			$expenses_variable->where('date','<=',$end_date);
 		}
 
 		$earnings = $earnings->get();

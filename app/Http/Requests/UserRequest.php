@@ -34,8 +34,12 @@ class UserRequest extends FormRequest
 						'fullname'  => 'required|min:3',
 						'email' => 'required|email|min:8|unique:users,email',
 						'phone' => 'required|numeric',
+						'address' => 'nullable|max:200',
+						'business_activity' => 'nullable|max:200',
+						'identification_type' => 'nullable|max:200',
+						'identification_num' => 'nullable|max:200',
 						'password' => 'required|min:8',
-						'regime' => 'sometimes',
+						#'regime' => 'sometimes',
 						'rfc' => [
 							'nullable',
 							#'unique:users,rfc',
@@ -49,6 +53,10 @@ class UserRequest extends FormRequest
 						'fullname'  => 'required|min:3',
 						'phone' => 'required|numeric',
 						'email' => 'required|email|unique:users',
+						'address' => 'nullable|max:200',
+						'business_activity' => 'nullable|max:200',
+						'identification_type' => 'nullable|max:200',
+						'identification_num' => 'nullable|max:200',
 						'password' => 'required|min:8',
 					];
 				}
@@ -58,8 +66,12 @@ class UserRequest extends FormRequest
 						'fullname' => 'required|min:3',
 						'email' => 'required|email|unique:users,email, '.$this->route('id'),
 						'phone' => 'required|numeric',
+						'address' => 'nullable|max:200',
+						'business_activity' => 'nullable|max:200',
+						'identification_type' => 'nullable|max:200',
+						'identification_num' => 'nullable|max:200',
 						'password' => 'sometimes|nullable|min:8',
-						'regime' => 'sometimes',
+						#'regime' => 'sometimes',
 						'rfc' => [
 							'nullable',
 							#'unique:users,rfc, '.$this->route('id'),
@@ -73,6 +85,10 @@ class UserRequest extends FormRequest
 						'fullname' => 'required|min:3',
 						'phone' => 'required|numeric',
 						'email' => 'required|email|unique:users,email, '.$this->route('id'),
+						'address' => 'nullable|max:200',
+						'business_activity' => 'nullable|max:200',
+						'identification_type' => 'nullable|max:200',
+						'identification_num' => 'nullable|max:200',
 						'password' => 'sometimes|min:8',
 					];
 				}
@@ -90,8 +106,9 @@ class UserRequest extends FormRequest
 		return [
 			'unique' => ':attribute ya esta siendo usado.',
 			'required' => ':attribute es requerido.',
-			'password.required' => 'La contraseña es requerido.',
+			'password.required' => 'La contraseña es requerida.',
 			'min' => ':attribute debe tener minímo :min caracteres.',
+			'max' => ':attribute debe tener máximo :max caracteres.',
 			'regex' => 'El formato del campo :attribute no es válido'
 		];
 	}
@@ -108,7 +125,10 @@ class UserRequest extends FormRequest
 			'phone' => 'Teléfono',
 			'email' => 'Correo electrónico',
 			'password' => 'Contraseña',
-			'regime' => 'Régimen',
+			'address' => 'Dirección',
+			'business_activity' => 'Giro empresarial',
+			'identification_type' => 'Tipo de identificación',
+			'identification_num' => 'Número de identificación',
 			'rfc' => 'RFC'
 		];
 	}

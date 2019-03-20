@@ -31,7 +31,7 @@ class OfficeRequest extends FormRequest
 			case 'POST':
 				return [
 					'name'  => 'required',
-					'address' => 'required',
+					'num_int' => 'nullable',
 					'price' => 'required|numeric',
 					'phone' => 'required|numeric',
 					'num_people' => 'required|numeric',
@@ -48,7 +48,7 @@ class OfficeRequest extends FormRequest
 				}
 				return [
 					'name'  => 'required',
-					'address' => 'required',
+					'num_int' => 'nullable',
 					'price' => 'required|numeric',
 					'phone' => 'required|numeric',
 					'num_people' => 'required|numeric',
@@ -83,7 +83,10 @@ class OfficeRequest extends FormRequest
 	{
 		return [
 			'name' => 'Nombre',
-			'address' => 'Dirección',
+			'num_int' => 'Número interior',
+			'price' => 'Precio',
+			'phone' => 'Teléfono',
+			'num_people' => 'Número de personas',
 			'user_id' => 'Usuario',
 			'branch_id' => 'Sucursal',
 			'office_type_id' => 'Tipo de oficina',
@@ -97,14 +100,14 @@ class OfficeRequest extends FormRequest
 			return new JsonResponse($errors, 422);
 		}
 
-		$input = $this->all();
+		/*$input = $this->all();
 		$municipalities = Municipality::whereHas('state', function($query) use ($input){
 			$query->where('id', $input['state_id']);
-		})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);
+		})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);*/
 
 		return $this->redirector->to($this->getRedirectUrl())
 			->withInput()
-			->withErrors($errors, 'office')
-			->with('municipalities', $municipalities);
+			->withErrors($errors, 'office');
+			#->with('municipalities', $municipalities);
 	}
 }

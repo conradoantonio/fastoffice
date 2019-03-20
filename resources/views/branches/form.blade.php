@@ -23,13 +23,6 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-12 {{$errors->branch->first('address')?'has-error':''}}">
-					{{Form::label('address', 'Dirección', ['class' => 'control-label  required'])}}
-					{{Form::text('address', null, ['class' => 'form-control not-empty', 'data-name' => 'Dirección'])}}
-					{{@$errors->branch->first('address')}}
-				</div>
-			</div>
-			<div class="row">
 				<div class="form-group col-md-12 {{$errors->branch->first('user_id')?'has-error':''}}">
 					{{Form::label('user_id', 'Responsable de franquicia', ['class' => 'control-label required'])}}
 					{!!Form::select('user_id', $users, $branch->id?$branch->user_id:null, ['class' => 'select2 form-control not-empty', 'id' => 'user_id', 'name' => 'user_id', 'data-name' => 'Responsable de franquicia'] )!!}
@@ -44,24 +37,43 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="form-group col-md-6">
+					{{Form::label('state_id', 'Estado', ['class' => 'control-label required'])}}
+					{!!Form::select('state_id', $states, null, ['class' => 'select2 form-control not-empty', 'data-name' => "Estado"] )!!}
+				</div>
+				<div class="form-group col-md-6">
+					{{Form::label('municipality_id', 'Municipio', ['class' => 'control-label required'])}}
+					{!!Form::select('municipality_id', session('municipalities')?session('municipalities'):$municipalities, null, ['class' => 'select2 form-control not-empty select2-offscreen', 'data-name' => "Municipio"] )!!}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{$errors->branch->first('address')?'has-error':''}}">
+					{{Form::label('address', 'Dirección', ['class' => 'control-label  required'])}}
+					{{Form::text('address', null, ['class' => 'form-control not-empty', 'data-name' => 'Dirección'])}}
+					{{@$errors->branch->first('address')}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{$errors->branch->first('colony')?'has-error':''}}">
+					{{Form::label('colony', 'Colonia', ['class' => 'control-label  required'])}}
+					{{Form::text('colony', null, ['class' => 'form-control not-empty', 'data-name' => 'Colonia'])}}
+					{{@$errors->branch->first('colony')}}
+				</div>
+			</div>
+			<div class="row">
 				<div class="form-group col-md-6 {{$errors->branch->first('zip_code')?'has-error':''}}">
 					{{Form::label('zip_code', 'Código postal', ['class' => 'control-label required'])}}
 					{{Form::text('zip_code', null, ['class' => 'form-control not-empty decimals', 'data-name' => 'Código postal'])}}
 					{{@$errors->branch->first('zip_code')}}
 				</div>
-				<div class="form-group col-md-6 {{$errors->branch->first('locality')?'has-error':''}}">
-					{{Form::label('locality', 'Localidad', ['class' => 'control-label required'])}}
-					{{Form::text('locality', null, ['class' => 'form-control not-empty', 'data-name' => 'Localidad'])}}
-					{{@$errors->branch->first('locality')}}
-				</div>
-			</div>
-			<div class="row">
 				<div class="form-group col-md-6 {{$errors->branch->first('phone')?'has-error':''}}">
 					{{Form::label('phone', 'Teléfono', ['class' => 'control-label required'])}}
 					{{Form::text('phone', null, ['class' => 'form-control not-empty decimals length', 'data-name' => 'Teléfono', 'data-max' => 10])}}
 					{{@$errors->branch->first('phone')}}
 				</div>
-				<div class="form-group col-md-6 {{$errors->branch->first('website')?'has-error':''}}">
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12 {{$errors->branch->first('website')?'has-error':''}}">
 					{{Form::label('website', 'Sitio web', ['class' => 'control-label required'])}}
 					{{Form::text('website', null, ['class' => 'form-control not-empty', 'data-name' => 'Sitio web'])}}
 					{{@$errors->branch->first('website')}}
@@ -143,6 +155,29 @@
 				myDropzone.options.addedfile.call(myDropzone, mockFile);
 				myDropzone.options.thumbnail.call(myDropzone, mockFile, value.path);
 			})
+		}
+	})
+
+	$('#state_id').on('change', function(){
+		elem_to_block = $('select#municipality_id').parent('div').children('div.select2-container');
+		$("#municipality_id").select2("val", 0);
+		if ( $(this).val() != 0 ){
+			$.ajax({
+				url: "{{url('obtener-municipio')}}/"+$(this).val(),
+				method: 'POST',
+				beforeSend:function(){
+					blockUI(elem_to_block);
+				},
+				success:function(response){
+					$("#municipality_id option:gt(0)").remove();
+					$.each(response,function(i,e){
+						$("#municipality_id").append("<option value='"+e.id+"'>"+e.name+"</option>");
+					})
+					unblockUI(elem_to_block);
+				}
+			})
+		} else {
+			$("#municipality_id option:gt(0)").remove();
 		}
 	})
 </script>

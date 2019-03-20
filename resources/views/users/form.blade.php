@@ -51,12 +51,16 @@
 					</div>
 				</div>
 			@endif
-			<div class="row extra_fran {{ (!$errors->user->first('regime')&&!$errors->user->first('rfc')) && ($user->role_id != 2 && $user->role_id != 4)?'hide':''}}">
+
+			<div class="row rfc_field {{ ( old('role_id') != 2 && old('role_id') != 4 ) && ( $user->role_id != 2 && $user->role_id != 4) ? 'hide' :'' }}">
 				<div class="form-group col-md-6 {{$errors->user->first('rfc')?'has-error':''}}">
 					{{Form::label('rfc', 'RFC', ['class' => 'control-label required'])}}
 					{{Form::text('rfc', null, ['class' => 'form-control', 'data-name' => 'RFC'])}}
 					{{@$errors->user->first('rfc')}}
 				</div>
+			</div>
+
+			<div class="row customer_fields {{ ( old('role_id') != 4 ) && ( $user->role_id != 4 ) ? 'hide' :'' }}">
 				<div class="form-group col-md-6 {{$errors->user->first('business_activity')?'has-error':''}}">
 					{{Form::label('business_activity', 'Giro empresarial', ['class' => 'control-label required'])}}
 					{{Form::text('business_activity', null, ['class' => 'form-control', 'data-name' => 'Giro empresarial'])}}
@@ -88,15 +92,18 @@
 @push('scripts')
 	<script type="text/javascript">
 		$("#role_id").on('change', function(){
-			//If user to create is franchise, show rfc field
-			if ( $(this).val() == 2) {
-				if ( $(this).val() == 4 ) {
-					$(".extra_fran").removeClass('hide').find('input').addClass('not-empty');
-				}
-				$(".extra_fran").removeClass('hide').find('input[name="rfc"]').addClass('rfc');
+			//If user to create is a franchise, show rfc field
+			if ( $(this).val() == 2 || $(this).val() == 4 ) {
+				$(".rfc_field").removeClass('hide').find('input').addClass('not-empty rfc');
 			} else {
-				$(".extra_fran").addClass('hide').find('input').removeClass('not-empty');
-				$(".extra_fran").addClass('hide').find('input[name="rfc"]').removeClass('rfc');
+				$(".rfc_field").addClass('hide').find('input').removeClass('not-empty rfc').val("");
+			}
+
+			//If user to create is a customer, show rfc field
+			if ( $(this).val() == 4 ) {
+				$(".customer_fields").removeClass('hide').find('input').addClass('not-empty');
+			} else {
+				$(".customer_fields").addClass('hide').find('input').removeClass('not-empty').val("");
 			}
 		})
 	</script>

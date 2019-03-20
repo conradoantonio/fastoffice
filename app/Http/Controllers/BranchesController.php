@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use App\Models\Branch;
-use App\Models\User;
-use App\Models\BranchPicture;
-use App\Models\Office;
 use Image;
 use Excel;
+use App\Models\User;
+use App\Models\State;
+use App\Models\Branch;
+use App\Models\Office;
+use App\Models\Municipality;
+use App\Models\BranchPicture;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BranchesController extends Controller
 {
@@ -26,18 +29,27 @@ class BranchesController extends Controller
 		$users = User::where(['role_id' => 2, 'status' => 1])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 		$child_users = User::doesntHave('belongsBranch')->where(['role_id' => 3, 'status' => 1])->pluck('fullname', 'id');
 
+		$states = State::pluck('name', 'id')->prepend('Selecciona un estado', 0);
+		$municipalities = [0 => 'Seleccione un municipio'];
+
 		if ( $id ) {
 			$branch = Branch::findOrFail($id);
 			if ( $branch->user ){
 				$users->prepend($branch->user->fullname, $branch->user->id)->forget(0)->prepend("Seleccione un usuario", 0);
 			}
 
-			$child_users = User::where(['role_id' => 3, 'status' => 1])->where(function($query) use($id){
+			if ( $branch ) {
+				$municipalities = Municipality::whereHas('state', function($query) use ($branch) {
+					$query->where('id', $branch->state_id);
+				})->pluck('name', 'id')->prepend('Seleccione una ciudad', 0);
+			}
+
+			$child_users = User::where(['role_id' => 3, 'status' => 1])->where(function($query) use($id) {
 				$query->where('branch_id', 0);
 				$query->orWhere('branch_id', $id);
 			})->pluck('fullname', 'id');
 		}
-		return view('branches.form', compact('branch', 'users', 'child_users'));
+		return view('branches.form', compact('branch', 'users', 'child_users', 'states', 'municipalities'));
 	}
 
 	public function store(Request $req){
@@ -58,12 +70,15 @@ class BranchesController extends Controller
 		}
 	}
 
-	public function update(Request $req, $id){
+	public function update(Request $req, $id)
+	{
 		$branch = Branch::find($id);
 		$branch->fill($req->except('photo', 'child_user_ids'));
 
+		#Detach any receptionist from the franchise, then validate if we need to add another recepcionist
+		User::where('branch_id', $branch->id)->update(['branch_id' => 0]);
+
 		if ( $req->child_user_ids ){
-			User::where('branch_id', $branch->id)->update(['branch_id' => 0]);
 			User::whereIn('id', $req->child_user_ids)->update(['branch_id' => $branch->id]);
 		}
 

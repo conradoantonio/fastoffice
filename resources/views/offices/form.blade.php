@@ -28,20 +28,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-12 {{$errors->office->first('address')?'has-error':''}}">
-					{{Form::label('address', 'Dirección', ['class' => 'control-label  required'])}}
-					{{Form::text('address', null, ['class' => 'form-control not-empty', 'data-name' => 'Dirección'])}}
-					{{@$errors->office->first('address')}}
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-md-6">
-					{{Form::label('state_id', 'Estado', ['class' => 'control-label required'])}}
-					{!!Form::select('state_id', $states, null, ['class' => 'select2 form-control not-empty', 'data-name' => "Estado"] )!!}
-				</div>
-				<div class="form-group col-md-6">
-					{{Form::label('municipality_id', 'Municipio', ['class' => 'control-label required'])}}
-					{!!Form::select('municipality_id', session('municipalities')?session('municipalities'):$municipalities, null, ['class' => 'select2 form-control not-empty select2-offscreen', 'data-name' => "Municipio"] )!!}
+				<div class="form-group col-md-12 {{$errors->office->first('num_int')?'has-error':''}}">
+					{{Form::label('num_int', 'Número interior', ['class' => 'control-label  required'])}}
+					{{Form::text('num_int', null, ['class' => 'form-control not-empty', 'data-name' => 'Número interior'])}}
+					{{@$errors->office->first('num_int')}}
 				</div>
 			</div>
 			<div class="row">
@@ -178,29 +168,6 @@
 				})
 			} else {
 				$("#user_id option:gt(0)").remove();
-			}
-		})
-
-		$('#state_id').on('change', function(){
-			elem_to_block = $('select#municipality_id').parent('div').children('div.select2-container');
-			$("#municipality_id").select2("val", 0);
-			if ( $(this).val() != 0 ){
-				$.ajax({
-					url: "{{url('obtener-municipio')}}/"+$(this).val(),
-					method: 'POST',
-					beforeSend:function(){
-						blockUI(elem_to_block);
-					},
-					success:function(response){
-						$("#municipality_id option:gt(0)").remove();
-						$.each(response,function(i,e){
-							$("#municipality_id").append("<option value='"+e.id+"'>"+e.name+"</option>");
-						})
-						unblockUI(elem_to_block);
-					}
-				})
-			} else {
-				$("#municipality_id option:gt(0)").remove();
 			}
 		})
 	</script>

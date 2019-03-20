@@ -10,12 +10,13 @@
 			</th>
 			<th>Nombre</th>
 			<th>Franquicia</th>
-			<th>Recepcionista</th>
+			{{-- <th>Recepcionista</th> --}}
 			<th>Estado</th>
 			<th>Municipio</th>
 			<th>Precio de lista</th>
+			<th>Precio por pago temprano</th>
 			<th>Tipo</th>
-			<th>Estatus</th>
+			<th>Status</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -30,10 +31,11 @@
 					</td>
 					<td>{{$office->name}}</td>
 					<td>{{$office->branch->name}}</td>
-					<td>{{$office->user?$office->user->fullname : 'No asignado'}}</td>
-					<td>{{$office->state?$office->state->name:'Sin especificar'}}</td>
-					<td>{{$office->municipality?$office->municipality->name:'Sin especificar'}}</td>
+					{{-- <td>{{$office->user ? $office->user->fullname : 'No asignado'}}</td> --}}
+					<td>{{$office->branch->state ? $office->branch->state->name : 'Sin especificar'}}</td>
+					<td>{{$office->branch->municipality ? $office->branch->municipality->name : 'Sin especificar' }}</td>
 					<td>${{$office->price}}</td>
+					<td>${{ round($office->price / 1.10, PHP_ROUND_HALF_UP, 2) }}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status == 0)

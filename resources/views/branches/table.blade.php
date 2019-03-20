@@ -10,7 +10,9 @@
 			</th>
 			<th>Nombre</th>
 			<th>Franquiciatario</th>
-			<th>Estatus</th>
+			<th>Estado</th>
+			<th>Municipio</th>
+			<th>Status</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -25,6 +27,8 @@
 					</td>
 					<td>{{$branch->name}}</td>
 					<td>{{$branch->user?$branch->user->fullname:'No asignado'}}</td>
+					<td>{{$branch->state ? $branch->state->name : 'Sin especificar'}}</td>
+					<td>{{$branch->municipality ? $branch->municipality->name : 'Sin especificar'}}</td>
 					<td>
 						@if($branch->status)
 						<span class="label label-success status" data-url="{{route('Branch.status')}}" data-id="{{$branch->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>
