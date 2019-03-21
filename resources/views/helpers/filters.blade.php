@@ -1,6 +1,6 @@
 <div class="row">
-	@if( auth()->user()->role_id == 1 )
-		<div class="form-group col-md-{{$dates?4:12}} {{auth()->user()->role_id!=1?'hide':''}}">
+	@if( auth()->user()->role_id == 1 || auth()->user()->role_id == 3 )
+		<div class="form-group col-md-{{$dates?4:12}} {{-- {{auth()->user()->role_id!=1?'hide':''}} --}}">
 			{{Form::label('branch_id', 'Franquicia', ['class' => 'control-label required'])}}
 			{!!Form::select('branch_id', $branches, null, ['class' => ' form-control not-empty select2 col-md-12', 'id' => 'byField', 'name' => 'branch_id', 'data-name' => 'Franquicia'] )!!}
 		</div>

@@ -19,11 +19,12 @@ use Excel;
 class OfficesController extends Controller
 {
 	public function index(Request $req, $id = null){
-		$offices = Office::with('type', 'branch', 'user')->whereHas('branch', function($q) use($id){
-			if ( auth()->user()->role_id == 2 ){
+		$offices = Office::with('type', 'branch', 'user')->whereHas('branch', function($q) use($id) {
+			#Rol Franquiciatario
+			if ( auth()->user()->role_id == 2 ) {
 				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
-			} else{
-				if( $id ){
+			} else {
+				if ( $id ) {
 					$q->where('branch_id', $id);
 				}
 			}

@@ -47,8 +47,10 @@
 						@endif
 					</td>
 					<td>
-						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Office.form', $office->id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
+						<a class="btn btn-xs btn-mini btn-primary" href="{{route('Office.form', $office->id)}}" data-toggle="tooltip" data-placement="top" title="Ver formulario"><i class="fa fa-pencil"></i></a>
+						@if( auth()->user()->role->name != "Recepcionista" )
 						<a href="{{route('Office.destroy',$office->id) }}" class="btn btn-xs btn-mini btn-danger delete_row" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash"></i></a>
+						@endif
 					</td>
 				</tr>
 			@endforeach

@@ -76,14 +76,18 @@
 				</div>
 			</div>
 			@if( $office->id )
+			@if( auth()->user()->role->name != "Recepcionista" )
 			<div class="row">
 				<div class="row-fluid dropzone" id="dropzoneDiv">
 				</div>
 			</div>
 			@endif
+			@endif
 			<div class="row text-left buttons-form">
 				<a href="{{route('Office')}}" class="btn btn-danger">Regresar</a>
+				@if( auth()->user()->role->name != "Recepcionista" )
 				{{Form::submit('Guardar',['class' => 'btn btn-success guardar', 'data-target' => 'officesForm'])}}
+				@endif
 			</div>
 		{{ Form::close() }}
 	</div>

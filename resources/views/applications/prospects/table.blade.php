@@ -8,7 +8,7 @@
 			</div>
 		</th>
 		<th>Nombre del prospecto</th>
-		<th>Régimen</th>
+		<th>Atendido por</th>
 		<th>¿Registrado?</th>
 		<th>Email</th>
 		<th>Teléfono</th>
@@ -27,7 +27,7 @@
 				</td>
 				@if ($prospect->customer){{-- Toma los datos directamente del usuario registrado --}}
 					<td>{{$prospect->customer->fullname}}</td>
-					<td>{{$prospect->customer->regime}}</td>
+					<td>{!!$prospect->owner ? "<span class='label label-danger'>".$prospect->fullname->name."</span>" : '<span class="label label-danger">Sin atender</span>'!!}</td>
 					<td>Registrado</td>
 					<td>{{$prospect->customer->email}}</td>
 					<td>{{$prospect->customer->phone}}</td>
@@ -41,6 +41,9 @@
 				
 				<td>{{$prospect->office->name}}</td>
 				<td>
+					@if(! $prospect->owner )
+					<a href="javascript:;" class="btn btn-xs btn-mini btn-warning take-row" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Tomar prospecto"><i class="fa fa-user"></i></a>
+					@endif
 					<a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a>
 					<a href="{{route('Crm.prospects.form', $prospect->id)}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-info view-comments" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver comentarios"><i class="fa fa-eye"></i></a>

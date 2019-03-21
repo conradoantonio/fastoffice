@@ -45,18 +45,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::delete('eliminar-categoria/{id}', 'CategoriesController@destroy')->name('Category.destroy');
 		Route::delete('eliminar-categorias', 'CategoriesController@multipleDestroys')->name('Category.multipleDestroys');
 
-		#Franquicias
-		Route::get('franquicias', 'BranchesController@index')->name('Branch');
-		Route::get('imagenes-franquicia/{id}', 'BranchesController@getPicturesByBranch')->name('Branch.Pictures');
-		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
-		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
-		Route::post('subir-excel-franquicias', 'BranchesController@import')->name('Branch.excel');
-		Route::put('actualizar-franquicia/{id}', 'BranchesController@update')->name('Branch.update');
-		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
-		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
-		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
-		Route::delete('eliminar-franquicia-imagen', 'BranchesController@deleteBranchPicture')->name('Branch.destroyImage');
-
 		#Cuestionario auditoría
 		Route::prefix('cuestionario/auditoria')->group(function () {
 			Route::get('/', 'QuestionaryController@index')->name('Questionary');
@@ -80,6 +68,20 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Usuarios
 		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
+	});
+
+	Route::group(['middleware' => 'role:Administrador,Recepcionista'], function() {
+		#Franquicias
+		Route::get('franquicias', 'BranchesController@index')->name('Branch');
+		Route::get('imagenes-franquicia/{id}', 'BranchesController@getPicturesByBranch')->name('Branch.Pictures');
+		Route::get('formulario-franquicia/{id?}', 'BranchesController@form')->name('Branch.form');
+		Route::post('alta-franquicia', 'BranchesController@store')->name('Branch.store');
+		Route::post('subir-excel-franquicias', 'BranchesController@import')->name('Branch.excel');
+		Route::put('actualizar-franquicia/{id}', 'BranchesController@update')->name('Branch.update');
+		Route::patch('status-franquicia', 'BranchesController@status')->name('Branch.status');
+		Route::delete('eliminar-franquicia/{id}', 'BranchesController@destroy')->name('Branch.destroy');
+		Route::delete('eliminar-franquicias', 'BranchesController@multipleDestroys')->name('Branch.multipleDestroys');
+		Route::delete('eliminar-franquicia-imagen', 'BranchesController@deleteBranchPicture')->name('Branch.destroyImage');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Franquiciatario,Recepcionista'], function() {

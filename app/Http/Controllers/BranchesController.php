@@ -25,6 +25,7 @@ class BranchesController extends Controller
 	}
 
 	public function form($id = null){
+		if ( auth()->user()->role->name == "Recepcionista" ) { return view('errors.503'); }
 		$branch = new Branch();
 		$users = User::where(['role_id' => 2, 'status' => 1])->pluck('fullname', 'id')->prepend("Seleccione un usuario", 0);
 		$child_users = User::doesntHave('belongsBranch')->where(['role_id' => 3, 'status' => 1])->pluck('fullname', 'id');

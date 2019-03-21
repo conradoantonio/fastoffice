@@ -19,7 +19,7 @@ class Application extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'fullname', 'email', 'phone', 'office_id', 'status', 'comment'
+		'user_id', 'office_id', 'taken_by', 'fullname', 'email', 'phone', 'status', 'comment'
 	];
 
 	/**
@@ -28,6 +28,22 @@ class Application extends Model
     public function customer()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    /**
+     * Get the office associated with the application.
+     */
+    public function office()
+    {
+        return $this->hasOne(Office::class, 'id', 'office_id');
+    }
+
+    /**
+     * Get the possible user that takes this row.
+     */
+    public function owner()
+    {
+        return $this->hasOne(User::class, 'id', 'taken_by');
     }
 
     /**
@@ -44,14 +60,6 @@ class Application extends Model
     public function comments()
     {
         return $this->hasMany(ApplicationComment::class, 'application_id', 'id');
-    }
-
-    /**
-     * Get the office associated with the application.
-     */
-    public function office()
-    {
-        return $this->hasOne(Office::class, 'id', 'office_id');
     }
 
     /**

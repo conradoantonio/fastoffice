@@ -74,6 +74,38 @@
                 }).catch(swal.noop);
             });
 
+            //Accept the prospect
+            $('body').delegate('.take-row','click', function() {
+                var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
+                var customer = $(this).parent().siblings("td:nth-child(3)").text();
+                var office = $(this).parent().siblings("td:nth-child(8)").text();
+                var url = "{{url('crm/contracts/formulario')}}"+"/"+prospect_id;
+
+                swal({
+                    title: '¿Realmente quiere tomar al prospecto ' + customer + ' interesado en la oficina ' + office + '?',
+                    content: {
+                        element: "div",
+                        attributes: {
+                            innerHTML:"¡Esta acción no podrá deshacerse!"
+                        },
+                    },
+                    icon: 'warning',
+                    buttons:["Cancelar", "Aceptar"],
+                    dangerMode: true,
+                }).then((accept) => {
+                    if (accept) {
+                        config = {
+                            'id'        : id,
+                            'route'     : "{{route('Crm.prospects.view_comments')}}",/*Modify this!*/
+                            'method'    : 'POST',
+                            //'callback'  : 'display_application_comments',
+                        }
+
+                        ajaxSimple(config);
+                    }
+                }).catch(swal.noop);
+            });
+
             //Reject prospects
             $('body').delegate('.reject-prospect', 'click', function() {
                 var prospect = $(this).parent().siblings("td:nth-child(3)").text();

@@ -193,11 +193,29 @@ class ApplicationsController extends Controller
         $prospect = Application::where('id', $req->application_id)
         ->update(['comment' => $req->comment, 'status' => $req->status]);
 
-        if ($prospect) {
+        if ( $prospect ) {
             return response(['url' => url('crm/prospectos'), 'refresh' => 'table', 'status' => 'success' ,'msg' => 'Éxito cambiando el status del registro'], 200);
         } else {
             return response(['msg' => 'Error al cambiar el status del registro', 'status' => 'error', 'url' => url('crm/prospectos')], 404);
         }
+    }
+
+    /**
+     * Associate an user with the row
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function vinculate_with_user(Request $req)
+    {
+        $row = Application::find($req->id);
+
+        if (! $row ) { return response(['msg' => 'Registro no encontrado', 'status' => 'error', 'url' => url('crm/prospectos')], 404); }
+
+        $row->taken_by = auth()->user()->id;
+
+        $row->save();
+        
+        return response(['url' => url('crm/prospectos'), 'refresh' => 'table', 'status' => 'success' ,'msg' => 'Prospecto tomado correctamente'], 200);
     }
 
     /**
