@@ -35,7 +35,7 @@
 					<td>{{$office->branch->state ? $office->branch->state->name : 'Sin especificar'}}</td>
 					<td>{{$office->branch->municipality ? $office->branch->municipality->name : 'Sin especificar' }}</td>
 					<td>${{$office->price}}</td>
-					<td>${{ round($office->price / 1.10, PHP_ROUND_HALF_UP, 2) }}</td>
+					<td>${{$office->monthly_price }}</td>
 					<td>{{$office->type ? $office->type->name : 'No asignado'}}</td>
 					<td>
 						@if($office->status == 0)

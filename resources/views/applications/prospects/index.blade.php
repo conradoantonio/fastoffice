@@ -79,14 +79,13 @@
                 var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
                 var customer = $(this).parent().siblings("td:nth-child(3)").text();
                 var office = $(this).parent().siblings("td:nth-child(8)").text();
-                var url = "{{url('crm/contracts/formulario')}}"+"/"+prospect_id;
 
                 swal({
                     title: '¿Realmente quiere tomar al prospecto ' + customer + ' interesado en la oficina ' + office + '?',
                     content: {
                         element: "div",
                         attributes: {
-                            innerHTML:"¡Esta acción no podrá deshacerse!"
+                            innerHTML:"¡Este registro quedará bloqueado para todos los demás usuarios!"
                         },
                     },
                     icon: 'warning',
@@ -95,10 +94,10 @@
                 }).then((accept) => {
                     if (accept) {
                         config = {
-                            'id'        : id,
-                            'route'     : "{{route('Crm.prospects.view_comments')}}",/*Modify this!*/
-                            'method'    : 'POST',
-                            //'callback'  : 'display_application_comments',
+                            'id'           : prospect_id,
+                            'route'        : "{{route('Crm.prospects.take_application')}}",
+                            'method'       : 'POST',
+                            'refresh'      : 'table',
                         }
 
                         ajaxSimple(config);

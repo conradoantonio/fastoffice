@@ -58,6 +58,7 @@ class OfficesController extends Controller
 	public function store(OfficeRequest $req){
 		$office = new Office();
 		$office->fill($req->except('photo'));
+		$office->monthly_price = round( $req->price / 1.10, PHP_ROUND_HALF_UP, 2 );
 
 		if ( $office->save() ){
 			File::makeDirectory(public_path()."/img/offices/".$office->id, 0777, true, true);
@@ -71,7 +72,7 @@ class OfficesController extends Controller
 	public function update(OfficeRequest $req, $id){
 		$office = Office::find($id);
 		$office->fill($req->except('photo'));
-
+		$office->monthly_price = round( $req->price / 1.10, PHP_ROUND_HALF_UP, 2 );
 		if ( $req->hasFile('photo') ){
 			$directorio = public_path()."/img/offices/".$office->id."/";
 			if (!File::exists($directorio)){
@@ -164,6 +165,7 @@ class OfficesController extends Controller
 							'num_int' => $value->num_int,
 							'phone' => $value->phone,
 							'price' => $value->price,
+							'monthly_price' => round( $value->price / 1.10, PHP_ROUND_HALF_UP, 2 ),
 							'num_people' => $value->people,
 							'office_type_id' => $type ? $type->id : 1,
 							'description' => $value->description

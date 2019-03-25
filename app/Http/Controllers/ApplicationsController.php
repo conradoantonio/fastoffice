@@ -32,10 +32,10 @@ class ApplicationsController extends Controller
         $branches = Branch::where('status', 1)->get();
         $templates = Template::where('status',1)->get();
 
-        if ($req->ajax()) {
-            return view('applications.prospects.table', ['prospects' => $prospects]);
+        if ( $req->ajax() ) {
+            return view('applications.prospects.table', compact('prospects'));
         }
-        return view('applications.prospects.index', ['prospects' => $prospects, 'templates' => $templates, 'branches' => $branches]);
+        return view('applications.prospects.index', compact('prospects', 'templates', 'branches'));
     }
 
     /**
@@ -49,10 +49,10 @@ class ApplicationsController extends Controller
         $branches = Branch::where('status', 1)->get();
         $templates = Template::where('status',1)->get();
 
-        if ($req->ajax()) {
-            return view('applications.rejected.table', ['prospects' => $prospects]);
+        if ( $req->ajax() ) {
+            return view('applications.rejected.table', compact('prospects'));
         }
-        return view('applications.rejected.index', ['prospects' => $prospects, 'templates' => $templates, 'branches' => $branches]);
+        return view('applications.rejected.index', compact('prospects', 'templates', 'branches'));
     }
 
     /**
@@ -67,13 +67,19 @@ class ApplicationsController extends Controller
         $customers = User::where('role_id', 4)->get();
         $officeTypes = OfficeType::all();
         $offices = Office::where('status', 1)->get();//Falta filtrar por disponibilidad y tipo (privilegio) de usuario de sistema
-        if ($id) {
+        if ( $id ) {
             $prospect = Application::where('status', 0)->where('id', $id)->first();
-            if ($prospect) {
+            #If exist a prospect, validate if user can modify it
+            if ( $prospect ) {
+                if ( $prospect->owner && ( $prospect->owner->id != auth()->user()->id ) ) {
+                    #User is unauthorized to view this row
+                    return view('errors.503');
+                }
+
                 $offices = Office::where('id', $prospect->office->id)->where('status', 1)->get();
             }
         }
-        return view('applications.prospects.form', ['prospect' => $prospect, 'customers' => $customers, 'offices' => $offices, 'officeTypes' => $officeTypes, 'states' => $states]);
+        return view('applications.prospects.form', compact('prospect', 'customers', 'offices', 'officeTypes', 'states'));
     }
 
 
@@ -88,12 +94,12 @@ class ApplicationsController extends Controller
         $office = Office::where('id', $req->office_id)->where('status', 1)->first();//Office available
         $state = State::find($req->state_id);
 
-        if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
-        if (!$state) { return response(['msg' => 'ID de estado inválido, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
+        if (! $office ) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
+        if (! $state ) { return response(['msg' => 'ID de estado inválido, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
 
         $prospect = New Application;
 
-        if ($user) {//Comes from a registered user
+        if ( $user ) {//Comes from a registered user
             $prospect->user_id = $user->id;
         } else {
             $prospect->fullname = $req->fullname;
@@ -104,6 +110,7 @@ class ApplicationsController extends Controller
         }
 
         $prospect->office_id = $office->id;
+        $prospect->taken_by = auth()->user()->id;
 
         $prospect->save();
         $prospect->sendHistoryTemplate()->save(new SendHistoryTemplate);
@@ -205,12 +212,16 @@ class ApplicationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function vinculate_with_user(Request $req)
+    public function take_application(Request $req)
     {
         $row = Application::find($req->id);
 
         if (! $row ) { return response(['msg' => 'Registro no encontrado', 'status' => 'error', 'url' => url('crm/prospectos')], 404); }
 
+        #Row has been taken
+        if ( $row->owner ) { return response(['msg' => 'Este registro ya no está disponible', 'status' => 'error', 'url' => url('crm/prospectos')], 400); }
+
+        #Associate application row with actual user session
         $row->taken_by = auth()->user()->id;
 
         $row->save();

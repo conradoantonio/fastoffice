@@ -8,6 +8,7 @@
             </div>
         </th>
         <th>Nombre del prospecto</th>
+        <th>Atendido por</th>
         <th>¿Registrado?</th>
         <th>Email</th>
         <th>Teléfono</th>
@@ -26,11 +27,13 @@
                 </td>
                 @if ($prospect->customer){{-- Toma los datos directamente del usuario registrado --}}
                     <td>{{$prospect->customer->fullname}}</td>
+                    <td>{!!$prospect->owner ? "<span class='label label-success'>".$prospect->owner->fullname."</span>" : '<span class="label label-danger">Sin atender</span>'!!}</td>
                     <td>Registrado</td>
                     <td>{{$prospect->customer->email}}</td>
                     <td>{{$prospect->customer->phone}}</td>
                 @else{{-- Toma los datos directamente de la aplicación --}}
                     <td>{{$prospect->fullname}}</td>
+                    <td>{!!$prospect->owner ? "<span class='label label-success'>".$prospect->owner->fullname."</span>" : '<span class="label label-danger">Sin atender</span>'!!}</td>
                     <td>Sin registrar</td>
                     <td>{{$prospect->email}}</td>
                     <td>{{$prospect->phone}}</td>

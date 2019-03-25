@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::post('guardar-commentario', 'ApplicationsController@save_application_comments')->name('Crm.prospects.save_comment');
 			Route::post('ver-commentarios', 'ApplicationsController@view_applications_coments')->name('Crm.prospects.view_comments');
 			Route::post('obtener-info-application', 'ApplicationsController@get_application_info')->name('Crm.prospects.get_application_info');
+			Route::post('tomar-prospecto', 'ApplicationsController@take_application')->name('Crm.prospects.take_application');
 			Route::post('enviar-plantilla', 'ApplicationsController@send_template')->name('Crm.prospects.send_template');
 		});
 

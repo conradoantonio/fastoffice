@@ -51,7 +51,7 @@ CREATE TABLE `applications` (
 
 /*Data for the table `applications` */
 
-insert  into `applications`(`id`,`user_id`,`office_id`,`taken_by`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,3,1,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2019-03-21 13:28:53','2019-03-21 13:28:53');
+insert  into `applications`(`id`,`user_id`,`office_id`,`taken_by`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,3,1,4,NULL,NULL,NULL,NULL,NULL,0,NULL,'2019-03-21 13:28:53','2019-03-25 12:27:52');
 
 /*Table structure for table `applications_comments` */
 
@@ -203,7 +203,7 @@ CREATE TABLE `branches` (
 
 /*Data for the table `branches` */
 
-insert  into `branches`(`id`,`user_id`,`state_id`,`municipality_id`,`name`,`address`,`colony`,`zip_code`,`phone`,`website`,`description`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,14,941,'18 CIUDAD GRANJA','Ciudad granja # 12312','Ciudad granja','98546','9801010','www.google.com','Lorem ipsum',1,'2019-03-20 14:05:50','2019-03-21 12:51:58',NULL);
+insert  into `branches`(`id`,`user_id`,`state_id`,`municipality_id`,`name`,`address`,`colony`,`zip_code`,`phone`,`website`,`description`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,14,941,'18 CIUDAD GRANJA','Ciudad granja # 12312','Ciudad granja','98546','9801010','www.google.com','Lorem ipsum',1,'2019-03-20 14:05:50','2019-03-25 14:07:32',NULL);
 
 /*Table structure for table `cancelled_contracts` */
 
@@ -284,6 +284,10 @@ CREATE TABLE `contracts` (
   `user_id` int(11) NOT NULL,
   `application_id` int(11) DEFAULT NULL,
   `office_id` int(11) NOT NULL,
+  `usage` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Oficina, comercial, consultorio',
+  `additional people` int(11) DEFAULT '0',
+  `telephone_line` tinyint(4) DEFAULT '0' COMMENT 'Indicates if office includes telephone line',
+  `computer_station` tinyint(4) DEFAULT '0' COMMENT 'Indicates if office includes computer station',
   `contract_date` date NOT NULL,
   `start_date_validity` date NOT NULL,
   `end_date_validity` date NOT NULL,
@@ -533,7 +537,8 @@ CREATE TABLE `offices` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `num_int` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Int number',
   `phone` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` double(8,2) NOT NULL,
+  `price` double(8,2) NOT NULL COMMENT 'List price',
+  `monthly_price` double(8,2) DEFAULT NULL COMMENT 'Monthly price (price / 1.10)',
   `num_people` int(11) NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -546,7 +551,7 @@ CREATE TABLE `offices` (
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'Oficina 1','458','9801010',4950.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-03-20 17:00:36',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`monthly_price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'Oficina 1','458','9801010',4950.00,4500.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-03-25 15:41:25',NULL);
 
 /*Table structure for table `password_resets` */
 

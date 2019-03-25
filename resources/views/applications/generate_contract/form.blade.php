@@ -47,7 +47,7 @@
                     <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
                 </div>
             </div>
-            @if(!$contract)
+            @if(! $contract )
                 <div class="alert alert-info">
                     Si selecciona una fecha mayor al día 24 del mes, en automático se ajustará hacia el día primero del mes siguiente.
                 </div>
@@ -70,6 +70,67 @@
                     <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office ? $prospect->office->name. ' ubicada en '. $prospect->office->address : ''}}" id="office_data" name="office_data">
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-xs-12">
+                    <label class="required" for="usage">Uso de oficina</label>
+                    <select name="usage" class="form-control not-empty select2" data-name="Uso de oficina">
+                        <option value="0" disabled selected>Seleccione una opción</option>
+                        @if ( $contract )
+                            <option value="Oficina" {{$contract->usage == "Oficina" ? 'selected' : ''}}>Oficina</option>
+                            <option value="Comercial" {{$contract->usage == "Comercial" ? 'selected' : ''}}>Comercial</option>
+                            <option value="Consultorio" {{$contract->usage == "Consultorio" ? 'selected' : ''}}>Consultorio</option>
+                        @else
+                            <option value="Oficina">Oficina</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Consultorio">Consultorio</option>
+                        @endif
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-xs-12">
+                    <label class="" for="usage">Personas adicionales</label>
+                    <select name="usage" class="form-control select2" data-name="Personas adicionales">
+                        <option value="0" selected>Sin personas adicionales</option>
+                        @if ( $contract )
+                            @for($i=1; $i <= 5; $i++)
+                                <option value="{{$i}}" {{$contract->additional_people == $i ? 'selected' : ''}}>{{$i}}</option>
+                            @endfor
+                        @else
+                           @for($i=1; $i <= 5; $i++)
+                                <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        @endif
+                    </select>
+                </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="usage">Uso de oficina</label>
+                    <select name="usage" class="form-control not-empty select2" data-name="Uso de oficina">
+                        <option value="0" disabled selected>Seleccione una opción</option>
+                        @if ( $contract )
+                            <option value="Oficina" {{$contract->usage == "Oficina" ? 'selected' : ''}}>Oficina</option>
+                            <option value="Comercial" {{$contract->usage == "Comercial" ? 'selected' : ''}}>Comercial</option>
+                            <option value="Consultorio" {{$contract->usage == "Consultorio" ? 'selected' : ''}}>Consultorio</option>
+                        @else
+                            <option value="Oficina">Oficina</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Consultorio">Consultorio</option>
+                        @endif
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
+                    <label for="telephone_line">Incluye línea telefónica</label>
+                    <div class="checkbox check-primary">
+                        <input id="telephone_line" name="telephone_line" type="checkbox">
+                        <label for="telephone_line" style="padding-left:0px;"></label>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
+                    <label for="computer_station">Incluye estación de cómputo</label>
+                    <div class="checkbox check-primary">
+                        <input id="computer_station" name="computer_station" type="checkbox">
+                        <label for="computer_station" style="padding-left:0px;"></label>
+                    </div>
+                </div>
+            </div>
             @if($prospect && $prospect->office->type->name == 'Virtual')
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
@@ -89,14 +150,14 @@
                     </div>
                 </div>
             @endif
-            @if($prospect && ($prospect->office->type->name == 'Virtual' || $prospect->office->type->name == 'Física'))
+            @if( $prospect && ( $prospect->office->type->name == 'Virtual' || $prospect->office->type->name == 'Física' ) )
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago mensual $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? round( $prospect->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
                     </div>
                 </div>
-                @if($contract)
+                @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
@@ -110,20 +171,7 @@
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
                     </div>
                 </div>
-                @if(auth()->user()->role->name == 'Recepcionista')
-                    @if(!$contract){{-- Creating the contract --}}
-                        <div class="alert alert-info">
-                            Sugiera un nuevo precio para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un franquisatario.
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-12 col-xs-12">
-                                <label class="" for="new_price">Sugerir precio</label>
-                                <input type="text" class="form-control decimals" value="{{$contract && $contract->new_office_price ? $contract->new_office_price->price : ''}}" name="new_price" data-name="Precio sugerido">
-                            </div>
-                        </div>
-                    @endif
-                @endif
-                @if($contract)
+                @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
@@ -131,14 +179,43 @@
                         </div>
                     </div>
                 @endif
-            @elseif($prospect && ($prospect->office->type->name == 'Sala de juntas' || $prospect->office->type->name == 'Sala de conferencias'))
+                @if( auth()->user()->role->name == 'Recepcionista' && ! $contract )
+                    <div class="alert alert-info">
+                        Sugiera un nuevo precio de lista para la oficina (sólo números con un máximo de hasta 2 decimales), en automático se calculará el precio por pronto pago en caso de ser aprobado por un franquisatario.
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="" for="new_price">Sugerir precio</label>
+                            <input type="text" class="form-control decimals" value="{{-- {{$contract && $contract->new_office_price ? $contract->new_office_price->price : ''}} --}}" name="new_price" data-name="Precio sugerido">
+                        </div>
+                    </div>
+                @endif
+                {{-- Me quedé aquí validando el tema de sala de juntas para oificinas físicas y virtuales--}}
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="required" for="usage">Sala de juntas</label>
+                        <select name="usage" class="form-control not-empty select2" data-name="Uso de oficina">
+                            <option value="0" disabled selected>Seleccione una opción</option>
+                            @if ( $contract )
+                                <option value="Oficina" {{$contract->usage == "Oficina" ? 'selected' : ''}}>Oficina</option>
+                                <option value="Comercial" {{$contract->usage == "Comercial" ? 'selected' : ''}}>Comercial</option>
+                                <option value="Consultorio" {{$contract->usage == "Consultorio" ? 'selected' : ''}}>Consultorio</option>
+                            @else
+                                <option value="Oficina">Oficina</option>
+                                <option value="Comercial">Comercial</option>
+                                <option value="Consultorio">Consultorio</option>
+                            @endif
+                        </select>
+                    </div>
+                </div>
+            @elseif( $prospect && ( $prospect->office->type->name == 'Sala de juntas' || $prospect->office->type->name == 'Sala de conferencias' ) )
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago por hora $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? round( $prospect->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
                     </div>
                 </div>
-                @if($contract)
+                @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_str">Pago por hora (en palabras)</label>
@@ -180,14 +257,14 @@
                     <input type="text" class="form-control not-empty" value="{{$contract ? $contract->provider_address : ''}}" id="provider_address" name="provider_address" data-name="Dirección del prestador">
                 </div>
             </div>
-            @if($prospect && $prospect->office->branch->user->regime == 'Persona física')
+            @if($prospect && @$prospect->office->branch->user->regime == 'Persona física')
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="provider_ine_number">Número de INE del prestador</label>
                         <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
                     </div>
                 </div>
-            @elseif($prospect && $prospect->office->branch->user->regime == 'Persona moral')
+            @elseif($prospect && @$prospect->office->branch->user->regime == 'Persona moral')
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="provider_act_number">Número de acta</label>
@@ -229,11 +306,12 @@
             <h3>Datos del cliente</h3>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
-                    <label for="customer_data">Cliente</label>
+                    <label for="customer_data">Nombre o razón social</label>
                     <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->fullname : ''}}" id="customer_data" name="customer_data">
                 </div>
+                
             </div>
-            @if ($prospect && $prospect->customer->regime == 'Persona física')
+            @if ($prospect && @$prospect->customer->regime == 'Persona física')
             	<div class="row">
             		<div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="customer_ine_number">Número de INE del cliente</label>

@@ -70,10 +70,10 @@ class ContractsController extends Controller
 
         $contract = Contract::find($contract_id);
 
-        if ($contract) {
-            if ($status == 1) { $amount_str = $n_words->format( round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ); }
-            elseif ($status == 2) { $amount_str = $n_words->format( round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ); }
-            elseif ($status == 3) { $amount_str = $n_words->format( round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ); }
+        if ( $contract ) {
+            if ( $status == 1 ) { $amount_str = $n_words->format( $contract->office->monthly_price )." $this->ext_m"; $amount_num = round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ); }
+            elseif ( $status == 2 ) { $amount_str = $n_words->format( round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ); }
+            elseif ( $status == 3 ) { $amount_str = $n_words->format( round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ); }
             
             $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'amount_str' => $amount_str, 'amount_num' => $amount_num])
             ->setPaper('letter')->setWarnings(false);
