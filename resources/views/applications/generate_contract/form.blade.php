@@ -67,7 +67,7 @@
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label for="office_data">Oficina</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office ? $prospect->office->name. ' ubicada en '. $prospect->office->address : ''}}" id="office_data" name="office_data">
+                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office && $prospect->office->branch ? $prospect->office->name. ' ubicada en '. $prospect->office->branch->address.' '.$prospect->office->branch->municipality->name.', '.$prospect->office->branch->state->name : ''}}" id="office_data" name="office_data">
                 </div>
             </div>
             <div class="row">
@@ -224,7 +224,7 @@
         	<div class="row">
         		<div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
-                    <input type="text" class="form-control not-empty" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
+                    <input type="text" class="form-control not-empty to-upper" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="provider_rfc">RFC</label>

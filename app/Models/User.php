@@ -78,4 +78,48 @@ class User extends Authenticatable
 		return User::count();
 	}
 
+	/**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+	/*public function __set($name, $value) 
+	{
+	    if (array_key_exists($name, $this->fillable) {
+	        $this->attributes[$name] = !empty($value) ? $value : 0;
+	    }
+	}*/
+
+
+	/**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    /*public function setFullnameAttribute($value)
+    {
+        $this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
+    }*/
+
+    /**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function __set($key, $value)
+	{
+		dd($key);
+	    if( in_array($key, ['fullname']) ){
+	        //do your mutation
+	        $this->setAttribute($key, mb_strtoupper($value, 'UTF-8'));
+        	#$this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
+	    } else {
+	        //do what Laravel normally does
+	        $this->setAttribute($key, $value);
+	    }
+	}
+
 }

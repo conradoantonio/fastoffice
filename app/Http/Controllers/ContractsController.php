@@ -29,6 +29,7 @@ class ContractsController extends Controller
      */
     public function index(Request $req, $id = null)
     {
+        #dd(mb_strtoupper('sáaÑ', 'UTF-8'));
         $l_usr = $this->log_user;
         $contracts = Contract::filter_rows($l_usr, 1, $id);
         $branches = Branch::where('status', 1)->get();
