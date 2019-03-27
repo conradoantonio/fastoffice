@@ -161,7 +161,8 @@
                             <li class="list-group-item"><span class="label_show">ID Contrato: <span class="contract-id"></span></span></li>
                             <li class="list-group-item"><span class="label_show">Oficina: <span class="office"></span></span></li>
                             <li class="list-group-item"><span class="label_show">Nombre de recepcionista: <span class="receptionist"></span></span></li>
-                            <li class="list-group-item" style="color: #01579b;"><span class="label_show">Nuevo precio: $<span class="new-price"></span></span></li>
+                            <li class="list-group-item" style="color: #015715;"><span class="label_show">Precio de lista actual: $<span class="old-price"></span></span></li>
+                            <li class="list-group-item" style="color: #01579b;"><span class="label_show">Nuevo precio de lista sugerido: $<span class="new-price"></span></span></li>
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item active">Nota:</li>

@@ -72,7 +72,7 @@ class ContractsController extends Controller
         $contract = Contract::find($contract_id);
 
         if ( $contract ) {
-            if ( $status == 1 ) { $amount_str = $n_words->format( $contract->office->monthly_price )." $this->ext_m"; $amount_num = round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ); }
+            if ( $status == 1 ) { $amount_str = $n_words->format( $contract->office->monthly_price )." $this->ext_m"; $amount_num = $contract->office->monthly_price; }
             elseif ( $status == 2 ) { $amount_str = $n_words->format( round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ); }
             elseif ( $status == 3 ) { $amount_str = $n_words->format( round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ); }
             
@@ -156,12 +156,21 @@ class ContractsController extends Controller
         $contract->contract_date = $req->contract_date;
         $contract->start_date_validity = $initial_day->format('Y-m-d');
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
-        $contract->monthly_payment_delay_str = ucfirst( $n_words->format( round( $office->price, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
+        $contract->monthly_payment_str = ucfirst( $n_words->format( $office->monthly_price ) )." $this->ext_m";
+        $contract->monthly_payment_delay_str = ucfirst( $n_words->format( $office->price ) )." $this->ext_m";
         //Date fields
         $contract->actual_pay_date = $initial_day->format('Y-m-d');//Month to pay
         $contract->payment_range_start = $initial_day->format('d');
         $contract->payment_range_end = $end_day->format('d');
+
+        #Physical and virtual fields
+        $contract->bank_reference = $req->bank_reference;
+        $contract->usage = $req->usage;
+
+        $contract->additional_people = $req->additional_people;
+        $contract->telephone_line = $req->has('telephone_line') ? 1 : 0;
+        $contract->computer_station = $req->has('computer_station') ? 1 : 0;
+        $contract->meeting_room_hours = $req->meeting_room_hours;
 
         //Balance fields
         $contract->balance = 0;
@@ -169,29 +178,17 @@ class ContractsController extends Controller
         
         //Provider
         $contract->provider_name = $req->provider_name;
-        $contract->provider_address = $req->provider_address;
-        //Physical
-        $contract->provider_ine_number = $req->provider_ine_number;
-        //Moral
-        $contract->provider_act_number = $req->provider_act_number;
-        $contract->provider_notary_number = $req->provider_notary_number;
-        $contract->provider_notary_state_id = $req->provider_notary_state_id;
-        $contract->provider_notary_name = $req->provider_notary_name;
+        $contract->provider_rfc = $req->provider_rfc;
 
         //Customer
-        $contract->customer_address = $req->customer_address;//Also for company address in moral customer
-        //Physical
-        $contract->customer_ine_number = $req->customer_ine_number;
-        $contract->customer_activity = $req->customer_activity;
-        //Moral
-        $contract->customer_company = $req->customer_company;
-        $contract->customer_act_number = $req->customer_act_number;
-        $contract->customer_notary_number = $req->customer_notary_number;
-        $contract->customer_notary_state_id = $req->customer_notary_state_id;
-        $contract->customer_notary_name = $req->customer_notary_name;
-        $contract->customer_deed_number = $req->customer_deed_number;
-        $contract->customer_deed_date = $req->customer_deed_date;
-        $contract->customer_social_object = $req->customer_social_object;
+        $contract->customer_rfc = $req->customer_rfc;
+        $contract->customer_email = $req->customer_email;
+        $contract->customer_phone = $req->customer_phone;
+        $contract->customer_identification_type = $req->customer_identification_type;
+        $contract->customer_identification_num = $req->customer_identification_num;
+        $contract->customer_business_activity = $req->customer_business_activity;
+        $contract->customer_address = $req->customer_address;
+
         $contract->status = 0;//Pending of payment
 
         $contract->save();
@@ -200,8 +197,8 @@ class ContractsController extends Controller
         $charge = New ChargeContract;
 
         $charge->contract_id = $contract->id;
-        $charge->amount = $office->price / 1.10;
-        $charge->amount_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
+        $charge->amount = $office->monthly_price;
+        $charge->amount_str = ucfirst( $n_words->format( $office->monthly_price ) )." $this->ext_m";
         $charge->pay_date = $contract->actual_pay_date;
         $charge->status = 1;//Pago normal
 
@@ -256,7 +253,7 @@ class ContractsController extends Controller
         $contract = Contract::find($req->id);
         $office = Office::find($req->office_id);
 
-        if (!$contract) { return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 404); }
+        if (! $contract ) { return response(['msg' => 'ID de contrato inválido', 'status' => 'error'], 404); }
 
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
@@ -274,34 +271,34 @@ class ContractsController extends Controller
         //$contract->contract_date = $req->contract_date;
         //$contract->start_date_validity = $req->start_date_validity;
         $contract->end_date_validity = $req->end_date_validity;
-        $contract->monthly_payment_str = ucfirst( $n_words->format( round( $office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
-        $contract->monthly_payment_delay_str = ucfirst( $n_words->format( round( $office->price, PHP_ROUND_HALF_UP, 2 ) ) )." $this->ext_m";
+        $contract->monthly_payment_str = mb_strtoupper( $n_words->format( $office->monthly_price ), 'UTF-8')." $this->ext_m";
+        $contract->monthly_payment_delay_str = mb_strtoupper( $n_words->format( $office->price ), 'UTF-8')." $this->ext_m";
 
+        #Physical and virtual fields
+        $contract->bank_reference = $req->bank_reference;
+        $contract->usage = $req->usage;
+
+        $contract->additional_people = $req->additional_people;
+        $contract->telephone_line = $req->has('telephone_line') ? 1 : 0;
+        $contract->computer_station = $req->has('computer_station') ? 1 : 0;
+        $contract->meeting_room_hours = $req->meeting_room_hours;
+
+        //Balance fields
+        $contract->balance = 0;
+        $contract->balance_str = mb_strtoupper($n_words->format(0), 'UTF-8')." $this->ext_m";
+        
         //Provider
         $contract->provider_name = $req->provider_name;
-        $contract->provider_address = $req->provider_address;
-        //Physical
-        $contract->provider_ine_number = $req->provider_ine_number;
-        //Moral
-        $contract->provider_act_number = $req->provider_act_number;
-        $contract->provider_notary_number = $req->provider_notary_number;
-        $contract->provider_notary_state_id = $req->provider_notary_state_id;
-        $contract->provider_notary_name = $req->provider_notary_name;
+        $contract->provider_rfc = $req->provider_rfc;
 
         //Customer
-        $contract->customer_address = $req->customer_address;//Also for company address in moral customer
-        //Physical
-        $contract->customer_ine_number = $req->customer_ine_number;
-        $contract->customer_activity = $req->customer_activity;
-        //Moral
-        $contract->customer_company = $req->customer_company;
-        $contract->customer_act_number = $req->customer_act_number;
-        $contract->customer_notary_number = $req->customer_notary_number;
-        $contract->customer_notary_state_id = $req->customer_notary_state_id;
-        $contract->customer_notary_name = $req->customer_notary_name;
-        $contract->customer_deed_number = $req->customer_deed_number;
-        $contract->customer_deed_date = $req->customer_deed_date;
-        $contract->customer_social_object = $req->customer_social_object;
+        $contract->customer_rfc = $req->customer_rfc;
+        $contract->customer_email = $req->customer_email;
+        $contract->customer_phone = $req->customer_phone;
+        $contract->customer_identification_type = $req->customer_identification_type;
+        $contract->customer_identification_num = $req->customer_identification_num;
+        $contract->customer_business_activity = $req->customer_business_activity;
+        $contract->customer_address = $req->customer_address;
 
         $contract->save();
 

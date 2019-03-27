@@ -44,6 +44,13 @@ $(function(){
 	$(".tagsinput").tagsinput();
 })
 
+$("input.upper").blur(function() {
+	this.value = this.value.toUpperCase();
+});
+$("input.upper").keydown(function() {
+	this.value = this.value.toUpperCase();
+});
+
 $.ajaxSetup({
 	headers: {
 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

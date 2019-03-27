@@ -29,4 +29,23 @@ class ChargeContract extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+
+    /**
+     * Set the attributes to uppercase.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        if ( array_key_exists($key, $this->fillable) ) {
+        #if( in_array($key, ['fullname']) ){
+            //do your mutation
+            $this->setAttribute($key, mb_strtoupper($value, 'UTF-8'));
+            #$this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
+        } else {
+            //do what Laravel normally does
+            $this->setAttribute($key, $value);
+        }
+    }
 }

@@ -22,29 +22,28 @@
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label for="user_id">User ID</label>
-	                <input type="text" class="form-control" value="{{$prospect && $prospect->customer ? $prospect->user_id : ''}}" id="user_id" name="user_id">
+	                <input type="text" class="form-control" value="{{$prospect && $prospect->customer ? $prospect->user_id : ''}}" name="user_id">
 	            </div>
         	</div>
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label for="application_id">Application ID</label>
-	                <input type="text" class="form-control" value="{{$prospect ? $prospect->id : ''}}" id="application_id" name="application_id">
+	                <input type="text" class="form-control" value="{{$prospect ? $prospect->id : ''}}" name="application_id">
 	            </div>
         	</div>
         	<div class="row">
         	 	<div class="form-group col-sm-6 col-xs-12 hide">
 	                <label for="office_id">Office ID</label>
-	                <input type="text" class="form-control" value="{{$prospect && $prospect->office ? $prospect->office_id : ''}}" id="office_id" name="office_id">
+	                <input type="text" class="form-control" value="{{$prospect && $prospect->office ? $prospect->office_id : ''}}" name="office_id">
 	            </div>
         	</div>
             <hr>
-            
 
             <h3>Datos generales del contrato</h3>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="contract_date">Fecha de contrato</label>
-                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" id="contract_date" name="contract_date" data-name="Fecha de contrato">
+                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->contract_date : date('Y-m-d')}}" name="contract_date" data-name="Fecha de contrato">
                 </div>
             </div>
             @if(! $contract )
@@ -55,73 +54,81 @@
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="start_date_validity">Inicio de vigencia del contrato</label>
-                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" id="start_date_validity" name="start_date_validity" data-name="Inicio de vigencia del contrato">
+                    <input type="text" class="form-control {{$contract ? '' : 'input-date-c'}} not-empty" {{$contract ? 'readonly' : ''}} value="{{$contract ? $contract->start_date_validity : date('Y-m-d')}}" name="start_date_validity" data-name="Inicio de vigencia del contrato">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="end_date_validity">Fin de vigencia del contrato</label>
-                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->end_date_validity : ''}}" id="end_date_validity" name="end_date_validity" data-name="Fin de vigencia del contrato">
+                    <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->end_date_validity : ''}}" name="end_date_validity" data-name="Fin de vigencia del contrato">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label for="office_data">Oficina</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office && $prospect->office->branch ? $prospect->office->name. ' ubicada en '. $prospect->office->branch->address.' '.$prospect->office->branch->municipality->name.', '.$prospect->office->branch->state->name : ''}}" id="office_data" name="office_data">
+                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office && $prospect->office->branch ? $prospect->office->name. ' LOCALIZADA EN '. $prospect->office->branch->address.' '.$prospect->office->branch->municipality->name.', '.$prospect->office->branch->state->name : ''}}" name="office_data">
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-6 col-xs-12">
-                    <label class="required" for="usage">Uso de oficina</label>
-                    <select name="usage" class="form-control not-empty select2" data-name="Uso de oficina">
-                        <option value="0" disabled selected>Seleccione una opción</option>
-                        @if ( $contract )
-                            <option value="Oficina" {{$contract->usage == "Oficina" ? 'selected' : ''}}>Oficina</option>
-                            <option value="Comercial" {{$contract->usage == "Comercial" ? 'selected' : ''}}>Comercial</option>
-                            <option value="Consultorio" {{$contract->usage == "Consultorio" ? 'selected' : ''}}>Consultorio</option>
-                        @else
-                            <option value="Oficina">Oficina</option>
-                            <option value="Comercial">Comercial</option>
-                            <option value="Consultorio">Consultorio</option>
-                        @endif
-                    </select>
-                </div>
-                <div class="form-group col-sm-6 col-xs-12">
-                    <label class="" for="usage">Personas adicionales</label>
-                    <select name="usage" class="form-control select2" data-name="Personas adicionales">
-                        <option value="0" selected>Sin personas adicionales</option>
-                        @if ( $contract )
-                            @for($i=1; $i <= 5; $i++)
-                                <option value="{{$i}}" {{$contract->additional_people == $i ? 'selected' : ''}}>{{$i}}</option>
-                            @endfor
-                        @else
-                           @for($i=1; $i <= 5; $i++)
-                                <option value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        @endif
-                    </select>
-                </div>
-                <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
-                    <label for="telephone_line">Incluye línea telefónica</label>
-                    <div class="checkbox check-primary">
-                        <input id="telephone_line" name="telephone_line" type="checkbox">
-                        <label for="telephone_line" style="padding-left:0px;"></label>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
-                    <label for="computer_station">Incluye estación de cómputo</label>
-                    <div class="checkbox check-primary">
-                        <input id="computer_station" name="computer_station" type="checkbox">
-                        <label for="computer_station" style="padding-left:0px;"></label>
-                    </div>
+                <div class="form-group col-sm-12 col-xs-12">
+                    <label class="required" for="bank_reference">Referencia bancaria</label>
+                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->bank_reference : ''}}" name="bank_reference" data-name="Referencia bancaria">
                 </div>
             </div>
-            @if($prospect && $prospect->office->type->name == 'Virtual')
+            @if( $prospect && ( $prospect->office->type->name == 'VIRTUAL' || $prospect->office->type->name == 'FÍSICA' ) )
+                <div class="row">
+                    <div class="form-group col-sm-6 col-xs-12">
+                        <label class="required" for="usage">Uso de oficina</label>
+                        <select name="usage" class="form-control not-empty select2" data-name="Uso de oficina">
+                            <option value="0" disabled selected>SELECCIONE UNA OPCIÓN</option>
+                            @if ( $contract )
+                                <option value="OFICINA" {{$contract->usage == "OFICINA" ? 'selected' : ''}}>OFICINA</option>
+                                <option value="COMERCIAL" {{$contract->usage == "COMERCIAL" ? 'selected' : ''}}>COMERCIAL</option>
+                                <option value="CONSULTORIO" {{$contract->usage == "CONSULTORIO" ? 'selected' : ''}}>CONSULTORIO</option>
+                            @else
+                                <option value="OFICINA">OFICINA</option>
+                                <option value="COMERCIAL">COMERCIAL</option>
+                                <option value="CONSULTORIO">CONSULTORIO</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-xs-12">
+                        <label class="" for="additional_people">Personas adicionales</label>
+                        <select name="additional_people" class="form-control select2" data-name="Personas adicionales">
+                            <option value="0" selected>SIN PERSONAS ADICIONALES</option>
+                            @if ( $contract )
+                                @for($i=1; $i <= 5; $i++)
+                                    <option value="{{$i}}" {{$contract->additional_people == $i ? 'selected' : ''}}>{{$i}}</option>
+                                @endfor
+                            @else
+                               @for($i=1; $i <= 5; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
+                        <label for="telephone_line">Incluye línea telefónica</label>
+                        <div class="checkbox check-primary">
+                            <input id="telephone_line" name="telephone_line" type="checkbox" {{$contract && $contract->telephone_line ? 'checked' : ''}}>
+                            <label for="telephone_line" style="padding-left:0px;"></label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 col-xs-6" style="padding-bottom: 20px;">
+                        <label for="computer_station">Incluye estación de cómputo</label>
+                        <div class="checkbox check-primary">
+                            <input id="computer_station" name="computer_station" type="checkbox" {{$contract && $contract->computer_station ? 'checked' : ''}}>
+                            <label for="computer_station" style="padding-left:0px;"></label>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if( $prospect && $prospect->office->type->name == 'VIRTUAL' )
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="office_type_category_id">Plantilla de oficina {{$prospect->office->type->name}}</label>
                         <select name="office_type_category_id" class="form-control not-empty select2" data-name="Plantilla de oficina {{$prospect->office->type->name}}">
-                            <option value="0" disabled selected>Seleccione una opción</option>
+                            <option value="0" disabled selected>SELECCIONE UNA OPCIÓN</option>
                             @if ($contract)
                                 @foreach($of_ty_cat as $of_cat)
                                     <option value="{{$of_cat->id}}" {{$contract->office_type_category_id == $of_cat->id ? 'selected' : ''}}>{{$of_cat->name}}</option>
@@ -135,41 +142,41 @@
                     </div>
                 </div>
             @endif
-            @if( $prospect && ( $prospect->office->type->name == 'Virtual' || $prospect->office->type->name == 'Física' ) )
+            @if( $prospect && ( $prospect->office->type->name == 'VIRTUAL' || $prospect->office->type->name == 'FÍSICA' ) )
                 <div class="alert alert-warning">
                     <strong>Nota: </strong>Especifique el número de horas que cuenta el cliente para la sala de juntas o deje este campo vacío para indicar que el cliente cuenta con horas ilimitadas ( Aplican restricciones y disponibilidad )
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="" for="meeting_room_hours">Número de horas para la sala de juntas</label>
-                        <input type="text" class="form-control" value="{{$contract ? $contract->meeting_room_hours : ''}}" id="meeting_room_hours" name="meeting_room_hours" data-name="Número de horas para la sala de juntas">
+                        <input type="text" class="form-control" value="{{$contract ? $contract->meeting_room_hours : ''}}" name="meeting_room_hours" data-name="Número de horas para la sala de juntas">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago mensual $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago mensual">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" name="monthly_payment" data-name="Pago mensual">
                     </div>
                 </div>
                 @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_str">Pago mensual (en palabras)</label>
-                            <input type="text" class="form-control not-empty" value="{{$contract->monthly_payment_str}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
+                            <input type="text" class="form-control not-empty" disabled value="{{$contract->monthly_payment_str}}" name="monthly_payment_str" data-name="Pago mensual (en palabras)">
                         </div>
                     </div>
                 @endif
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="monthly_payment_delay">Pago mensual por atraso $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" id="monthly_payment_delay" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? ($prospect->office->price) : ''}}" name="monthly_payment_delay" data-name="Pago mensual por atraso $">
                     </div>
                 </div>
                 @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_delay_str">Pago mensual por atraso (en palabras)</label>
-                            <input type="text" class="form-control not-empty" readonly value="{{$contract->monthly_payment_delay_str}}" id="monthly_payment_delay_str" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
+                            <input type="text" class="form-control not-empty" readonly value="{{$contract->monthly_payment_delay_str}}" name="monthly_payment_delay_str" data-name="Pago mensual por atraso (en palabras)">
                         </div>
                     </div>
                 @endif
@@ -179,42 +186,42 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
-                            <label class="" for="new_price">Sugerir precio</label>
+                            <label class="" for="new_price">Sugerir precio de lista</label>
                             <input type="text" class="form-control decimals" value="{{-- {{$contract && $contract->new_office_price ? $contract->new_office_price->price : ''}} --}}" name="new_price" data-name="Precio sugerido">
                         </div>
                     </div>
                 @endif
-            @elseif( $prospect && ( $prospect->office->type->name == 'Sala de juntas' || $prospect->office->type->name == 'Sala de conferencias' ) )
+            @elseif( $prospect && ( $prospect->office->type->name == 'SALA DE JUNTAS' || $prospect->office->type->name == 'SALA DE CONFERENCIAS' ) )
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago por hora $</label>
-                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" id="monthly_payment" name="monthly_payment" data-name="Pago por hora">
+                        <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" name="monthly_payment" data-name="Pago por hora">
                     </div>
                 </div>
                 @if( $contract )
                     <div class="row">
                         <div class="form-group col-sm-12 col-xs-12">
                             <label class="required" for="monthly_payment_str">Pago por hora (en palabras)</label>
-                            <input type="text" class="form-control not-empty" value="{{$contract->monthly_payment_str}}" id="monthly_payment_str" name="monthly_payment_str" data-name="Pago por hora (en palabras)">
+                            <input type="text" class="form-control not-empty" value="{{$contract->monthly_payment_str}}" name="monthly_payment_str" data-name="Pago por hora (en palabras)">
                         </div>
                     </div>
                 @endif
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="start_hour">Hora inicio</label>
-                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->start_hour : ''}}" id="start_hour" name="start_hour" data-name="Hora inicio">
+                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->start_hour : ''}}" name="start_hour" data-name="Hora inicio">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="end_hour">Hora fin</label>
-                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->end_hour : ''}}" id="end_hour" name="end_hour" data-name="Hora fin">
+                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->end_hour : ''}}" name="end_hour" data-name="Hora fin">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="required" for="total_hours">Total de horas</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->total_hours : ''}}" id="total_hours" name="total_hours" data-name="Total de horas">
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->total_hours : ''}}" name="total_hours" data-name="Total de horas">
                     </div>
                 </div>
             @endif
@@ -224,88 +231,38 @@
         	<div class="row">
         		<div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="provider_name">Nombre del prestador</label>
-                    <input type="text" class="form-control not-empty to-upper" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" id="provider_name" name="provider_name" data-name="Nombre de prestador">
+                    <input type="text" class="form-control not-empty upper" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->fullname : '' }}" name="provider_name" data-name="Nombre de prestador">
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="provider_rfc">RFC</label>
-                    <input type="text" class="form-control not-empty" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->rfc : '' }}" id="provider_rfc" name="provider_rfc" data-name="RFC de prestador">
+                    <input type="text" class="form-control not-empty upper" readonly value="{{ $prospect && $prospect->office && $prospect->office->branch->user ? $prospect->office->branch->user->rfc : '' }}" name="provider_rfc" data-name="RFC de prestador">
                 </div>
         	</div>
-            {{--<div class="row">
-                <div class="form-group col-sm-12 col-xs-12">
-                    <label class="required" for="provider_address">Dirección del prestador</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->provider_address : ''}}" id="provider_address" name="provider_address" data-name="Dirección del prestador">
-                </div>
-            </div>
-            @if($prospect && $prospect->office->branch->user->regime == 'Persona física')
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="provider_ine_number">Número de INE del prestador</label>
-                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_ine_number : ''}}" id="provider_ine_number" name="provider_ine_number" data-name="Número de INE del prestador">
-                    </div>
-                </div>
-            @elseif($prospect && $prospect->office->branch->user->regime == 'Persona moral')
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="provider_act_number">Número de acta</label>
-                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_act_number : ''}}" id="provider_act_number" name="provider_act_number" data-name="Número de acta (Prestador)">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="provider_notary_number">Número de notario</label>
-                        <input type="text" class="form-control not-empty numeric" value="{{$contract ? $contract->provider_notary_number : ''}}" id="provider_notary_number" name="provider_notary_number" data-name="Número de notario (Prestador)">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="provider_notary_state_id">Estado del notario</label>
-                        <select name="provider_notary_state_id" class="form-control not-empty select2" data-name="Estado del notario (Prestador)">
-                            <option value="0" disabled selected>Seleccione una opción</option>
-                            @if ($contract)
-                                @foreach($states as $state)
-                                    <option value="{{$state->id}}" {{$contract->provider_notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
-                                @endforeach
-                            @else
-                                @foreach($states as $state)
-                                    <option value="{{$state->id}}">{{$state->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="provider_notary_name">Nombre de notario</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->provider_notary_name : ''}}" id="provider_notary_name" name="provider_notary_name" data-name="Nombre de notario (Prestador)">
-                    </div>
-                </div>
-            @endif --}}
-
+            
             <hr>
             <h3>Datos del cliente</h3>
             <div class="row">
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_name">Nombre o razón social</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->fullname : ''}}" name="customer_name" data-name="Cliente: Nombre o razón social">
+                    <input type="text" class="form-control upper" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->fullname : ''}}" name="customer_name" data-name="Cliente: Nombre o razón social">
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
-                    <label class="required" for="customer_name">RFC</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->rfc : ''}}" name="customer_name" data-name="Cliente: RFC">
+                    <label class="required" for="customer_rfc">RFC</label>
+                    <input type="text" class="form-control upper" readonly value="{{$prospect && $prospect->customer ? $prospect->customer->rfc : ''}}" name="customer_rfc" data-name="Cliente: RFC">
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_email">Email</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->email : ''}}" name="customer_email" data-name="Cliente: Email">
+                    <input type="text" class="form-control" readonly value="{{$prospect && $prospect->customer ? $prospect->customer->email : ''}}" name="customer_email" data-name="Cliente: Email">
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_phone">Teléfono</label>
-                    <input type="text" class="form-control" disabled value="{{$prospect && $prospect->customer ? $prospect->customer->phone : ''}}" name="customer_phone" data-name="Cliente: Teléfono">
+                    <input type="text" class="form-control upper" readonly value="{{$prospect && $prospect->customer ? $prospect->customer->phone : ''}}" name="customer_phone" data-name="Cliente: Teléfono">
                 </div>
             </div>
         	<div class="row">
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_identification_type">Tipo de identificación</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_identification_type : ( $prospect && $prospect->customer ? $prospect->customer->identification_type : '' )}}" name="customer_identification_type" data-name="Cliente: Tipo de identificación">
+                    <input type="text" class="form-control not-empty upper" value="{{$contract ? $contract->customer_identification_type : ( $prospect && $prospect->customer ? $prospect->customer->identification_type : '' )}}" name="customer_identification_type" data-name="Cliente: Tipo de identificación">
                 </div>
         		<div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_identification_num">Número de identificación</label>
@@ -313,84 +270,16 @@
                 </div>
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="customer_business_activity">Giro empresarial</label>
-                    <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_business_activity : ( $prospect && $prospect->customer ? $prospect->customer->business_activity : '' )}}" name="customer_business_activity" data-name="Cliente: Giro empresarial">
+                    <input type="text" class="form-control not-empty upper" value="{{$contract ? $contract->customer_business_activity : ( $prospect && $prospect->customer ? $prospect->customer->business_activity : '' )}}" name="customer_business_activity" data-name="Cliente: Giro empresarial">
                 </div>
         	</div>
         	<div class="row">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="customer_address">Domicilio</label>
-                    <textarea class="form-control not-empty" rows="4" name="customer_address" data-name="Cliente: Domicilio">{{$contract ? $contract->customer_address : ( $prospect && $prospect->customer ? $prospect->customer->address : '' )}}</textarea>
+                    <textarea class="form-control not-empty upper" rows="4" name="customer_address" data-name="Cliente: Domicilio">{{$contract ? $contract->customer_address : ( $prospect && $prospect->customer ? $prospect->customer->address : '' )}}</textarea>
                 </div>
         	</div>
-            {{-- @if($prospect && $prospect->customer->regime == 'Persona moral')
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_company">Nombre de la empresa</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_company : ''}}" name="customer_company" data-name="Nombre de la empresa">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_address">Dirección de la empresa</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_address : ''}}" name="customer_address" data-name="Dirección de la empresa">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_act_number">Número de acta</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_act_number : ''}}" id="customer_act_number" name="customer_act_number" data-name="Número de acta (Cliente)">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_notary_number">Número de notario</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_notary_number : ''}}" id="customer_notary_number" name="customer_notary_number" data-name="Número de notario">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_notary_state_id">Estado del notario</label>
-                        <select name="customer_notary_state_id" class="form-control not-empty select2" data-name="Estado del notario">
-                            <option value="0" disabled selected>Seleccione una opción</option>
-                            @if ($contract)
-                                @foreach($states as $state)
-                                    <option value="{{$state->id}}" {{$contract->customer_notary_state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
-                                @endforeach
-                            @else
-                                @foreach($states as $state)
-                                    <option value="{{$state->id}}">{{$state->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_notary_name">Nombre del notario</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_notary_name : ''}}" id="customer_notary_name" name="customer_notary_name" data-name="Número de notario">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_deed_number">Número de escritura</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_deed_number : ''}}" id="customer_deed_number" name="customer_deed_number" data-name="Número de escritura">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_deed_date">Fecha de escritura</label>
-                        <input type="text" class="form-control input-date-c not-empty" value="{{$contract ? $contract->customer_deed_date : ''}}" id="customer_deed_date" name="customer_deed_date" data-name="Fecha de escritura">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
-                        <label class="required" for="customer_social_object">Objetivo social</label>
-                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->customer_social_object : ''}}" id="customer_social_object" name="customer_social_object" data-name="Objetivo social">
-                    </div>
-                </div>
-            @endif --}}
         	<hr>
-
         	<a href="{{route($contract ? 'Crm.contracts' : 'Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
             <button type="submit" class="btn btn-success guardar" data-target="form-data">Guardar</button>
         </form>

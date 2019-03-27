@@ -10,6 +10,7 @@
 		<th>Nombre del cliente</th>
 		<th>Email</th>
 		<th>Teléfono</th>
+		<th>Franquicia</th>
 		<th>Oficina rentada</th>
 		<th>Status de pago</th>
 		{{-- <th>Status de contrato</th> --}}
@@ -34,6 +35,7 @@
 				<td>{{$contract->customer->fullname}}</td>
 				<td>{{$contract->customer->email}}</td>
 				<td>{{$contract->customer->phone}}</td>
+				<td>{{$contract->office->branch->name}}</td>
 				<td>{{$contract->office->name}} ({{$contract->office->type->name}})</td>
 				<td>
                     {!!
@@ -50,7 +52,7 @@
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>
-                <td>{{$contract->office->type->name == 'Física' || $contract->office->type->name == 'Virtual' ? $contract->payment_range_start.' y '.$contract->payment_range_end.' de cada mes' : 'No aplica'}}</td>
+                <td>{{$contract->office->type->name == 'FÍSICA' || $contract->office->type->name == 'VIRTUAL' ? $contract->payment_range_start.' y '.$contract->payment_range_end.' de cada mes' : 'No aplica'}}</td>
 				<td>
 					{{-- <a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a> --}}
 					<a href="{{route('Crm.contracts.form', [$contract->application->id, $contract->id])}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
@@ -66,7 +68,7 @@
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-times"></i></a>
 					@endif
 					@if (auth()->user()->role_id == 2 && $contract->suggested_price){{-- Branch user --}}
-						<a href="javascript:;" class="btn btn-xs btn-mini btn-review view-new-price" data-office="{{$contract->office->name}}" data-receptionist="{{$contract->suggested_price->user->fullname}}" data-price="{{$contract->suggested_price->new_price}}" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver precio sugerido"><i class="fa fa-dollar"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-mini btn-review view-new-price" data-office="{{$contract->office->name}}" data-receptionist="{{$contract->suggested_price->user->fullname}}" data-price="{{$contract->office->price}}" data-new-price="{{$contract->suggested_price->new_price}}" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver precio sugerido"><i class="fa fa-dollar"></i></a>
 					@endif
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-cancel finish-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Finalizar contrato"><i class="fa fa-flag-checkered"></i></a>
 				</td>

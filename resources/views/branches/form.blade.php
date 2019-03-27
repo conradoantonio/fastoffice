@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->branch->first('name')?'has-error':''}}">
 					{{Form::label('name', 'Nombre', ['class' => 'control-label  required'])}}
-					{{Form::text('name', null, ['class' => 'form-control not-empty', 'data-name' => 'Nombre'])}}
+					{{Form::text('name', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Nombre'])}}
 					{{@$errors->branch->first('name')}}
 				</div>
 			</div>
@@ -49,14 +49,14 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->branch->first('address')?'has-error':''}}">
 					{{Form::label('address', 'Dirección', ['class' => 'control-label  required'])}}
-					{{Form::text('address', null, ['class' => 'form-control not-empty', 'data-name' => 'Dirección'])}}
+					{{Form::text('address', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Dirección'])}}
 					{{@$errors->branch->first('address')}}
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->branch->first('colony')?'has-error':''}}">
 					{{Form::label('colony', 'Colonia', ['class' => 'control-label  required'])}}
-					{{Form::text('colony', null, ['class' => 'form-control not-empty', 'data-name' => 'Colonia'])}}
+					{{Form::text('colony', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Colonia'])}}
 					{{@$errors->branch->first('colony')}}
 				</div>
 			</div>
@@ -82,7 +82,7 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->branch->first('description')?'has-error':''}}">
 					{{Form::label('description', 'Descripción', ['class' => 'control-label  required'])}}
-					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
+					{{Form::textarea('description', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Descripción'])}}
 				</div>
 			</div>
 			@if( $branch->id )

@@ -19,8 +19,10 @@ class Contract extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'application_id', 'office_id', 'contract_date', 'provider_name', 'provider_ine_number', 'customer_ine_number', 'customer_activity', 'customer_address', 
-        'start_date_validity', 'end_date_validity', 'monthly_payment_str', 'payment_range_start', 'payment_range_end', 'monthly_payment_delay_str', 'status',
+		'user_id', 'application_id', 'office_id', 'contract_date', 'start_date_validity', 'end_date_validity', 'bank_reference', 'usage', 'additional_people', 'meeting_room_hours', 'telephone_line', 
+        'computer_station', 'monthly_payment_str', 'monthly_payment_delay_str', 'actual_pay_date', 'balance', 'balance_str', 'payment_range_start', 'payment_range_end', 'status', 'office_type_category_id', 
+        'start_hour', 'end_hour', 'total_hours', 'provider_name', 'provider_rfc', 'customer_rfc', 'customer_email', 'customer_phone', 'customer_identification_type', 'customer_identification_num',
+        'customer_business_activity', 'customer_address' 
 	];
 
 	/**
@@ -28,7 +30,8 @@ class Contract extends Model
      */
     public function application()
     {
-        return $this->hasOne(Application::class, 'id', 'application_id');
+        return $this->belongsTo(Application::class);
+        #return $this->hasOne(Application::class, 'id', 'application_id');
     }
 
 	/**
@@ -44,8 +47,17 @@ class Contract extends Model
      */
     public function office()
     {
-        return $this->hasOne(Office::class, 'id', 'office_id');
+        return $this->belongsTo(Office::class);
     }
+
+    /**
+     * Get the office type category associated with the contract (only virtual offices).
+     */
+    public function office_type_category()
+    {
+        return $this->belongsTo(OfficeTypeCategory::class);
+    }
+    
 
     /**
      * Get the possible cancellation of the contract.
@@ -64,22 +76,6 @@ class Contract extends Model
     }
 
     /**
-     * Get the municipality of the provider notary.
-     */
-    public function customer_notary_state()
-    {
-        return $this->hasOne(State::class, 'id', 'customer_notary_state_id');
-    }
-
-    /**
-     * Get the state of the provider notary.
-     */
-    public function provider_notary_state()
-    {
-        return $this->hasOne(State::class, 'id', 'provider_notary_state_id');
-    }
-
-    /**
      * Get the payments history from a contract.
      */
     public function payment_history()
@@ -93,6 +89,25 @@ class Contract extends Model
     public function charges()
     {
         return $this->hasMany(ChargeContract::class, 'contract_id', 'id');
+    }
+
+    /**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        if ( array_key_exists($key, $this->fillable) ) {
+        #if( in_array($key, ['fullname']) ){
+            //do your mutation
+            $this->setAttribute($key, mb_strtoupper($value, 'UTF-8'));
+            #$this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
+        } else {
+            //do what Laravel normally does
+            $this->setAttribute($key, $value);
+        }
     }
 
     /**

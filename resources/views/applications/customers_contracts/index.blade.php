@@ -229,6 +229,7 @@
             //Open modal for view the suggested price
             $('body').delegate('.view-new-price','click', function() {
                 contract_id = $(this).data('parent-id');
+                new_price = $(this).data('new-price');
                 price = $(this).data('price');
                 receptionist = $(this).data('receptionist');
                 office = $(this).data('office');
@@ -236,7 +237,8 @@
                 $('#view-new-price').find('span.contract-id').text(contract_id);
                 $('#view-new-price').find('span.office').text(office);
                 $('#view-new-price').find('span.receptionist').text(receptionist);
-                $('#view-new-price').find('span.new-price').text(price);
+                $('#view-new-price').find('span.old-price').text(price);
+                $('#view-new-price').find('span.new-price').text(new_price);
                 
                 $('#view-new-price').modal('show');
             });

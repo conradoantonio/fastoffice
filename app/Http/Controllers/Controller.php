@@ -24,7 +24,7 @@ class Controller extends BaseController
         $this->app_id = "d26d2412-4eb5-4a21-b0d1-db33f137e100";
         $this->app_key = "OTNlMTE3ODktMDQ2OS00ZjM3LWE5MTYtZjBmZDE5NTk0MmQ3";
         $this->app_icon = asset("img/app_icon.png");
-        $this->ext_m = "pesos 00/100 M.N.";
+        $this->ext_m = "PESOS 00/100 M.N.";
 
         $this->middleware(function ($request, $next) {
             $this->log_user = auth()->user();

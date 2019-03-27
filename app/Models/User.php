@@ -93,15 +93,81 @@ class User extends Authenticatable
 
 
 	/**
-     * Set the user's first name.
+     * Set the user's fullname.
      *
      * @param  string  $value
      * @return void
      */
-    /*public function setFullnameAttribute($value)
+    public function setFullnameAttribute($value)
     {
         $this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
-    }*/
+    }
+
+    /**
+     * Set the user's RFC.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setRfcAttribute($value)
+    {
+        $this->attributes['rfc'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    /**
+     * Set the user's address.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setAddressAttribute($value)
+    {
+        $this->attributes['address'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    /**
+     * Set the user's bussiness activity.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setBussinessActivityAttribute($value)
+    {
+        $this->attributes['bussiness_activity'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    /**
+     * Set the user's identification type.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setIdentificationTypeAttribute($value)
+    {
+        $this->attributes['identification_type'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    /**
+     * Set the user's identification type.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setIdentificationNumAttribute($value)
+    {
+        $this->attributes['identification_num'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    /**
+     * Set the user's business activity.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setBusinessActivityAttribute($value)
+    {
+        $this->attributes['business_activity'] = mb_strtoupper($value, 'UTF-8');
+    }
 
     /**
      * Set the user's first name.
@@ -109,10 +175,10 @@ class User extends Authenticatable
      * @param  string  $value
      * @return void
      */
-    public function __set($key, $value)
+    /*public function __set($key, $value)
 	{
-		dd($key);
-	    if( in_array($key, ['fullname']) ){
+	    if ( array_key_exists($key, ['fullname']) ) {
+	    #if( in_array($key, ['fullname']) ){
 	        //do your mutation
 	        $this->setAttribute($key, mb_strtoupper($value, 'UTF-8'));
         	#$this->attributes['fullname'] = mb_strtoupper($value, 'UTF-8');
@@ -120,6 +186,6 @@ class User extends Authenticatable
 	        //do what Laravel normally does
 	        $this->setAttribute($key, $value);
 	    }
-	}
+	}*/
 
 }

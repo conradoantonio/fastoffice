@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="form-group col-md-6 {{$errors->office->first('name')?'has-error':''}}">
 					{{Form::label('name', 'Nombre', ['class' => 'control-label  required'])}}
-					{{Form::text('name', null, ['class' => 'form-control not-empty', 'data-name' => 'Nombre'])}}
+					{{Form::text('name', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Nombre'])}}
 					{{@$errors->office->first('name')}}
 				</div>
 				<div class="form-group col-md-6 {{$errors->office->first('phone')?'has-error':''}}">
@@ -30,7 +30,7 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->office->first('num_int')?'has-error':''}}">
 					{{Form::label('num_int', 'Número interior', ['class' => 'control-label  required'])}}
-					{{Form::text('num_int', null, ['class' => 'form-control not-empty', 'data-name' => 'Número interior'])}}
+					{{Form::text('num_int', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Número interior'])}}
 					{{@$errors->office->first('num_int')}}
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 			<div class="row">
 				<div class="form-group col-md-12 {{$errors->office->first('description')?'has-error':''}}">
 					{{Form::label('description', 'Descripción', ['class' => 'control-label  required'])}}
-					{{Form::textarea('description', null, ['class' => 'form-control not-empty', 'data-name' => 'Descripción'])}}
+					{{Form::textarea('description', null, ['class' => 'form-control not-empty upper', 'data-name' => 'Descripción'])}}
 					{{@$errors->office->first('description')}}
 				</div>
 			</div>
