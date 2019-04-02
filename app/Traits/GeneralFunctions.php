@@ -135,6 +135,24 @@ trait GeneralFunctions
      */
 	public function get_contract_path(Contract $contract)
 	{
+		$folder = $view = $path = '';
+
+		if ( $contract->office->type->name == 'FÍSICA' || $contract->office->type->name == 'VIRTUAL' ) { $folder = 'physical_virtual'; $view = 'index'; }
+
+		if ($folder && $view) {//Got all params
+			$path = 'contracts'.'.'.$folder.'.'.$view;
+			return $path;
+		}
+
+		return false;
+
+
+
+
+
+
+
+
 		$folder = $subfolder = $view = $path = '';
 		//First folder
 		if ($contract->office->branch->user->regime == 'Persona física') { $folder = 'physical_person'; } 

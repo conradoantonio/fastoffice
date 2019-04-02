@@ -40,11 +40,9 @@
 			</div>
 		@endif
 
-		@if(auth()->user()->role->name != 'Recepcionista')
-			<div class="col-md-3 col-sm-6">
-				<a href="{{route('Office')}}"><img class="img-responsive" src="{{asset('img/dashboard/oficinas.png')}}"></a>
-			</div>
-		@endif
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Office')}}"><img class="img-responsive" src="{{asset('img/dashboard/oficinas.png')}}"></a>
+		</div>
 	</div>
 
 	<div class="row" style="padding-top: 5%;">

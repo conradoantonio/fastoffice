@@ -13,6 +13,7 @@ use App\Models\Meeting;
 use App\Models\Contract;
 use App\Models\OfficeType;
 use App\Models\Application;
+use App\Models\Municipality;
 use App\Models\SuggestedPrice;
 use App\Models\ChargeContract;
 use App\Models\PaymentHistory;
@@ -76,7 +77,7 @@ class ContractsController extends Controller
             elseif ( $status == 2 ) { $amount_str = $n_words->format( round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $contract->office->price, PHP_ROUND_HALF_UP, 2 ); }
             elseif ( $status == 3 ) { $amount_str = $n_words->format( round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ) )." $this->ext_m"; $amount_num = round( $sporadic_payment, PHP_ROUND_HALF_UP, 2 ); }
             
-            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', ['contract' => $contract, 'type_payment' => $type_payment, 'amount_str' => $amount_str, 'amount_num' => $amount_num])
+            $pdf = PDF::loadView('contracts.other_documents.money_receipt_office', compact('contract', 'type_payment', 'amount_str', 'amount_num'))
             ->setPaper('letter')->setWarnings(false);
             return $pdf->stream('recibo_de_pago.pdf');//Visualiza el archivo sin descargarlo
         }
@@ -92,6 +93,7 @@ class ContractsController extends Controller
         $title = $contract_id ? "Editar contrato" : "Crear contrato";
         $menu = "Prospectos";
         $states = State::all();
+        $municipalities = Municipality::all();
         $of_ty_cat = $prospect = $contract = null;
         if ($app_id) {
             $prospect = Application::/*where('status', 0)->*/where('id', $app_id)->first();
@@ -100,11 +102,17 @@ class ContractsController extends Controller
 
         if ($contract_id) {
             $contract = Contract::find($contract_id);
+            if ( $contract ) {
+                $municipalities = Municipality::whereHas('state', function($query) use ($contract) {
+                    $query->where('id', $contract->state->id);
+                })->get();
+
+            }
         }
         if ($prospect) { $this->create_user($app_id); }//Creates an application user if is neccesary
         $prospect = Application::find($app_id);
 
-        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'n_ext' => $this->ext_m, 'menu' => $menu, 'title' => $title]);
+        return view('applications.generate_contract.form', ['prospect' => $prospect, 'states' => $states, 'municipalities' => $municipalities, 'contract' => $contract, 'of_ty_cat' => $of_ty_cat, 'n_ext' => $this->ext_m, 'menu' => $menu, 'title' => $title]);
     }
 
     /**
@@ -117,8 +125,8 @@ class ContractsController extends Controller
         $available = $this->check_office_status($req->office_id);
         $office = Office::find($req->office_id);
         $user = User::find($req->user_id);
-        if (!$available) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
-        if (!$user) { return response(['msg' => 'ID de cliente inválido', 'status' => 'error'], 400); }
+        if (! $available ) { return response(['msg' => 'Oficina no disponible, porfavor, seleccione una diferente', 'status' => 'error'], 400); }
+        if (! $user ) { return response(['msg' => 'ID de cliente inválido', 'status' => 'error'], 400); }
 
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
@@ -147,6 +155,9 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        $contract->state_id = $req->state_id;
+        $contract->municipality_id = $req->municipality_id;
+        $contract->country = $req->country;
         //Virtual office
         $contract->office_type_category_id = $req->office_type_category_id;
         //Meeting room
@@ -261,6 +272,9 @@ class ContractsController extends Controller
         $req->has('user_id') ? $contract->user_id = $req->user_id : '';
         $req->has('application_id') ? $contract->application_id = $req->application_id : '';
         $contract->office_id = $req->office_id;
+        $contract->state_id = $req->state_id;
+        $contract->municipality_id = $req->municipality_id;
+        $contract->country = $req->country;
         //Virtual office
         $contract->office_type_category_id = $req->office_type_category_id;
         //Meeting room

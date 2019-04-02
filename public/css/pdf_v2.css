@@ -1,0 +1,112 @@
+html{
+	font-family: 'Roboto', sans-serif;
+	/*margin-right: 0;*/
+	font-size: 12.7px;
+	padding: 0;
+}
+body {
+	text-align: center!important;
+	/*margin-right: 0;*/
+	padding: 10mm;
+	/*width: 700px;
+	margin-top:20mm;*/
+}
+img.logo {
+	width: 15%;
+	opacity: 0.5;
+	/*width: 30mm;
+	height: 15mm;*/
+}
+img.water-mark{
+	opacity: 0.1;
+	display: block;
+	padding-top: 50%!important;
+    width: 25%;
+}
+ul.b-up-alpha{
+	list-style-type: upper-alpha; 
+}
+ul.b-numeric{
+	list-style-type: decimal; 
+}
+ul.b-up-disc{
+	list-style-type: disc; 
+}
+ul.no-style{
+	list-style: none;
+}
+.white-space-3:before{
+	content: "\00a0 \00a0 \00a0";
+}
+.white-space-4:before{
+	content: "\00a0 \00a0 \00a0 \00a0";
+}
+.white-space-5:before{
+	content: "\00a0 \00a0 \00a0 \00a0 \00a0";
+}
+.fixed-top{
+	position:fixed; 
+}
+.fixed-middle {
+	position: fixed;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+.uppercase{
+	text-transform: uppercase;
+}
+.start-page{
+	padding-top: 15mm;
+}
+.break{
+    display: block;
+}
+.bold{
+	font-weight: bold;
+}
+.italic{
+	font-style: oblique;
+}
+.underline{
+	text-decoration: underline;
+}
+.letter-space{
+	letter-spacing: 5px;
+}
+.no-padding{
+	padding: 0px;
+}
+.no-margin{
+	margin: 0px;
+}
+.justify{
+	text-align: justify!important;
+}
+.center{
+	text-align: center!important;
+}
+.left{
+	text-align: left!important;
+}
+.right{
+	text-align: right!important;
+}
+.new-page{
+	page-break-after: always;
+}
+.one-line-sp{
+	margin-bottom: 3.7mm; 
+}
+.signature {
+	text-align: center;
+	display: inline-block;
+	width: 50%;
+    height: 40px;
+}
+.less-li-he{
+	line-height: 15px;
+}
+.container{
+	width: 100%;
+}

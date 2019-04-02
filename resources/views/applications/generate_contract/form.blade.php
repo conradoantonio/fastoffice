@@ -64,6 +64,42 @@
                 </div>
             </div>
             <div class="row">
+                <div class="form-group col-sm-4 col-xs-12">
+                    <label class="control-label required" for="state_id">Estado</label>
+                    <select name="state_id" class="form-control not-empty select2" data-name="Estado">
+                        <option value="0" disabled selected>SELECCIONE UNA OPCIÓN</option>
+                        @if ( $contract )
+                            @foreach($states as $state)
+                                <option value="{{$state->id}}" {{$contract->state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
+                            @endforeach
+                        @else
+                            @foreach($states as $state)
+                                <option value="{{$state->id}}">{{$state->name}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="form-group col-sm-4 col-xs-12">
+                    <label class="control-label required" for="municipality_id">Municipio</label>
+                    <select name="municipality_id" class="form-control not-empty select2" data-name="Municipio">
+                        <option value="0" disabled selected>SELECCIONE UNA OPCIÓN</option>
+                        @if ( $contract )
+                            @foreach($municipalities as $municipality)
+                                <option value="{{$municipality->id}}" {{$contract->municipality_id == $municipality->id ? 'selected' : ''}}>{{$municipality->name}}</option>
+                            @endforeach
+                        @else
+                            @foreach($municipalities as $municipality)
+                                <option value="{{$municipality->id}}">{{$municipality->name}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div class="form-group col-sm-4 col-xs-12">
+                    <label class="required" for="country">País</label>
+                    <input type="text" class="form-control not-empty upper" value="{{$contract ? $contract->country : 'México' }}" name="country" data-name="Cliente: Tipo de identificación">
+                </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label for="office_data">Oficina</label>
                     <input type="text" class="form-control" disabled value="{{$prospect && $prospect->office && $prospect->office->branch ? $prospect->office->name. ' LOCALIZADA EN '. $prospect->office->branch->address.' '.$prospect->office->branch->municipality->name.', '.$prospect->office->branch->state->name : ''}}" name="office_data">
@@ -314,6 +350,29 @@
 				}
 			})*/
 		});
+
+        $('select[name="state_id"]').on('change', function(){
+            elem_to_block = $('select[name="municipality_id"]').parent('div').children('div.select2-container');
+            $("select[name='municipality_id']").select2("val", 0);
+            if ( $(this).val() != 0 ){
+                $.ajax({
+                    url: "{{url('obtener-municipio')}}/"+$(this).val(),
+                    method: 'POST',
+                    beforeSend:function(){
+                        blockUI(elem_to_block);
+                    },
+                    success:function(response){
+                        $("select[name='municipality_id'] option:gt(0)").remove();
+                        $.each(response,function(i,e){
+                            $("select[name='municipality_id']").append("<option value='"+e.id+"'>"+e.name+"</option>");
+                        })
+                        unblockUI(elem_to_block);
+                    }
+                })
+            } else {
+                $("select[name='municipality_id'] option:gt(0)").remove();
+            }
+        })
 
 	/*$('#start_date_validity').change(function() {
 	});*/
