@@ -1,26 +1,46 @@
 <p class="break bold center">CARÁTULA DEL CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
-<p class="break uppercase">
+<p class="break">
 	<br>
-	<ul class="no-style left no-padding no-margin">
+	<ul class="no-style left no-padding no-margin uppercase">
 		<li>Fecha: {{strftime('%d', strtotime($contract->contract_date))}} de {{strftime('%B', strtotime($contract->contract_date))}} de {{strftime('%Y', strtotime($contract->contract_date))}}</li>
 		<li>Ciudad: {{$contract->municipality->name}}</li>
 		<li>Estado: {{$contract->state->name}}</li>
 		<li>País: {{$contract->country}}</li>
 	</ul>
-	{{-- EN EL MUNICIPIO DE {{$contract->office->municipality->name}} {{$contract->office->state->name}} A LOS {{strftime('%d', strtotime($contract->contract_date))}} DÍAS DEL MES DE {{strftime('%B', strtotime($contract->contract_date))}} DEL AÑO {{strftime('%Y', strtotime($contract->contract_date))}} COMPARECIERON ANTE LOS TESTIGOS QUE AL FINAL SE SUSCRIBEN, 
-	POR UNA PARTE, 
-	@if($contract->office->branch->user->regime == 'Persona moral')
-		<span class="bold">FAST OFFICE & BENS S.A. DE C.V.</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span> REPRESENTADA POR <span class="bold">{{$contract->office->branch->user->fullname}}</span>
-	@else
-		<span class="bold">{{$contract->office->branch->user->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL PRESTADOR”</span>
-	@endif
+</p>
 
-	&nbsp;Y POR LA OTRA PARTE 
-	
-	@if($contract->customer->regime == 'Persona moral')
-		<span class="bold">{{$contract->customer_company}}</span> REPRESENTADA POR <span class="bold">{{$contract->customer->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span>
-	@else
-		<span class="bold">{{$contract->customer->fullname}}</span> A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ <span class="bold">“EL CLIENTE”</span> 
-	@endif
-	&nbsp;AL TENOR DE LAS SIGUIENTES DECLARACIONES Y CLÁUSULAS: --}}
+<br>
+<br>
+<p class="break bold center">DOMICILIO DONDE SE LLEVA A CABO LA PRESTACION DE SERVICIOS</p>
+<p>
+	<ul class="no-style left no-padding no-margin uppercase">
+		<li>Calle: {{$contract->office->branch->address}}</li>
+		<li>Interior: {{$contract->office->num_int}}</li>
+		<li>Colonia: {{$contract->office->branch->colony}}</li>
+		<li>C.P.: {{$contract->office->branch->zip_code}}</li>
+		<li>Ciudad: {{$contract->office->branch->municipality->name}}</li>
+		<li>Estado: {{$contract->office->branch->state->name}}</li>
+		<li>País: {{$contract->country}}</li>
+	</ul>
+</p>
+
+<br>
+<br>
+<br>
+<p class="break bold center">CONCONDICIONES DEL CONTRATO DE SERVICIOS</p>
+<p>
+	<ul class="no-style left no-padding no-margin uppercase">
+		<li>Destino o uso: {{$contract->usage}}</li>
+		<li>Fecha de inicio de contrato: {{strftime('%d', strtotime($contract->start_date_validity))}} de {{strftime('%B', strtotime($contract->start_date_validity))}} de {{strftime('%Y', strtotime($contract->start_date_validity))}}</li>
+		<li>Fecha de fin de contrato: {{strftime('%d', strtotime($contract->end_date_validity))}} de {{strftime('%B', strtotime($contract->end_date_validity))}} de {{strftime('%Y', strtotime($contract->end_date_validity))}}</li>
+		<li>Días de pago puntual: Del {{$contract->payment_range_start}}  al {{$contract->payment_range_end}}</li>
+		<li>Depósito en garantía: ${{$contract->office->monthly_price}} pesos</li>
+		<li>Oficina amueblada para: {{$contract->office->num_people}}</li>
+		<li>Personas adicionales: {{$contract->additional_people}}</li>
+		<li>Nota: Si el cliente desea agregar más personas a su oficina cada persona tendrá un pago mensual de $580.00 pesos</li>
+		<li>Sala de juntas: {{$contract->meeting_room_hours >= 0 ? $contract->meeting_room_hours.' horas' : 'Horas ilimitadas'}}</li>
+		<li>Línea telefónica: {{$contract->telephone_line ? 'Si' : 'No'}}</li>
+		<li>Estación de cómputo: {{$contract->computer_station ? 'Si' : 'No'}}</li>
+		<li>Referencia bancaria: {{$contract->bank_reference}}</li>
+	</ul>
 </p>

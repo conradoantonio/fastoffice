@@ -4,6 +4,12 @@ html{
 	font-size: 12.7px;
 	padding: 0;
 }
+div#statements{
+	font-family: 'Roboto', sans-serif;
+	/*margin-right: 0;*/
+	font-size: 12.7px;
+	padding: 0;
+}
 body {
 	text-align: center!important;
 	/*margin-right: 0;*/
@@ -28,6 +34,9 @@ ul.b-up-alpha{
 }
 ul.b-numeric{
 	list-style-type: decimal; 
+}
+ul.b-roman-num{
+	list-style-type: upper-roman; 
 }
 ul.b-up-disc{
 	list-style-type: disc; 
@@ -54,7 +63,7 @@ ul.no-style{
 	text-transform: capitalize;
 }
 .uppercase{
-	text-transform: uppercase;
+	text-transform: uppercase!important;
 }
 .start-page{
 	padding-top: 15mm;
