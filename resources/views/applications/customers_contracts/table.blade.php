@@ -55,7 +55,9 @@
                 <td>{{$contract->office->type->name == 'FÍSICA' || $contract->office->type->name == 'VIRTUAL' ? $contract->payment_range_start.' y '.$contract->payment_range_end.' de cada mes' : 'No aplica'}}</td>
 				<td>
 					{{-- <a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a> --}}
-					<a href="{{route('Crm.contracts.form', [$contract->application->id, $contract->id])}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
+					@if ( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->id == $contract->office->branch->user->id ) || ( auth()->user()->role_id == 3 && auth()->user()->branch_id == $contract->office->branch->id ) )
+						<a href="{{route('Crm.contracts.form', [$contract->application->id, $contract->id])}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
+					@endif
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-info show-money-receipt" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Descargar recibo de pago"><i class="fa fa-money"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-warning view-payments" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver historial de pago"><i class="fa fa-clock-o"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary view-contract" href="{{route('Crm.prospects.show_contract', $contract->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver contrato"><i class="fa fa-eye"></i></a>
@@ -65,12 +67,17 @@
 					@if ($contract->cancelation)
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-cancelled="1" data-placement="top" title="Ver doc. de cancelación"><i class="fa fa-eye"></i></a>
 					@else
-						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-times"></i></a>
+						@if ( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->id == $contract->office->branch->user->id ) || ( auth()->user()->role_id == 3 && auth()->user()->branch_id == $contract->office->branch->id ) )
+							<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Cancelar contrato"><i class="fa fa-times"></i></a>
+						@endif
 					@endif
 					@if (auth()->user()->role_id == 2 && $contract->suggested_price){{-- Branch user --}}
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-review view-new-price" data-office="{{$contract->office->name}}" data-receptionist="{{$contract->suggested_price->user->fullname}}" data-price="{{$contract->office->price}}" data-new-price="{{$contract->suggested_price->new_price}}" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver precio sugerido"><i class="fa fa-dollar"></i></a>
 					@endif
-					<a href="javascript:;" class="btn btn-xs btn-mini btn-cancel finish-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Finalizar contrato"><i class="fa fa-flag-checkered"></i></a>
+
+					@if ( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->id == $contract->office->branch->user->id ) || ( auth()->user()->role_id == 3 && auth()->user()->branch_id == $contract->office->branch->id ) )
+						<a href="javascript:;" class="btn btn-xs btn-mini btn-cancel finish-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Finalizar contrato"><i class="fa fa-flag-checkered"></i></a>
+					@endif
 				</td>
 			</tr>
 		@endforeach
