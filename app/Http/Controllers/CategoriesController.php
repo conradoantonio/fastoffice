@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Branch;
 
 class CategoriesController extends Controller
 {
 	public function index(Request $req){
-		$categories = Category::all();
+		$categories = Category::filter_rows(auth()->user());
 		if ( $req->ajax() ){
 			return view('categories.table', compact('categories'))->render();
 		}
@@ -17,10 +18,11 @@ class CategoriesController extends Controller
 
 	public function form($id = null){
 		$category = new Category();
+		$branches = Branch::pluck('name', 'id')->prepend("Cualquiera", 0);
 		if ( $id ) {
 			$category = Category::findOrFail($id);
 		}
-		return view('categories.form', compact('category'));
+		return view('categories.form', compact('category', 'branches'));
 	}
 
 	public function store(Request $req){

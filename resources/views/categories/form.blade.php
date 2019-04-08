@@ -23,6 +23,12 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-md-12">
+					{{Form::label('branch_id', 'Franquicia', ['class' => 'control-label'])}}
+					{!!Form::select('branch_id', $branches, null, ['class' => 'select2 form-control', 'data-name' => "Franquicia"] )!!}
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12">
 					{{Form::label('type', 'Tipo', ['class' => !$category->id?'label-control required':'label-control'])}}
 					{{Form::select('type', [0 => 'Seleccione un tipo', 1 => 'Ingreso', 2 => 'Egreso'], null, ['class' => 'form-control not-empty', 'data-name' => 'Tipo'])}}
 				</div>

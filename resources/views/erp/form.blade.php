@@ -99,6 +99,7 @@
 						blockUI(elem_to_block);
 					},
 					success:function(response){
+						/*Removes all elements in select except the first one*/
 						$("#category_id option:gt(0)").remove();
 						$.each(response,function(i,e){
 							$("#category_id").append("<option value='"+e.id+"'>"+e.name+"</option>");
@@ -107,6 +108,7 @@
 					}
 				})
 			} else {
+				/*Removes all elements in select except the first one*/
 				$("#category_id option:gt(0)").remove();
 			}
 

@@ -8,11 +8,11 @@
 	<tbody class="left">
 		<tr>
 			<td scope="col">NOMBRE O RAZÓN SOCIAL</td>
-			<td scope="col">{{$contract->office->branch->user->fullname}}</td>
+			<td scope="col">{{@$contract->office->branch->user->fullname}}</td>
 		</tr>
 		<tr>
 			<td scope="col">RFC</td>
-			<td scope="col">{{$contract->office->branch->user->rfc}}</td>
+			<td scope="col">{{@$contract->office->branch->user->rfc}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Firma "EL PRESTADOR"</td>

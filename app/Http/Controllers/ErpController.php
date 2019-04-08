@@ -177,7 +177,7 @@ class ErpController extends Controller
 	}
 
 	public function getCategoriesByType($type_id){
-		return Category::where(['type' => $type_id])->get();
+		return Category::filter_rows(auth()->user(), $type_id);
 	}
 
 	public function export($id, $start_date, $end_date){

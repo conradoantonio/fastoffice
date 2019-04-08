@@ -10,7 +10,8 @@
 			</th>
 			<th>Nombre</th>
 			<th>Tipo</th>
-			<th>Estatus</th>
+			<th>Franquicia asociada</th>
+			<th>Status</th>
 			<th>Acciones</th>
 		</thead>
 		<tbody>
@@ -31,6 +32,7 @@
 						<span class="label label-info">Egreso</span>
 						@endif
 					</td>
+					<td>{!!$category->branch ? "<span class='label label-success'>".$category->branch->name."</span>" : "<span class='label label-info'>Cualquiera</span>" !!}</td>
 					<td>
 						@if($category->status)
 						<span class="label label-success status" data-url="{{route('Category.status')}}" data-id="{{$category->id}}" data-toggle="tooltip" data-placement="top" title="Cambiar status">Activo</span>

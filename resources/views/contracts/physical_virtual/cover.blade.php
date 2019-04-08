@@ -1,5 +1,4 @@
 <p class="break bold center">CARÁTULA DEL CONTRATO DE PRESTACIÓN DE SERVICIOS</p>
-<br>
 <table id="" class="table table-bordered table-sm uppercase">
 	{{-- <thead class="left">
 		<tr>
@@ -26,7 +25,6 @@
 	</tbody>
 </table>
 
-<br>
 <br>
 <table id="" class="table table-bordered table-sm">
 	<thead>
@@ -86,9 +84,13 @@
 		</tr>
 		<tr>
 			<td scope="col">Pago mensual</td>
-			<td scope="col">{{$contract->payment_range_start}}</td>
+			<td scope="col">${{$contract->office->price}} pesos</td>
 			<td scope="col">Pago puntual</td>
-			<td scope="col">{{$contract->payment_range_end}}</td>
+			<td scope="col">${{$contract->office->monthly_price}} pesos</td>
+		</tr>
+		<tr>
+			<td scope="col">Días de pago puntual</td>
+			<td scope="col" colspan="3">Del {{$contract->payment_range_start}} Al {{$contract->payment_range_end}} de cada mes</td>
 		</tr>
 		<tr>
 			<td scope="col">Depósito en garantía</td>
