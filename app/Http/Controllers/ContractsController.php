@@ -369,19 +369,22 @@ class ContractsController extends Controller
     public function verify_new_price(Request $req)
     {
         $contract = Contract::find($req->id);
-        if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
+        if (! $contract ) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
         
-        if ($req->status == 1) {//Se aceptó el nuevo precio, probablemente validar en un futuro que el cambio se haga sólo si está dentro del primer mes del contrato
+        if ( $req->status == 1 ) {//Se aceptó el nuevo precio, probablemente validar en un futuro que el cambio se haga sólo si está dentro del primer mes del contrato
             $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
             
-            $contract->monthly_payment_str = ucfirst($n_words->format($req->price / 1.10))." $this->ext_m";
-            $contract->monthly_payment_delay_str = ucfirst($n_words->format($req->price))." $this->ext_m";//Puede ser que cambiemos esto en un futuro
+            $office = Office::find($contract->office->id);
+
+            $office->price = $req->price;
+            $office->monthly_price = round( $req->price / 1.10, PHP_ROUND_HALF_UP, 2 );
+
+            $office->save();
+
+            $contract->monthly_payment_str = ucfirst( $n_words->format( $office->monthly_price ) )." $this->ext_m";
+            $contract->monthly_payment_delay_str = ucfirst( $n_words->format( $office->price ) )." $this->ext_m";//Puede ser que cambiemos esto en un futuro
 
             $contract->save();
-
-            $office = Office::find($contract->office->id);
-            $office->price = $req->price;
-            $office->save();
         }
             
 
