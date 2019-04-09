@@ -34,10 +34,15 @@ class ContractsController extends Controller
         $l_usr = $this->log_user;
         $contracts = Contract::filter_rows($l_usr, 1, $id);
         $branches = Branch::where('status', 1)->get();
-        if ($req->ajax()) {
-            return view('applications.customers_contracts.table', ['contracts' => $contracts]);
+
+        foreach ($contracts as &$item) {
+            $item->saldo = $item->balance - $item->charges->sum('amount');
         }
-        return view('applications.customers_contracts.index', ['contracts' => $contracts, 'branches' => $branches]);
+
+        if ( $req->ajax() ) {
+            return view('applications.customers_contracts.table', compact('contracts'));
+        }
+        return view('applications.customers_contracts.index', compact('contracts', 'branches'));
     }
 
     /**
@@ -335,15 +340,19 @@ class ContractsController extends Controller
         $debt = $contract->charges->sum('amount') - $contract->balance;
         $today = New \DateTime(date("Y-m-d"));
         
-        if ($req->payment > $debt) {//Si el monto se pasa de la deuda actual
+        /*if ($req->payment > $debt) {//Si el monto se pasa de la deuda actual
             return response(['msg' => 'La cantidad a pagar no puede ser mayor al total del monto de pago, por favor, trate con otra cantidad', 'status' => 'error'], 400);
             //Puede que sea necesario validar que el monto a webo sea mayor al precio de la oficina
         } elseif ($req->payment <= $debt ) {//si pagó todo lo que debe, o parte de...
             $contract->balance = $contract->balance + $req->payment;//Add the amount to the balance
-        } 
+        } */
+
+        if ( $req->payment <= 0 ) { return response(['msg' => 'La cantidad a pagar debe ser mayor a 0 pesos', 'status' => 'error'], 400); }
+
+        $contract->balance = $contract->balance + $req->payment;//Add the amount to the balance
 
         //Updates balance string
-        $contract->balance_str = ucfirst($n_words->format($contract->balance))." $this->ext_m";
+        $contract->balance_str = strtoupper($n_words->format($contract->balance))." $this->ext_m";
     
         $contract->save();
 
@@ -353,7 +362,7 @@ class ContractsController extends Controller
         $row->contract_id = $req->contract_id;
         $row->payment_method = $req->payment_method;
         $row->status = $req->type;
-        $row->payment_str = ucfirst($n_words->format($req->payment))." $this->ext_m";
+        $row->payment_str = strtoupper($n_words->format($req->payment))." $this->ext_m";
         $row->payment = $req->payment;
 
         $row->save();

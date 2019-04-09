@@ -14,7 +14,7 @@
 		<th>Oficina rentada</th>
 		<th>Status de pago</th>
 		{{-- <th>Status de contrato</th> --}}
-		<th>Monto a pagar</th>
+		<th>Saldo de cliente{{-- Monto a pagar --}}</th>
 		<th class="hide">Monto de pago normal</th>
 		<th class="hide">Monto de pago normal cadena</th>
 		<th class="hide">Monto de pago por atraso cadena</th>
@@ -39,16 +39,18 @@
 				<td>{{$contract->office->name}} ({{$contract->office->type->name}})</td>
 				<td>
                     {!!
-                        ($contract->charges->sum('amount') == $contract->balance ? "<span class='label label-success'>Pagado</span>" :
-                            (($contract->charges->sum('amount') - $contract->balance) <= round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ? "<span class='label label-warning'>Por pagar</span>" :
-                                ($contract->charges->sum('amount') >= round( $contract->office->price / 1.10, PHP_ROUND_HALF_UP, 2 )  ? "<span class='label label-danger'>Pago atrasado</span>" : "<span class='label label-info'>Desconocido</span>")
+                        ( $contract->saldo < round( $contract->office->monthly_price * -1, PHP_ROUND_HALF_UP, 2 ) ? "<span class='label label-danger'>Pago atrasado</span>" :
+                            ( $contract->saldo < 0 ? "<span class='label label-warning'>Por pagar</span>" :
+                                ( $contract->saldo == 0 ? "<span class='label label-success'>Al corriente</span>" : 
+                                	( $contract->saldo > 0 ? "<span class='label label-primary'>Pago por adelantado</span>" : "<span class='label label-info'>Desconocido</span>" )
+                                )
                             )
                         )
                     !!}
                 </td>
                 {{-- <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Normal</span>") !!}</td> --}}
-                <td>${{ ($contract->charges->sum('amount') - $contract->balance) }}</td>
-                <td class="hide">{{$contract->office->price / 1.10}}</td>
+                <td>${{ $contract->saldo }}</td>
+                <td class="hide">{{$contract->office->monthly_price}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>
@@ -62,9 +64,9 @@
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-warning view-payments" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver historial de pago"><i class="fa fa-clock-o"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-default get-charges" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver cargos del contrato"><i class="fa fa-credit-card"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary view-contract" href="{{route('Crm.prospects.show_contract', $contract->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver contrato"><i class="fa fa-eye"></i></a>
-					@if ((($contract->charges->sum('amount')-$contract->balance)>0))
+					{{-- @if ((($contract->charges->sum('amount')-$contract->balance)>0)) --}}
 						<a class="btn btn-xs btn-mini btn-success mark-as-paid" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Realizar pago"><i class="fa fa-check"></i></a>
-					@endif
+					{{-- @endif --}}
 					@if ($contract->cancelation)
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-cancelled="1" data-placement="top" title="Ver doc. de cancelación"><i class="fa fa-eye"></i></a>
 					@else

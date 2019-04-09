@@ -96,17 +96,17 @@
             //Show the modal to make a payment
             $('body').delegate('.mark-as-paid','click', function() {
                 var id = $(this).parent().siblings("td:nth-child(1)").text();
-                var normal_price = $(this).parent().siblings("td:nth-child(9)").text();
-                var normal_price_str = $(this).parent().siblings("td:nth-child(10)").text();
-                var delay_price = $(this).parent().siblings("td:nth-child(11)").text();
-                var delay_price_str = $(this).parent().siblings("td:nth-child(12)").text();
+                var normal_price = $(this).parent().siblings("td:nth-child(10)").text();
+                var normal_price_str = $(this).parent().siblings("td:nth-child(11)").text();
+                var delay_price = $(this).parent().siblings("td:nth-child(12)").text();
+                var delay_price_str = $(this).parent().siblings("td:nth-child(13)").text();
 
                 $('#mark-as-paid input[name=contract_id]').val(id);
                 $('#mark-as-paid select[name=type]').children().remove();
                 $('#mark-as-paid select[name=type]').append(
                     '<option value="">Seleccione una opción</option>'+
                     '<option value="1" quantity="'+normal_price+'" money-str="'+normal_price_str+'">Normal</option>'+
-                    '<option value="1" quantity="'+delay_price+'" money-str="'+delay_price_str+'">Atrasado</option>'+
+                    '<option value="2" quantity="'+delay_price+'" money-str="'+delay_price_str+'">Atrasado</option>'+
                     '<option value="3" quantity="" money-str="">Esporádico</option>');
                 $('div#mark-as-paid').modal('show');
             });
