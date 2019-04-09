@@ -41,7 +41,55 @@
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-primary save">Guardar</button> --}}
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade data-fill" tabindex="-1" role="dialog" aria-labelledby="label-title" id="view-charges-contract">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="label-title">Cargos del contrato</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row text-left charges-contract-content hide">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item active">Historial de cargos</li>
+                            <li class="list-group-item">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive charges-contract">
+                                        <thead>
+                                            <th style="text-align: center;">No.</th>
+                                            <th style="text-align: center;">Monto</th>
+                                            <th style="text-align: center;">Status</th>
+                                            <th style="text-align: center;">Fecha y hora del cargo</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row text-center load-bar">
+                    <div class="col-md-12">
+                        <div class="progress-outer">
+                            <h5>Cargando comentarios... espere un momento</h5>
+                            <div class="progress transparent progress-large progress-striped active no-radius no-margin">
+                                <div data-percentage="100%" class="progress-bar progress-bar-success animate-progress-bar"></div>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{-- <button type="button" class="btn btn-primary save">Guardar</button> --}}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

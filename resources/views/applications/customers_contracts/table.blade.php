@@ -60,6 +60,7 @@
 					@endif
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-info show-money-receipt" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Descargar recibo de pago"><i class="fa fa-money"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-warning view-payments" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver historial de pago"><i class="fa fa-clock-o"></i></a>
+					<a href="javascript:;" class="btn btn-xs btn-mini btn-default get-charges" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver cargos del contrato"><i class="fa fa-credit-card"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary view-contract" href="{{route('Crm.prospects.show_contract', $contract->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver contrato"><i class="fa fa-eye"></i></a>
 					@if ((($contract->charges->sum('amount')-$contract->balance)>0))
 						<a class="btn btn-xs btn-mini btn-success mark-as-paid" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Realizar pago"><i class="fa fa-check"></i></a>

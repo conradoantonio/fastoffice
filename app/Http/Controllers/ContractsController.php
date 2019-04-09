@@ -412,6 +412,23 @@ class ContractsController extends Controller
     }
 
     /**
+     * Show the charges assigned for a contract
+     *
+     */
+    public function get_charges(Request $req)
+    {
+        $rows = ChargeContract::where('contract_id', $req->id)->orderBy('id', 'DESC')->get();
+
+        foreach ($rows as &$row) {
+            $time = $row->created_at;
+            $row->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
+            $row->status_type = $row->status == 1 ? 'Cargo mensual normal' : 'Cargo por atraso';
+        }
+
+        return $rows;
+    }
+
+    /**
      *=============================================================================================================================================================
      *=                                                         Canceled and finished contracts functions                                                         =
      *=============================================================================================================================================================

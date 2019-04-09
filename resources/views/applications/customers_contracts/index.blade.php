@@ -158,6 +158,25 @@
                 ajaxSimple(config);
             });
 
+            //Load charges for a contract
+            $('body').delegate('.get-charges','click', function() {
+                $('div.load-bar').removeClass('hide');
+                $('div.charges-contract-content').addClass('hide');
+                $('#view-charges-contract').modal('show');
+
+                var id = $(this).parent().siblings("td:nth-child(1)").text();
+
+                config = {
+                    'id'        : id,
+                    'keepModal' : true,
+                    'route'     : "{{route('Crm.contracts.get_charges')}}",
+                    'method'    : 'POST',
+                    'callback'  : 'display_contract_charges',
+                }
+
+                ajaxSimple(config);
+            });            
+
             //Cancel a contract or view cancelation doc
             $('body').delegate('.cancel-contract','click', function() {
                 var id = $(this).parent().siblings("td:nth-child(1)").text();

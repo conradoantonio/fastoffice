@@ -287,6 +287,38 @@ function display_payment_history(data) {
     $('div.payment-history-content').removeClass('hide');
 }
 
+//Display charges for a contract
+function display_contract_charges(data) {
+    console.log(data);
+    $('div.load-bar').addClass('hide');
+
+    $("table.charges-contract tbody").children().remove();
+
+    if (data.length > 0) {
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                $("table.charges-contract tbody").append(
+                    '<tr>'+
+                        '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
+                        '<td class="text-center">$'+data[key].amount+' ('+data[key].amount_str+')</td>'+
+                        '<td class="text-center">'+(data[key].status_type == 'Cargo mensual normal' ? '<span class="label label-success">Cargo mensual normal</span>' : '<span class="label label-warning">'+data[key].status_type+'</span>')+'</td>'+
+                        '<td class="text-center">'+data[key].new_time+'</td>'+
+                    '</tr>'
+                );
+            }
+        }
+    } else {
+        $("table.charges-contract tbody").append(
+            '<tr>'+
+                '<td class="text-center" color="red" colspan="5">No se han registrado pagos.</td>'+
+            '</tr>'
+        ); 
+    }
+
+    $('div.charges-contract-content').removeClass('hide');
+}
+
+
 //Display the details data of the application
 function display_application_details(data) {
     var b_url = $('meta[name="base-url"]').attr('content');
