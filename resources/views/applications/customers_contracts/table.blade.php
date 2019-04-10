@@ -12,13 +12,14 @@
 		<th>Teléfono</th>
 		<th>Franquicia</th>
 		<th>Oficina rentada</th>
-		<th>Status de pago</th>
+		<th class="hide">Status de pago</th>
 		{{-- <th>Status de contrato</th> --}}
 		<th>Saldo de cliente{{-- Monto a pagar --}}</th>
 		<th class="hide">Monto de pago normal</th>
 		<th class="hide">Monto de pago normal cadena</th>
 		<th class="hide">Monto de pago por atraso cadena</th>
 		<th class="hide">Monto de pago por atraso</th>
+		<th>Personas adicionales</th>
 		<th>Rango de días de pago</th>
 		<th>Acciones</th>
 	</thead>
@@ -37,7 +38,7 @@
 				<td>{{$contract->customer->phone}}</td>
 				<td>{{$contract->office->branch->name}}</td>
 				<td>{{$contract->office->name}} ({{$contract->office->type->name}})</td>
-				<td>
+				<td class="hide">
                     {!!
                         ( $contract->saldo < round( $contract->office->monthly_price * -1, PHP_ROUND_HALF_UP, 2 ) ? "<span class='label label-danger'>Pago atrasado</span>" :
                             ( $contract->saldo < 0 ? "<span class='label label-warning'>Por pagar</span>" :
@@ -54,6 +55,7 @@
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>
+                <td>{{$contract->additional_people ? $contract->additional_people.' ($'.($contract->additional_people * 580).' extra)' : 'Ninguna'}}</td>
                 <td>{{$contract->office->type->name == 'FÍSICA' || $contract->office->type->name == 'VIRTUAL' ? $contract->payment_range_start.' y '.$contract->payment_range_end.' de cada mes' : 'No aplica'}}</td>
 				<td>
 					{{-- <a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a> --}}

@@ -301,7 +301,7 @@ function display_contract_charges(data) {
                     '<tr>'+
                         '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
                         '<td class="text-center">$'+data[key].amount+' ('+data[key].amount_str+')</td>'+
-                        '<td class="text-center">'+(data[key].status_type == 'Cargo mensual normal' ? '<span class="label label-success">Cargo mensual normal</span>' : '<span class="label label-warning">'+data[key].status_type+'</span>')+'</td>'+
+                        '<td class="text-center">'+( data[key].status == 1 ? '<span class="label label-success">'+data[key].status_type+'</span>' : ( data[key].status == 2 ? '<span class="label label-warning">'+data[key].status_type+'</span>' : ( data[key].status == 3 ? '<span class="label label-default">'+data[key].status_type+'</span>' : '<span class="label label-danger">Desconocido</span>' ) ) )+'</td>'+
                         '<td class="text-center">'+data[key].new_time+'</td>'+
                     '</tr>'
                 );

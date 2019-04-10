@@ -2,16 +2,18 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\File;
-
-use App\Models\OfficeTypeCategory;
-use App\Models\Application;
-use App\Models\Contract;
-use App\Models\Office;
-use App\Models\User;
-
 use Mail;
 use Image;
+
+use App\Models\User;
+use App\Models\Office;
+use App\Models\Contract;
+use App\Models\Application;
+use App\Models\ChargeContract;
+use App\Models\PaymentHistory;
+use App\Models\OfficeTypeCategory;
+
+use Illuminate\Support\Facades\File;
 
 trait GeneralFunctions
 {
@@ -282,5 +284,27 @@ trait GeneralFunctions
         }
 
         return $response;
+    }
+
+    /**
+     * Check if a path exist, and then delete ite it.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function make_charge_contract(Contract $contract, $amount, $pay_date, $status = 1) 
+	{
+        $ext_m = "PESOS 00/100 M.N.";
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+		$charge = New ChargeContract;
+
+        $charge->contract_id = $contract->id;
+        $charge->amount = round ( $amount, PHP_ROUND_HALF_UP, 2 );
+        $charge->amount_str = ucfirst( $n_words->format( round ( $amount, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
+        $charge->pay_date = $pay_date;
+        $charge->status = $status;
+
+        $charge->save();
+
+        return true;
     }
 }

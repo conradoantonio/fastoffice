@@ -210,28 +210,25 @@ class ContractsController extends Controller
         $contract->save();
 
         //Create charge for contract
-        $charge = New ChargeContract;
+        $this->make_charge_contract($contract, $office->monthly_price, $contract->actual_pay_date, 1);
 
-        $charge->contract_id = $contract->id;
-        $charge->amount = $office->monthly_price;
-        $charge->amount_str = ucfirst( $n_words->format( $office->monthly_price ) )." $this->ext_m";
-        $charge->pay_date = $contract->actual_pay_date;
-        $charge->status = 1;//Pago normal
-
-        $charge->save();
+        #If customer needs aditional people, then create a new aditional charge
+        if ( $contract->additional_people ) {
+            $this->make_charge_contract($contract, ( $contract->additional_people * 580 ), $contract->actual_pay_date, 3);
+        }
 
         $this->change_office_status($req->office_id, 2);//Rented!!
 
-        if ($req->has('application_id')) {
+        if ( $req->has('application_id') ) {
             $app = Application::find($req->application_id);
-            if ($app) {
+            if ( $app ) {
                 $app->status = 1;//Marked as customer
                 $app->save();
             }
         }
 
         //Lets check if a new price has been suggested
-        if ($req->new_price) {
+        if ( $req->new_price ) {
             $n_price = New SuggestedPrice;
 
             $n_price->contract_id = $contract->id;
@@ -431,7 +428,7 @@ class ContractsController extends Controller
         foreach ($rows as &$row) {
             $time = $row->created_at;
             $row->new_time = strftime('%d', strtotime($time)).' de '.strftime('%B', strtotime($time)). ' del año '.strftime('%Y', strtotime($time)). ' a las '.strftime('%H:%M', strtotime($time)). ' hrs.';
-            $row->status_type = $row->status == 1 ? 'Cargo mensual normal' : 'Cargo por atraso';
+            $row->status_type = ( $row->status == 1 ? 'Cargo mensual normal' : ( $row->status == 2 ? 'Cargo por atraso' : ( $row->status == 3 ? 'Cargo por persona(s) extra(s)' : 'Desconocido') ) );
         }
 
         return $rows;

@@ -8,9 +8,13 @@ use App\Models\Contract;
 use App\Models\PaymentHistory;
 use App\Models\ChargeContract;
 
+use App\Traits\GeneralFunctions;
+
 
 class CheckPaymentStatus extends Command
 {
+
+    use GeneralFunctions;
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -54,6 +58,8 @@ class CheckPaymentStatus extends Command
 
         $contracts->each(function($item, $key) use ($year, $month, $today, $n_words, &$count, $ext_m) {
             $cus_st_da = new \DateTime($year.'-'.$month.'-'.$item->payment_range_start);//Real one date
+            $saldo = $item->balance - $item->charges->sum('amount');#Calcula la diferencia de lo que ha pagado con lo que debe
+
             //dd($cus_st_da);
             //$start_date = date('Y-m-d', strtotime($item->actual_pay_date));
             $start_date = $cus_st_da->format('Y-m-d');
@@ -61,39 +67,31 @@ class CheckPaymentStatus extends Command
             $delay_date = date('Y-m-d', strtotime($start_date. '+ 5 days'));
             $last_charge = $item->charges->last();
 
-            if (count($item->payment_history)) {//Ya ha pagado antes
+            if ( count($item->payment_history) ) {//Ya ha pagado antes
                 $last_pay = PaymentHistory::where('contract_id', $item->id)->orderBy('id', 'desc')->first();
                 $last_pay_date = $last_pay->created_at->format('Y-m-d');
 
                 if ( $today >= $start_date && $today <= $end_date ) { //Si el contrato está entre los días de pago normal
-                    if ($last_pay_date < $start_date) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional
-                        if ($today == $start_date) {//Si hoy es el primer día de paga, se hace un cargo normal
-                            $charge = New ChargeContract;
+                    if ( $last_pay_date < $start_date ) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional
+                        if ( $today == $start_date ) {//Si hoy es el primer día de paga, se hace un cargo normal
+                            $this->make_charge_contract($item, $item->office->monthly_price, $start_date, 1);
 
-                            $charge->contract_id = $item->id;
-                            $charge->amount = round ( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 );//Add the 90% of the office
-                            $charge->amount_str = ucfirst( $n_words->format( round ( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
-                            $charge->pay_date = $start_date;
-                            $charge->status = 1;//Pago normal
+                            if ( $item->additional_people ) {
+                                $this->make_charge_contract($item, ( $item->additional_people * 580 ), $start_date, 3);
+                                #$count ++;
+                            }
 
-                            $charge->save();
                             $count ++;
-                            //dd('Se realizó cargo normal porque no se ha pagado actualmente');
                         }
                     }
                         
                 } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
-                    if ($last_pay_date < $start_date && $today == $delay_date) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional y es el primer día de retraso
-                        $charge = New ChargeContract;
-
-                        $charge->contract_id = $item->id;
-                        $charge->amount = round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 );//Only add the 10% of total price office
-                        $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
-                        $charge->pay_date = $start_date;
-                        $charge->status = 2;//Pago atrasado
-
-                        $charge->save();
-                        $count ++;
+                    if ( $last_pay_date < $start_date && $today == $delay_date ) {//Si el último pago que se hizo no es entre este mes de pago, se añade cargo adicional y es el primer día de retraso
+                        if ( $saldo < 0 ) {#Si el cliente tiene saldo negativo, es decir, tiene adeudo, entonces se le cobra un adicional extra por no pagar a tiempo
+                            $this->make_charge_contract($item, ($item->office->price - $item->office->monthly_price), $start_date, 2);
+                            
+                            $count ++;
+                        }
                         //dd('Se realizó cargo extra porque no se pagó en el rango de días normal');
                     }
                     //Validar si el monto a pagar rebasa el atraso
@@ -104,31 +102,24 @@ class CheckPaymentStatus extends Command
                     if ( $today == $start_date ) {//Si hoy es el primer día de pago...
                         $exist = ChargeContract::where('contract_id', $item->id)->where('pay_date', $start_date)->get();
                         if (! count( $exist ) ) {//Si existe un cargo ya realizado (puede ser que no pagó el primer mes..) se crea un cargo normal
-                            $charge = New ChargeContract;
+                            $this->make_charge_contract($item, $item->office->monthly_price, $start_date, 1);
 
-                            $charge->contract_id = $item->id;
-                            $charge->amount = round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 );//Add the 90% of the office
-                            $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
-                            $charge->pay_date = $start_date;
-                            $charge->status = 1;//Pago normal
+                            #If contract indicates that has aditional people, then, we are going to make an aditional charge too
+                            if ( $item->additional_people ) {
+                                $this->make_charge_contract($item, ( $item->additional_people * 580 ), $start_date, 3);
+                                #$count ++;
+                            }
 
-                            $charge->save();
                             $count ++;
                             //dd('Se realizó cargo normal sin tener historial de pago');
                         } 
                         //Nothing to do
                     }
                 } elseif ( $today > $end_date ) {//si la fecha de pagos ya pasó y sigue sin pagarse...
-                    if ($today == $delay_date) {//Si es el primer día de retraso, crear cargo por retraso
-                        $charge = New ChargeContract;
+                    if ( $today == $delay_date ) {//Si es el primer día de retraso, crear cargo por retraso
+                        //Only add the difference beetwen list price and monthly price, and also mark as delayed
+                        $this->make_charge_contract($item, ($item->office->price - $item->office->monthly_price), $start_date, 2);
 
-                        $charge->contract_id = $item->id;
-                        $charge->amount = round( $item->office->price - ( $item->office->price / 1.10 ), PHP_ROUND_HALF_UP, 2 );//Only add the 10% of total price office
-                        $charge->amount_str = ucfirst( $n_words->format( round( $item->office->price / 1.10, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
-                        $charge->pay_date = $start_date;
-                        $charge->status = 2;//Pago atrasado
-
-                        $charge->save();
                         $count ++;
                         //dd('Se realizó cargo extra sin tener historial de pago');
 

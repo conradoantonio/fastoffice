@@ -27,8 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:CheckPaymentStatus')
-        ->daily()
-        ->at('02:00');
+        ->everyMinute();
+        #->daily()
+        #->at('02:00');
 
 
         $schedule->command('command:CheckNotificationsCalendar')->weekdays()
