@@ -52,7 +52,10 @@ class CheckPaymentStatus extends Command
         $today = date('Y-m-d', strtotime('now'));
         $year = date('Y');
         $month = date('m');
-        $contracts = Contract::all();
+        #$contracts = Contract::all();
+        $contracts = Contract::whereHas('application', function($query) {
+            $query->where('status', 1);#Only current contracts
+        })->get();
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
 
