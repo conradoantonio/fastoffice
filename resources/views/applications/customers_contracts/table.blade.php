@@ -66,9 +66,10 @@
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-warning view-payments" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver historial de pago"><i class="fa fa-clock-o"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-default get-charges" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Ver cargos del contrato"><i class="fa fa-credit-card"></i></a>
 					<a class="btn btn-xs btn-mini btn-primary view-contract" href="{{route('Crm.prospects.show_contract', $contract->id)}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Ver contrato"><i class="fa fa-eye"></i></a>
-					{{-- @if ((($contract->charges->sum('amount')-$contract->balance)>0)) --}}
+					@if ( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->id == $contract->office->branch->user->id ) || ( auth()->user()->role_id == 3 && auth()->user()->branch_id == $contract->office->branch->id ) )
 						<a class="btn btn-xs btn-mini btn-success mark-as-paid" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Realizar pago"><i class="fa fa-check"></i></a>
-					{{-- @endif --}}
+					@endif
+					
 					@if ($contract->cancelation)
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-danger cancel-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-cancelled="1" data-placement="top" title="Ver doc. de cancelación"><i class="fa fa-eye"></i></a>
 					@else
