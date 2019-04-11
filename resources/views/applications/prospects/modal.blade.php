@@ -155,7 +155,6 @@
                             <li class="list-group-item fill-container"><span class="label_show">Nombre completo: <span class="fullname"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Correo: <span class="email"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Teléfono: <span class="phone"></span></span></li>
-                            <li class="list-group-item fill-container"><span class="label_show">Régimen: <span class="regime"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">RFC: <span class="rfc"></span></span></li>
                         </ul>
                         <ul class="list-group">

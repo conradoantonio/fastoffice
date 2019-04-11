@@ -105,7 +105,6 @@ class ApplicationsController extends Controller
             $prospect->fullname = $req->fullname;
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
-            $prospect->regime = $req->regime;
             $prospect->rfc = strtoupper($req->rfc);
         }
 
@@ -160,14 +159,12 @@ class ApplicationsController extends Controller
             $prospect->fullname = null;
             $prospect->email = null;
             $prospect->phone = null;
-            $prospect->regime = null;
             $prospect->rfc = null;
         } else {
             $prospect->user_id = 0;
             $prospect->fullname = $req->fullname;
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
-            $prospect->regime = $req->regime;
             $prospect->rfc = $req->rfc;
         }
 

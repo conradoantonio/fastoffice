@@ -115,15 +115,7 @@
                 </div>
         	</div>
         	<div class="row">
-        		<div class="form-group col-sm-6 col-xs-12">
-                    <label class="required" for="regime">Régimen</label>
-	                <select id="regime" name="regime" class="form-control not-empty" data-name="Régimen">
-	                    <option value="0" selected>Seleccione una opción</option>
-	                    <option value="Persona física">Persona física</option>
-	                    <option value="Persona moral">Persona moral</option>
-	                </select>
-                </div>
-                <div class="form-group col-sm-6 col-xs-12">
+                <div class="form-group col-sm-12 col-xs-12">
                     <label for="rfc">RFC</label>
                     <input type="text" class="form-control rfc" name="rfc" data-name="RFC">
                 </div>

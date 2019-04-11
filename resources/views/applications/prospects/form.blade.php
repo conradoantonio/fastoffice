@@ -129,15 +129,7 @@
                 </div>
         	</div>
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
-        		<div class="form-group col-sm-6 col-xs-12">
-                    <label class="required" for="regime">Régimen</label>
-	                <select id="regime" name="regime" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty') : 'not-empty')}}" data-name="Régimen">
-	                    <option value="0" selected>Seleccione una opción</option>
-	                    <option value="Persona física" {{($prospect ? ($prospect->regime == 'Persona física' ? 'selected' : '') : '')}}>Persona física</option>
-	                    <option value="Persona moral" {{($prospect ? ($prospect->regime == 'Persona moral' ? 'selected' : '') : '')}}>Persona moral</option>
-	                </select>
-                </div>
-                <div class="form-group col-sm-6 col-xs-12">
+                <div class="form-group col-sm-12 col-xs-12">
                     <label for="rfc">RFC</label>
                     <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'rfc') : 'rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
                 </div>
@@ -152,15 +144,15 @@
 		$(function() {
 			$('select#user_id').on('change', function() {
 				if ($(this).val() == 0) {
-					$('#fullname, #email, #phone, #rfc, #regime').addClass('not-empty');
+					$('#fullname, #email, #phone, #rfc').addClass('not-empty');
 					$('#email').addClass('email');
 					$('#rfc').addClass('rfc');
-					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().removeClass('hide');
+					$('#fullname, #email, #phone, #rfc').parent().parent().removeClass('hide');
 				} else {
-					$('#fullname, #email, #phone, #rfc, #regime').removeClass('not-empty');
+					$('#fullname, #email, #phone, #rfc').removeClass('not-empty');
 					$('#email').removeClass('email');
 					$('#rfc').removeClass('rfc');
-					$('#fullname, #email, #phone, #rfc, #regime').parent().parent().addClass('hide');
+					$('#fullname, #email, #phone, #rfc').parent().parent().addClass('hide');
 				}
 			});
 

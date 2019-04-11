@@ -70,7 +70,6 @@ trait GeneralFunctions
 				$u_app->email = $row->email;
 				$u_app->password = bcrypt($pass);
 				$u_app->phone = $row->phone;
-				$u_app->regime = $row->regime;
 				$u_app->rfc = $row->rfc;
 				$u_app->role_id = 4;
 
@@ -96,7 +95,6 @@ trait GeneralFunctions
 			$row->fullname = null;
             $row->email = null;
             $row->phone = null;
-            $row->regime = null;
             $row->rfc = null;
 
             $row->save();

@@ -12,6 +12,7 @@
 		<th>¿Cliente registrado?</th>
 		<th>Email</th>
 		<th>Teléfono</th>
+		<th>Franquicia</th>
 		<th>Oficina de interés</th>
 		<th>Precio de lista</th>
 		<th>Acciones</th>
@@ -40,6 +41,7 @@
 					<td>{{$prospect->phone}}</td>
 				@endif
 				
+				<td>{{@$prospect->office->branch->name}}</td>
 				<td>{{$prospect->office->name}}</td>
 				<td>${{$prospect->office->price}} MXN</td>
 
