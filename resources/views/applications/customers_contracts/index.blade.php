@@ -101,6 +101,9 @@
                 var delay_price = $(this).parent().siblings("td:nth-child(12)").text();
                 var delay_price_str = $(this).parent().siblings("td:nth-child(13)").text();
 
+                normal_price = normal_price.replace(",", ".");
+                delay_price = delay_price.replace(",", ".");
+
                 $('#mark-as-paid input[name=contract_id]').val(id);
                 $('#mark-as-paid select[name=type]').children().remove();
                 $('#mark-as-paid select[name=type]').append(

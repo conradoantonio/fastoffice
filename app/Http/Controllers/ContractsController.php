@@ -330,6 +330,7 @@ class ContractsController extends Controller
      */
     public function make_payment(Request $req)
     {
+        dd($req->all());
         $contract = Contract::find($req->contract_id);
         if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
 
@@ -347,7 +348,6 @@ class ContractsController extends Controller
         if ( $req->payment <= 0 ) { return response(['msg' => 'La cantidad a pagar debe ser mayor a 0 pesos', 'status' => 'error'], 400); }
 
         $contract->balance = $contract->balance + $req->payment;//Add the amount to the balance
-
         //Updates balance string
         $contract->balance_str = strtoupper($n_words->format($contract->balance))." $this->ext_m";
     

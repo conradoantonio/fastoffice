@@ -51,14 +51,14 @@ trait GeneralFunctions
 	{
 		$row = Application::find($prospect_id);
 
-		if (!$row) { return false; }//Application not found
+		if (! $row ) { return false; }//Application not found
 
 		$user = User::find($row->user_id);
 
-		if (!$user) {//If the application row has not an user assigned
+		if (! $user ) {//If the application row has not an user assigned
 			$exist_us = User::where('email', $row->email)->first();
 
-			if ($exist_us) {//Use an existing user
+			if ( $exist_us ) {//Use an existing user
 
 				$row->user_id = $exist_us->id;
 
@@ -71,6 +71,10 @@ trait GeneralFunctions
 				$u_app->password = bcrypt($pass);
 				$u_app->phone = $row->phone;
 				$u_app->rfc = $row->rfc;
+				$u_app->address = $row->address;
+	            $u_app->business_activity = $row->business_activity;
+	            $u_app->identification_type = $row->identification_type;
+	            $u_app->identification_num = $row->identification_num;
 				$u_app->role_id = 4;
 
 				$u_app->save();
@@ -86,7 +90,7 @@ trait GeneralFunctions
 				$params['email'] = $u_app->email;
 				$params['view'] = 'mails.credentials';
 
-				if ( @$this->mail($params) ){
+				if ( @$this->mail( $params ) ) {
 					//return response(['msg' => 'Se ha enviado un correo', 'code' => 1],200);
 				}
 			}
@@ -96,6 +100,10 @@ trait GeneralFunctions
             $row->email = null;
             $row->phone = null;
             $row->rfc = null;
+            $row->address = null;
+            $row->business_activity = null;
+            $row->identification_type = null;
+            $row->identification_num = null;
 
             $row->save();
 

@@ -112,6 +112,9 @@
                 </div>
             </div>
             @if( $prospect && ( $prospect->office->type->name == 'VIRTUAL' || $prospect->office->type->name == 'FÍSICA' ) )
+                <div class="alert alert-info">
+                    Nota: Si modifica el contrato agregando más personas adicionales, se realizará un cargo extra en la próxima fecha de pago.
+                </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-xs-12">
                         <label class="required" for="usage">Uso de oficina</label>
@@ -179,7 +182,7 @@
                 </div>
             @endif
             @if( $prospect && ( $prospect->office->type->name == 'VIRTUAL' || $prospect->office->type->name == 'FÍSICA' ) )
-                <div class="alert alert-warning">
+                <div class="alert alert-info">
                     <strong>Nota: </strong>Especifique el número de horas que cuenta el cliente para la sala de juntas o deje este campo vacío para indicar que el cliente cuenta con horas ilimitadas ( Aplican restricciones y disponibilidad )
                 </div>
                 <div class="row">
@@ -277,6 +280,9 @@
             
             <hr>
             <h3>Datos del cliente</h3>
+            <div class="alert alert-info">
+                Nota: Modificar los datos del cliente en el formulario de contrato NO modificará su perfil actual.
+            </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-xs-12">
                     <label class="required" for="customer_name">Nombre o razón social</label>

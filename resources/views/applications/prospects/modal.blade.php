@@ -156,6 +156,10 @@
                             <li class="list-group-item fill-container"><span class="label_show">Correo: <span class="email"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">Teléfono: <span class="phone"></span></span></li>
                             <li class="list-group-item fill-container"><span class="label_show">RFC: <span class="rfc"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Dirección: <span class="address"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Giro empresarial: <span class="business_activity"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Tipo de identificación: <span class="identification_type"></span></span></li>
+                            <li class="list-group-item fill-container"><span class="label_show">Número de identificación: <span class="identification_num"></span></span></li>
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item active">Detalle de la oficina de interés</li>

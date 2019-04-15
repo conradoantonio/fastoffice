@@ -214,14 +214,14 @@ function fill_prospect_offices(data) {
     select.children().remove();
 
     if (data.length) {
-        select.append("<option value='' disabled selected>Seleccione una opción</option>");
+        select.append("<option value='' disabled selected>SELECCIONE UNA OPCIÓN</option>");
         data.forEach( function (opt) {
             address = opt.branch.address;
             address = opt.num_int ? address + ' Num Int: '+opt.num_int : address;
             select.append("<option value="+ opt.id +">"+ opt.name + ' ubicada en ' + address + ' (Precio: $' + opt.price +")</option>");
         });
     } else {
-        select.append("<option value='' disabled selected>No hay oficinas disponibles con este criterio de búsqueda</option>");
+        select.append("<option value='' disabled selected>NO HAY OFICINAS DISPONIBLES CON ESTE CRITERIO DE BÚSQUEDA</option>");
     }
     select.select2("val", "");
 }

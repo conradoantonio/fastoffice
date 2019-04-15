@@ -53,10 +53,10 @@
 					<a href="javascript:;" class="btn btn-xs btn-mini btn view-details" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver detalles"><i class="fa fa-info"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-info view-comments" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Ver comentarios"><i class="fa fa-eye"></i></a>
 
-					@if( $prospect->owner && $prospect->owner->id == auth()->user()->id )
+					@if( auth()->user()->role_id == 1 || $prospect->owner && $prospect->owner->id == auth()->user()->id )
 					<a href="{{route('Crm.prospects.form', $prospect->id)}}" class="btn btn-xs btn-mini btn-edit edit-row" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Editar"><i class="fa fa-pencil"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-success add-comments" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Agregar comentario"><i class="fa fa-comment"></i></a>
-					<a class="btn btn-xs btn-mini btn-primary accept-prospect" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Aceptar prospecto"><i class="fa fa-check"></i></a>
+					<a class="btn btn-xs btn-mini btn-primary accept-prospect" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Generar contrato"><i class="fa fa-file"></i></a>
 					<a href="javascript:;" class="btn btn-xs btn-mini btn-danger reject-prospect" data-toggle="tooltip" data-parent-id="{{$prospect->id}}" data-placement="top" title="Descartar prospecto"><i class="fa fa-trash"></i></a>
 					@endif
 					{{-- <a class="btn btn-xs btn-mini btn-warning" href="" data-toggle="tooltip" data-placement="top" title="Envíar plantilla"><i class="fa fa-envelope"></i></a> --}}

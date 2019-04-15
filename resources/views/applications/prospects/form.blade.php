@@ -35,9 +35,20 @@
 	        	</div>
 	        	<div class="row">
 	        		<div class="form-group col-sm-12 col-xs-12">
+	                    <label class="required" for="branch_id">Franquicia</label>
+		                <select name="branch_id" id="branch_id" class="form-control select2" data-name="Franquicia">
+		                    <option value="" selected>MOSTRAR TODAS</option>
+	                        @foreach($branches as $branch)
+	                            <option value="{{$branch->id}}">{{$branch->name}}</option>
+	                        @endforeach
+		                </select>
+	                </div>
+	        	</div>
+	        	<div class="row">
+	        		<div class="form-group col-sm-12 col-xs-12">
 	                    <label class="required" for="state_id">Estado</label>
 		                <select name="state_id" id="state_id" class="form-control not-empty select2" data-name="Estado">
-		                    <option value="" disabled selected>Seleccione una opción</option>
+		                    <option value="" disabled selected>SELECCIONE UNA OPCIÓN</option>
 		                    @if ($prospect)
 		                        @foreach($states as $state)
 		                            <option value="{{$state->id}}" {{$prospect->detail->state_id == $state->id ? 'selected' : ''}}>{{$state->name}}</option>
@@ -54,7 +65,7 @@
 	        		<div class="form-group col-sm-12 col-xs-12">
 	                    <label class="required" for="office_type_id">Tipo de oficina</label>
 		                <select name="office_type_id" id="office_type_id" class="form-control not-empty select2" data-name="Tipo de oficina">
-		                    <option value="" disabled selected>Seleccione una opción</option>
+		                    <option value="" disabled selected>SELECCIONE UNA OPCIÓN</option>
 		                    @if ($prospect)
 		                        @foreach($officeTypes as $type)
 		                            <option value="{{$type->id}}" {{$prospect->detail->office_type_id == $type->id ? 'selected' : ''}}>{{$type->name}}</option>
@@ -71,7 +82,7 @@
 		        	<div class="form-group col-md-12 col-xs-12">
 		                <label class="required" for="office_id">Oficina</label>
 		                <select name="office_id" id="office_id" class="form-control not-empty select2" data-name="Oficina">
-		                    <option value="" disabled selected>Seleccione una opción</option>
+		                    <option value="" disabled selected>SELECCIONE UNA OPCIÓN</option>
 		                    @if ($prospect)
 		                        @foreach($offices as $office)
 		                            <option value="{{$office->id}}" {{$prospect->office_id == $office->id ? 'selected' : ''}}>{{$office->name}} ubicada en {{$office->address}} (Precio: ${{$office->price}})</option>
@@ -113,7 +124,7 @@
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
         		<div class="form-group col-sm-12 col-xs-12">
                     <label class="required" for="fullname">Nombre completo</label>
-                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'not-empty') : 'not-empty')}}" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
+                    <input type="text" class="form-control upper {{($prospect ? ($prospect->customer ? '' : 'not-empty') : 'not-empty')}}" value="{{$prospect ? $prospect->fullname : ''}}" id="fullname" name="fullname" data-name="Nombre completo">
                 </div>
         	</div>
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
@@ -131,9 +142,36 @@
         	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
                 <div class="form-group col-sm-12 col-xs-12">
                     <label for="rfc">RFC</label>
-                    <input type="text" class="form-control {{($prospect ? ($prospect->customer ? '' : 'rfc') : 'rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
+                    <input type="text" class="form-control upper {{($prospect ? ($prospect->customer ? '' : 'rfc') : 'rfc')}}" value="{{$prospect ? $prospect->rfc : ''}}" id="rfc" name="rfc" data-name="RFC">
                 </div>
         	</div>
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
+        		<div class="form-group col-sm-12 col-xs-12">
+                    <label class="" for="address">Dirección</label>
+                    <input type="text" class="form-control upper" value="{{$prospect ? $prospect->address : ''}}" id="address" name="address" data-name="Dirección">
+                </div>
+        	</div>
+        	<div class="row {{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
+        		<div class="form-group col-sm-12 col-xs-12">
+                    <label class="" for="business_activity">Giro empresarial</label>
+                    <input type="text" class="form-control upper" value="{{$prospect ? $prospect->business_activity : ''}}" id="business_activity" name="business_activity" data-name="Giro empresarial">
+                </div>
+        	</div>
+        	<div class="row">
+        		<div class="{{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
+	        		<div class="form-group col-sm-6 col-xs-12">
+	                    <label class="" for="identification_type">Tipo de identificación</label>
+	                    <input type="text" class="form-control upper" value="{{$prospect ? $prospect->identification_type : ''}}" id="identification_type" name="identification_type" data-name="Tipo de identificación">
+	                </div>
+	        	</div>
+	        	<div class="{{($prospect ? ($prospect->customer ? 'hide' : '') : '')}}">
+	        		<div class="form-group col-sm-6 col-xs-12">
+	                    <label class="" for="identification_num">Número de identificación</label>
+	                    <input type="text" class="form-control upper" value="{{$prospect ? $prospect->identification_num : ''}}" id="identification_num" name="identification_num" data-name="Número de identificación">
+	                </div>
+	        	</div>
+        	</div>
+	        	
         	<a href="{{route('Crm.prospects')}}"><button type="button" class="btn btn-danger">Regresar</button></a>
             <button type="submit" class="btn btn-success guardar" data-target="form-data">Guardar</button>
         </form>
@@ -147,12 +185,12 @@
 					$('#fullname, #email, #phone, #rfc').addClass('not-empty');
 					$('#email').addClass('email');
 					$('#rfc').addClass('rfc');
-					$('#fullname, #email, #phone, #rfc').parent().parent().removeClass('hide');
+					$('#fullname, #email, #phone, #rfc, #address, #business_activity, #identification_type, #identification_num').parent().parent().removeClass('hide');
 				} else {
 					$('#fullname, #email, #phone, #rfc').removeClass('not-empty');
 					$('#email').removeClass('email');
 					$('#rfc').removeClass('rfc');
-					$('#fullname, #email, #phone, #rfc').parent().parent().addClass('hide');
+					$('#fullname, #email, #phone, #rfc, #address, #business_activity, #identification_type, #identification_num').parent().parent().addClass('hide');
 				}
 			});
 

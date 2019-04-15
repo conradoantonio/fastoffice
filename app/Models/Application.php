@@ -19,7 +19,8 @@ class Application extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'office_id', 'taken_by', 'fullname', 'email', 'phone', 'status', 'comment'
+		'user_id', 'office_id', 'taken_by', 'fullname', 'email', 'rfc', 'address', 'business_activity', 
+        'identification_type', 'identification_num', 'phone', 'status', 'comment'
 	];
 
 	/**

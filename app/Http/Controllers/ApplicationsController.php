@@ -66,6 +66,7 @@ class ApplicationsController extends Controller
         $states = State::all();
         $customers = User::where('role_id', 4)->get();
         $officeTypes = OfficeType::all();
+        $branches = Branch::all();
         $offices = Office::where('status', 1)->get();//Falta filtrar por disponibilidad y tipo (privilegio) de usuario de sistema
         if ( $id ) {
             $prospect = Application::where('status', 0)->where('id', $id)->first();
@@ -79,7 +80,7 @@ class ApplicationsController extends Controller
                 $offices = Office::where('id', $prospect->office->id)->where('status', 1)->get();
             }
         }
-        return view('applications.prospects.form', compact('prospect', 'customers', 'offices', 'officeTypes', 'states'));
+        return view('applications.prospects.form', compact('prospect', 'customers', 'offices', 'officeTypes', 'branches', 'states'));
     }
 
 
@@ -106,6 +107,10 @@ class ApplicationsController extends Controller
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
             $prospect->rfc = strtoupper($req->rfc);
+            $prospect->address = $req->address;
+            $prospect->business_activity = $req->business_activity;
+            $prospect->identification_type = $req->identification_type;
+            $prospect->identification_num = $req->identification_num;
         }
 
         $prospect->office_id = $office->id;
@@ -150,9 +155,9 @@ class ApplicationsController extends Controller
         $office = Office::find($req->office_id);
         $state = State::find($req->state_id);
 
-        if (!$prospect) { return response(['msg' => 'Prospecto inválido, refresque esta página', 'status' => 'error', 'refresh' => 'none'], 500); }
-        if (!$office) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
-        if (!$state) { return response(['msg' => 'ID de estado no encontrado, porfavor, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
+        if (! $prospect ) { return response(['msg' => 'Prospecto inválido, refresque esta página', 'status' => 'error', 'refresh' => 'none'], 500); }
+        if (! $office ) { return response(['msg' => 'Esta oficina no se encuentra disponible, seleccione otra', 'status' => 'error', 'refresh' => 'none'], 400); }
+        if (! $state ) { return response(['msg' => 'ID de estado no encontrado, porfavor, trate nuevamente', 'status' => 'error', 'refresh' => 'none'], 404); }
 
         if ($user) {//Comes from a registered user
             $prospect->user_id = $user->id;
@@ -160,12 +165,20 @@ class ApplicationsController extends Controller
             $prospect->email = null;
             $prospect->phone = null;
             $prospect->rfc = null;
+            $prospect->address = null;
+            $prospect->business_activity = null;
+            $prospect->identification_type = null;
+            $prospect->identification_num = null;
         } else {
             $prospect->user_id = 0;
             $prospect->fullname = $req->fullname;
             $prospect->email = $req->email;
             $prospect->phone = $req->phone;
-            $prospect->rfc = $req->rfc;
+            $prospect->rfc = strtoupper($req->rfc);
+            $prospect->address = $req->address;
+            $prospect->business_activity = $req->business_activity;
+            $prospect->identification_type = $req->identification_type;
+            $prospect->identification_num = $req->identification_num;
         }
 
         $prospect->office_id = $office->id;
@@ -175,7 +188,7 @@ class ApplicationsController extends Controller
         #Details
         $detail = ApplicationDetail::find($prospect->detail->id);
 
-        if ($detail) {
+        if ( $detail ) {
             $detail->badget = $req->badget;
             $detail->num_people = $req->num_people;
             $detail->office_type_id = $office->type->id;
@@ -240,7 +253,7 @@ class ApplicationsController extends Controller
 
         $row->save();
 
-        if ($req->has('add_to_calendar')) {
+        if ( $req->has('add_to_calendar') ) {
             $met = New Meeting;
 
             $met->office_id = $row->application->office_id;
@@ -307,6 +320,8 @@ class ApplicationsController extends Controller
         if ( $req->badget ) { $query = $query->where('price', '<=', $req->badget); }
 
         if ( $req->num_people ) { $query = $query->where('num_people', '>=', $req->num_people); }
+
+        if ( $req->branch_id ) { $query = $query->where('branch_id', $req->branch_id); }
 
         if ( $req->office_type_id ) {
             $query = $query->whereHas('type', function($q) use($req) {

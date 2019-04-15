@@ -15,7 +15,7 @@
 		<th class="hide">Status de pago</th>
 		{{-- <th>Status de contrato</th> --}}
 		<th>Saldo de cliente{{-- Monto a pagar --}}</th>
-		<th class="hide">Monto de pago normal</th>
+		<th class="">Monto de pago normal</th>
 		<th class="hide">Monto de pago normal cadena</th>
 		<th class="hide">Monto de pago por atraso cadena</th>
 		<th class="hide">Monto de pago por atraso</th>
@@ -51,7 +51,7 @@
                 </td>
                 {{-- <td>{!! ($contract->cancelation ? "<span class='label label-danger'>Cancelado</span>" : "<span class='label label-info'>Normal</span>") !!}</td> --}}
                 <td>${{ $contract->saldo }}</td>
-                <td class="hide">{{$contract->office->monthly_price}}</td>
+                <td class="">{{$contract->office->monthly_price}}</td>
                 <td class="hide">{{$contract->monthly_payment_str}}</td>
                 <td class="hide">{{$contract->office->price}}</td>
                 <td class="hide">{{$contract->monthly_payment_delay_str}}</td>

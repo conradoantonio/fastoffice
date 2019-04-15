@@ -53,11 +53,11 @@
             $('body').delegate('.accept-prospect','click', function() {
                 var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
                 var customer = $(this).parent().siblings("td:nth-child(3)").text();
-                var office = $(this).parent().siblings("td:nth-child(8)").text();
+                var office = $(this).parent().siblings("td:nth-child(9)").text();
                 var url = "{{url('crm/contracts/formulario')}}"+"/"+prospect_id;
 
                 swal({
-                    title: '¿Realmente quiere aceptar al prospecto ' + customer + ' interesado en la oficina ' + office + '?',
+                    title: '¿Realmente desea generar un contrato para el prospecto ' + customer + ' interesado en ' + office + '?',
                     content: {
                         element: "div",
                         attributes: {
@@ -78,10 +78,10 @@
             $('body').delegate('.take-row','click', function() {
                 var prospect_id = $(this).parent().siblings("td:nth-child(1)").text();
                 var customer = $(this).parent().siblings("td:nth-child(3)").text();
-                var office = $(this).parent().siblings("td:nth-child(8)").text();
+                var office = $(this).parent().siblings("td:nth-child(9)").text();
 
                 swal({
-                    title: '¿Realmente quiere tomar al prospecto ' + customer + ' interesado en la oficina ' + office + '?',
+                    title: '¿Realmente quiere tomar al prospecto ' + customer + ' interesado en ' + office + '?',
                     content: {
                         element: "div",
                         attributes: {
