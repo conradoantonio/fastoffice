@@ -305,7 +305,7 @@ trait GeneralFunctions
 
         $charge->contract_id = $contract->id;
         $charge->amount = round ( $amount, PHP_ROUND_HALF_UP, 2 );
-        $charge->amount_str = ucfirst( $n_words->format( round ( $amount, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
+        $charge->amount_str = strtoupper( $n_words->format( round ( $amount, PHP_ROUND_HALF_UP, 2 ) ) )." $ext_m";
         $charge->pay_date = $pay_date;
         $charge->status = $status;
 

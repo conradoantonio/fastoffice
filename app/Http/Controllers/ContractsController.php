@@ -330,14 +330,14 @@ class ContractsController extends Controller
      */
     public function make_payment(Request $req)
     {
-        dd($req->all());
         $contract = Contract::find($req->contract_id);
-        if (!$contract) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
+        if (! $contract ) { return response(['msg' => 'ID de contrato inválido, trate nuevamente', 'status' => 'error'], 404); }
 
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
         $debt = $contract->charges->sum('amount') - $contract->balance;
         $today = New \DateTime(date("Y-m-d"));
-        
+        $req->payment = (float)$req->payment;
+
         /*if ($req->payment > $debt) {//Si el monto se pasa de la deuda actual
             return response(['msg' => 'La cantidad a pagar no puede ser mayor al total del monto de pago, por favor, trate con otra cantidad', 'status' => 'error'], 400);
             //Puede que sea necesario validar que el monto a webo sea mayor al precio de la oficina

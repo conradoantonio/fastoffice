@@ -270,7 +270,7 @@ function display_payment_history(data) {
                         '<td class="text-center">'+(parseFloat(key)+1)+'</td>'+
                         '<td class="text-center">$'+data[key].payment+' ('+data[key].payment_str+')</td>'+
                         '<td class="text-center">'+data[key].payment_method+'</td>'+
-                        '<td class="text-center">'+(data[key].status == 1 ? '<span class="label label-success">Normal</span>' : '<span class="label label-warning">Atrasado</span>')+'</td>'+
+                        '<td class="text-center">'+( data[key].status == 1 ? '<span class="label label-success">Normal</span>' : ( data[key].status == 2 ? '<span class="label label-warning">Atrasado</span>' : ( data[key].status == 3 ? '<span class="label label-default">Esporádico</span>' : '<span class="label label-danger">Desconocido</span>' ) ) )+'</td>'+
                         '<td class="text-center">'+data[key].new_time+'</td>'+
                     '</tr>'
                 );

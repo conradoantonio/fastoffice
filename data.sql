@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.63 
-MySQL - 5.5.5-10.1.36-MariaDB : Database - fastoffice
+MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
 *********************************************************************
 */
 
@@ -41,17 +41,21 @@ CREATE TABLE `applications` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `regime` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `rfc` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `business_activity` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identification_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identification_num` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 Prospecto, 1 Cliente (está contratado), 2 Concretado (Fue cliente pero terminó contrato), 3 No concretado (Describir razón)',
   `comment` text COLLATE utf8mb4_unicode_ci COMMENT 'La razón por la que NO se cerró el contrato',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications` */
 
-insert  into `applications`(`id`,`user_id`,`office_id`,`taken_by`,`fullname`,`email`,`regime`,`rfc`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,3,1,4,NULL,NULL,NULL,NULL,NULL,1,NULL,'2019-04-10 02:10:28','2019-04-10 02:12:19');
+insert  into `applications`(`id`,`user_id`,`office_id`,`taken_by`,`fullname`,`email`,`regime`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`phone`,`status`,`comment`,`created_at`,`updated_at`) values (1,3,1,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2019-03-21 13:28:53','2019-04-15 12:46:27'),(2,7,2,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'2019-04-15 11:33:09','2019-04-15 15:48:16');
 
 /*Table structure for table `applications_comments` */
 
@@ -82,11 +86,11 @@ CREATE TABLE `applications_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `applications_details` */
 
-insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,5000.00,5,1,'2019-04-10 02:10:28','2019-04-10 02:10:28');
+insert  into `applications_details`(`id`,`application_id`,`state_id`,`badget`,`num_people`,`office_type_id`,`created_at`,`updated_at`) values (1,1,14,5000.00,5,1,'2019-03-21 13:28:53','2019-03-21 13:28:53'),(2,2,14,1000.00,4,2,'2019-04-15 11:33:09','2019-04-15 11:33:09');
 
 /*Table structure for table `attachments` */
 
@@ -247,7 +251,7 @@ CREATE TABLE `charges_contracts` (
   `amount` double(8,2) NOT NULL,
   `amount_str` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pay_date` date NOT NULL,
-  `status` int(11) NOT NULL COMMENT '1 = Cargo mensual normal, 2 = Cargo por atraso, 3 = Cargo por personas extra',
+  `status` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -255,7 +259,7 @@ CREATE TABLE `charges_contracts` (
 
 /*Data for the table `charges_contracts` */
 
-insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,4500.00,'Cuatro mil quinientos PESOS 00/100 M.N.','2019-04-10',1,'2019-04-10 02:39:00','2019-04-10 02:39:00');
+insert  into `charges_contracts`(`id`,`contract_id`,`amount`,`amount_str`,`pay_date`,`status`,`created_at`,`updated_at`) values (1,1,545.50,'QUINIENTOS CUARENTA Y CINCO COMA CINCO PESOS 00/100 M.N.','2019-04-15',1,'2019-04-15 15:48:16','2019-04-15 15:48:16');
 
 /*Table structure for table `companies` */
 
@@ -302,7 +306,7 @@ CREATE TABLE `contracts` (
   `monthly_payment_str` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `monthly_payment_delay_str` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `actual_pay_date` date DEFAULT NULL,
-  `balance` float(8,2) DEFAULT NULL COMMENT 'Amount for pay',
+  `balance` decimal(8,2) DEFAULT NULL COMMENT 'Amount for pay',
   `balance_str` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Amount for pay in string',
   `payment_range_start` int(11) DEFAULT NULL,
   `payment_range_end` int(11) DEFAULT NULL,
@@ -327,7 +331,7 @@ CREATE TABLE `contracts` (
 
 /*Data for the table `contracts` */
 
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`state_id`,`municipality_id`,`country`,`contract_date`,`start_date_validity`,`end_date_validity`,`bank_reference`,`usage`,`additional_people`,`meeting_room_hours`,`telephone_line`,`computer_station`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_rfc`,`customer_rfc`,`customer_email`,`customer_phone`,`customer_identification_type`,`customer_identification_num`,`customer_business_activity`,`customer_address`,`created_at`,`updated_at`) values (1,3,1,1,14,941,'México','2019-04-10','2019-04-10','2020-04-10','1000541258732','OFICINA',0,8,1,1,'CUATRO MIL QUINIENTOS PESOS 00/100 M.N.','CUATRO MIL NOVECIENTOS CINCUENTA PESOS 00/100 M.N.','2019-04-10',4500.00,'CUATRO MIL QUINIENTOS PESOS 00/100 M.N.',10,14,0,NULL,NULL,NULL,NULL,'EDGARD JOSÉ VARGAS FLORES','FOA141110901','CARC941219MC1','anton_con@hotmail.com','9801010','INE','786543154','DESARROLLO WEB','DIRECCIÓN REAL','2019-04-10 02:12:19','2019-04-10 02:39:39');
+insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`state_id`,`municipality_id`,`country`,`contract_date`,`start_date_validity`,`end_date_validity`,`bank_reference`,`usage`,`additional_people`,`meeting_room_hours`,`telephone_line`,`computer_station`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_rfc`,`customer_rfc`,`customer_email`,`customer_phone`,`customer_identification_type`,`customer_identification_num`,`customer_business_activity`,`customer_address`,`created_at`,`updated_at`) values (1,7,2,2,14,941,'México','2019-04-15','2019-04-15','2020-04-15','6856432245','OFICINA',0,5,0,1,'Quinientos cuarenta y cinco coma cinco PESOS 00/100 M.N.','Seiscientos PESOS 00/100 M.N.','2019-04-15','545.50','QUINIENTOS CUARENTA Y CINCO COMA CINCO PESOS 00/100 M.N.',15,19,0,2,NULL,NULL,NULL,'EDGARD JOSÉ VARGAS FLORES','FOA141110901','XAXX010101000','marcos.bely@gmail.com','9801010','INE','4654657/8746548','VENTA DE JOYAS','SAN JUAN DE DIOS #4321','2019-04-15 15:48:16','2019-04-15 15:54:16');
 
 /*Table structure for table `egress_types` */
 
@@ -548,11 +552,11 @@ CREATE TABLE `offices` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`monthly_price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'OFICINA 1','458','9801010',4950.00,4500.00,8,'Lorem ipsum',NULL,2,'2019-03-20 16:38:09','2019-04-15 02:37:56',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`monthly_price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'OFICINA 1','458','9801010',4950.00,4500.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-04-15 15:47:04',NULL),(2,1,0,2,'OFICINA VIRTUAL A','501','9801010',600.00,545.50,4,'lorem ipsum dolor a si met',NULL,2,'2019-04-15 11:22:24','2019-04-15 15:48:16',NULL);
 
 /*Table structure for table `password_resets` */
 
@@ -585,7 +589,7 @@ CREATE TABLE `payments_history` (
 
 /*Data for the table `payments_history` */
 
-insert  into `payments_history`(`id`,`contract_id`,`payment`,`payment_str`,`payment_method`,`status`,`created_at`,`updated_at`) values (1,1,'4500','CUATRO MIL QUINIENTOS PESOS 00/100 M.N.','Tarjeta',1,'2019-04-10 02:39:39','2019-04-10 02:39:39');
+insert  into `payments_history`(`id`,`contract_id`,`payment`,`payment_str`,`payment_method`,`status`,`created_at`,`updated_at`) values (1,1,'545.5','QUINIENTOS CUARENTA Y CINCO COMA CINCO PESOS 00/100 M.N.','Transferencia',3,'2019-04-15 15:54:16','2019-04-15 15:54:16');
 
 /*Table structure for table `question_categories` */
 
@@ -648,7 +652,7 @@ CREATE TABLE `send_history_templates` (
 
 /*Data for the table `send_history_templates` */
 
-insert  into `send_history_templates`(`id`,`prospect_id`,`template_id`,`created_at`,`updated_at`) values (1,1,0,'2019-03-21 13:28:53','2019-03-21 13:28:53'),(2,1,0,'2019-04-10 02:10:28','2019-04-10 02:10:28');
+insert  into `send_history_templates`(`id`,`prospect_id`,`template_id`,`created_at`,`updated_at`) values (1,1,0,'2019-03-21 13:28:53','2019-03-21 13:28:53'),(2,2,0,'2019-04-15 11:33:09','2019-04-15 11:33:09');
 
 /*Table structure for table `states` */
 
@@ -681,11 +685,9 @@ CREATE TABLE `suggested_prices` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `suggested_prices` */
-
-insert  into `suggested_prices`(`id`,`contract_id`,`user_id`,`office_id`,`new_price`,`created_at`,`updated_at`) values (5,1,4,1,4950.00,'2019-04-10 02:12:19','2019-04-10 02:12:19');
 
 /*Table structure for table `templates` */
 
@@ -731,11 +733,11 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'FAST OFFICE CEO','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','bYZsJIPN6n9p0IafyGJYn42MF3rgr0TB0OAxOsK1TS96N6XMppWLlpJ9FGQ0','3331911863',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-09-18 16:39:03','2019-04-10 02:08:53',NULL),(2,0,'EDGARD JOSÉ VARGAS FLORES','franchise@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy',NULL,'9801010','FOA141110901','','','','','/img/profiles/avatar.jpg',2,NULL,0,1,'2019-03-20 12:13:21','2019-04-08 11:07:27',NULL),(3,0,'CONRADO ANTONIO CARRILLO ROSALES','anton_con@hotmail.com','$2y$10$bz5snCEZetzKLQJjcOxqRO7dumbYHcWoUICCbXsYCjN/OqCG3qkAi',NULL,'9801010','CARC941219MC1','DIRECCIÓN REAL','DESARROLLO WEB','INE','786543154','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-03-20 12:21:17','2019-04-08 11:07:28',NULL),(4,1,'KARLA JOSELYN VICENTE RODRÍGUEZ','recepcionist@hotmail.com','$2y$10$od2XW6.M5d0MwC60.EUEs.7I3bxw7TuB1t0HHiurI3nqj5Dw.KyhC','6dnEzRAJTTiAPtFUBz29XKl0DXdOQr7pZVKVs6lE1Spa8LNxQFbNmec6EtPJ','9801010','','','','','','/img/profiles/avatar.jpg',3,NULL,0,1,'2019-03-20 12:24:07','2019-03-27 13:42:14',NULL),(6,0,'MIGUEL ÁNGEL LUPERCIO BASULTO','m.a.lupercionico@gmail.com','$2y$10$z3nSucTN5QTGE2sZ0OFv/O7VOdA5J3zUUloYHVkPyRWZdV02XB/d.',NULL,'9801010','','','','','','/img/profiles/avatar.jpg',5,NULL,0,1,'2019-03-27 10:57:49','2019-03-27 10:59:18',NULL);
+insert  into `users`(`id`,`branch_id`,`fullname`,`email`,`password`,`remember_token`,`phone`,`rfc`,`address`,`business_activity`,`identification_type`,`identification_num`,`photo`,`role_id`,`player_id`,`social`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,0,'FAST OFFICE CEO','admin@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy','f7SrIItu3phSUmwrSfb8eH7aZHpyF5QsiIKmOnbhLxprxR1VWQh3KDChYDwI','3331911863',NULL,NULL,NULL,NULL,NULL,'/img/profiles/avatar.jpg',1,NULL,0,1,'2018-09-18 16:39:03','2019-04-02 09:55:38',NULL),(2,0,'EDGARD JOSÉ VARGAS FLORES','franchise@hotmail.com','$2y$10$QvY4OR4h4uDokjD1gqpjh.rXBc1vskul5WUWOcwS6N3AjTNRvK8Cy',NULL,'9801010','FOA141110901','','','','','/img/profiles/avatar.jpg',2,NULL,0,1,'2019-03-20 12:13:21','2019-04-08 11:07:27',NULL),(3,0,'CONRADO ANTONIO CARRILLO ROSALES','anton_con@hotmail.com','$2y$10$bz5snCEZetzKLQJjcOxqRO7dumbYHcWoUICCbXsYCjN/OqCG3qkAi',NULL,'9801010','CARC941219MC1','DIRECCIÓN REAL','DESARROLLO WEB','INE','786543154','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-03-20 12:21:17','2019-04-08 11:07:28',NULL),(4,1,'KARLA JOSELYN VICENTE RODRÍGUEZ','recepcionist@hotmail.com','$2y$10$od2XW6.M5d0MwC60.EUEs.7I3bxw7TuB1t0HHiurI3nqj5Dw.KyhC','6dnEzRAJTTiAPtFUBz29XKl0DXdOQr7pZVKVs6lE1Spa8LNxQFbNmec6EtPJ','9801010','','','','','','/img/profiles/avatar.jpg',3,NULL,0,1,'2019-03-20 12:24:07','2019-03-27 13:42:14',NULL),(6,0,'MIGUEL ÁNGEL LUPERCIO BASULTO','m.a.lupercionico@gmail.com','$2y$10$z3nSucTN5QTGE2sZ0OFv/O7VOdA5J3zUUloYHVkPyRWZdV02XB/d.',NULL,'9801010','','','','','','/img/profiles/avatar.jpg',5,NULL,0,1,'2019-03-27 10:57:49','2019-03-27 10:59:18',NULL),(7,0,'MARCOS ALFARO','marcos.bely@gmail.com','$2y$10$aX14uquIQwux.qhpxMEK0ursWQ.e7/34i1jckp/oATzdVCj25DYXK',NULL,'9801010','XAXX010101000','SAN JUAN DE DIOS #4321','VENTA DE JOYAS','INE','4654657/8746548','/img/profiles/avatar.jpg',4,NULL,0,1,'2019-04-15 12:07:47','2019-04-15 12:07:47',NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
