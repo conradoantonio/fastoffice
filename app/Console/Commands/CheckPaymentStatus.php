@@ -55,6 +55,8 @@ class CheckPaymentStatus extends Command
         #$contracts = Contract::all();
         $contracts = Contract::whereHas('application', function($query) {
             $query->where('status', 1);#Only current contracts
+        })->whereHas('office', function($que){
+            #Active office is required
         })->get();
         $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
 
