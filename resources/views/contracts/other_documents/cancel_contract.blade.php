@@ -16,7 +16,7 @@
 		<p class="break bold center">CARTA DE TERMINACIÓN DE CONTRATO</p>
 		<br>
 
-		<p class="break right">{{$contract->office->municipality->name}} {{$contract->office->state->name}} {{strftime('%d', strtotime($contract->cancelation->created_at))}} de {{strftime('%B', strtotime($contract->cancelation->created_at))}} del año {{strftime('%Y', strtotime($contract->cancelation->created_at))}}</p>
+		<p class="break right">{{$contract->office->branch->municipality->name}} {{$contract->office->branch->state->name}} {{strftime('%d', strtotime($contract->cancelation->created_at))}} de {{strftime('%B', strtotime($contract->cancelation->created_at))}} del año {{strftime('%Y', strtotime($contract->cancelation->created_at))}}</p>
 		
 		<br><br>
 
@@ -24,8 +24,8 @@
 
 		<br>
 		<p class="justify less-li-he">
-			A través de este documento damos por terminado de común acuerdo el contrato de prestación de servicios que tenemos celebrado en {{$contract->office->address}}, 
-			bajo la denominación de {{$contract->customer->fullname}} y {{$contract->office->branch->user->regime == 'Persona moral' ? 'FAST OFFICE & BENS, S.A DE C.V.' : $contract->office->branch->user->fullname}} 
+			A través de este documento damos por terminado de común acuerdo el contrato de prestación de servicios que tenemos celebrado en {{$contract->office->branch->address}}, 
+			bajo la denominación de {{$contract->customer->fullname}} y {{$contract->office->branch->user->fullname}} 
 			mismo que vence el próximo {{strftime('%d', strtotime($contract->end_date_validity))}} de {{strftime('%B', strtotime($contract->end_date_validity))}} del {{strftime('%Y', strtotime($contract->end_date_validity))}}.
 		</p>
 
@@ -44,7 +44,7 @@
 			<div class="signature signature-fs uppercase center">
 				<br><br>
 				____________________________<br>
-		        <span>{{$contract->office->branch->user->fullname}} {{$contract->office->branch->user->regime == 'Persona moral' ? 'FAST OFFICE & BENS, S.A DE C.V.' : ''}}</span>
+		        <span>{{$contract->office->branch->user->fullname}}</span>
 			</div>
 			<div class="signature signature-fs uppercase center">
 				<br><br>
