@@ -37,7 +37,7 @@
 
 		<br><br>
 
-		<p class="break left">En {{$contract->office->municipality->name}} {{$contract->office->state->name}} a los {{date('d')}} días del mes {{strftime('%B', strtotime(date('Y-m-d')))}} del año {{date('Y')}}</p>
+		<p class="break left">En {{$contract->office->branch->municipality->name}} {{$contract->office->branch->state->name}} a los {{date('d')}} días del mes {{strftime('%B', strtotime(date('Y-m-d')))}} del año {{date('Y')}}</p>
 
 		<br><br><br><br>
 			<div class="signature uppercase center">
