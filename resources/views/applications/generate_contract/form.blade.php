@@ -188,7 +188,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">
                         <label class="" for="meeting_room_hours">Número de horas para la sala de juntas</label>
-                        <input type="text" class="form-control" value="{{$contract ? $contract->meeting_room_hours : ''}}" name="meeting_room_hours" data-name="Número de horas para la sala de juntas">
+                        <input type="text" class="form-control numeric" value="{{$contract ? $contract->meeting_room_hours : ''}}" name="meeting_room_hours" data-name="Número de horas para la sala de juntas">
                     </div>
                 </div>
                 <div class="row">
