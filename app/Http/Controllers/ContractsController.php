@@ -383,7 +383,7 @@ class ContractsController extends Controller
             $office = Office::find($contract->office->id);
 
             $office->price = $req->price;
-            $office->monthly_price = round( $req->price / 1.10, PHP_ROUND_HALF_UP, 2 );
+            $office->monthly_price = round( $req->price * .90, PHP_ROUND_HALF_UP, 2 );
 
             $office->save();
 

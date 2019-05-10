@@ -2,7 +2,8 @@
 SQLyog Ultimate v9.63 
 MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -543,7 +544,7 @@ CREATE TABLE `offices` (
   `num_int` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Int number',
   `phone` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) NOT NULL COMMENT 'List price',
-  `monthly_price` double(8,2) DEFAULT NULL COMMENT 'Monthly price (price / 1.10)',
+  `monthly_price` double(8,2) DEFAULT NULL COMMENT 'Monthly price (price * .90)',
   `num_people` int(11) NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
