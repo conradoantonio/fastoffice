@@ -35,31 +35,31 @@
 		</tr>
 		<tr>
 			<td scope="col">RFC</td>
-			<td scope="col">{{$contract->customer->rfc}}</td>
+			<td scope="col">{{$contract->customer_rfc}}</td>
 		</tr>
 		<tr>
 			<td scope="col">DOMICILIO</td>
-			<td scope="col">{{$contract->customer->address}}</td>
+			<td scope="col">{{$contract->customer_address}}</td>
 		</tr>
 		<tr>
 			<td scope="col">GIRO DE LA EMPRESA</td>
-			<td scope="col">{{$contract->customer->business_activity}}</td>
+			<td scope="col">{{$contract->customer_business_activity}}</td>
 		</tr>
 		<tr>
 			<td scope="col">TIPO DE IDENTIFICACIÓN</td>
-			<td scope="col">{{$contract->customer->identification_type}}</td>
+			<td scope="col">{{$contract->customer_identification_type}}</td>
 		</tr>
 		<tr>
 			<td scope="col">NO. DE IDENTIFICACIÓN</td>
-			<td scope="col">{{$contract->customer->identification_num}}</td>
+			<td scope="col">{{$contract->customer_identification_num}}</td>
 		</tr>
 		<tr>
 			<td scope="col">TELÉFONO</td>
-			<td scope="col">{{$contract->customer->phone}}</td>
+			<td scope="col">{{$contract->customer_phone}}</td>
 		</tr>
 		<tr>
 			<td scope="col">EMAIL</td>
-			<td scope="col">{{$contract->customer->email}}</td>
+			<td scope="col">{{$contract->customer_email}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Firma "EL PRESTADOR"</td>

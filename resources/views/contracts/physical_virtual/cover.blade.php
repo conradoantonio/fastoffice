@@ -105,7 +105,7 @@
 		</tr>
 		<tr>
 			<td scope="col">Sala de juntas</td>
-			<td scope="col" colspan="3">{{$contract->meeting_room_hours >= 0 ? $contract->meeting_room_hours.' horas' : 'Horas ilimitadas'}}</td>
+			<td scope="col" colspan="3">{{$contract->meeting_room_hours == null ? 'Horas ilimitadas' : $contract->meeting_room_hours.' horas'}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Línea telefónica</td>
