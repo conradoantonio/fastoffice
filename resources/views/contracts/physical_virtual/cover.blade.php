@@ -80,7 +80,7 @@
 			<td scope="col">Fecha de inicio de contrato</td>
 			<td scope="col">Del {{strftime('%d', strtotime($contract->start_date_validity))}} de {{strftime('%B', strtotime($contract->start_date_validity))}} de {{strftime('%Y', strtotime($contract->start_date_validity))}}</td>
 			<td scope="col">Fecha de fin de contrato</td>
-			<td scope="col">Al {{strftime('%d', strtotime($contract->start_date_validity))}} de {{strftime('%B', strtotime($contract->start_date_validity))}} de {{strftime('%Y', strtotime($contract->start_date_validity))}}</td>
+			<td scope="col">Al {{strftime('%d', strtotime($contract->end_date_validity))}} de {{strftime('%B', strtotime($contract->end_date_validity))}} de {{strftime('%Y', strtotime($contract->end_date_validity))}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Pago mensual</td>
@@ -105,7 +105,7 @@
 		</tr>
 		<tr>
 			<td scope="col">Sala de juntas</td>
-			<td scope="col" colspan="3">{{$contract->meeting_room_hours == null ? 'Horas ilimitadas' : $contract->meeting_room_hours.' horas'}}</td>
+			<td scope="col" colspan="3">{{$contract->meeting_room_hours == null ? 'Horas ilimitadas, aplican restricciones y disponibilidad' : $contract->meeting_room_hours.' horas'}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Línea telefónica</td>
