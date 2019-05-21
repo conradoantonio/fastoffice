@@ -20,19 +20,15 @@
 			<a href="{{route('Meeting')}}"><img class="img-responsive" src="{{asset('img/dashboard/calendario.png')}}"></a>
 		</div>
 		
-		@if(auth()->user()->role->name != 'Recepcionista')
-			<div class="col-md-3 col-sm-6">
-				<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/egreso.png')}}"></a>
-			</div>
-		@endif
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/egreso.png')}}"></a>
+		</div>
 	</div>
 
 	<div class="row" style="padding-top: 5%;">
-		@if(auth()->user()->role->name != 'Recepcionista')
-			<div class="col-md-3 col-sm-6">
-				<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/ingreso.png')}}"></a>
-			</div>
-		@endif
+		<div class="col-md-3 col-sm-6">
+			<a href="{{route('Erp')}}"><img class="img-responsive" src="{{asset('img/dashboard/ingreso.png')}}"></a>
+		</div>
 		
 		@if(auth()->user()->role->name == 'Administrador')
 			<div class="col-md-3 col-sm-6">
