@@ -51,9 +51,9 @@ class ErpController extends Controller
 
 		if ( $start_date ){
 			#If required, add 00:00:00 to start_date variable
-			$earnings->where('date','>',$start_date);
-			$expenses_fixed->where('date','>',$start_date);
-			$expenses_variable->where('date','>',$start_date);
+			$earnings->where('date','>=',$start_date);
+			$expenses_fixed->where('date','>=',$start_date);
+			$expenses_variable->where('date','>=',$start_date);
 		}
 		if( $end_date ){
 			#If required, add 23:59:59 to end_date variable
