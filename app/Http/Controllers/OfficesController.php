@@ -155,7 +155,7 @@ class OfficesController extends Controller
 					$state = State::where('name', $value->state)->first();
 					$municipality = Municipality::where('name', $value->municipality)->first();
 
-					$office = Office::firstOrCreate(
+					$office = Office::updateOrCreate(
 						['branch_id' => $branch->id, 'name' => $value->name, 'phone' => $value->phone],
 						[
 							'branch_id' => $branch ? $branch->id : 0,

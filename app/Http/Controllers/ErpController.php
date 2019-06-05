@@ -14,38 +14,38 @@ use Excel, Image;
 
 class ErpController extends Controller
 {
-	public function index(Request $req, $id = null, $start_date = null, $end_date = null){
-		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
-			if ( auth()->user()->role_id == 2 ){
+	public function index(Request $req, $id = null, $start_date = null, $end_date = null) {
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
 				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
-			} elseif ( auth()->user()->role_id == 3 ){
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
 				$q->where('branch_id', auth()->user()->branch_id);
 			} else{
-				if( $id ){
-					$q->where('branch_id', $id);
-				}
+				#Bring everything because is admin
 			}
 		});
-		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id){
-			if ( auth()->user()->role_id == 2 ){
-				$q->whereIn('id', auth()->user()->branches->pluck('id'));
-			} elseif ( auth()->user()->role_id == 3 ){
-				$q->where('id', auth()->user()->branch_id);
-			} else {
-				if( $id ){
-					$q->where('id', $id);
-				}
+		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				#Bring everything because is admin
 			}
 		});
-		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id){
-			if ( auth()->user()->role_id == 2 ){
-				$q->whereIn('id', auth()->user()->branches->pluck('id'));
-			} elseif ( auth()->user()->role_id == 3 ){
-				$q->where('id', auth()->user()->branch_id);
-			} else {
-				if( $id ){
-					$q->where('id', $id);
-				}
+		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				#Bring everything because is admin
 			}
 		});
 
@@ -66,8 +66,8 @@ class ErpController extends Controller
 		$expenses_fixed = $expenses_fixed->get();
 		$expenses_variable = $expenses_variable->get();
 
-		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);
-		if ( auth()->user()->role_id == 2 ){
+		$branches = Branch::pluck('name', 'id')->prepend("Mostrar todas",0);#Only if its admin
+		if ( auth()->user()->role_id == 2 ){#Franchise user and has branches assigned
 			if ( auth()->user()->branches  ){
 				$branches = Branch::whereHas('user', function($q){
 					$q->where('id', auth()->user()->id);
@@ -181,7 +181,7 @@ class ErpController extends Controller
 	}
 
 	public function export($id, $start_date, $end_date){
-		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
+		/*$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id){
 			if ( auth()->user()->role_id == 2 ) {
 				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
 			} elseif ( auth()->user()->role_id == 3 ) {
@@ -212,6 +212,40 @@ class ErpController extends Controller
 				if( $id ){
 					$q->where('branch_id', $id);
 				}
+			}
+		});*/
+
+		$earnings = Erp::where('type', 1)->whereHas('office', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				#Bring everything because is admin
+			}
+		});
+		$expenses_fixed = Erp::where(['type' => 2, 'egress_type_id' => 1])->whereHas('branch', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				#Bring everything because is admin
+			}
+		});
+		$expenses_variable = Erp::where(['type' => 2, 'egress_type_id' => 2])->whereHas('branch', function($q) use ($id) {
+			if( $id && ( auth()->user()->role_id == 2 || auth()->user()->role_id == 1 ) ){#Filtered for branch by franchise or admin
+				$q->where('branch_id', $id);
+			} elseif ( auth()->user()->role_id == 2 ) {#Franquiciatario
+				$q->whereIn('branch_id', auth()->user()->branches->pluck('id'));
+			} elseif ( auth()->user()->role_id == 3 ) {#Recepcionista
+				$q->where('branch_id', auth()->user()->branch_id);
+			} else{
+				#Bring everything because is admin
 			}
 		});
 
