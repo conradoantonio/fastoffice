@@ -62,7 +62,7 @@
 			<td scope="col">{{$contract->customer_email}}</td>
 		</tr>
 		<tr>
-			<td scope="col">Firma "EL PRESTADOR"</td>
+			<td scope="col">Firma "EL CLIENTE"</td>
 			<td scope="col"><br><br><br><br><br></td>
 		</tr>
 	</tbody>
