@@ -63,7 +63,7 @@ class CheckPaymentStatus extends Command
 
         $contracts->each(function($item, $key) use ($year, $month, $today, $n_words, &$count, $ext_m) {
             $cus_st_da = new \DateTime($year.'-'.$month.'-'.$item->payment_range_start);//Real one date
-            $saldo = $item->balance - $item->charges->sum('amount');#Calcula la diferencia de lo que ha pagado con lo que debe
+            $saldo = number_format($item->balance - number_format($item->charges->sum('amount'), 2, '.', ''), 2, '.', '');#Calcula la diferencia de lo que ha pagado con lo que debe
 
             //dd($cus_st_da);
             //$start_date = date('Y-m-d', strtotime($item->actual_pay_date));

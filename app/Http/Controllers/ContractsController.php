@@ -36,7 +36,9 @@ class ContractsController extends Controller
         $branches = Branch::where('status', 1)->get();
 
         foreach ($contracts as &$item) {
-            $item->saldo = $item->balance - $item->charges->sum('amount');
+            $item->saldo = number_format($item->balance - number_format($item->charges->sum('amount'), 2, '.', ''), 2, '.', '');
+            #$item->saldo = $item->balance - number_format($item->charges->sum('amount'), 2, '.', '');
+
         }
 
         if ( $req->ajax() ) {
