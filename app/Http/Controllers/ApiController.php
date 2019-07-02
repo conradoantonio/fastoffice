@@ -247,7 +247,7 @@ class ApiController extends Controller
     		$con->office->contrac_id = $con->id;
     		$con->office->type;
             $con->office->pictures;
-            $con->office->municipality->state;
+            $con->office->branch->municipality->state;
             $con->office->setHidden(['state_id', 'user_id', 'municipality_id', 'photo', 'created_at', 'updated_at', 'deleted_at']);
 
     		$offices[] = $con->office;
@@ -532,6 +532,7 @@ class ApiController extends Controller
      */
     public function save_question_photo(Request $req)
     {
+        \Log::info('Foto para detalle id: '. $req->audit_detail_id);
     	$detail = AuditDetail::find($req->audit_detail_id);
 
     	if (!$detail) { return response(['msg' => 'ID de detalle inválido', 'code' => 0], 200); }
