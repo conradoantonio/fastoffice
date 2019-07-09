@@ -114,7 +114,8 @@ class ApplicationsController extends Controller
         }
 
         $prospect->office_id = $office->id;
-        $prospect->taken_by = auth()->user()->id;
+
+        $prospect->taken_by = auth()->check() ? auth()->user()->id : null;
 
         $prospect->save();
         $prospect->sendHistoryTemplate()->save(new SendHistoryTemplate);
