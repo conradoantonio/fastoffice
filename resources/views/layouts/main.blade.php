@@ -7,7 +7,7 @@
 	<meta name="base-url" content="{{ url('') }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta content="" name="description" />
-	<meta content="Luis Castañeda" name="author" />
+	<meta content="Fastoffice" name="author" />
 
 	<link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
 

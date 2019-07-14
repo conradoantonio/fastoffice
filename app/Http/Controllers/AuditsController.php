@@ -42,6 +42,43 @@ class AuditsController extends Controller
 		return view('audits.show', compact('audit', 'details'));
 	}
 
+	public function getSummary($id){
+		$audit = Audit::find($id);
+
+		if (! $audit ){ return view('errors.404'); }
+
+		$details = array();
+
+		foreach($audit->auditDetail as $key => $item) {
+			$details[$item->question->category->name][$key] = $item;
+		}
+		unset($audit->auditDetail);
+
+		return view('audits.summary', compact('audit', 'details'));
+	}
+
+	/**
+     * Send an email to the franchise with an audit result
+     *
+     * @return Mensaje de exito o msg al enviar correo
+     */
+    public function sendSummary(Request $req)
+    {
+		$audit = Audit::find($req->audit_id);
+
+        $params = array();
+        $params['subject'] = "Resumen de auditoría";
+        $params['title'] = "Resumen de auditoría";
+        $params['content'] = "Hola ".$audit->branch->user->fullname.", accese al siguiente <a target='_blank' href='".url('resumen-de-auditoria/'.$audit->id)."'>enlace</a> para ver los detalles de tu auditoría.";
+        $params['email'] = $audit->branch->user->email;
+        $params['view'] = 'mails.general';
+
+        if ( $this->mail($params) ) {
+            return response(['msg' => 'Se ha enviado un correo', 'code' => 1], 200);
+        }
+        return response([ 'msg' => "Algo salió mal... intente nuevamente", 'code' => 0], 200);
+    }
+
 	public function form($id = null){
 		$office = new Office();
 		$types = OfficeType::pluck('name', 'id')->prepend("Seleccione un tipo", 0);

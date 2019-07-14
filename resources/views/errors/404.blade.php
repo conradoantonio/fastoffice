@@ -70,10 +70,11 @@
 				<div class="title m-b-md">
 					No se a podido acceder a la url
 				</div>
-
+				@if(auth()->check())
 				<div class="links">
 					<a href="{{URL::previous()}}">Regresar</a>
 				</div>
+				@endif
 			</div>
 		</div>
 	</body>

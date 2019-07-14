@@ -21,4 +21,29 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    $('body').delegate('.send-summary','click', function() {
+        var audit_id = $(this).data('row-id');
+        var franchise = $(this).data('').siblings("td:nth-child(3)").text();
+
+
+        swal({
+            title: '¿Realmente desea enviar el resultado de la auditoría a la franquicia ' + franchise + '?',
+            icon: 'warning',
+            buttons:["Cancelar", "Aceptar"],
+            dangerMode: true,
+        }).then((accept) => {
+            if (accept) {
+                config = {
+                    'id'           : prospect_id,
+                    'route'        : "{{route('Audit.send')}}",
+                    'method'       : 'POST',
+                    'refresh'      : 'table',
+                }
+
+                ajaxSimple(config);
+            }
+        }).catch(swal.noop);
+    });
+</script>
 @endsection

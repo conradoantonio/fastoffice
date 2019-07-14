@@ -320,3 +320,10 @@ input:-webkit-autofill {
 .lower {
 	text-transform: lowercase !important;
 }
+
+.profile-pic {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: fill;
+}

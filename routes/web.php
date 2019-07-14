@@ -17,6 +17,10 @@ Route::get('', function () {
 	return Redirect::to('login');
 });
 
+/*Web route for show the summary of an audit*/
+Route::get('resumen-de-auditoria/{id?}', 'AuditsController@getSummary')->name('Audits.summary');
+
+
 /*-- Login --*/
 Route::get('login', function () {
 	return view('login');
@@ -158,6 +162,7 @@ Route::group(['middleware' => ['auth']], function() {
 		#Auditorias
 		Route::get('auditorias/{id?}', 'AuditsController@index')->name('Audit');
 		Route::get('detalle-auditoria/{id}', 'AuditsController@show')->name('Audit.show');
+		Route::post('send-summary', 'AuditsController@sendSummary')->name('Audit.send');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Franquiciatario'], function() {
