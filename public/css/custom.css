@@ -321,6 +321,10 @@ input:-webkit-autofill {
 	text-transform: lowercase !important;
 }
 
+.capitalize {
+	text-transform: capitalize !important;
+}
+
 .profile-pic {
 	width: 150px;
 	height: 150px;

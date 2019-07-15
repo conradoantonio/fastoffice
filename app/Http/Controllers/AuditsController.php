@@ -69,14 +69,14 @@ class AuditsController extends Controller
         $params = array();
         $params['subject'] = "Resumen de auditoría";
         $params['title'] = "Resumen de auditoría";
-        $params['content'] = "Hola ".$audit->branch->user->fullname.", accese al siguiente <a target='_blank' href='".url('resumen-de-auditoria/'.$audit->id)."'>enlace</a> para ver los detalles de tu auditoría.";
+        $params['content'] = "Hola <span class='capitalize'>".$audit->branch->user->fullname."</span>, una auditoría ha sido realizada en una de sus franquicias, accede al siguiente <a target='_blank' href='".url('resumen-de-auditoria/'.$audit->id)."'>enlace</a> para ver los detalles.";
         $params['email'] = $audit->branch->user->email;
         $params['view'] = 'mails.general';
 
         if ( $this->mail($params) ) {
-            return response(['msg' => 'Se ha enviado un correo', 'code' => 1], 200);
+            return response(['msg' => 'Se ha enviado un enlace para visualizar el resultado de auditoría al franquiciatario', 'status' => 'success'], 200);
         }
-        return response([ 'msg' => "Algo salió mal... intente nuevamente", 'code' => 0], 200);
+        return response(['msg' => "Algo salió mal al enviar el correo... intente nuevamente", 'status' => 'error'], 200);
     }
 
 	public function form($id = null){
