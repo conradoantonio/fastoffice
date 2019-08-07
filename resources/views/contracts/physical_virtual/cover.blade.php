@@ -94,7 +94,7 @@
 		</tr>
 		<tr>
 			<td scope="col">Depósito en garantía</td>
-			<td scope="col" colspan="3">${{$contract->office->monthly_price}} pesos</td>
+			<td scope="col" colspan="3">{{$contract->guarantee_deposit}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Personas adicionales:</td>

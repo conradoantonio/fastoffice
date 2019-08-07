@@ -192,6 +192,18 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="" for="guarantee_deposit">Depósito en garantía</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->guarantee_deposit : ''}}" name="guarantee_deposit" data-name="Depósito en garantía">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12 col-xs-12">
+                        <label class="" for="guarantee_deposit_str">Depósito en garantía (en palabras)</label>
+                        <input type="text" class="form-control not-empty" value="{{$contract ? $contract->guarantee_deposit_str : ''}}" name="guarantee_deposit_str" data-name="Depósito en garantía (en palabras)">
+                    </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-sm-12 col-xs-12">{{-- Don't save in contract --}}
                         <label class="required" for="monthly_payment">Pago mensual $</label>
                         <input type="text" class="form-control not-empty" disabled value="${{$prospect && $prospect->office ? $prospect->office->monthly_price : ''}}" name="monthly_payment" data-name="Pago mensual">

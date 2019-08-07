@@ -1,9 +1,8 @@
 /*
 SQLyog Ultimate v9.63 
-MySQL - 5.5.5-10.1.31-MariaDB : Database - fastoffice
+MySQL - 5.5.5-10.1.40-MariaDB : Database - fastoffice
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -302,6 +301,8 @@ CREATE TABLE `contracts` (
   `usage` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Oficina, comercial, consultorio',
   `additional_people` int(11) DEFAULT NULL,
   `meeting_room_hours` int(11) DEFAULT NULL COMMENT 'Indicates the amount of hours destinated to meeting rooms',
+  `guarantee_deposit` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guarantee_deposit_str` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telephone_line` tinyint(4) DEFAULT NULL COMMENT 'Indicates if office includes telephone line',
   `computer_station` tinyint(4) DEFAULT '0' COMMENT 'Indicates if office includes computer station',
   `monthly_payment_str` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -332,7 +333,7 @@ CREATE TABLE `contracts` (
 
 /*Data for the table `contracts` */
 
-insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`state_id`,`municipality_id`,`country`,`contract_date`,`start_date_validity`,`end_date_validity`,`bank_reference`,`usage`,`additional_people`,`meeting_room_hours`,`telephone_line`,`computer_station`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_rfc`,`customer_rfc`,`customer_email`,`customer_phone`,`customer_identification_type`,`customer_identification_num`,`customer_business_activity`,`customer_address`,`created_at`,`updated_at`) values (1,7,2,2,14,941,'México','2019-04-15','2019-04-15','2020-04-15','6856432245','OFICINA',0,5,0,1,'Quinientos cuarenta y cinco coma cinco PESOS 00/100 M.N.','Seiscientos PESOS 00/100 M.N.','2019-04-15','545.50','QUINIENTOS CUARENTA Y CINCO COMA CINCO PESOS 00/100 M.N.',15,19,0,2,NULL,NULL,NULL,'EDGARD JOSÉ VARGAS FLORES','FOA141110901','XAXX010101000','marcos.bely@gmail.com','9801010','INE','4654657/8746548','VENTA DE JOYAS','SAN JUAN DE DIOS #4321','2019-04-15 15:48:16','2019-04-15 15:54:16');
+insert  into `contracts`(`id`,`user_id`,`application_id`,`office_id`,`state_id`,`municipality_id`,`country`,`contract_date`,`start_date_validity`,`end_date_validity`,`bank_reference`,`usage`,`additional_people`,`meeting_room_hours`,`guarantee_deposit`,`guarantee_deposit_str`,`telephone_line`,`computer_station`,`monthly_payment_str`,`monthly_payment_delay_str`,`actual_pay_date`,`balance`,`balance_str`,`payment_range_start`,`payment_range_end`,`status`,`office_type_category_id`,`start_hour`,`end_hour`,`total_hours`,`provider_name`,`provider_rfc`,`customer_rfc`,`customer_email`,`customer_phone`,`customer_identification_type`,`customer_identification_num`,`customer_business_activity`,`customer_address`,`created_at`,`updated_at`) values (1,7,2,2,14,941,'México','2019-04-15','2019-04-15','2020-04-15','6856432245','OFICINA',0,5,'$545.5','Quinientos cuarenta y cinco coma cinco PESOS 00/100 M.N.',0,1,'QUINIENTOS CUARENTA Y CINCO COMA CINCO PESOS 00/100 M.N.','SEISCIENTOS PESOS 00/100 M.N.','2019-04-15','0.00','CERO PESOS 00/100 M.N.',15,19,0,2,NULL,NULL,NULL,'EDGARD JOSÉ VARGAS FLORES','FOA141110901','XAXX010101000','marcos.bely@gmail.com','9801010','INE','4654657/8746548','VENTA DE JOYAS','SAN JUAN DE DIOS #4321','2019-04-15 15:48:16','2019-08-07 10:26:23');
 
 /*Table structure for table `egress_types` */
 
@@ -557,7 +558,7 @@ CREATE TABLE `offices` (
 
 /*Data for the table `offices` */
 
-insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`monthly_price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'OFICINA 1','458','9801010',4950.00,4500.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-04-15 15:47:04',NULL),(2,1,0,2,'OFICINA VIRTUAL A','501','9801010',600.00,545.50,4,'lorem ipsum dolor a si met',NULL,2,'2019-04-15 11:22:24','2019-04-15 15:48:16',NULL);
+insert  into `offices`(`id`,`branch_id`,`user_id`,`office_type_id`,`name`,`num_int`,`phone`,`price`,`monthly_price`,`num_people`,`description`,`photo`,`status`,`created_at`,`updated_at`,`deleted_at`) values (1,1,0,1,'OFICINA 1','458','9801010',4950.00,4500.00,8,'Lorem ipsum',NULL,1,'2019-03-20 16:38:09','2019-04-15 15:47:04',NULL),(2,1,0,2,'OFICINA VIRTUAL A','501','9801010',600.00,545.50,4,'lorem ipsum dolor a si met',NULL,2,'2019-04-15 11:22:24','2019-08-07 10:26:23',NULL);
 
 /*Table structure for table `password_resets` */
 

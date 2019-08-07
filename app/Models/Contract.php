@@ -19,10 +19,10 @@ class Contract extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'application_id', 'office_id', 'state_id', 'municipality_id', 'country', 'contract_date', 'start_date_validity', 'end_date_validity', 'bank_reference', 'usage', 'additional_people', 'meeting_room_hours', 
-        'telephone_line', 'computer_station', 'monthly_payment_str', 'monthly_payment_delay_str', 'actual_pay_date', 'balance', 'balance_str', 'payment_range_start', 'payment_range_end', 'status', 'office_type_category_id', 
-        'start_hour', 'end_hour', 'total_hours', 'provider_name', 'provider_rfc', 'customer_rfc', 'customer_email', 'customer_phone', 'customer_identification_type', 'customer_identification_num', 'customer_business_activity', 
-        'customer_address' 
+		'user_id', 'application_id', 'office_id', 'state_id', 'municipality_id', 'country', 'contract_date', 'start_date_validity', 'end_date_validity', 'bank_reference', 'usage', 'additional_people', 'meeting_room_hours',
+        'guarantee_deposit', 'guarantee_deposit_str', 'telephone_line', 'computer_station', 'monthly_payment_str', 'monthly_payment_delay_str', 'actual_pay_date', 'balance', 'balance_str', 'payment_range_start', 'payment_range_end', 
+        'status', 'office_type_category_id', 'start_hour', 'end_hour', 'total_hours', 'provider_name', 'provider_rfc', 'customer_rfc', 'customer_email', 'customer_phone', 'customer_identification_type', 'customer_identification_num',
+        'customer_business_activity', 'customer_address' 
 	];
 
 	/**

@@ -189,6 +189,8 @@ class ContractsController extends Controller
         $contract->telephone_line = $req->has('telephone_line') ? 1 : 0;
         $contract->computer_station = $req->has('computer_station') ? 1 : 0;
         $contract->meeting_room_hours = $req->meeting_room_hours;
+        $contract->guarantee_deposit = $req->guarantee_deposit;
+        $contract->guarantee_deposit_str = $req->guarantee_deposit_str;
 
         //Balance fields
         $contract->balance = 0;
@@ -300,7 +302,8 @@ class ContractsController extends Controller
         $contract->telephone_line = $req->has('telephone_line') ? 1 : 0;
         $contract->computer_station = $req->has('computer_station') ? 1 : 0;
         $contract->meeting_room_hours = $req->meeting_room_hours;
-
+        $contract->guarantee_deposit = $req->guarantee_deposit;
+        $contract->guarantee_deposit_str = $req->guarantee_deposit_str;
         //Balance fields
         $contract->balance = 0;
         $contract->balance_str = mb_strtoupper($n_words->format(0), 'UTF-8')." $this->ext_m";
