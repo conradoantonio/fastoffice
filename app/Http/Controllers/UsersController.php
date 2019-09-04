@@ -247,6 +247,50 @@ class UsersController extends Controller
     }
 
     /**
+     * Use Excel instance to export all app users at once, even the deleted one.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $req)
+    {
+    	$rows = array();
+        
+		$roles_id = [4];
+
+		$users = User::whereIn('role_id',$roles_id)->withTrashed()->get();
+
+        foreach ( $users as $users ) {
+            $rows [] = 
+            [
+                'Nombre completo' => $users->fullname,
+                'Email' => $users->email,
+                'Teléfono' => $users->phone,
+                'RFC' => $users->rfc,
+                'Dirección' => $users->address,
+                'Acividad empresarial' => $users->business_activity,
+                'Tipo de identificación' => $users->identification_type,
+                'Número de identificación' => $users->identification_num,
+                'Status de usuario' => $users->deleted_at ? 'Eliminado' : 'Activo',
+            ];
+        }
+
+        Excel::create('Usuarios', function( $excel ) use ( $rows ) {
+            $excel->sheet('Hoja 1', function( $sheet ) use ( $rows ) {
+                $sheet->cells('A:I', function( $cells ) {
+                    $cells->setAlignment('center');
+                    $cells->setValignment('center');
+                });
+                
+                $sheet->cells('A1:I1', function( $cells ) {
+                    $cells->setFontWeight('bold');
+                });
+
+                $sheet->fromArray( $rows );
+            });
+        })->export('xlsx');
+    }
+
+    /**
      * Send a specific template to selected prospects
      *
      * @return \Illuminate\Http\Response

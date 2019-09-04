@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		#Usuarios
 		Route::get('usuarios-aplicacion', 'UsersController@index')->name('User.index2');
+		Route::get('usuarios-aplicacion/export', 'UsersController@export')->name('User.index2.export');
 	});
 
 	Route::group(['middleware' => 'role:Administrador,Recepcionista'], function() {
