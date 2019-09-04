@@ -14,7 +14,7 @@
 	<div class="row-fluid text-left buttons-container">
 		@if(auth()->user()->role->name == 'Administrador')
 			<a href="{{route('User.form', ['type' => Route::currentRouteName() == 'User.index1' ? 'sistema' : 'app'])}}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Nuevo usuario de {{Route::currentRouteName() == 'User.index1' ? 'Sistema' : 'Aplicación'}}</a>
-            <button class="btn btn-warning export"><i class="fa fa-excel-o"></i> Descargar excel</button>
+            <button class="btn btn-warning export"><i class="fa fa-file-excel-o"></i> Descargar excel</button>
 		@endif
 		<button class="btn btn-info" data-target="#send-template" data-toggle="modal"><i class="fa fa-paper-plane"></i> Enviar plantilla</button>
 	</div>
