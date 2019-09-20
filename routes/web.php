@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth']], function() {
 			Route::get('/{id?}', 'ContractsController@index')->name('Crm.contracts');
 			Route::get('ver-contrato/{id?}', 'ContractsController@show_contract')->name('Crm.prospects.show_contract');//View contracts
 			Route::get('recibo-de-dinero/{id?}/{pay_type?}/{status?}/{sporadic_payment?}', 'ContractsController@show_money_receipt')->name('Crm.contracts.show_money_receipt');
+			Route::post('renovar-contrato', 'ContractsController@renew_contract')->name('Crm.contracts.renew_contract');
 			Route::get('formulario/{app_id}/{contract_id?}', 'ContractsController@form')->name('Crm.contracts.form');
 			Route::post('obtener-cargos', 'ContractsController@get_charges')->name('Crm.contracts.get_charges');
 			Route::post('obtener-historial-pagos', 'ContractsController@get_payment_history')->name('Crm.contracts.get_payment_history');

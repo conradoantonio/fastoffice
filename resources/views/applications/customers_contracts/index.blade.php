@@ -41,6 +41,15 @@
 
     @push('scripts')
         <script type="text/javascript">
+            $(function() {
+                $(".input-date-c").datepicker({
+                    language: 'es',
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: "yyyy-mm-dd",
+                    clearBtn: true,
+                });
+            });
             //View only comments
             $('body').delegate('.view-comments','click', function() {
                 $('div.load-bar').removeClass('hide');
@@ -131,7 +140,6 @@
 
             //Code to load input content for the payment recepit pdf
             $('body').delegate('#form-payment-receipt select[name=status]', 'change', function() {
-
                 if ($(this).val() == 3) {//Esporádico
                     $('input[name=sporadic_payment]').parent().removeClass('hide');
                     $('input[name=sporadic_payment]').addClass('not-empty');
@@ -139,7 +147,6 @@
                     $('input[name=sporadic_payment]').parent().addClass('hide');
                     $('input[name=sporadic_payment]').removeClass('not-empty');
                 }
-                
             });
 
             //Load payments history
@@ -298,6 +305,15 @@
                         ajaxSimple(config);
                     }
                 }).catch(swal.noop);
+            });
+
+            //Renew contract
+            $('body').delegate('.renew-contract','click', function() {
+                var id = $(this).parent().siblings("td:nth-child(1)").text();
+
+                $('#renew-contract-modal input[name=contract_id]').val(id);
+                
+                $('div#renew-contract-modal').modal('show');
             });
         </script>
     @endpush

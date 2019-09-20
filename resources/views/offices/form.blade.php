@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			<div class="alert alert-info">
-                Proporcione el precio de lista (precio por pago tardío) con un máximo de hasta 2 decimales, el sistema calculará en automático el precio por pronto pago dividiendo el monto entre 1.10
+                Proporcione el precio de lista (precio por pago tardío) con un máximo de hasta 2 decimales, el sistema calculará en automático el precio por pronto pago multiplicando el monto por 0.90
             </div>
 			<div class="row">
 				<div class="form-group col-md-6 {{$errors->office->first('price')?'has-error':''}}">

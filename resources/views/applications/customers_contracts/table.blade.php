@@ -83,6 +83,7 @@
 
 					@if ( auth()->user()->role_id == 1 || ( auth()->user()->role_id == 2 && auth()->user()->id == $contract->office->branch->user->id ) || ( auth()->user()->role_id == 3 && auth()->user()->branch_id == $contract->office->branch->id ) )
 						<a href="javascript:;" class="btn btn-xs btn-mini btn-cancel finish-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Finalizar contrato"><i class="fa fa-flag-checkered"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-mini btn-success renew-contract" data-toggle="tooltip" data-parent-id="{{$contract->id}}" data-placement="top" title="Renovar contrato"><i class="fa fa-file-text-o"></i></a>
 					@endif
 				</td>
 			</tr>

@@ -493,6 +493,38 @@ class ContractsController extends Controller
     }
 
     /**
+     * Renew a contract
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function renew_contract(Request $req)
+    {
+        $contract = Contract::find($req->contract_id);
+        if (! $contract ) { return response(['msg' => 'Contrato no encontrado', 'status' => 'error'], 404); }
+
+        $application = Application::find($contract->application_id);
+        if (! $application ) { return response(['msg' => 'Contrato no encontrado', 'status' => 'error'], 404); }
+
+        $office = Office::find($contract->office_id);
+        if (! $office ) { return response(['msg' => 'Oficina no encontrado', 'status' => 'error'], 404); }
+
+        $n_words = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+
+        $office->price = $req->list_price;
+        $office->monthly_price = round( $req->list_price * .90, PHP_ROUND_HALF_UP, 2 );
+
+        $office->save();
+
+        $contract->end_date_validity = $req->end_date_validity;
+        $contract->monthly_payment_str = mb_strtoupper( $n_words->format( $office->monthly_price ), 'UTF-8')." $this->ext_m";
+        $contract->monthly_payment_delay_str = mb_strtoupper( $n_words->format( $office->price ), 'UTF-8')." $this->ext_m";
+
+        $contract->save();
+
+        return response(['msg' => 'Contrato renovado correctamente', 'status' => 'success', 'url' => url('crm/contracts')], 200);
+    }
+
+    /**
      * Finish a contract
      *
      * @return \Illuminate\Http\Response

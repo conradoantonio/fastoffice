@@ -227,3 +227,43 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="label-title" id="renew-contract-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="label-title">Renovar contrato</h4>
+            </div>
+            <form id="form-data-renew" class="valid ajax-plus" action="{{route('Crm.contracts.renew_contract')}}" onsubmit="return false;" enctype="multipart/form-data" method="POST" autocomplete="off" data-ajax-type="ajax-form-modal" data-column="0" data-refresh="table" data-redirect="0" data-table_id="rows" data-container_id="table-container">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-xs-12 hide">
+                            <label class="required" for="contract_id">ID</label>
+                            <input type="text" class="not-empty" name="contract_id" data-name="ID">
+                        </div>
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <div class="alert alert-info">
+                                Proporcione el precio de lista (precio por pago tardío) con un máximo de hasta 2 decimales, el sistema calculará en automático el precio por pronto pago multiplicando el monto por 0.90
+                                <strong>Nota</strong><br>
+                                Se modificará el precio real de la oficina.
+                                Se reflejará el nuevo precio de la oficina en la siguiente fecha de cargo.
+                            </div>
+                            <label class="required" for="list_price">Nuevo precio de lista</label>
+                            <input type="text" class="form-control not-empty decimals" name="list_price" data-name="Precio de lista">
+                        </div>
+                        <div class="form-group col-sm-12 col-xs-12">
+                            <label class="required" for="end_date_validity">Fin de vigencia del contrato</label>
+                            <input type="text" class="form-control input-date-c not-empty" name="end_date_validity" data-name="Fin de vigencia del contrato">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary guardar" data-target="form-data-renew">Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
