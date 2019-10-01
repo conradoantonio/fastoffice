@@ -41,6 +41,9 @@
 				@endif
 			</div>
 		</div>
+		<div>
+			<a href="https://fastoffice.mx/" target="_blank"><img src="{{asset('img/mail/cintillo.jpeg')}}" style='width: 100%;'></a>
+		</div>
 		<div style="text-align:center; background:#3d3d3d; font-size:15px; font-weight:900; padding:6px 0px; color: floralwhite">
 			<span>Desarrollado por Bridge Studio</span>
 		</div>
