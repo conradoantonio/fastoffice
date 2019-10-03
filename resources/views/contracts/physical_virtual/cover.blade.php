@@ -68,7 +68,7 @@
 <table id="" class="table table-bordered table-sm ">
 	<thead>
 		<tr>
-			<th colspan="4">CONCONDICIONES DEL CONTRATO DE SERVICIOS</th>
+			<th colspan="4">CONDICIONES DEL CONTRATO DE SERVICIOS</th>
 		</tr>
 	</thead>
 	<tbody class="left">
@@ -94,7 +94,11 @@
 		</tr>
 		<tr>
 			<td scope="col">Depósito en garantía</td>
-			<td scope="col" colspan="3">{{$contract->guarantee_deposit}}</td>
+			<td scope="col" colspan="3">${{$contract->guarantee_deposit}} pesos</td>
+		</tr>
+		<tr>
+			<td scope="col">Oficina amueblada para:</td>
+			<td scope="col" colspan="3">{{$contract->office->num_people}}</td>
 		</tr>
 		<tr>
 			<td scope="col">Personas adicionales:</td>

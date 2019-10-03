@@ -1,9 +1,6 @@
 <html>
 	<head></head>
 	<body>
-		{{-- <div>
-			<img src="{{asset('img/mail/mailheader.jpg')}}" style='width: 100%;'>
-		</div> --}}
 		<div style="text-align: justify; padding: 2% 10%;background: whitesmoke;">
 			<h1 style="margin-top: 0px;">{{$title}}</h1>
 			<div style='text-align:center;width: 50%;margin: auto;'>
