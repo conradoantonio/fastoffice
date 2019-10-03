@@ -257,20 +257,19 @@
                         </div>
                     </div>
                 @endif
+                <div class="alert alert-info">
+                    El formato de fecha debe de ser de 24 horas, es decir hh:mm (por ejemplo 14:30).
+                </div>
                 <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
+                    <div class="form-group col-md-4 col-xs-12">
                         <label class="required" for="start_hour">Hora inicio</label>
-                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->start_hour : ''}}" name="start_hour" data-name="Hora inicio">
+                        <input type="text" class="form-control time-format clockpicker not-empty" value="{{$contract ? $contract->start_hour : ''}}" name="start_hour" data-name="Hora inicio">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
+                    <div class="form-group col-md-4 col-xs-12">
                         <label class="required" for="end_hour">Hora fin</label>
-                        <input type="text" class="form-control clockpicker not-empty" value="{{$contract ? $contract->end_hour : ''}}" name="end_hour" data-name="Hora fin">
+                        <input type="text" class="form-control time-format clockpicker not-empty" value="{{$contract ? $contract->end_hour : ''}}" name="end_hour" data-name="Hora fin">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12 col-xs-12">
+                    <div class="form-group col-md-4 col-xs-12">
                         <label class="required" for="total_hours">Total de horas</label>
                         <input type="text" class="form-control not-empty" value="{{$contract ? $contract->total_hours : ''}}" name="total_hours" data-name="Total de horas">
                     </div>

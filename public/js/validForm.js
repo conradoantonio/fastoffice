@@ -13,9 +13,10 @@
 * email: El campo debe ser un correo
 */
 
-var regEmail = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,6})$/
+var regEmail = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,6})$/;
 var regExprRfc = /^([A-Z a-z,Ñ ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z a-z|\d]{3})$/;
-var regDecimals = /^[0-9]+([.][0-9]{1,2})?$/
+var regDecimals = /^[0-9]+([.][0-9]{1,2})?$/;
+var regTime = /^(?:[01]\d|2[0123]):(?:[012345]\d)(:(?:[012345]\d)){0,}$/;
 
 /* ----- KEYPRESS SECTION ----- */
 $('.numeric').keypress(function(e) {
@@ -154,6 +155,20 @@ $(".rfc").blur(function() {
 $('.decimals').blur(function() {
 	if ( $(this).val() ){
 		if(!regDecimals.test($(this).val())) {
+			if ( !$(this).parent().hasClass("has-error") ){
+				$(this).parent().addClass('has-error')
+			}
+		} else {
+			$(this).parent().removeClass('has-error')
+		}
+	} else {
+		$(this).parent().removeClass('has-error')
+	}
+});
+
+$('.time-format').blur(function() {
+	if ( $(this).val() ){
+		if(!regTime.test($(this).val())) {
 			if ( !$(this).parent().hasClass("has-error") ){
 				$(this).parent().addClass('has-error')
 			}
@@ -323,6 +338,16 @@ $(".guardar").on('click',function(e){
 					$(this).parent().addClass('has-error')
 					errors_count += 1;
 					msg = msg +"<li>"+$(this).data('name')+": RFC inválido</li>";
+				}
+			}
+		}
+
+		if ( $(this).hasClass('time-format') ) {
+			if(!$(this).val().match(regTime)) {
+				if ( !$(this).parent().hasClass("has-error") ){
+					$(this).parent().addClass('has-error')
+					errors_count += 1;
+					msg = msg +"<li>"+$(this).data('name')+": Formato de hora inválido</li>";
 				}
 			}
 		}
